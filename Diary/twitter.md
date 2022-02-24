@@ -38,3 +38,18 @@
 > new Array(length).fill(item)
 >
 > To create [ ] then push will need capacity growing too many times
+
+[When to use new Array](https://coderwall.com/p/h4xm0w/why-never-use-new-array-in-javascript)
+
+# 2.24.2022
+
+> #JavaScript #sort #V8
+>
+> Before, for efficacy use Insertion Sort when length < 10 & Quick Sort when > 10.
+> Let the result go unstable when > 10.
+>
+> Then change to Timsort in V8 v7.0 / Chrome 70.
+>
+> Finally it's all STABLE sorting now :)
+
+[When to use new Array](https://v8.dev/blog/array-sort)
