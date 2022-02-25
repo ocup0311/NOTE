@@ -53,3 +53,16 @@
 > Finally it's all STABLE sorting now :)
 
 [When to use new Array](https://v8.dev/blog/array-sort)
+
+# 2.25.2022
+
+#BinarySearchTree #BST
+
+> #BinarySearchTree #BST
+>
+> The traversal ways of Binary Search Tree are Breadth First Tree Traversal(BFT) & Depth First Tree Traversal(DFT).
+> There are 3 ways for DFT (PreOrder, InOrder, PostOrder)
+>
+> If you use InOrder way, you'll get the sorted result!
+
+[See More in GitHub](https://github.com/ocup0311/Algorithm/blob/master/note/7_Tree)
