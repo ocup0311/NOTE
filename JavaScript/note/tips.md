@@ -18,3 +18,11 @@
 see more: [ref](https://coderwall.com/p/kvzbpa/don-t-use-array-foreach-use-for-instead)
 
 # [How to Build a Node.js Error-handling System](https://www.toptal.com/nodejs/node-js-error-handling)
+
+# [JavaScript Runtime](https://github.com/Fandix/Fandix.github.io-/blob/main/source/_posts/NodeJS/how-dose-javascript-work.md)
+
+> TurboFan 是一個 優化編譯器 (optimization compiler) ，可以在應用程式運行時在後台 (單獨的線程)中不斷優化 bytecode 或 machine code，這些被非常優化的 bytecode 或 machine code 會把 Ignition 產生的未優化的程式替換掉。
+
+處理非同步任務: browser - WebAPIs nodejs - libuv
+
+> 所以以架構層面來說，NodeJS 就是一個基於 V8 engine 提供地 Javascript 標準規範語法，加上由 C++ 撰寫的 libuv 來擴充 Javscript 沒有提供的操作電腦系統操作。
