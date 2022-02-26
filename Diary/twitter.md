@@ -66,3 +66,17 @@
 > If you use InOrder way, you'll get the sorted result!
 
 [See More in GitHub](https://github.com/ocup0311/Algorithm/blob/master/note/7_Tree)
+
+# 2.26.2022
+
+> #JavaScript
+>
+> [Tool](http://latentflip.com/loupe/)
+>
+> ↑ ↑ ↑ A cool tool easy to learn #JavaScript runtime.
+>
+> I saw it again from the article below :)
+>
+> A simple description for #JavaScript runtime in bowser & Nodejs.
+
+[JavaScript at runtime](https://github.com/Fandix/Fandix.github.io-/blob/main/source/_posts/NodeJS/how-dose-javascript-work.md)
