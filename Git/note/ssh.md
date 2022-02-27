@@ -42,9 +42,9 @@
   - 複製 SSH 公鑰：
     （用 cat 打開公鑰 ".pub" 複製公鑰內容字串 ）
 
-  ```
-  $ cat ~/.ssh/id_rsa_xxx.pub
-  ```
+    ```
+    $ cat ~/.ssh/id_rsa_xxx.pub
+    ```
 
   - 將 SSH 公鑰 貼至 GitHub 中：
     （Github：右上/settings/SSH and GPG keys/New SSH key）
@@ -56,8 +56,9 @@
     $ vi ~/.ssh/config
     ```
 
-    # config 參考格式：
+    config 參考格式：
 
+    ```
     #Default GitHub (EMAIL1)
     Host NAME1
     HostName github.com
@@ -69,7 +70,7 @@
     HostName github.com
     User git
     IdentityFile ~/.ssh/id_rsa_2
-    ==================================
+    ```
 
   - 測試連結是否正常：
 
