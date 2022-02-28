@@ -76,3 +76,5 @@ typings/
 # dotenv environment variables file
 dev.js
 .env
+
+*_tmp

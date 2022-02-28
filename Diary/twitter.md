@@ -80,3 +80,20 @@
 > A simple description for #JavaScript runtime in bowser & Nodejs.
 
 [JavaScript at runtime](https://github.com/Fandix/Fandix.github.io-/blob/main/source/_posts/NodeJS/how-dose-javascript-work.md)
+
+# 2.28.2022
+
+> #JavaScript #JSMap
+>
+> #JavaScript Object's key can only be a string. We can use Map instead for other key type.
+>
+> ex:
+> const map = new Map()
+> const obj = { x: 1 }
+> map.set(obj, 5)
+> console.log(map.get(obj))
+> // 5
+> console.log(map)
+> // Map(1) { { x: 1 } => 5 }
+
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
