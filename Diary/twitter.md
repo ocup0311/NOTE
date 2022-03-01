@@ -97,3 +97,14 @@
 > // Map(1) { { x: 1 } => 5 }
 
 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
+
+# 3.1.2022
+
+#Brave #BAT
+
+Use Brave browser to earn ad fee as BAT for yourself.
+And you can sponsor who you really like.
+You also can add your channel such as Twitter and Github to Brave.
+Let others can sponsor you too :)
+
+[ref1](https://publishers.basicattentiontoken.org/) [ref2](https://www.hankexploring.com/%E8%B3%BA%E9%8C%A2-brave%E7%80%8F%E8%A6%BD%E5%99%A8-%E8%B3%BA%E9%8C%A2/)

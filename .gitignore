@@ -77,4 +77,4 @@ typings/
 dev.js
 .env
 
-*_tmp
+*_tmp.md
