@@ -120,4 +120,8 @@
 >
 > I found two methods to resolve it: sort again OR enqueue one more after that.
 
+  <div style="display: flex; padding: 10%; justify-content: center;" >
+    <img src="/Diary/image/Dijkstra's_Algorithm_Question.png" alt="Dijkstra's_Algorithm_Question.png" />
+  </div>
+
 [see more in my Github](https://github.com/ocup0311/Algorithm/blob/e78205f4256de25c1e3a316d7dc0d0f76205e7c3/code/graph/Digraph.js)
