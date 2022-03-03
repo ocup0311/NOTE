@@ -100,11 +100,24 @@
 
 # 3.1.2022
 
-#Brave #BAT
-
-Use Brave browser to earn ad fee as BAT for yourself.
-And you can sponsor who you really like.
-You also can add your channel such as Twitter and Github to Brave.
-Let others can sponsor you too :)
+> #Brave #BAT
+>
+> Use Brave browser to earn ad fee as BAT for yourself.
+> And you can sponsor who you really like.
+> You also can add your channel such as Twitter and Github to Brave.
+> Let others can sponsor you too :)
 
 [ref1](https://publishers.basicattentiontoken.org/) [ref2](https://www.hankexploring.com/%E8%B3%BA%E9%8C%A2-brave%E7%80%8F%E8%A6%BD%E5%99%A8-%E8%B3%BA%E9%8C%A2/)
+
+# 3.3.2022
+
+> #Dijkstra's #Algorithm #ShortedPath
+>
+> Sometimes udemy teacher can't kwon what's bug with him.
+> I show bug for his #Dijkstra's Algorithm :)
+> I think the distance changed will NOT trigger heap.
+> If the node in middle of tree, that'll may be NOT a minHeapTree anymore.
+>
+> I found two methods to resolve it: sort again OR enqueue one more after that.
+
+[see more in my Github](https://github.com/ocup0311/Algorithm/blob/e78205f4256de25c1e3a316d7dc0d0f76205e7c3/code/graph/Digraph.js)
