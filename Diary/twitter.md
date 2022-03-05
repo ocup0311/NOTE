@@ -128,3 +128,13 @@
 [Teacher's code](/Diary/src/code/Dijkstra_FromTeacher.js)
 
 [see more in my Github](https://github.com/ocup0311/Algorithm/blob/e78205f4256de25c1e3a316d7dc0d0f76205e7c3/code/graph/Digraph.js)
+
+# 3.5.2022
+
+> I think it doesn't matter to use ";" or not in #JavaScript.
+> The more thing is Code Consistency, at least in one project.
+> And need a clear style to read even there's no semicolon.
+>
+> But sometimes semicolon stuck me when some kind of modifications, because I need to remove it.
+
+[vote by JavaScript Daily](https://twitter.com/JavaScriptDaily/status/1499727967727099905?s=20&t=JV2BCAnGP8iAEeL2LxnwPQ)
