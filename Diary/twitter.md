@@ -138,3 +138,15 @@
 > But sometimes semicolon stuck me when some kind of modifications, because I need to remove it.
 
 [vote by JavaScript Daily](https://twitter.com/JavaScriptDaily/status/1499727967727099905?s=20&t=JV2BCAnGP8iAEeL2LxnwPQ)
+
+<!-- ================>>>> 開函式的技巧 -->
+
+# 3.7.2022
+
+> #codingTip
+>
+> It's easier to code by breaking down a big function into many small functions (steps).
+> Then just ignore the detail of small function first.
+> After write down the main structure, go back to fill in the detail step by step
+>
+> And it's also CLEAR and easy to understand.
