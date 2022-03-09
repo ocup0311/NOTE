@@ -2,6 +2,8 @@
 
 # [2.22.2022](https://twitter.com/chiawei37995568/status/1495966071735857154)
 
+[1.](https://twitter.com/chiawei37995568/status/1495966071735857154)
+
 > FIRST POST :)
 >
 > I switched to Software Engineer for 2 years.
@@ -11,6 +13,8 @@
 >
 > I think more things will get the solution by Block Chain~
 
+[2.](https://twitter.com/chiawei37995568/status/1495968642529660928)
+
 > As mentioned above
 >
 > Our last book was "Information Architecture For the Web and Beyond".
@@ -18,6 +22,8 @@
 > I think that's more like UX area in book, but by that I learned what key point designer care about & some methods to work through all the departments.
 >
 > And Document is very IMPORTANT :)
+
+[3.](https://twitter.com/chiawei37995568/status/1496028872684765184)
 
 > When to use #LinkedList instead of Array?
 >
@@ -149,7 +155,20 @@
 
 # [3.9.2022](https://twitter.com/chiawei37995568/status/1501440169786089478)
 
+[1.](https://twitter.com/chiawei37995568/status/1501440169786089478)
+
 > #NP Problems: The problems you can't use Deterministic-Turing-Machine to get a solution in polynomial complexity time so far.
 >
 > Or you can use Non-Deterministic-Turing-Machine to do that.
 > Thus, you need INFINITE CPU, or you're need 100% LUCKY for guessing. :)
+
+[2.](https://twitter.com/chiawei37995568/status/1501533565661884421)
+
+> For #blockchain:
+> Yesterday, I was just thinking about why can't we find a method to let ONLY few people do the BIG THING.
+> Others can still own the full node or spv node and do the SMALL THING for verification.
+> AND still keep the feature. (trustable, decentralizable,...)
+>
+> Today, I got that maybe the #PoS of ETH did it :)
+
+[PoS](https://academy.binance.com/zt/articles/proof-of-stake-explained)
