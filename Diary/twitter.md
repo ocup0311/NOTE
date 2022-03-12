@@ -125,8 +125,8 @@
 > I found two methods to resolve it: sort again OR enqueue one more after that.
 
   <div style="display: flex; flex-direction: column; padding: 10%; justify-content: center;" >
-    <img src="/Diary/src/image/Dijkstra's_Algorithm_Question1.png" alt="Dijkstra's_Algorithm_Question.png" />
-    <img src="/Diary/src/image/Dijkstra's_Algorithm_Question2.png" alt="Dijkstra's_Algorithm_Question.png" />
+    <img src="/Diary/src/image/2022_Mar/Dijkstra's_Algorithm_Question1.png" alt="Dijkstra's_Algorithm_Question.png" />
+    <img src="/Diary/src/image/2022_Mar/Dijkstra's_Algorithm_Question2.png" alt="Dijkstra's_Algorithm_Question.png" />
   </div>
 
 [Teacher's code](/Diary/src/code/Dijkstra_FromTeacher.js)
@@ -172,3 +172,13 @@
 > Today, I got that maybe the #PoS of ETH did it :)
 
 [PoS](https://academy.binance.com/zt/articles/proof-of-stake-explained)
+
+# [3.12.2022](https://twitter.com/chiawei37995568/status/1502575284905975810)
+
+> Sometimes also give an answer with my thought to other student in udemy course.
+> Today is my first time to have a course in English.
+> I think that's much more difficult for me 😂
+
+  <div style="display: flex; flex-direction: column; padding: 10%; justify-content: center;" >
+    <img src="/Diary/src/image/2022_Mar/log_in_Big_O.png" alt="log_in_Big_O.png" />
+  </div>
