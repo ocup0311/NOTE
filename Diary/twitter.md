@@ -1,6 +1,18 @@
-# [Daily Twitter - with 280 characters](https://twitter.com/chiawei37995568)
+<style> 
+.imgBox{
+  display: flex; 
+  flex-direction: column; 
+  margin: 10%; 
+  justify-content: center;
+  border: 2px solid black;
+}
+</style>
 
-# [2.22.2022](https://twitter.com/chiawei37995568/status/1495966071735857154)
+<!-- --------------------- style --------------------- -->
+
+# [Daily Twitter](https://twitter.com/chiawei37995568)
+
+## [2.22.2022](https://twitter.com/chiawei37995568/status/1495966071735857154)
 
 [1.](https://twitter.com/chiawei37995568/status/1495966071735857154)
 
@@ -34,7 +46,7 @@
 
 [See More in GitHub](https://github.com/ocup0311/Algorithm/blob/master/note/6_Linear%20Data%20Structure)
 
-# [2.23.2022](https://twitter.com/chiawei37995568/status/1496416800174927872)
+## [2.23.2022](https://twitter.com/chiawei37995568/status/1496416800174927872)
 
 > #JavaScript #Array
 >
@@ -47,7 +59,7 @@
 
 [When to use new Array](https://coderwall.com/p/h4xm0w/why-never-use-new-array-in-javascript)
 
-# [2.24.2022](https://twitter.com/chiawei37995568/status/1496833877113212929)
+## [2.24.2022](https://twitter.com/chiawei37995568/status/1496833877113212929)
 
 > #JavaScript #sort #V8
 >
@@ -60,7 +72,7 @@
 
 [When to use new Array](https://v8.dev/blog/array-sort)
 
-# [2.25.2022](https://twitter.com/chiawei37995568/status/1497136994706952193)
+## [2.25.2022](https://twitter.com/chiawei37995568/status/1497136994706952193)
 
 > #BinarySearchTree #BST
 >
@@ -71,7 +83,7 @@
 
 [See More in GitHub](https://github.com/ocup0311/Algorithm/blob/master/note/7_Tree)
 
-# [2.26.2022](https://twitter.com/chiawei37995568/status/1497578280404533251)
+## [2.26.2022](https://twitter.com/chiawei37995568/status/1497578280404533251)
 
 > #JavaScript
 >
@@ -85,7 +97,7 @@
 
 [JavaScript at runtime](https://github.com/Fandix/Fandix.github.io-/blob/main/source/_posts/NodeJS/how-dose-javascript-work.md)
 
-# [2.28.2022](https://twitter.com/chiawei37995568/status/1498104963696066562)
+## [2.28.2022](https://twitter.com/chiawei37995568/status/1498104963696066562)
 
 > #JavaScript #JSMap
 >
@@ -102,7 +114,7 @@
 
 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
 
-# [3.1.2022](https://twitter.com/chiawei37995568/status/1498631561184694275)
+## [3.1.2022](https://twitter.com/chiawei37995568/status/1498631561184694275)
 
 > #Brave #BAT
 >
@@ -113,7 +125,7 @@
 
 [ref1](https://publishers.basicattentiontoken.org/) [ref2](https://www.hankexploring.com/%E8%B3%BA%E9%8C%A2-brave%E7%80%8F%E8%A6%BD%E5%99%A8-%E8%B3%BA%E9%8C%A2/)
 
-# [3.3.2022](https://twitter.com/chiawei37995568/status/1499312872941588483)
+## [3.3.2022](https://twitter.com/chiawei37995568/status/1499312872941588483)
 
 > #Dijkstra's #Algorithm #ShortedPath
 >
@@ -124,16 +136,17 @@
 >
 > I found two methods to resolve it: sort again OR enqueue one more after that.
 
-  <div style="display: flex; flex-direction: column; padding: 10%; justify-content: center;" >
-    <img src="/Diary/src/image/2022_Mar/Dijkstra's_Algorithm_Question1.png" alt="Dijkstra's_Algorithm_Question.png" />
-    <img src="/Diary/src/image/2022_Mar/Dijkstra's_Algorithm_Question2.png" alt="Dijkstra's_Algorithm_Question.png" />
+  <div class="imgBox" >
+    <img src="./src/image/2022_Mar/Dijkstra's_Algorithm_Question1.png" alt="Dijkstra's_Algorithm_Question.png" />
+    <img src="./src/image/2022_Mar/Dijkstra's_Algorithm_Question2.png" alt="Dijkstra's_Algorithm_Question.png" />
   </div>
 
-[Teacher's code](/Diary/src/code/Dijkstra_FromTeacher.js)
+[Teacher's code](./src/code/Dijkstra_FromTeacher.js)
+[Teacher's code (edit)](./src/code/Dijkstra_FromTeacher_EDIT.js)
 
 [see more in my Github](https://github.com/ocup0311/Algorithm/blob/e78205f4256de25c1e3a316d7dc0d0f76205e7c3/code/graph/Digraph.js)
 
-# [3.5.2022](https://twitter.com/chiawei37995568/status/1500106178185273350)
+## [3.5.2022](https://twitter.com/chiawei37995568/status/1500106178185273350)
 
 > I think it doesn't matter to use ";" or not in #JavaScript.
 > The more thing is Code Consistency, at least in one project.
@@ -143,7 +156,7 @@
 
 [vote by JavaScript Daily](https://twitter.com/JavaScriptDaily/status/1499727967727099905?s=20&t=JV2BCAnGP8iAEeL2LxnwPQ)
 
-# [3.7.2022](https://twitter.com/chiawei37995568/status/1500772137963225092)
+## [3.7.2022](https://twitter.com/chiawei37995568/status/1500772137963225092)
 
 > #codingTip
 >
@@ -153,7 +166,7 @@
 >
 > And it's also CLEAR and easy to understand.
 
-# [3.9.2022](https://twitter.com/chiawei37995568/status/1501440169786089478)
+## [3.9.2022](https://twitter.com/chiawei37995568/status/1501440169786089478)
 
 [1.](https://twitter.com/chiawei37995568/status/1501440169786089478)
 
@@ -173,12 +186,12 @@
 
 [PoS](https://academy.binance.com/zt/articles/proof-of-stake-explained)
 
-# [3.12.2022](https://twitter.com/chiawei37995568/status/1502575284905975810)
+## [3.12.2022](https://twitter.com/chiawei37995568/status/1502575284905975810)
 
 > Sometimes also give an answer with my thought to other student in udemy course.
 > Today is my first time to have a course in English.
 > I think that's much more difficult for me 😂
 
-  <div style="display: flex; flex-direction: column; padding: 10%; justify-content: center;" >
-    <img src="/Diary/src/image/2022_Mar/log_in_Big_O.png" alt="log_in_Big_O.png" />
+  <div class="imgBox" >
+    <img src="./src/image/2022_Mar/log_in_Big_O.png"  alt="log_in_Big_O.png" />
   </div>
