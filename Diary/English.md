@@ -15,3 +15,13 @@
 > In general, since arrays give more than objects (arrays are ordered and objects not - hence array entries can be accessed just by position), that extra privilege arrays give comes at a cost - which is maintaining that order, hence operations done in the beginning of the array will be costly. However practically speaking no one would do that <mark>but that's another topic</mark>.
 
 </details>
+
+<!-- Let me attempt to answer your question. -->
+<details close>
+<summary>Let me attempt to answer your question.</summary>
+
+> Hello Haresh,
+> <mark>Let me attempt to answer your question.</mark>
+> First thing is to understand that two worlds are involved here. The "client world" where browsers live and the "server world" where node lives. These are two worlds apart and they only communicate via request-response period.
+
+</details>
