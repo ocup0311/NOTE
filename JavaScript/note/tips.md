@@ -11,4 +11,4 @@
 - 建立 [ ] 後再 push 會不斷擴容造成浪費
 - 較為乾淨
 
-![When_to_use_new_Array](/JavaScript/image/When_to_use_new_Array.png)
+![When_to_use_new_Array](/JavaScript/image/tips/When_to_use_new_Array.png)
