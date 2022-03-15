@@ -23,7 +23,7 @@
 >
 > And join a study club, by now study in Block Chain. Just start from the first Bitcoin paper by Satoshi Nakamoto.
 >
-> I think more things will get the solution by Block Chain~
+> I think more things will get the solution by BlockChain~
 
 [2.](https://twitter.com/chiawei37995568/status/1495968642529660928)
 
@@ -195,3 +195,11 @@
   <div class="imgBox" >
     <img src="./src/image/2022_Mar/log_in_Big_O.png"  alt="log_in_Big_O.png" />
   </div>
+
+## [3.15.2022](https://twitter.com/chiawei37995568/status/1503706691032199173)
+
+> The most popular #JavaScript Engine #V8 converts JS directly to machine code using just-in-time compilation before executing it.
+>
+> In addition to Chrome & Node. We also can embedded V8 into our C++ application to add new features for our custom JS.( Do Something like #Nodejs did )
+
+##
