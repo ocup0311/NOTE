@@ -32,4 +32,40 @@
 - 可以將 V8 嵌入 C++ application，即可用 C++ 開發更多功能給 JS 使用。(ex. fs)
 - [How to JIT(Just In Time)](https://eli.thegreenplace.net/2013/11/05/how-to-jit-an-introduction)
 
-## Servers and Clients
+---
+
+## Node Core
+
+#### 1. Servers and Clients
+
+#### 2. What Does Javascript Need to Manage a Server
+
+- 操作 File
+- 與 Database 溝通
+- 連結其他網路
+- 接收 Requests, 發送 Responses
+- 處理需要花大量時間的工作 (async)
+
+#### 3. C++ Core ([node/src](https://github.com/nodejs/node/tree/master/src))
+
+#### 4. Javascript Core ([node/lib](https://github.com/nodejs/node/tree/master/lib))
+
+1. 包含將 C++ feature 包裝成 JS
+   - `process.binding()`
+     - 用來連結 C++ feature，包裝成 JS feature
+     - Node.js internal code only.
+     - Deprecated. Please use public APIs instead. (DEP0111)
+     - [Tracking Issue: process.binding to internalBinding](https://github.com/nodejs/node/issues/22160)
+2. 用 JS 開發的更多功能 (也可自己用 JS 開發)
+
+---
+
+## Modules, Exports, and Require
+
+#### 1.
+
+---
+
+## More Reference
+
+[Node 内部工作原理解析](https://www.jianshu.com/p/a8f5a8cdc6ab)
