@@ -202,4 +202,14 @@
 >
 > In addition to Chrome & Node. We also can embedded V8 into our C++ application to add new features for our custom JS.( Do Something like #Nodejs did )
 
-##
+## [3.16.2022](https://twitter.com/chiawei37995568/status/1504097872190795777)
+
+> The last thing today was to quick review #Algorithm by a papular Ironman-compitition-articles in IThome (almost 500 subscribers). (half-done today)
+
+> Give some thoughts for those articles.
+> And also give one solution of mine for one exam (like #LeetCode 20. Valid Parentheses).
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Mar/Discussion_array.png" alt="Discussion_array.png" />
+    <img src="./src/image/2022_Mar/Discussion_isBalanced.png" alt="Discussion_isBalanced.png" />
+  </div>
