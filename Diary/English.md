@@ -1,4 +1,4 @@
-# Some fragments to remember
+## 片語
 
 <!-- In general -->
 <details close>
@@ -23,5 +23,24 @@
 > Hello Haresh,
 > <mark>Let me attempt to answer your question.</mark>
 > First thing is to understand that two worlds are involved here. The "client world" where browsers live and the "server world" where node lives. These are two worlds apart and they only communicate via request-response period.
+
+</details>
+
+<details close>
+<summary>read my mind like a book</summary>
+
+> Allan you <mark>read my mind like a book</mark>. exactly what I usually do - over complicate things. The reason I thought about that approach was since v8 is running in the browser(i think so) which would then be a think-client I thought why can't I have plugins so that each client could download which ever functionality they wanted. sorry if I got some greymatter wasted but just a thought. thanks for the light anyways.
+
+</details>
+
+## 名詞
+
+<!-- Enterprise Support -->
+<details close>
+<summary>Enterprise Support</summary>
+
+> Q: Are node have <mark>enterprise support</mark> ?
+>
+> A: Yup: [Node.js Enterprise Support](https://www.joyent.com/services/nodejs-support)
 
 </details>
