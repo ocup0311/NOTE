@@ -213,3 +213,13 @@
     <img src="./src/image/2022_Mar/Discussion_array.png" alt="Discussion_array.png" />
     <img src="./src/image/2022_Mar/Discussion_isBalanced.png" alt="Discussion_isBalanced.png" />
   </div>
+
+## [3.17.2022](https://twitter.com/chiawei37995568/status/1504464626515595264)
+
+> As my friend discussing #CORS question, I study CORS all day :)
+>
+> And found a good article for sharing.
+> [CORS 完全手冊](https://blog.huli.tw/2021/02/19/cors-guide-1/)
+>
+> Also made my note for that article here.
+> [Note in Github](https://github.com/ocup0311/NOTE/blob/master/Web/note/CORS.md)
