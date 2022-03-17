@@ -1,4 +1,7 @@
-# Node.js
+# Learn and Understand NodeJS
+
+> DATE: 3.2022
+> REF: [Learn and Understand NodeJS](https://www.udemy.com/course/understand-nodejs/)
 
 ## V8 Javascript Engine
 
@@ -26,7 +29,7 @@
 
 - ECMAScript is the standard specification that says how the JS should work.
 
-#### 3. V8
+#### 3. V8 Under The Hood
 
 - V8 is used in Chrome and in Node.js, among others. It implements ECMAScript and WebAssembly, and runs on Windows 7 or later, macOS 10.12+, and Linux systems that use x64, IA-32, ARM, or MIPS processors.
 - 可以將 V8 嵌入 C++ application，即可用 C++ 開發更多功能給 JS 使用。(ex. fs)
@@ -62,7 +65,7 @@
 
 ## Modules, Exports, and Require
 
-#### 1.
+#### 1. Modules
 
 ---
 
