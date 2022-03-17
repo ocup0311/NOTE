@@ -14,8 +14,8 @@
 [cors 完全手冊]: https://blog.huli.tw/2021/02/19/cors-guide-1/
 [simple request]: https://developer.mozilla.org/zh-TW/docs/Web/HTTP/CORS#%E7%B0%A1%E5%96%AE%E8%AB%8B%E6%B1%82
 [把 fetch mode 設成 no-cors]: https://stackoverflow.com/questions/43262121/trying-to-use-fetch-and-pass-in-mode-no-cors/43268098
-[origin]: #為什麼會發生-cors-錯誤
-[res.header]: http://expressjs.com/en/api.html#res.header
+[origin]: #為什麼會發生-cors-問題
+[res.header]: http://expressjs.com/en/api.html#res.set
 
 <!-- ref -->
 
