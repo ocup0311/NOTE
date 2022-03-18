@@ -223,3 +223,12 @@
 >
 > Also made my note for that article here.
 > [Note in Github](https://github.com/ocup0311/NOTE/blob/master/Web/note/CORS.md)
+
+## [3.18.2022](https://twitter.com/chiawei37995568/status/1504805036899319812)
+
+> #Algorithm
+>
+> Got an idea!
+> To avoid stack overflow problem, I can use #loop method instead #recursion method for the #quickSort.
+
+[see more in my Github](https://github.com/ocup0311/Algorithm/blob/master/code/sorting/quickSort/byLoop.js)
