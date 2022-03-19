@@ -12,27 +12,60 @@
 
 [mdn]: https://developer.mozilla.org/zh-TW/docs/Web
 [cors 完全手冊]: https://blog.huli.tw/2021/02/19/cors-guide-1/
+[cors spec]: https://fetch.spec.whatwg.org/#http-cors-protocol
 [simple request]: https://developer.mozilla.org/zh-TW/docs/Web/HTTP/CORS#%E7%B0%A1%E5%96%AE%E8%AB%8B%E6%B1%82
 [把 fetch mode 設成 no-cors]: https://stackoverflow.com/questions/43262121/trying-to-use-fetch-and-pass-in-mode-no-cors/43268098
 [origin]: #為什麼會發生-cors-問題
 [res.header]: http://expressjs.com/en/api.html#res.set
+[example]: #解決非簡單請求-cors-問題
+[2.2.1 - cors-safelisted method]: https://fetch.spec.whatwg.org/#cors-safelisted-method
+[2.2.2. - cors-safelisted request-header]: https://fetch.spec.whatwg.org/#cors-safelisted-request-header
+[使用 cors 與 cache 時的注意事項]: https://blog.huli.tw/2021/02/19/cors-guide-4/#使用-cors-與-cache-時的注意事項
 
 <!-- ref -->
 
 # CORS
 
 > DATE: 3.2022
-> REF: [CORS 完全手冊] | [MDN]
+> REF: [CORS 完全手冊] | [MDN] | [CORS spec]
 
 ### AJAX & CORS
 
 - **[Simple Request] (簡單請求)**: CORS 只擋 response 而不擋 request
-  <details close>
-  <summary>簡略條件：</summary>
+    <details close>
+    <summary>簡略條件：</summary>
 
-  - GET 或 POST
-  - 無自訂的 header
-  - Content-Type 三選一：`application/x-www-form-urlencoded`, `multipart/form-data`, `text/plain`
+  - <details close>
+    <summary>使用基本方法</summary>
+
+    - `GET`
+    - `POST`
+    - `HEAD`
+
+    > [2.2.1 - CORS-safelisted method]
+
+    </details>
+
+  - <details close>
+    <summary>無自訂的 header</summary>
+
+    - `accept`
+    - `accept-language`
+    - `content-language`
+    - `content-type`
+
+    > [2.2.2. - CORS-safelisted request-header]
+
+    </details>
+
+  - <details close>
+    <summary>Content-Type 三選一</summary>
+
+    - `application/x-www-form-urlencoded`
+    - `multipart/form-data`
+    - `text/plain`
+
+    </details>
 
 </details>
 
@@ -229,9 +262,9 @@
     </details>
 
     <details close>
-    <summary>使瀏覽器快取 preflight response</summary>
+    <summary>使 Preflight Response 被瀏覽器 Cache</summary>
 
-  - 設定 `Access-Control-Max-Age` 的秒數，單位 秒
+  - 設定 `Access-Control-Max-Age` 的秒數，單位-秒
 
   ***
 
@@ -247,7 +280,48 @@
 
     </details>
 
+    <details close>
+    <summary>不同 Origin 條件發送同請求時使用 Cache</summary>
+
+  - 例如 `<img>` 與 `js fetch` 都對同一個來源發送 CORS Request
+  - 方法 1: 設定 `Vary: Origin` ，針對不同 Origin 分辨 Cache
+  - 方法 2: `<img>` 加上 `crossorigin="anonymous"`，使其帶上 Origin
+
+  ***
+
+  > REF： [res.header] | <[ORIGIN]> | [使用 CORS 與 Cache 時的注意事項]
+
+  ```
+  app.options('/form', (req, res) => {
+    res.header('Access-Control-Allow-Origin', <ORIGIN || '*'>)
+    res.header('Access-Control-Max-Age', 300)
+    Vary: Origin
+    res.end()
+  })
+  ```
+
+    </details>
+
 ---
+
+### 總結
+
+- HTTP response to **CORS request** can include the following header: ([EXAMPLE])
+
+  - Both
+
+  1. `Access-Control-Allow-Origin`
+  2. `Access-Control-Allow-Credentials`
+
+  - **NON CORS-Preflight Request only**
+
+  3. `Access-Control-Expose-Headers`
+
+  - **CORS-Preflight Request only**
+
+  4. `Access-Control-Allow-Methods`
+  5. `Access-Control-Allow-Headers`
+  6. `Access-Control-Max-Age`
 
 ### 其他
 
