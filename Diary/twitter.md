@@ -232,3 +232,17 @@
 > To avoid stack overflow problem, I can use #loop method instead #recursion method for the #quickSort.
 
 [see more in my Github](https://github.com/ocup0311/Algorithm/blob/master/code/sorting/quickSort/byLoop.js)
+
+## [3.19.2022](https://twitter.com/chiawei37995568/status/1505224600661413888)
+
+> Notice a situation when dealing #CORS Request with #Cache.
+>
+> For example, when you use img tag for a CORS resource with cache, AND THEN you use js fetch the same resource, you may get a problem.
+> Because of first request, you may cache a NO Access-Control-Allow-Origin response
+>
+> There're two solution:
+>
+> 1. use `Vary: Origin` to deal with different situation (but sometimes it doesn't work)
+> 2. add `crossorigin="anonymous"` for img tag
+
+[ref1](https://blog.techbridge.cc/2018/08/18/cors-issue/), [ref2](https://fetch.spec.whatwg.org/#cors-protocol-and-http-caches)

@@ -8,7 +8,9 @@
 }
 </style>
 
-###### <!--  style  -->
+<!--  style  -->
+
+###### <!-- ref -->
 
 [mdn]: https://developer.mozilla.org/zh-TW/docs/Web
 [cors 完全手冊]: https://blog.huli.tw/2021/02/19/cors-guide-1/
@@ -286,6 +288,7 @@
   - 例如 `<img>` 與 `js fetch` 都對同一個來源發送 CORS Request
   - 方法 1: 設定 `Vary: Origin` ，針對不同 Origin 分辨 Cache
   - 方法 2: `<img>` 加上 `crossorigin="anonymous"`，使其帶上 Origin
+  - 淮：Vary header 也要看防火牆有沒有通的樣子
 
   ***
 
