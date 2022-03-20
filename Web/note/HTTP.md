@@ -4,6 +4,9 @@
 [telnet]: https://formulae.brew.sh/formula/telnet
 [chunk vs range]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests#comparison_to_Chunked_transfer-encoding
 [semantics and content (rfc 7231)]: https://www.rfc-editor.org/rfc/rfc7231.html
+[head-of-line blocking]: https://www.gushiciku.cn/pl/gkVS/zh-tw
+[graphql & http/2]: https://xuorig.medium.com/is-graphql-still-relevant-in-an-http2-world-64964f207b8
+[nghttp2]: https://github.com/nghttp2/nghttp2
 
  <!-- ref -->
 
@@ -19,6 +22,7 @@
   - 使用 [TELNET] 連線
   - Postman
   - Fiddler free web debudding proxy
+  - h2load in [nghttp2]: 分析 HTTP/2 的改變
 
 - HTTP/0.9
 
@@ -50,7 +54,6 @@
       - 解決一些效率問題
     - 6.1999 (RFC 2616)
     - 6.2014
-  - 目前主要內容由此而來
   - 主要內容：
     - persistent connection (維持 TCP/IP 連線)
       - Server 可以將 HTTP 的 TCP/IP 持續連線功能關閉。
@@ -61,6 +64,7 @@
     - byte range request
     - cache control
     - request pipelining (一次送出多個 Request)
+      - [Head-of-Line Blocking]: 因為沒有標記 --> 只能照順序 Response --> 所以大部分瀏覽器預設關閉
   - 六大規格：
     - Message Syntax and Routing (RFC 7230)
       - Routing --> 經過多層 proxy
@@ -89,6 +93,18 @@
       - 傳輸文件內容更有效率
         - 非同步多工
         - binery 傳輸
+  - 目標：
+    - 高度向下相容 HTTP/1.1
+    - 解決 Head-of-Line Blocking
+      - HTTP/2 解決了 HTTP 層，但 TCP 層依然會 Head-of-Line Blocking
+    - 最小化 Protocol Overhead
+    - 縮短網頁載入時間以及傳輸延遲
+    - 減少網站 Connection 數量
+  - 特色：(RFC 7540)
+    - Binery Protocol
+    - Multiplexing (多工，不按順序傳送多個 frame)
+    - Header Compression (HPACK)
+    - Server Push
 
 ### 其他
 
@@ -100,6 +116,13 @@
 - 分散式架構，建議不用 Session，會出問題
 
 - 推薦書籍：高效能網站開發指南, 高效能網站建置指南, Web 效能優化日誌 Volume 2
+
+- [GraphQl & HTTP/2]
+
+- 主流瀏覽器只開放 Https 使用 HTTP/2 的功能
+  - Server 間的傳輸可自己用明文的 HTTP/2，增加效能
+  - h2: Https + HTTP/2
+  - h2c: Http + HTTP/2
 
 ### 疑問：
 
