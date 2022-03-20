@@ -88,7 +88,7 @@
 </details>
 
   <div class="imgBox" >
-    <img src="../image/Preflight%20Request.png" alt="Discussion_array.png" />
+    <img src="../image/CORS/Preflight%20Request.png" alt="Discussion_array.png" />
   </div>
 
 ---
@@ -334,4 +334,3 @@
 -
 
 </details>
-```
