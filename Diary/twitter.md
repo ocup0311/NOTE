@@ -246,3 +246,12 @@
 > 2. add `crossorigin="anonymous"` for img tag
 
 [ref1](https://blog.techbridge.cc/2018/08/18/cors-issue/), [ref2](https://fetch.spec.whatwg.org/#cors-protocol-and-http-caches)
+
+## [3.20.2022](https://twitter.com/chiawei37995568/status/1505565689834520578)
+
+> Today was the #BlockChain Study Circle day. We were talking about the #Consensus for blockchain.
+>
+> Learned a cool and most topical consensus in these days -- Proof-of-History (#PoH) .
+> And the first blockchain to use PoH -- #Solana
+
+[PoH](https://tokens-economy.gitbook.io/consensus/chain-based-proof-of-capacity-space/proof-of-history#description)
