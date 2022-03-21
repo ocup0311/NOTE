@@ -40,6 +40,7 @@
 [#consensus]: https://twitter.com/hashtag/Consensus?src=hashtag_click
 [#poh]: https://twitter.com/hashtag/PoH?src=hashtag_click
 [#solana]: https://twitter.com/hashtag/Solana?src=hashtag_click
+[#deepclone]: https://twitter.com/hashtag/DeepClone?src=hashtag_click
 
 <!-- ref -->
 
@@ -290,3 +291,16 @@
 > And the first blockchain to use PoH -- [#Solana]
 
 [PoH](https://tokens-economy.gitbook.io/consensus/chain-based-proof-of-capacity-space/proof-of-history#description)
+
+## [3.21.2022](https://twitter.com/chiawei37995568/status/1505834273387216903)
+
+> Use a more comprehensive method to [#DeepClone] in [#JavaScript].
+> Because of some JSON.stringify features, we can't use it for all instances.
+>
+> (X) Symbol key & undefined value & cyclic reference
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Mar/js_deep_clone.png" alt="Dijkstra's_Algorithm_Question.png" />
+  </div>
+
+[JS 深拷貝是什麼？如何實現？](https://ithelp.ithome.com.tw/articles/10223178)
