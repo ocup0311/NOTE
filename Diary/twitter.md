@@ -10,6 +10,39 @@
 
 <!-- --------------------- style --------------------- -->
 
+##### <!-- ref -->
+
+[#datastructure]: https://twitter.com/hashtag/DataStructure?src=hashtag_click
+[#linkedlist]: https://twitter.com/hashtag/LinkedList?src=hashtag_click
+[#javascript]: https://twitter.com/hashtag/JavaScript?src=hashtag_click
+[#array]: https://twitter.com/hashtag/Array?src=hashtag_click
+[#sort]: https://twitter.com/hashtag/sort?src=hashtag_click
+[#v8]: https://twitter.com/hashtag/V8?src=hashtag_click
+[#binarysearchtree]: https://twitter.com/hashtag/BinarySearchTree?src=hashtag_click
+[#bst]: https://twitter.com/hashtag/BST?src=hashtag_click
+[#jsmap]: https://twitter.com/hashtag/JSMap?src=hashtag_click
+[#brave]: https://twitter.com/hashtag/Brave?src=hashtag_click
+[#bat]: https://twitter.com/hashtag/BAT?src=hashtag_click
+[#dijkstra's]: https://twitter.com/hashtag/Dijkstra?src=hashtag_click
+[#algorithm]: https://twitter.com/hashtag/Algorithm?src=hashtag_click
+[#shortedpath]: https://twitter.com/hashtag/ShortedPath?src=hashtag_click
+[#codingtip]: https://twitter.com/hashtag/codingTip?src=hashtag_click
+[#np]: https://twitter.com/hashtag/NP?src=hashtag_click
+[#pos]: https://twitter.com/hashtag/PoS?src=hashtag_click
+[#nodejs]: https://twitter.com/hashtag/Nodejs?src=hashtag_click
+[#leetcode]: https://twitter.com/hashtag/LeetCode?src=hashtag_click
+[#cors]: https://twitter.com/hashtag/CORS?src=hashtag_click
+[#loop]: https://twitter.com/hashtag/loop?src=hashtag_click
+[#recursion]: https://twitter.com/hashtag/recursion?src=hashtag_click
+[#quicksort]: https://twitter.com/hashtag/quickSort?src=hashtag_click
+[#cache]: https://twitter.com/hashtag/Cache?src=hashtag_click
+[#blockchain]: https://twitter.com/hashtag/BlockChain?src=hashtag_click
+[#consensus]: https://twitter.com/hashtag/Consensus?src=hashtag_click
+[#poh]: https://twitter.com/hashtag/PoH?src=hashtag_click
+[#solana]: https://twitter.com/hashtag/Solana?src=hashtag_click
+
+<!-- ref -->
+
 # [Daily Twitter](https://twitter.com/chiawei37995568)
 
 ## [2.22.2022](https://twitter.com/chiawei37995568/status/1495966071735857154)
@@ -37,18 +70,20 @@
 
 [3.](https://twitter.com/chiawei37995568/status/1496028872684765184)
 
-> When to use #LinkedList instead of Array?
+> [#DataStructure]
+>
+> When to use [#LinkedList] instead of Array?
 >
 > If you have a data with known size and > NEED to insert and remove frequently,
 > but DON'T need to random access any item and DON'T need speed when iterating.
 >
-> Use #LinkedList !
+> Use [#LinkedList] !
 
 [See More in GitHub](https://github.com/ocup0311/Algorithm/blob/master/note/6_Linear%20Data%20Structure)
 
 ## [2.23.2022](https://twitter.com/chiawei37995568/status/1496416800174927872)
 
-> #JavaScript #Array
+> [#JavaScript] [#Array]
 >
 > The discussion changed me
 > FROM always use array literal [ ] to create js array
@@ -61,7 +96,7 @@
 
 ## [2.24.2022](https://twitter.com/chiawei37995568/status/1496833877113212929)
 
-> #JavaScript #sort #V8
+> [#JavaScript] [#sort] [#V8]
 >
 > Before, for efficacy use Insertion Sort when length < 10 & Quick Sort when > 10.
 > Let the result go unstable when > 10.
@@ -74,7 +109,7 @@
 
 ## [2.25.2022](https://twitter.com/chiawei37995568/status/1497136994706952193)
 
-> #BinarySearchTree #BST
+> [#BinarySearchTree] [#BST]
 >
 > The traversal ways of Binary Search Tree are Breadth First Tree Traversal(BFT) & Depth First Tree Traversal(DFT).
 > There are 3 ways for DFT (PreOrder, InOrder, PostOrder)
@@ -85,23 +120,23 @@
 
 ## [2.26.2022](https://twitter.com/chiawei37995568/status/1497578280404533251)
 
-> #JavaScript
+> [#JavaScript]
 >
 > [Tool](http://latentflip.com/loupe/)
 >
-> ↑ ↑ ↑ A cool tool easy to learn #JavaScript runtime.
+> ↑ ↑ ↑ A cool tool easy to learn [#JavaScript] runtime.
 >
 > I saw it again from the article below :)
 >
-> A simple description for #JavaScript runtime in bowser & Nodejs.
+> A simple description for [#JavaScript] runtime in bowser & Nodejs.
 
 [JavaScript at runtime](https://github.com/Fandix/Fandix.github.io-/blob/main/source/_posts/NodeJS/how-dose-javascript-work.md)
 
 ## [2.28.2022](https://twitter.com/chiawei37995568/status/1498104963696066562)
 
-> #JavaScript #JSMap
+> [#JavaScript] [#JSMap]
 >
-> #JavaScript Object's key can only be a string. We can use Map instead for other key type.
+> [#JavaScript] Object's key can only be a string. We can use Map instead for other key type.
 >
 > ex:
 > const map = new Map()
@@ -116,7 +151,7 @@
 
 ## [3.1.2022](https://twitter.com/chiawei37995568/status/1498631561184694275)
 
-> #Brave #BAT
+> [#Brave] [#BAT]
 >
 > Use Brave browser to earn ad fee as BAT for yourself.
 > And you can sponsor who you really like.
@@ -127,10 +162,10 @@
 
 ## [3.3.2022](https://twitter.com/chiawei37995568/status/1499312872941588483)
 
-> #Dijkstra's #Algorithm #ShortedPath
+> [#Dijkstra's] [#Algorithm] [#ShortedPath]
 >
 > Sometimes udemy teacher can't kwon what's bug with him.
-> I show bug for his #Dijkstra's Algorithm :)
+> I show bug for his [#Dijkstra's] Algorithm :)
 > I think the distance changed will NOT trigger heap.
 > If the node in middle of tree, that'll may be NOT a minHeapTree anymore.
 >
@@ -148,7 +183,7 @@
 
 ## [3.5.2022](https://twitter.com/chiawei37995568/status/1500106178185273350)
 
-> I think it doesn't matter to use ";" or not in #JavaScript.
+> I think it doesn't matter to use ";" or not in [#JavaScript].
 > The more thing is Code Consistency, at least in one project.
 > And need a clear style to read even there's no semicolon.
 >
@@ -158,7 +193,7 @@
 
 ## [3.7.2022](https://twitter.com/chiawei37995568/status/1500772137963225092)
 
-> #codingTip
+> [#codingTip]
 >
 > It's easier to code by breaking down a big function into many small functions (steps).
 > Then just ignore the detail of small function first.
@@ -170,19 +205,19 @@
 
 [1.](https://twitter.com/chiawei37995568/status/1501440169786089478)
 
-> #NP Problems: The problems you can't use Deterministic-Turing-Machine to get a solution in polynomial complexity time so far.
+> [#NP] Problems: The problems you can't use Deterministic-Turing-Machine to get a solution in polynomial complexity time so far.
 >
 > Or you can use Non-Deterministic-Turing-Machine to do that.
 > Thus, you need INFINITE CPU, or you're need 100% LUCKY for guessing. :)
 
 [2.](https://twitter.com/chiawei37995568/status/1501533565661884421)
 
-> For #blockchain:
+> For [#blockchain]:
 > Yesterday, I was just thinking about why can't we find a method to let ONLY few people do the BIG THING.
 > Others can still own the full node or spv node and do the SMALL THING for verification.
 > AND still keep the feature. (trustable, decentralizable,...)
 >
-> Today, I got that maybe the #PoS of ETH did it :)
+> Today, I got that maybe the [#PoS] of ETH did it :)
 
 [PoS](https://academy.binance.com/zt/articles/proof-of-stake-explained)
 
@@ -198,16 +233,16 @@
 
 ## [3.15.2022](https://twitter.com/chiawei37995568/status/1503706691032199173)
 
-> The most popular #JavaScript Engine #V8 converts JS directly to machine code using just-in-time compilation before executing it.
+> The most popular [#JavaScript] Engine [#V8] converts JS directly to machine code using just-in-time compilation before executing it.
 >
-> In addition to Chrome & Node. We also can embedded V8 into our C++ application to add new features for our custom JS.( Do Something like #Nodejs did )
+> In addition to Chrome & Node. We also can embedded V8 into our C++ application to add new features for our custom JS.( Do Something like [#Nodejs] did )
 
 ## [3.16.2022](https://twitter.com/chiawei37995568/status/1504097872190795777)
 
-> The last thing today was to quick review #Algorithm by a papular Ironman-compitition-articles in IThome (almost 500 subscribers). (half-done today)
+> The last thing today was to quick review [#Algorithm] by a papular Ironman-compitition-articles in IThome (almost 500 subscribers). (half-done today)
 >
 > Give some thoughts for those articles.
-> And also give one solution of mine for one exam (like #LeetCode 20. Valid Parentheses).
+> And also give one solution of mine for one exam (like [#LeetCode] 20. Valid Parentheses).
 
   <div class="imgBox" >
     <img src="./src/image/2022_Mar/Discussion_array.png" alt="Discussion_array.png" />
@@ -216,7 +251,7 @@
 
 ## [3.17.2022](https://twitter.com/chiawei37995568/status/1504464626515595264)
 
-> As my friend discussing #CORS question, I study CORS all day :)
+> As my friend discussing [#CORS] question, I study CORS all day :)
 >
 > And found a good article for sharing.
 > [CORS 完全手冊](https://blog.huli.tw/2021/02/19/cors-guide-1/)
@@ -226,16 +261,16 @@
 
 ## [3.18.2022](https://twitter.com/chiawei37995568/status/1504805036899319812)
 
-> #Algorithm
+> [#Algorithm]
 >
 > Got an idea!
-> To avoid stack overflow problem, I can use #loop method instead #recursion method for the #quickSort.
+> To avoid stack overflow problem, I can use [#loop] method instead [#recursion] method for the [#quickSort].
 
 [see more in my Github](https://github.com/ocup0311/Algorithm/blob/master/code/sorting/quickSort/byLoop.js)
 
 ## [3.19.2022](https://twitter.com/chiawei37995568/status/1505224600661413888)
 
-> Notice a situation when dealing #CORS Request with #Cache.
+> Notice a situation when dealing [#CORS] Request with [#Cache].
 >
 > For example, when you use img tag for a CORS resource with cache, AND THEN you use js fetch the same resource, you may get a problem.
 > Because of first request, you may cache a NO Access-Control-Allow-Origin response
@@ -249,9 +284,9 @@
 
 ## [3.20.2022](https://twitter.com/chiawei37995568/status/1505565689834520578)
 
-> Today was the #BlockChain Study Circle day. We were talking about the #Consensus for blockchain.
+> Today was the [#BlockChain] Study Circle day. We were talking about the [#Consensus] for blockchain.
 >
-> Learned a cool and most topical consensus in these days -- Proof-of-History (#PoH) .
-> And the first blockchain to use PoH -- #Solana
+> Learned a cool and most topical consensus in these days -- Proof-of-History ([#PoH]) .
+> And the first blockchain to use PoH -- [#Solana]
 
 [PoH](https://tokens-economy.gitbook.io/consensus/chain-based-proof-of-capacity-space/proof-of-history#description)
