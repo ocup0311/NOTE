@@ -21,6 +21,10 @@
 [rfc 7234]: https://www.rfc-editor.org/rfc/rfc7234
 [rfc 7235]: https://www.rfc-editor.org/rfc/rfc7235
 [rfc 7540]: https://www.rfc-editor.org/rfc/rfc7540
+[rfc 8999]: https://datatracker.ietf.org/doc/html/rfc8999
+[rfc 9000]: https://datatracker.ietf.org/doc/html/rfc9000
+[rfc 9001]: https://datatracker.ietf.org/doc/html/rfc9001
+[rfc 9002]: https://datatracker.ietf.org/doc/html/rfc9002
 [http/1.1 (保)]: https://youtu.be/Taq5TV1K4XU
 [http/2 (保)]: https://youtu.be/O62ufq-orfY
 [http/3 (保)]: https://youtu.be/DnPrNiA-ZLE
@@ -29,6 +33,9 @@
 [head-of-line blocking]: https://www.gushiciku.cn/pl/gkVS/zh-tw
 [graphql & http/2]: https://xuorig.medium.com/is-graphql-still-relevant-in-an-http2-world-64964f207b8
 [nghttp2]: https://github.com/nghttp2/nghttp2
+[quic]: https://zh.wikipedia.org/wiki/QUIC#%E4%BB%8B%E7%BB%8D
+[capture network log]: brave://net-export/
+[netlog-viewer]: https://netlog-viewer.appspot.com/
 
  <!-- ref -->
 
@@ -40,14 +47,24 @@
 <!-- 工具 -->
 
 - <details close>
-   <summary>工具：</summary>
+     <summary>工具：</summary>
 
   - 使用 [TELNET] 連線
   - Postman
   - Fiddler free web debudding proxy
   - h2load in [nghttp2]: 分析 HTTP/2 的改變
+  - <details close>
+    <summary>Capture Network Log</summary>
 
-  </details>
+    > [Capture Network Log] & [Netlog-Viewer]
+
+    - 可紀錄瀏覽器的行為，輸出成 JSON
+      (a. Start Logging to Disk --› Stop Logging)
+    - 再到 [Netlog-Viewer] 上傳紀錄檔解析
+
+    </details>
+
+    </details>
 
 <!-- 推薦書籍 -->
 
@@ -63,6 +80,12 @@
 
 ### 版本歷史
 
+<div class="imgBox" >
+  <img src="../image/HTTP/History_of_Protocols.png" alt="Discussion_array.png" />
+</div>
+
+<!-- HTTP/0.9 -->
+
 - <details close>
    <summary>HTTP/0.9</summary>
 
@@ -75,6 +98,8 @@
     - 每次每次執行完自動斷掉連線
 
   </details>
+
+<!-- HTTP/1.0 -->
 
 - <details close>
    <summary>HTTP/1</summary>
@@ -91,6 +116,8 @@
     - 每次結束斷開 TCP/IP 連線
 
   </details>
+
+<!-- HTTP/1.1 -->
 
 - <details open>
    <summary>HTTP/1.1</summary>
@@ -229,6 +256,8 @@
 
   </details>
 
+<!-- HTTP/2 -->
+
 - <details open>
    <summary>HTTP/2</summary>
 
@@ -267,6 +296,88 @@
     - Multiplexing (多工，不按順序傳送多個 frame)
     - Header Compression (HPACK)
     - Server Push
+
+  </details>
+
+<!-- HTTP/3 -->
+
+- <details close>
+   <summary>HTTP/3 (草案)</summary>
+
+  - Transport layer: TCP --> [QUIC]
+
+  <!-- Big Map -->
+
+  <div class="imgBox" >
+    <img src="../image/HTTP/HTTP3.png" alt="Discussion_array.png" />
+  </div>
+
+  - [QUIC] ([RFC 9000]) (2021.5)
+
+    <!-- 簡介 -->
+
+    - <details close>
+      <summary>簡介：</summary>
+
+      > ([RFC 9001] & [RFC 9002] & [RFC 8999])
+
+      - ~~Quick UDP Internet Connections?~~
+      - A UDP-Based Multiplexed and Secure Transport
+      - 暱稱：TCP/2
+      - 旨在提供幾乎等同於 TCP 連接的可靠性，但延遲大大減少
+      - 使用 UDP 當底，再將 TCP 優點特性實作
+
+      </details>
+
+    <!-- 特性 -->
+
+    - 特性：
+
+      - Connection (Session)
+      - Reliability
+      - Flow Control
+      - Congestion Control
+      - Stream
+
+    <!-- 其他細節 -->
+
+    - <details close>
+      <summary>其他細節：</summary>
+
+      - 漫遊時不需重新 connection (移動位置時)
+        - 比較：
+          TCP：來源與目的 之 IP/Port
+          QUIC：Connection ID
+      - 初始連線：1-RTT & 再次連線：0-RTT
+      - 內建 TLS 1.3（強迫使用）
+      - 第一次握手就直接把東西一次傳遞 (不像 TCP 握三次)
+      - 把第一個互傳的封包塞到最滿，讓對方得知我的封包大小極限
+        (因為 TCP 有機制了解極限，UDP 不行)
+
+      </details>
+
+    <!-- 現況連線行為解析 -->
+
+    - <details close>
+      <summary>現況連線行為解析：</summary>
+
+      - 第一次連線：
+        - 瀏覽器會先用 HTTP/1 或 2
+        - Server response 加上 Header
+          `Alt-Svc: h3=":443"; ma=86400`
+          (443 port 使用 h3, ma: Max-Age)
+      - 若瀏覽器也支援，則開始可以嘗試用 HTTP/3
+      - 第二次連線：
+        - 依然用 HTTP/1 或 2，但另外嘗試發送 HTTP/3
+      - 第三次連線：
+        - 開始用 HTTP/3
+
+      </details>
+
+  <!-- 注意事項 -->
+  <div class="imgBox" >
+    <img src="../image/HTTP/HTTP3_%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85.png" alt="Discussion_array.png" />
+  </div>
 
   </details>
 
@@ -321,6 +432,6 @@
 - <details close><summary>待釐清</summary>
 
   - [每次都要告知 host 的原因](https://youtu.be/Taq5TV1K4XU?t=1228)
-  -
+  - HTTP/3 現況：第二次嘗試連線後，會回傳什麼告知可以正常使用？
 
   </details>
