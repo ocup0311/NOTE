@@ -78,4 +78,5 @@ dev.js
 .env
 
 *_tmp.md
-*_murmur.md
+*_tmp
+
