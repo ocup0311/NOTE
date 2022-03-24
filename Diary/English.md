@@ -80,6 +80,20 @@
 
 </details>
 
+###### <!-- there are lower hanging fruit -->
+
+<details close>
+
+<summary><b>there are lower hanging fruit</b>
+
+> 它是可輕易實現的目標
+
+</summary>
+
+> In terms of web performance optimization, <mark>there are lower hanging fruit</mark>, as the total time to create the CSSOM is generally less than the time it takes for one DNS lookup.
+
+</details>
+
 ## 名詞
 
 ###### <!-- Enterprise Support -->
@@ -108,5 +122,21 @@
 </summary>
 
 > And so, we'll just step now into where we're really getting into <mark>[the nitty-gritty]</mark>. This is compile. Now, it's going to actually compile my code.
+
+</details>
+
+## 動詞
+
+###### <!-- manipulated -->
+
+<details close>
+
+<summary><b>manipulated</b>
+
+> 操縱
+
+</summary>
+
+> The DOM is also exposed, and can be <mark>manipulated</mark> through various APIs in JavaScript.
 
 </details>
