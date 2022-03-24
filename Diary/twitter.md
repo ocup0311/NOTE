@@ -41,6 +41,7 @@
 [#poh]: https://twitter.com/hashtag/PoH?src=hashtag_click
 [#solana]: https://twitter.com/hashtag/Solana?src=hashtag_click
 [#deepclone]: https://twitter.com/hashtag/DeepClone?src=hashtag_click
+[#browsers]: https://twitter.com/hashtag/browsers?src=hashtag_click
 
 <!-- ref -->
 
@@ -304,3 +305,16 @@
   </div>
 
 [JS 深拷貝是什麼？如何實現？](https://ithelp.ithome.com.tw/articles/10223178)
+
+## [3.24.2022](https://twitter.com/chiawei37995568/status/1506991343666892804)
+
+> Review the way that Web works & how [#browsers] work today.
+> By this we can know the overview of web work.
+> For the User Experience(UX), we need to understand how to improve performance and perceived performance & how the browsers work.
+
+[see more](https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work#navigation)
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Mar/Browser_Waterfall_View.png" alt="Browser_Waterfall_View.png" />
+
+  </div>
