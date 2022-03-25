@@ -42,6 +42,9 @@
 [#solana]: https://twitter.com/hashtag/Solana?src=hashtag_click
 [#deepclone]: https://twitter.com/hashtag/DeepClone?src=hashtag_click
 [#browsers]: https://twitter.com/hashtag/browsers?src=hashtag_click
+[#arithmetic]: https://twitter.com/hashtag/Arithmetic?src=hashtag_click
+[#stack]: https://twitter.com/hashtag/Stack?src=hashtag_click
+[#postfix]: https://twitter.com/hashtag/Postfix?src=hashtag_click
 
 <!-- ref -->
 
@@ -318,3 +321,17 @@
     <img src="./src/image/2022_Mar/Browser_Waterfall_View.png" alt="Browser_Waterfall_View.png" />
 
   </div>
+
+## [3.25.2022](https://twitter.com/chiawei37995568/status/1507375846621089803)
+
+> [#Arithmetic], easily read by Infix for human. For computer, Prefix & Postfix are solutions.
+> The [#Algorithm] use TWO [#Stack] for Prefix but ONE for Postfix.
+>
+> So usually [#Postfix] Notation is the way for computer.
+>
+> EX.
+> Infix: `((a+(b*c))-(d/e))`
+> Prefix: `-+a*bc/de`
+> Postfix: `abc*+de/-`
+
+[REF](https://magiclen.org/arithmetic/)
