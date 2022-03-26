@@ -27,8 +27,11 @@
     ```
 
     成功出現新增的 ssh：
+
+    ```
     -rw------- 1 username staff 2655 10 24 21:05 id_rsa_xxx
     -rw-r--r-- 1 username staff 575 10 24 21:05 id_rsa_xxx.pub
+    ```
 
   - 將新私鑰新增到 SSH agent 中：
     （預設只讀 id_rsa，為了讓 SSH 識別新私鑰，需將其新增到 SSH agent 中）
