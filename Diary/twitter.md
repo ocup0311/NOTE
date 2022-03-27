@@ -304,7 +304,7 @@
 > (X) Symbol key & undefined value & cyclic reference
 
   <div class="imgBox" >
-    <img src="./src/image/2022_Mar/js_deep_clone.png" alt="Dijkstra's_Algorithm_Question.png" />
+    <img src="./src/image/2022_Mar/js_deep_clone.png" alt="js_deep_clone.png" />
   </div>
 
 [JS 深拷貝是什麼？如何實現？](https://ithelp.ithome.com.tw/articles/10223178)
@@ -319,7 +319,6 @@
 
   <div class="imgBox" >
     <img src="./src/image/2022_Mar/Browser_Waterfall_View.png" alt="Browser_Waterfall_View.png" />
-
   </div>
 
 ## [3.25.2022](https://twitter.com/chiawei37995568/status/1507375846621089803)
@@ -335,3 +334,18 @@
 > Postfix: `abc*+de/-`
 
 [REF](https://magiclen.org/arithmetic/)
+
+## [3.27.2022](https://twitter.com/chiawei37995568/status/1508098041668325385)
+
+> #JavaScript is passed by value.
+> That's easy to think for PRIMITIVE types.
+>
+> For OBJECT, you can think like it's "passed by value of address-copy" (or another say "passed by sharing")
+>
+> Thus, the following code will come to the result.
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Mar/JS_pass_by_value.png" alt="JS_pass_by_value.png" />
+  </div>
+
+[REF1](https://ithelp.ithome.com.tw/articles/10191057), [REF2](http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/comment-page-1/#comment-256132)
