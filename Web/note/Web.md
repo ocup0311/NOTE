@@ -32,6 +32,9 @@
 [清除 dns cache]: https://www.wpbeginner.com/wp-tutorials/how-to-clear-your-dns-cache-mac-windows-chrome/
 [web 預算]: https://developer.mozilla.org/en-US/docs/Learn/Common_questions/How_much_does_it_cost
 [domain name]: https://developer.mozilla.org/en-US/docs/Learn/Common_questions/What_is_a_domain_name
+[http]: ./HTTP.md
+[application server vs web server]: https://vicxu.medium.com/web-server-and-application-server-5a6d9c940eff
+[reflow & repaint]: https://ithelp.ithome.com.tw/articles/10217427
 
  <!-- ref -->
 
@@ -50,6 +53,9 @@
 ---
 
 ### [Populating the page: how browsers work]
+
+> DATE: 3.2022
+> REF: [Reflow & Repaint]
 
 - 影響網頁效能主因
 
@@ -301,6 +307,28 @@
 
       - DNS Server 快取時間 (多久向上發請求更新)
       - 通常會設置在 1hr - 1day
+
+---
+
+### 名詞：
+
+- Web Server：
+
+  - [HTTP]
+  - 託管必要條件：
+
+    - 保持開機
+    - 保持連接網路
+    - 保持固定 IP (需申請)
+
+  - Dedicated Web Server
+
+    - 由第三方維護提供
+    - EX. 架設在 AWS 的 Web Server
+
+  - [Application Server vs Web Server]
+    - Web Server：負責用 HTTP 溝通
+    - Application Server：負責整理資料給 Web Server
 
 ---
 

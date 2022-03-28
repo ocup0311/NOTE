@@ -292,7 +292,7 @@
     - 減少網站 Connection 數量
 
   - 特色：
-    - Binery Protocol
+    - Binery Protocol (可理解為提前編碼，更有效利用單個 Transport layer)
     - Multiplexing (多工，不按順序傳送多個 frame)
     - Header Compression (HPACK)
     - Server Push
