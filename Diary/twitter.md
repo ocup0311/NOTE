@@ -45,6 +45,9 @@
 [#arithmetic]: https://twitter.com/hashtag/Arithmetic?src=hashtag_click
 [#stack]: https://twitter.com/hashtag/Stack?src=hashtag_click
 [#postfix]: https://twitter.com/hashtag/Postfix?src=hashtag_click
+[#ithome]: https://twitter.com/hashtag/iThome?src=hashtag_click
+[#rhs]: https://twitter.com/hashtag/RHS?src=hashtag_click
+[#lhs]: https://twitter.com/hashtag/LHS?src=hashtag_click
 
 <!-- ref -->
 
@@ -349,3 +352,16 @@
   </div>
 
 [REF1](https://ithelp.ithome.com.tw/articles/10191057), [REF2](http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/comment-page-1/#comment-256132)
+
+## [3.28.2022](https://twitter.com/chiawei37995568/status/1508432855936139265)
+
+> Review my message on [#iThome]. Remember something were called [#LHS] & [#RHS] LOOKUP for the [#JavaScript].
+>
+> At runtime, we need to LOOKUP for the variable.
+> And thinking with ASSIGNMENT between variables:
+> LHS: left variable, I need to assign to it
+> RHS: right variable, I need to use it
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Mar/LHS_RHS.png" alt="LHS_RHS.png" />
+  </div>
