@@ -31,3 +31,66 @@
 > - Lazyness. Evaluation doesn’t start until subscription.
 > - Built-in errors handling
 >   Cancellable. Unlike Promises, it is possible to cancel async actions.
+
+# [LHS vs RHS](https://ithelp.ithome.com.tw/articles/10202146)
+
+- 查找 (look up)
+
+  - LHS (left-hand side)：查找左邊變數
+
+    - 查找是否有宣告左邊變數
+      未宣告 --> ReferrenceError
+
+      ```
+      EX.
+      // 前提：嚴格模式下
+
+      a = b
+
+      a 未宣告
+      --> ReferrenceError
+      ```
+
+    - 查找是否可以賦值給左邊變數
+      不能賦值 --> TypeError
+
+      ```
+      EX.
+      // 前提： const a = 1
+
+      a = 2
+
+      a 不能賦值
+      --> TypeError
+      ```
+
+    - 賦予值到左邊的變數上
+
+  - RHS (right-hand side)：查找右邊變數
+
+    - 查找是否有宣告右邊變數？
+      未宣告 --> ReferrenceError
+
+      ```
+      EX.
+
+      let a = b
+
+      b 未宣告
+      --> ReferrenceError
+      ```
+
+    - 是否可對右邊變數執行某動作？
+      不能執行 --> TypeError
+
+      ```
+      EX.
+      // 前提： fn = 1
+
+      fn()
+
+      fn 不可執行 call function
+      --> TypeError
+      ```
+
+    - 從右邊的變數上取值並執行
