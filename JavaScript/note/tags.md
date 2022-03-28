@@ -46,14 +46,13 @@
 
   - LHS (left-hand side)：
 
-    - 請幫我去查**左邊**這個變數的位置在哪裡，因為我要對它賦值。
+    > 請幫我去查**左邊**這個變數的位置在哪裡，因為我要對它賦值。
 
-    - 查找是否有宣告左邊變數
-      未宣告 --> ReferrenceError
+    - 查找是否有宣告左邊變數？
+      未宣告 --> **ReferrenceError**
 
       ```
-      EX.
-      // 前提：嚴格模式下
+      EX.  (前提：嚴格模式下)
 
       a = b
 
@@ -61,12 +60,11 @@
       --> ReferrenceError
       ```
 
-    - 查找是否可以賦值給左邊變數
-      不能賦值 --> TypeError
+    - 查找是否可以賦值給左邊變數？
+      不能賦值 --> **TypeError**
 
       ```
-      EX.
-      // 前提： const a = 1
+      EX.  (前提： const a = 1)
 
       a = 2
 
@@ -78,10 +76,10 @@
 
   - RHS (right-hand side)：
 
-    - 請幫我查詢**右邊**這個變數的值是什麼，因為我要用這個值。
+    > 請幫我查詢**右邊**這個變數的值是什麼，因為我要用這個值。
 
     - 查找是否有宣告右邊變數？
-      未宣告 --> ReferrenceError
+      未宣告 --> **ReferrenceError**
 
       ```
       EX.
@@ -93,15 +91,14 @@
       ```
 
     - 是否可對右邊變數執行某動作？
-      不能執行 --> TypeError
+      不能執行 --> **TypeError**
 
       ```
-      EX.
-      // 前提： fn = 1
+      EX.  (前提： fn = 1)
 
       fn()
 
-      fn 不可執行 call function
+      fn 不可當 function 執行
       --> TypeError
       ```
 
