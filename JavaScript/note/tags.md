@@ -1,3 +1,9 @@
+###### <!-- ref -->
+
+[hoisting]: https://blog.techbridge.cc/2018/11/10/javascript-hoisting/
+
+<!-- ref -->
+
 # [for await...of vs Promise.all](https://stackoverflow.com/questions/59694309/for-await-of-vs-promise-all)
 
 > DATE: 2.2022
@@ -34,9 +40,13 @@
 
 # [LHS vs RHS](https://ithelp.ithome.com.tw/articles/10202146)
 
+> DATE: 3.2022 REF: [Hoisting]
+
 - 查找 (look up)
 
-  - LHS (left-hand side)：查找左邊變數
+  - LHS (left-hand side)：
+
+    - 請幫我去查**左邊**這個變數的位置在哪裡，因為我要對它賦值。
 
     - 查找是否有宣告左邊變數
       未宣告 --> ReferrenceError
@@ -66,7 +76,9 @@
 
     - 賦予值到左邊的變數上
 
-  - RHS (right-hand side)：查找右邊變數
+  - RHS (right-hand side)：
+
+    - 請幫我查詢**右邊**這個變數的值是什麼，因為我要用這個值。
 
     - 查找是否有宣告右邊變數？
       未宣告 --> ReferrenceError
