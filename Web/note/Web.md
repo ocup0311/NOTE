@@ -35,13 +35,16 @@
 [http]: ./HTTP.md
 [application server vs web server]: https://vicxu.medium.com/web-server-and-application-server-5a6d9c940eff
 [reflow & repaint]: https://ithelp.ithome.com.tw/articles/10217427
+[environment]: https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server
+[dom]: ../../JavaScript/note/DOM.md
+[browsers]: http://taligarsiel.com/Projects/howbrowserswork1.htm
 
  <!-- ref -->
 
 # Web
 
 > DATE: 3.2022
-> REF: [MDN] | [Web Demystified] | [Web 預算]
+> REF: [MDN] | [Web Demystified] | [Web 預算] | [Environment]
 
 <!-- 工具 -->
 
@@ -55,7 +58,7 @@
 ### [Populating the page: how browsers work]
 
 > DATE: 3.2022
-> REF: [Reflow & Repaint]
+> REF: [Reflow & Repaint] | [browsers]
 
 - 影響網頁效能主因
 
@@ -125,7 +128,7 @@
 
 - Parsing
 
-  - (1) Building the DOM tree
+  - (1) Building the [DOM] tree
 
     - 遇到 css file 時，可繼續解析 DOM，但遇到的 script (特別是 '非 async or defer')，可能會阻塞 (因為可能會用 js 選取 css)
 
@@ -176,6 +179,10 @@
 
     - [Time to Interactive] (TTI)
 
+<div class="imgBox" >
+  <img src="../image/Web/Browsers_work.png" alt="Browsers_work.png" />
+</div>
+
 - step:
   1. Building the DOM tree
   2. Building the CSSOM
@@ -184,7 +191,7 @@
   5. Paint the individual nodes to the screen
 
 <div class="imgBox" >
-      <img src="../image/Web/Browser_Waterfall_View.png" alt="Browser_Waterfall_View.png" />
+  <img src="../image/Web/Browser_Waterfall_View.png" alt="Browser_Waterfall_View.png" />
 </div>
 
 ---
@@ -200,11 +207,11 @@
   - ISP (Internet Service Provider)：如中華電信
 
 <div class="imgBox" >
-      <img src="../image/Web/Internet_map1.png" alt="Browser_Waterfall_View.png" />
+  <img src="../image/Web/Internet_map1.png" alt="Internet_map1.png" />
 </div>
 
 <div class="imgBox" >
-      <img src="../image/Web/Internet_map2.png" alt="Browser_Waterfall_View.png" />
+  <img src="../image/Web/Internet_map2.png" alt="Internet_map2.png" />
 </div>
 
 - [Domain Name]
