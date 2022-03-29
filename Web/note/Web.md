@@ -60,12 +60,19 @@
 > DATE: 3.2022
 > REF: [Reflow & Repaint] | [browsers]
 
+<div class="imgBox" >
+  <img src="../image/Web/Browsers_work.png" alt="Browsers_work.png" />
+</div>
+
 - 影響網頁效能主因
 
   - 等待資源加載時間 (Network latency)
   - 大多情況瀏覽器為單線程 (single threaded)
 
-- Navigation
+<!-- Navigation -->
+
+- <details close>
+     <summary>Navigation</summary>
 
   <div class="imgBox" >
       <img src="../image/Web/Navigation(DNS-TCP-TLS).png" alt="Navigation(DNS-TCP-TLS).png" />
@@ -93,9 +100,19 @@
     - SSL 改良為 TLS
     - HTTP/3 強迫使用 **TLS 1.3**
 
-- Response
+  </details>
 
-  - [TCP Slow Start] / 14kb rule (RFC 5681)
+<!-- Response -->
+
+- <details close>
+     <summary>Response</summary>
+
+  <!-- TCP Slow Start -->
+
+  - <details close>
+     <summary>TCP Slow Start / 14kb rule (RFC 5681)</summary>
+
+    > REF: [TCP Slow Start]
 
     (TTFB = responseStart - navigationStart)
 
@@ -124,25 +141,59 @@
 
       - Maximum segment size (MSS)：預設 536，或是在 TCP SYN 時定義
 
-  - [Congestion control]
+    </details>
 
-- Parsing
+  <!-- Congestion control -->
 
-  - (1) Building the [DOM] tree
+  - <details close>
+     <summary>Congestion control</summary>
+
+    > REF: [Congestion control]
+
+    </details>
+
+  </details>
+
+<!-- Parsing -->
+
+- <details close>
+  <summary>Parsing</summary>
+
+  <!-- (1) Building the DOM tree -->
+
+  - <details close>
+     <summary>(1) Building the DOM tree</summary>
+
+    > REF: [DOM]
 
     - 遇到 css file 時，可繼續解析 DOM，但遇到的 script (特別是 '非 async or defer')，可能會阻塞 (因為可能會用 js 選取 css)
 
-  - Preload scanner
+    </details>
+
+  <!-- Preload scanner -->
+
+  - <details close>
+     <summary>Preload scanner</summary>
 
     - 針對 image, css, [async/defer script] 等，在後台先行下載
       - async: 下載完立刻暫停其他動作執行 script
 
-  - (2) Building the CSSOM
+    </details>
+
+  <!-- (2) Building the CSSOM -->
+
+  - <details close>
+     <summary>(2) Building the CSSOM</summary>
 
     - Building the CSSOM is very, very fast
     - The total time to create the CSSOM is generally less than the time it takes for one DNS lookup.
 
-  - Other Processes
+    </details>
+
+  <!-- Other Processes -->
+
+  - <details close>
+     <summary>Other Processes</summary>
 
     - JavaScript Compilation
 
@@ -152,55 +203,98 @@
 
       - [web accessibility]：身心障礙者使用
 
-- Render
+    </details>
 
-  - Style
+  </details>
+
+<!-- Render -->
+
+- <details close>
+     <summary>Render</summary>
+
+  <!-- Style -->
+
+  - <details close>
+     <summary>Style</summary>
 
     - (3) DOM + CSSOM --> Render Tree
 
-  - Layout
+    </details>
+
+  <!-- Layout -->
+
+  - <details close>
+     <summary>Layout</summary>
 
     - (4) 從 root 開始計算成幾何圖形
     - layout：第一次計算完成的圖形
     - reflows：layout 形成後，又再次做調整（回流）
 
-  - Paint
+    </details>
+
+  <!-- Paint -->
+
+  - <details close>
+     <summary>Paint</summary>
 
     - (5) 將每個 Node 繪製到畫面
     - [First Meaningful Paint] (FMP)
     - 為確保 repainting 甚至可以比初始繪製還快
       --> 需要分層 --> 需要合成 (Compositing)
 
-  - Compositing
+    </details>
+
+  <!-- Compositing -->
+
+  - <details close>
+     <summary>Compositing</summary>
 
     - re-composite：只將需要的部分重繪
 
-  - Interactivity
+    </details>
+
+  <!-- Interactivity -->
+
+  - <details close>
+     <summary>Interactivity</summary>
 
     - [Time to Interactive] (TTI)
 
-<div class="imgBox" >
-  <img src="../image/Web/Browsers_work.png" alt="Browsers_work.png" />
-</div>
+    </details>
 
-- step:
-  1. Building the DOM tree
-  2. Building the CSSOM
-  3. DOM + CSSOM --> Render Tree
-  4. Run Layout on the Render Tree to compute the geometry of each Node
-  5. Paint the individual nodes to the screen
+  - step:
+    1. Building the DOM tree
+    2. Building the CSSOM
+    3. DOM + CSSOM --> Render Tree
+    4. Run Layout on the Render Tree to compute the geometry of each Node
+    5. Paint the individual nodes to the screen
 
-<div class="imgBox" >
-  <img src="../image/Web/Browser_Waterfall_View.png" alt="Browser_Waterfall_View.png" />
-</div>
+  <div class="imgBox" >
+    <img src="../image/Web/Browser_Waterfall_View.png" alt="Browser_Waterfall_View.png" />
+  </div>
+
+  </details>
 
 ---
 
 ### [How does the Internet work?]
 
-- The **Internet** is an infrastructure, whereas the **Web** is a service built on top of the infrastructure.
+<details close>
+<summary>SEE MORE</summary>
 
-- Computer - Router - Modem - ISP (Modem-Router)
+> DATE: 3.2022
+> REF:
+
+<!-- 定義 -->
+
+- <details close>
+     <summary>定義</summary>
+
+  The **Internet** is an infrastructure, whereas the **Web** is a service built on top of the infrastructure.
+
+  </details>
+
+- `Computer - Router - Modem - ISP (Modem-Router)`
 
   - Router (路由器)：用來分流網路 (本身也是 computer)
   - Modem (數據機)：用來轉換網路編碼＆電話編碼，始可透過電話線傳輸網路
@@ -210,13 +304,12 @@
   <img src="../image/Web/Internet_map1.png" alt="Internet_map1.png" />
 </div>
 
-<div class="imgBox" >
-  <img src="../image/Web/Internet_map2.png" alt="Internet_map2.png" />
-</div>
+<!-- Domain Name -->
 
-- [Domain Name]
+- <details close>
+     <summary>Domain Name</summary>
 
-  > REF: [域名] | [域名 .io]
+  > REF: [域名] | [域名 .io] | [Domain Name]
 
   - TLD (Top-Level Domain)：頂級域名
 
@@ -315,11 +408,20 @@
       - DNS Server 快取時間 (多久向上發請求更新)
       - 通常會設置在 1hr - 1day
 
+  </details>
+
+</details>
+
+<div class="imgBox" >
+  <img src="../image/Web/Internet_map2.png" alt="Internet_map2.png" />
+</div>
+
 ---
 
 ### 名詞：
 
-- Web Server：
+- <details close>
+     <summary>Web Server：</summary>
 
   - [HTTP]
   - 託管必要條件：
@@ -337,10 +439,18 @@
     - Web Server：負責用 HTTP 溝通
     - Application Server：負責整理資料給 Web Server
 
+  </details>
+
 ---
 
 ### 其他：
 
-- [Web Server & Nginx]
+- <details close>
+     <summary>Web Server & Nginx</summary>
+
+  > REF: [Web Server & Nginx]
+
   - 其實透過 Node.js Golang 這類程式語言起的 Web Server 通常會被稱為 **Application Server**，而 Nginx、Apache 一般來說才會被稱為 **Web Server**。
   - 正向代理隐藏真實 Client，反向代理隱藏真實 Server
+
+  </details>

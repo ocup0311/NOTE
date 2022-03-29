@@ -23,9 +23,13 @@
 > DATE: 3.2022
 > REF: [iThome1]
 
-- WIINDOW
+- <details close>
+     <summary>WIINDOW</summary>
 
-  - ECMAScript 標準裡的「全域物件」 (Global Object) - 在「全域作用範圍」宣告的全域變數無法使用 delete 移除
+  - <details close>
+     <summary>Global Object</summary>
+
+    ECMAScript 標準裡的「全域物件」- 在「全域作用範圍」宣告的全域變數無法使用 delete 移除
 
     ```
     EX.
@@ -40,6 +44,8 @@
     console.log( window.b )   // undefined
     ```
 
+    </details>
+
   - JavaScript 與瀏覽器的溝通窗口
 
   - BOM (Browser Object Model，瀏覽器物件模型)
@@ -52,13 +58,32 @@
     - 用來控制網頁內容
     - W3C 制定規範
 
+  </details>
+
   <div class="imgBox" >
     <img src="../image/DOM/DOM_BOM.png" alt="DOM_BOM.png" />
   </div>
 
+- <details close>
+     <summary>EVENT</summary>
+
+  > REF: [W3C]
+
+  1. 事件捕獲 (Event Capturing)
+  2. 事件冒泡 (Event Bubbling)
+
+  <div class="imgBox" >
+    <img src="../image/DOM/DOM_Event.png" alt="DOM_Event.png" />
+  </div>
+
+  </details>
+
 - 注意事項：
 
-  - HTMLCollection & NodeList
+  <!-- HTMLCollection & NodeList -->
+
+  - <details close>
+     <summary>HTMLCollection & NodeList</summary>
 
     - **HTMLCollection：**`getElementsBy**`
 
@@ -75,7 +100,16 @@
       - 動態：大部分情況下
       - 靜態：`querySelector` & `querySelectorAll`
 
-  - Event：
+  </details>
+
+  <!-- Event -->
+
+  - <details close>
+     <summary>Event</summary>
+
+    - `.addEventListener(click)` & `.onclick`
+
+      可以重複監聽多個 click，但 onclick 會被覆蓋。
 
     - [非侵入式 JavaScript]：
       **_(建議這樣嗎？ React 一樣嗎？)_**
@@ -93,35 +127,28 @@
       btn.onclick = fn
       ```
 
-    - `.addEventListener(click)` & `.onclick`
-      可以重複監聽多個 click，但 onclick 會被覆蓋。
+  </details>
 
-    - addEventListener & addEventListener
+  <!-- addEventListener & addEventListener -->
 
-      - 透過 `removeEventListener` 解除時，必須跟 `addEventListener` 綁定同一個 handler「實體」。
+  - <details close>
+     <summary>addEventListener & addEventListener</summary>
 
-      ```
-      X: 並未移除事件
-      btn.addEventListener('click', ()=>console.log('HI'))
-      btn.removeEventListener('click', ()=>console.log('HI'))
+    - 透過 `removeEventListener` 解除時，必須跟 `addEventListener` 綁定同一個 handler「實體」。
 
-      O: 正確移除事件
-      const fn = ()=>console.log('HI')
-      btn.addEventListener('click', fn)
-      btn.removeEventListener('click', fn)
-      ```
+    ```
+    X: 並未移除事件
+    btn.addEventListener('click', ()=>console.log('HI'))
+    btn.removeEventListener('click', ()=>console.log('HI'))
+
+    O: 正確移除事件
+    const fn = ()=>console.log('HI')
+    btn.addEventListener('click', fn)
+    btn.removeEventListener('click', fn)
+    ```
+
+  </details>
 
 - 小技巧：
 
   - `createDocumentFragment`：大量變動 DOM 時，先在 DocumentFragment 操作，最後再一次更改 DOM，節省 **reflow** 次數。
-
-- EVENT
-
-  > REF: [W3C]
-
-  1. 事件捕獲 (Event Capturing)
-  2. 事件冒泡 (Event Bubbling)
-
-  <div class="imgBox" >
-    <img src="../image/DOM/DOM_Event.png" alt="DOM_Event.png" />
-  </div>
