@@ -13,6 +13,8 @@
 ###### <!-- ref -->
 
 [ithome1]: https://ithelp.ithome.com.tw/articles/10191666
+[w3c]: https://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107/events.html#Events-phases
+[非侵入式 javascript]: https://zh.wikipedia.org/wiki/%E9%9D%9E%E4%BE%B5%E5%85%A5%E5%BC%8FJavaScript
 
  <!-- ref -->
 
@@ -51,7 +53,7 @@
     - W3C 制定規範
 
   <div class="imgBox" >
-        <img src="../image/DOM/DOM_BOM.png" alt="DOM_BOM.png" />
+    <img src="../image/DOM/DOM_BOM.png" alt="DOM_BOM.png" />
   </div>
 
 - 注意事項：
@@ -72,3 +74,54 @@
 
       - 動態：大部分情況下
       - 靜態：`querySelector` & `querySelectorAll`
+
+  - Event：
+
+    - [非侵入式 JavaScript]：
+      **_(建議這樣嗎？ React 一樣嗎？)_**
+      將 Javascript 從 HTML 抽離，避免在 HTML 中夾雜一堆 onchange、onclick 等去掛載 Javascript 事件，讓 HTML 與 Javascript 分離
+
+      ```
+      // (建議這樣嗎？ React 一樣嗎？?)
+      X:
+      <button onclick="fn()">Click</button>
+
+      O:
+      <button id="btn">Click</button>
+
+      var btn = document.getElementById('btn')
+      btn.onclick = fn
+      ```
+
+    - `.addEventListener(click)` & `.onclick`
+      可以重複監聽多個 click，但 onclick 會被覆蓋。
+
+    - addEventListener & addEventListener
+
+      - 透過 `removeEventListener` 解除時，必須跟 `addEventListener` 綁定同一個 handler「實體」。
+
+      ```
+      X: 並未移除事件
+      btn.addEventListener('click', ()=>console.log('HI'))
+      btn.removeEventListener('click', ()=>console.log('HI'))
+
+      O: 正確移除事件
+      const fn = ()=>console.log('HI')
+      btn.addEventListener('click', fn)
+      btn.removeEventListener('click', fn)
+      ```
+
+- 小技巧：
+
+  - `createDocumentFragment`：大量變動 DOM 時，先在 DocumentFragment 操作，最後再一次更改 DOM，節省 **reflow** 次數。
+
+- EVENT
+
+  > REF: [W3C]
+
+  1. 事件捕獲 (Event Capturing)
+  2. 事件冒泡 (Event Bubbling)
+
+  <div class="imgBox" >
+    <img src="../image/DOM/DOM_Event.png" alt="DOM_Event.png" />
+  </div>
