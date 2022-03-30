@@ -48,6 +48,8 @@
 [#ithome]: https://twitter.com/hashtag/iThome?src=hashtag_click
 [#rhs]: https://twitter.com/hashtag/RHS?src=hashtag_click
 [#lhs]: https://twitter.com/hashtag/LHS?src=hashtag_click
+[#event]: https://twitter.com/hashtag/Event?src=hashtag_click
+[#dom]: https://twitter.com/hashtag/DOM?src=hashtag_click
 
 <!-- ref -->
 
@@ -365,3 +367,16 @@
   <div class="imgBox" >
     <img src="./src/image/2022_Mar/LHS_RHS.png" alt="LHS_RHS.png" />
   </div>
+
+## [3.30.2022]()
+
+> Review [#Event] of [#DOM]
+> Briefly, it's in the order: Capture, Target, Bubbling.
+> Common method to cancel:
+>
+> 1. preventDefault: cancel default action of element
+> 2. stopPropagation: stop the flow(avoid all following events)
+>
+> But how to make Separation of concerns still the crucial thing!
+
+[SEE MORE](https://github.com/ocup0311/NOTE/blob/master/JavaScript/note/DOM.md)
