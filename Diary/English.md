@@ -94,6 +94,24 @@
 
 </details>
 
+###### <!-- Briefly speaking -->
+
+<details close>
+
+<summary><b>Briefly speaking</b>
+
+> 簡單來說, 簡言之
+
+</summary>
+
+> 相似：In a nutshell | Simply put | Briefly speaking | In short
+
+> <mark>Let me say it briefly</mark>, you may not need a car insurance, but you may need to pray before driving.
+> ... and the law firm also revealed that most of our evidences are weak or incompetent. <mark>Simply put</mark>, this lawsuit is in trouble.
+> <mark>In short</mark>, your car is able to run, but it won't last long.
+
+</details>
+
 ## 名詞
 
 ###### <!-- Enterprise Support -->
