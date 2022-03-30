@@ -15,6 +15,8 @@
 [ithome1]: https://ithelp.ithome.com.tw/articles/10191666
 [w3c]: https://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107/events.html#Events-phases
 [非侵入式 javascript]: https://zh.wikipedia.org/wiki/%E9%9D%9E%E4%BE%B5%E5%85%A5%E5%BC%8FJavaScript
+[keycode 對照表]: https://gist.github.com/tylerbuchea/8011573
+[可用事件]: https://ithelp.ithome.com.tw/articles/10192175
 
  <!-- ref -->
 
@@ -22,6 +24,10 @@
 
 > DATE: 3.2022
 > REF: [iThome1]
+
+## 1. 基本介紹
+
+<!-- WIINDOW -->
 
 - <details close>
      <summary>WIINDOW</summary>
@@ -60,9 +66,13 @@
 
   </details>
 
+  <!-- WINDOW 大圖 -->
+
   <div class="imgBox" >
     <img src="../image/DOM/DOM_BOM.png" alt="DOM_BOM.png" />
   </div>
+
+<!-- EVENT -->
 
 - <details close>
      <summary>EVENT</summary>
@@ -72,11 +82,54 @@
   1. 事件捕獲 (Event Capturing)
   2. 事件冒泡 (Event Bubbling)
 
+  ***
+
+  <!-- 阻止事件方法 -->
+
+  - <details close>
+    <summary>阻止事件方法：</summary>
+
+    - `event.preventDefault()`：取消元素的預設行為
+      (EX. `<a>` 的轉址行為)
+    - `event.stopPropagation()`：停止繼續傳遞事件
+      (包含 Capture & Bubble)
+
+    </details>
+
+  <!-- 多種 Target -->
+
+  - <details close>
+    <summary>多種 Target：</summary>
+
+    - `event.currentTarget` (this)：
+      「監聽事件的元素」 --> 觸發「事件」，「事件流」所在元素
+    - `event.target`：
+      「觸發事件的元素」 --> 觸發「事件流」的元素
+
+    </details>
+
+  <!-- 可用事件 -->
+
+  - <details close>
+    <summary>可用事件：</summary>
+
+    > REF: [可用事件]
+
+    - `event.keyCode`：查詢鍵盤按鍵 ([keyCode 對照表])
+    - `beforeunload`：跳出對話框詢問使用者是否要離開目前頁面
+    - Composition Events：可以觀察使用者在輸入框內開啟輸入法 (Input Method Editor, IME) 時，組字或選字的狀態。(EX. 注音輸入法)
+
+    </details>
+
+  <!-- 事件流 大圖 -->
+
   <div class="imgBox" >
     <img src="../image/DOM/DOM_Event.png" alt="DOM_Event.png" />
   </div>
 
   </details>
+
+## 2. 其他補充
 
 - 注意事項：
 
@@ -107,13 +160,28 @@
   - <details close>
      <summary>Event</summary>
 
-    - `.addEventListener(click)` & `.onclick`
+    - 一些瀏覽器可能只支援 冒泡事件
 
-      可以重複監聽多個 click，但 onclick 會被覆蓋。
+    <!-- .addEventListener(click) & .onclick -->
 
-    - [非侵入式 JavaScript]：
+    - <details close>
+      <summary>.addEventListener(click) & .onclick</summary>
+
+      - `.addEventListener(click)`：可以重複監聽多個 click
+      - `.onclick`：onclick 會被覆蓋。
+
+      </details>
+
+    <!-- 非侵入式 JavaScript -->
+
+    - <details close>
+      <summary>非侵入式 JavaScript：</summary>
+
+      > REF: [非侵入式 JavaScript]
+
       **_(建議這樣嗎？ React 一樣嗎？)_**
-      將 Javascript 從 HTML 抽離，避免在 HTML 中夾雜一堆 onchange、onclick 等去掛載 Javascript 事件，讓 HTML 與 Javascript 分離
+
+      - 將 Javascript 從 HTML 抽離，避免在 HTML 中夾雜一堆 onchange、onclick 等去掛載 Javascript 事件，讓 HTML 與 Javascript 分離
 
       ```
       // (建議這樣嗎？ React 一樣嗎？?)
@@ -127,28 +195,63 @@
       btn.onclick = fn
       ```
 
-  </details>
+      </details>
 
-  <!-- addEventListener & addEventListener -->
+    <!-- addEventListener & removeEventListener -->
 
-  - <details close>
-     <summary>addEventListener & addEventListener</summary>
+    - <details close>
+      <summary>addEventListener & removeEventListener</summary>
 
-    - 透過 `removeEventListener` 解除時，必須跟 `addEventListener` 綁定同一個 handler「實體」。
+      - 透過 `removeEventListener` 解除時，必須跟 `addEventListener` 綁定同一個 handler「實體」。
 
-    ```
-    X: 並未移除事件
-    btn.addEventListener('click', ()=>console.log('HI'))
-    btn.removeEventListener('click', ()=>console.log('HI'))
+      ```
+      X: 並未移除事件
+      btn.addEventListener('click', ()=>console.log('HI'))
+      btn.removeEventListener('click', ()=>console.log('HI'))
 
-    O: 正確移除事件
-    const fn = ()=>console.log('HI')
-    btn.addEventListener('click', fn)
-    btn.removeEventListener('click', fn)
-    ```
+      O: 正確移除事件
+      const fn = ()=>console.log('HI')
+      btn.addEventListener('click', fn)
+      btn.removeEventListener('click', fn)
+      ```
+
+      </details>
+
+    <!-- onerror -->
+
+    - <details close>
+      <summary>onerror</summary>
+
+      - error 事件最適合以 `onerror` 寫在 HTML
+      - 原因：若在 load 完成後才註冊 error 事件的 handler，error 事件不會再次被觸發，後來掛上去的 handler 等於沒有一樣。
+
+      ```
+      EX.
+      <img src="image.jpg" onerror="this.src='default.jpg'">
+      ```
+
+      </details>
 
   </details>
 
 - 小技巧：
 
-  - `createDocumentFragment`：大量變動 DOM 時，先在 DocumentFragment 操作，最後再一次更改 DOM，節省 **reflow** 次數。
+  <!-- createDocumentFragment -->
+
+  - <details close>
+    <summary>createDocumentFragment：一次更改 DOM</summary>
+
+    - 大量變動 DOM 時，使用 `createDocumentFragment`，先在 DocumentFragment 操作，最後再一次更改 DOM，節省 **reflow** 次數。
+
+    </details>
+
+  <!-- 事件指派 -->
+
+  - <details close>
+    <summary>事件指派 (Event Delegation)：在父層監聽處理所有子層事件</summary>
+
+    - 避免產生過多監聽且忘記關，造成 memory leak
+    - 不必每次新增子層都要再掛監聽
+    - `event.target` 會是選中的子層
+
+    </details>
