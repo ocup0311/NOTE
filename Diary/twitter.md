@@ -380,3 +380,15 @@
 > But how to make Separation of concerns still the crucial thing!
 
 [SEE MORE](https://github.com/ocup0311/NOTE/blob/master/JavaScript/note/DOM.md)
+
+## [3.31.2022](https://twitter.com/chiawei37995568/status/1509526231171354624)
+
+> I usually avoid using "this" in [#JavaScript] (by FP)
+> But if necessary, I choose Arrow Function & "bind()".
+> I think use "bind()" instead "call()" & "apply()" is more clean and don't need to remember the parameter.
+> And prefer assigning new function.
+>
+> const fn2 = fn1.bind(this)
+> fn2()
+
+[SEE MORE](https://github.com/ocup0311/NOTE/blob/master/JavaScript/note/base.md)
