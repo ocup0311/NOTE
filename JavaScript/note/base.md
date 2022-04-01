@@ -204,18 +204,21 @@
   - <details close>
     <summary>new 建立實體後，prototype 自動指向</summary>
 
-    - `物件 x` 的「prototype」會自動指向`建構式 X`的「prototype 屬性」
+    - `物件 x` 的「prototype」會自動指向`建構式 Y`的「prototype 屬性」
+    - 備註說明：
+      - `Y.prototype`：Y 的 prototype property
+      - `Y.__proto__`：Y 的 prototype
+      - `x.__proto__`：x 的 prototype
+      - `Object.getPrototypeOf(x)`：`x.__proto__`
+        ([`__proto__`] 已棄用)
 
     ```
     EX.
-    const x = new X()
+    const x = new Y()
 
-    // x 的 prototype 指向 X.prototype
-    Object.getPrototypeOf(x) === X.prototype
+    // x 的 prototype 指向 Y.prototype
+    Object.getPrototypeOf(x) === Y.prototype
     ```
-
-    - `Object.getPrototypeOf(x)`：`x.__proto__`
-      ([`__proto__`] 已棄用)
 
     </details>
 
@@ -279,6 +282,17 @@
 ## 2. 其他補充
 
 - 注意事項：
+
+  - <details close>
+    <summary>x.prototype 不是 x 的 prototype</summary>
+
+    - `x.prototype`：x 的 prototype property
+    - `x.__proto__`：x 的 prototype
+
+      - 已改用 `Object.getPrototypeOf(x)`
+
+      </details>
+
 - 小技巧：
 
   <!-- Cascade -->
