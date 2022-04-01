@@ -12,12 +12,16 @@
 
 ###### <!-- ref -->
 
+[primitive wrapper]: https://www.javascripttutorial.net/javascript-primitive-wrapper-types/
+[mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+[`__proto__`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/proto
+
  <!-- ref -->
 
 # JS 基礎
 
 > DATE: 3.2022
-> REF:
+> REF: [MDN]
 
 ## 1. 基本介紹
 
@@ -163,7 +167,136 @@
 
   </details>
 
+<!-- Primitive Wrapper -->
+
+- <details close>
+  <summary>Primitive Wrapper</summary>
+
+  > REF: [Primitive Wrapper]
+
+  - 基本型別使用一些屬性、方法時，短暫 new 一個物件，用完後刪除
+
+  - EX.
+
+  ```
+  let str = language.substring(4)
+  ```
+
+  ↓ ↓ ↓
+
+  ```
+  // technically equivalent to:
+
+  let tmp = new String(language)
+  let str = temp.substring(4)
+  temp = null
+  ```
+
+    </details>
+
+<!-- Prototype -->
+
+- <details open>
+  <summary>Prototype</summary>
+
+  - `Object.setPrototypeOf(<obj>, <proto>)`
+
+  <!-- new 建立實體 -->
+
+  - <details close>
+    <summary>new 建立實體後，prototype 自動指向</summary>
+
+    - `物件 x` 的「prototype」會自動指向`建構式 X`的「prototype 屬性」
+
+    ```
+    EX.
+    const x = new X()
+
+    // x 的 prototype 指向 X.prototype
+    Object.getPrototypeOf(x) === X.prototype
+    ```
+
+    - `Object.getPrototypeOf(x)`：`x.__proto__`
+      ([`__proto__`] 已棄用)
+
+    </details>
+
+  <!-- js class -->
+
+  - <details close>
+    <summary>js class 即是用 prototype</summary>
+
+    ```
+    EX.
+    class X { }
+    class Y extends X { }
+
+    Object.getPrototypeOf(Y) === X
+    ```
+
+    </details>
+
+  <!-- Object.prototype -->
+
+  - <details close>
+    <summary>Object.prototype</summary>
+
+    - 幾乎所有的物件 (環境宿主物件除外) 順著原型鏈找到最上層，都會找到 `Object.prototype` 才停止 (JavaScript 所有物件的起源)
+
+      ```
+      EX.
+      const obj = {}
+      obj.__proto__.__proto__ === Object.prototype
+      ```
+
+    <!-- 提供許多方法 -->
+
+    - <details close>
+      <summary>Object.prototype 提供許多方法：</summary>
+
+      ```
+      EX.
+      Object.prototype.hasOwnProperty()
+      Object.prototype.toString()
+      Object.prototype.valueOf()
+      ```
+
+      </details>
+
+    </details>
+
+  </details>
+
 ## 2. 其他補充
 
 - 注意事項：
 - 小技巧：
+
+  <!-- Cascade -->
+
+  - <details close>
+    <summary>Cascade</summary>
+
+    - 也稱作 Fluent Interface
+
+    ```
+    EX.
+    const calNum = (initNum = 0) => {
+      let value = initNum
+
+      const N = {
+        add: (num) => {
+          value = value + num
+          return N
+        },
+
+        result: () => value,
+      }
+
+      return N
+    }
+
+    console.log(calNum(10).add(1).add(2).result())
+    ```
+
+    </details>
