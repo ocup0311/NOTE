@@ -199,8 +199,6 @@
 - <details open>
   <summary>Prototype</summary>
 
-  - `Object.setPrototypeOf(<obj>, <proto>)`
-
   <!-- new 建立實體 -->
 
   - <details close>
@@ -262,6 +260,17 @@
       ```
 
       </details>
+
+    </details>
+
+  <!-- js class -->
+
+  - <details close>
+    <summary>建議基本操作</summary>
+
+    - `Object.setPrototypeOf(<obj>, <proto>)`：設定 obj 的 prototype 為 proto
+    - `Object.create(<proto>)`：回傳一個物件，其 prototype 為 proto
+    - `Object.getPrototypeOf(<obj>)`：回傳 obj 的 prototype
 
     </details>
 
