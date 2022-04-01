@@ -50,6 +50,7 @@
 [#lhs]: https://twitter.com/hashtag/LHS?src=hashtag_click
 [#event]: https://twitter.com/hashtag/Event?src=hashtag_click
 [#dom]: https://twitter.com/hashtag/DOM?src=hashtag_click
+[#prototype]: https://twitter.com/hashtag/prototype?src=hashtag_click
 
 <!-- ref -->
 
@@ -392,3 +393,17 @@
 > fn2()
 
 [SEE MORE](https://github.com/ocup0311/NOTE/blob/master/JavaScript/note/base.md)
+
+## [4.1.2022](https://twitter.com/chiawei37995568/status/1509820059958804480)
+
+> It's a little confuse for the name of [#JavaScript] [#prototype].
+>
+> That is "obj.prototype is not the prototype of obj"!
+>
+> Notice this THEN it's all clear :)
+>
+> AND use `Object.getPrototypeOf(obj)` instead `obj.__proto__`
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Apr/prototype.png" alt="prototype.png" />
+  </div>
