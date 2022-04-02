@@ -116,7 +116,7 @@
     > REF: [可用事件]
 
     - `event.keyCode`：查詢鍵盤按鍵 ([keyCode 對照表])
-    - `beforeunload`：跳出對話框詢問使用者是否要離開目前頁面
+    - `beforeunload`：跳出對話框詢問使用者是否要離開目前頁面 (關閉瀏覽器就沒用，沒方法阻止)
     - Composition Events：可以觀察使用者在輸入框內開啟輸入法 (Input Method Editor, IME) 時，組字或選字的狀態。(EX. 注音輸入法)
 
     </details>
