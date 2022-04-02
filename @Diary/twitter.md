@@ -380,7 +380,7 @@
 >
 > But how to make Separation of concerns still the crucial thing!
 
-[SEE MORE](https://github.com/ocup0311/NOTE/blob/master/JavaScript/note/DOM.md)
+[SEE MORE](https://github.com/ocup0311/NOTE/blob/master/FrontEnd/note/DOM.md)
 
 ## [3.31.2022](https://twitter.com/chiawei37995568/status/1509526231171354624)
 
@@ -392,7 +392,7 @@
 > const fn2 = fn1.bind(this)
 > fn2()
 
-[SEE MORE](https://github.com/ocup0311/NOTE/blob/master/JavaScript/note/base.md)
+[SEE MORE](https://github.com/ocup0311/NOTE/blob/master/Language/JavaScript/note/base.md)
 
 ## [4.1.2022](https://twitter.com/chiawei37995568/status/1509820059958804480)
 
@@ -406,4 +406,28 @@
 
   <div class="imgBox" >
     <img src="./src/image/2022_Apr/prototype.png" alt="prototype.png" />
+  </div>
+
+## [4.2.2022](https://twitter.com/chiawei37995568/status/1510255522708353035)
+
+> [#JavaScript]
+>
+> Oh-My-God interview question from my friend :)
+>
+> Is there one variable "i" satisfy for the following code:
+
+```
+if (i == 1 && i == 'OMG' && i == -1) {
+  console.log("OMG, it's possible.")
+}
+```
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Apr/interview_OMG_node.png" alt="interview_OMG_node.png" />
+  </div>
+
+> And even you can change the global object in Browser (like Chrome)
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Apr/interview_OMG_chrome.png" alt="interview_OMG_chrome.png" />
   </div>
