@@ -196,7 +196,7 @@
 
 <!-- Prototype -->
 
-- <details open>
+- <details close>
   <summary>Prototype</summary>
 
   <!-- new 建立實體 -->
@@ -279,9 +279,22 @@
 
   </details>
 
+<!-- 非同步 -->
+
+- <details close>
+  <summary>非同步</summary>
+
+  - 不論「同步」或「非同步」，在執行時一定有順序之分。只是「同步」任務的順序可以掌握，而「非同步」的任務會因執行時的各種狀況導致順序不同。不會出現「同時」修改某個變數的情況。
+
+  </details>
+
+---
+
 ## 2. 其他補充
 
 - 注意事項：
+
+  <!-- x.prototype -->
 
   - <details close>
     <summary>x.prototype 不是 x 的 prototype</summary>
@@ -291,7 +304,7 @@
 
       - 已改用 `Object.getPrototypeOf(x)`
 
-      </details>
+    </details>
 
 - 小技巧：
 
