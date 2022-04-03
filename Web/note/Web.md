@@ -451,6 +451,6 @@
   > REF: [Web Server & Nginx]
 
   - 其實透過 Node.js Golang 這類程式語言起的 Web Server 通常會被稱為 **Application Server**，而 Nginx、Apache 一般來說才會被稱為 **Web Server**。
-  - 正向代理隐藏真實 Client，反向代理隱藏真實 Server
+  - 正向 proxy 隐藏真實 Client，反向 proxy 隱藏真實 Server
 
   </details>

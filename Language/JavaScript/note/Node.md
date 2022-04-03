@@ -1,6 +1,6 @@
 ###### <!-- ref -->
 
-[learn and understand nodejs]: https://www.udemy.com/course/understand-nodejs/
+[udemy]: https://www.udemy.com/course/understand-nodejs/
 [level of abstraction]: ../image/Node/Level_of_Abstraction.png
 [how to jit(just in time)]: https://eli.thegreenplace.net/2013/11/05/how-to-jit-an-introduction
 [node/src]: https://github.com/nodejs/node/tree/master/src
@@ -14,7 +14,7 @@
 # Learn and Understand NodeJS
 
 > DATE: 3.2022
-> REF: [Learn and Understand NodeJS]
+> REF: [Udemy]
 
 ## V8 Javascript Engine
 

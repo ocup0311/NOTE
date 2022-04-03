@@ -36,6 +36,7 @@
 [quic]: https://zh.wikipedia.org/wiki/QUIC#%E4%BB%8B%E7%BB%8D
 [capture network log]: brave://net-export/
 [netlog-viewer]: https://netlog-viewer.appspot.com/
+[cache control]: https://blog.techbridge.cc/2017/06/17/cache-introduction/
 
  <!-- ref -->
 
@@ -169,6 +170,8 @@
 
     - <details close>
       <summary>Cache Control</summary>
+
+      > REF: [Cache Control]
 
       </details>
 

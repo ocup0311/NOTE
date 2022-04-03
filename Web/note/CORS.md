@@ -23,13 +23,14 @@
 [2.2.1 - cors-safelisted method]: https://fetch.spec.whatwg.org/#cors-safelisted-method
 [2.2.2. - cors-safelisted request-header]: https://fetch.spec.whatwg.org/#cors-safelisted-request-header
 [使用 cors 與 cache 時的注意事項]: https://blog.huli.tw/2021/02/19/cors-guide-4/#使用-cors-與-cache-時的注意事項
+[api gateway cors]: https://docs.aws.amazon.com/zh_tw/apigateway/latest/developerguide/how-to-cors-console.html
 
 <!-- ref -->
 
 # CORS
 
 > DATE: 3.2022
-> REF: [CORS 完全手冊] | [MDN] | [CORS spec]
+> REF: [CORS 完全手冊] | [MDN] | [CORS spec] | [API Gateway CORS]
 
 ### AJAX & CORS
 
