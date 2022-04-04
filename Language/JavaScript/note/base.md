@@ -320,8 +320,10 @@
     - [順序執行非同步] (`for( ){ await new Promise}`)
 
       <div class="imgBox" >
-        <img src="../image/base/promise.png" alt="promise.png" />
+        <img src="../src/image/base/promise.png" alt="promise.png" />
       </div>
+
+      [CODE](../src/code/base/promise.js)
 
     </details>
 

@@ -24,5 +24,5 @@
 - 較為乾淨
 
 <div class="imgBox" >
-    <img src="/JavaScript/image/tips/When_to_use_new_Array.png" alt="When_to_use_new_Array.png" />
+    <img src="../src/image/tips/When_to_use_new_Array.png" alt="When_to_use_new_Array.png" />
 </div>
