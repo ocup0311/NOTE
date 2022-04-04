@@ -15,12 +15,15 @@
 [primitive wrapper]: https://www.javascripttutorial.net/javascript-primitive-wrapper-types/
 [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
 [`__proto__`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/proto
+[順序執行非同步]: https://medium.com/@mengweichen/%E8%AE%93js-array-reduce%E8%88%87async-await%E5%85%B1%E8%88%9E-157a66ea2dfb
+[for await...of]: ./others.md#for-awaitof-vs-promiseallhttpsstackoverflowcomquestions59694309for-await-of-vs-promise-all
+[all vs race]: https://alligator.io/js/promise-all-promise-race/
 
  <!-- ref -->
 
 # JS 基礎
 
-> DATE: 3.2022
+> DATE: 3, 4 (2022)
 > REF: [MDN]
 
 ## 1. 基本介紹
@@ -284,7 +287,43 @@
 - <details close>
   <summary>非同步</summary>
 
-  - 不論「同步」或「非同步」，在執行時一定有順序之分。只是「同步」任務的順序可以掌握，而「非同步」的任務會因執行時的各種狀況導致順序不同。不會出現「同時」修改某個變數的情況。
+  > REF: [順序執行非同步] | [for await...of] | [all vs race]
+
+  <!-- 不會「同時」修改某個變數 -->
+
+  - <details close>
+    <summary>不會「同時」修改某個變數</summary>
+
+    - 不論「同步」或「非同步」，在執行時一定有順序之分。只是「同步」任務的順序可以掌握，而「非同步」的任務會因執行時的各種狀況導致順序不同。不會出現「同時」修改某個變數的情況。
+
+    </details>
+
+  - `new Promise` 時，就已執行
+
+  <!-- try ... catch -->
+
+  - <details close>
+    <summary>try ... catch</summary>
+
+    - `try ... catch`：使其不直接 throw error，只停止該 async function，並作自定義後續
+
+    </details>
+
+  <!-- 常用方法比較： -->
+
+  - <details close>
+    <summary>常用方法比較：</summary>
+
+    - `Promise.all`：全部 resolve 後，才下一步
+    - `Promise.race`：第一個 resolve 後就下一步 (剩下的不一定會 resolve，就算 reject 也不管他)
+    - `for await ... of`：resolve 後，照順序下一步。
+    - [順序執行非同步] (`for( ){ await new Promise}`)
+
+      <div class="imgBox" >
+        <img src="../image/base/promise.png" alt="promise.png" />
+      </div>
+
+    </details>
 
   </details>
 
