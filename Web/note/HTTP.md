@@ -37,12 +37,15 @@
 [capture network log]: brave://net-export/
 [netlog-viewer]: https://netlog-viewer.appspot.com/
 [cache control]: https://blog.techbridge.cc/2017/06/17/cache-introduction/
+[cache1]: https://stackoverflow.com/questions/5799906/what-s-the-difference-between-expires-and-cache-control-headers
+[no-cache 差別]: https://stackoverflow.com/questions/1046966/whats-the-difference-between-cache-control-max-age-0-and-no-cache
+[mdn cache]: https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Headers/Cache-Control
 
  <!-- ref -->
 
 # HTTP
 
-> DATE: 3.2022
+> DATE: 3, 4 (2022)
 > REF: [HTTP/1.1 (保)] | [HTTP/2 (保)] | [HTTP/3 (保)]
 
 <!-- 工具 -->
@@ -171,7 +174,82 @@
     - <details close>
       <summary>Cache Control</summary>
 
-      > REF: [Cache Control]
+      > REF: [Cache Control] | [Cache1] | [MDN Cache]
+
+      - Server Header 加入一些參數。當 client 請求時，有些在 client 檢查，有些傳回 server 檢查。
+
+      <!-- 比較順序： -->
+
+      - 比較順序：（ 先 > 後 ）
+
+        - `max-age` > `Expires` > `If-Modified-Since`/`If-None-Match`
+
+      <!-- 常用方法： -->
+
+      - <details close>
+        <summary>常用方法：</summary>
+
+        <!-- Client 檢查： -->
+
+        - <details close>
+          <summary><b>Client</b> 檢查： (不會送出 request)</summary>
+
+          - `Cache-Control: max-age=<秒數>`：規定最久保存幾秒
+          - `Expires: <時間>`：規定到期時間點
+
+          </details>
+
+        <!-- Server 檢查： -->
+
+        - <details close>
+          <summary><b>Server</b> 檢查： (沒改回傳 304 Not Modified)</summary>
+
+          - `Etag`/`If-None-Match`
+
+            - server: `Etag: Etag value` (想像成 Hash)
+            - client: `If-None-Match: Etag value`
+
+          - `Last-Modified`/`If-Modified-Since`
+
+            - server: `Last-Modified: <時間>`
+            - client: `If-Modified-Since: <Last-Modified 時間>`
+
+          </details>
+
+        <!-- 不要 cache： -->
+
+        - <details close>
+          <summary>不要 cache：</summary>
+
+          - `Cache-Control: no-store`
+
+            - 完全不要儲存 cache
+
+          - `Cache-Control: no-cache`
+
+            - <details close>
+              <summary>Server 沒更新時 Status code `304`</summary>
+
+              - should **revalidate** with the server before serving the page from the cache
+              - 同 HTTP/1.0 `Pragma: no-cache`
+              - 類似 `max-age=0` + `Etag` ([no-cache 差別])
+              - 大概可能是用 `no-cache` 強制 **request**，再到 server 做比較。而自己組合，還有可能有其他參數會影響不發 request ?
+
+              </details>
+
+          </details>
+
+        </details>
+
+      <!-- 技巧： -->
+
+      - <details close>
+        <summary>技巧：</summary>
+
+        - 使用 `max-age` 取代 `Expires`，避免 client 同時來更新，也避免硬體日期不同
+        - 打包工具將 js css 等檔案名加上 hash，例如 `script.js` 變成 `script-qd3j2orjoa.js`，如此一來可以將 js 檔 `max-age` 設很大，只當 html 上引用的檔案名改變，則會再次去 request 新的檔案。
+
+        </details>
 
       </details>
 
