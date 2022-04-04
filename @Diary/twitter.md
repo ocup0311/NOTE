@@ -51,6 +51,7 @@
 [#event]: https://twitter.com/hashtag/Event?src=hashtag_click
 [#dom]: https://twitter.com/hashtag/DOM?src=hashtag_click
 [#prototype]: https://twitter.com/hashtag/prototype?src=hashtag_click
+[#promise]: https://twitter.com/hashtag/Promise?src=hashtag_click
 
 <!-- ref -->
 
@@ -430,4 +431,22 @@ if (i == 1 && i == 'OMG' && i == -1) {
 
   <div class="imgBox" >
     <img src="./src/image/2022_Apr/interview_OMG_chrome.png" alt="interview_OMG_chrome.png" />
+  </div>
+
+## [4.4.2022](https://twitter.com/chiawei37995568/status/1510885128201183234)
+
+> [#JavaScript]
+> Note for common [#Promise] usage
+> Execute immediately after "new Promise"!
+>
+> I. go next:
+> "Promise.all" all Promise resolve
+> "Promise.race" first Promise resolve
+> "for await ... of" in order of array (even resolved)
+>
+> II. execute Promise in order
+> "for( ){ await new Promise}"
+
+  <div class="imgBox" >
+    <img src="../Language/JavaScript/src/image/base/promise.png" alt="promise.png" />
   </div>
