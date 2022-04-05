@@ -279,138 +279,140 @@
 
 ### [How does the Internet work?]
 
-<details close>
-<summary>SEE MORE</summary>
-
-> DATE: 3.2022
-> REF:
-
-<!-- 定義 -->
+<!-- SEE MORE -->
 
 - <details close>
-     <summary>定義</summary>
+  <summary>SEE MORE</summary>
 
-  The **Internet** is an infrastructure, whereas the **Web** is a service built on top of the infrastructure.
+  > DATE: 3.2022
+  > REF:
+
+  <!-- 定義 -->
+
+  - <details close>
+      <summary>定義</summary>
+
+    The **Internet** is an infrastructure, whereas the **Web** is a service built on top of the infrastructure.
+
+    </details>
+
+  - `Computer - Router - Modem - ISP (Modem-Router)`
+
+    - Router (路由器)：用來分流網路 (本身也是 computer)
+    - Modem (數據機)：用來轉換網路編碼＆電話編碼，始可透過電話線傳輸網路
+    - ISP (Internet Service Provider)：如中華電信
+
+  <div class="imgBox" >
+    <img src="../image/Web/Internet_map1.png" alt="Internet_map1.png" />
+  </div>
+
+  <!-- Domain Name -->
+
+  - <details close>
+      <summary>Domain Name</summary>
+
+    > REF: [域名] | [域名 .io] | [Domain Name]
+
+    - TLD (Top-Level Domain)：頂級域名
+
+      - max length is 63 characters
+
+      - gTLD (Generic Top Level Domain)
+
+        - 通用
+        - `.com`, `.edu`, `.gov`, `.net`, `.org`, `.mil`, etc.
+
+      - ccTLD (Country Code Top Level Domain)
+
+        - 國家、地區
+
+      - New gTLD (New Generic Top Level Domain)
+
+        - 2012, ICANN 新增
+        - `.book`, `.shoes`, `.food`, `.bike`, `.taipei`, etc.
+
+      - 早期一般通用的，現已無限制：
+
+        - `.com`：早期商業使用
+        - `.org`：早期非營利使用
+        - `.net`：早期網路服務供應商使用
+
+      - 特殊的：(美國專用，其他國家通常將其設定為 **SLD**)
+
+        - 商業使用：`.biz`
+        - 政府使用：`.gov`
+        - 教育使用：`.edu`
+
+      - 指定地區：`.us`, `.fr`, `.se`, etc.
+
+      - Google treats `.io` as a gTLD, and thus despite it actually being a ccTLD, you won’t be victim to geo-targeting.
+
+    - Label (or component)
+
+      - 1 ~ 63 字
+      - A-Z | 0-9 | -
+
+      - SLD (Second-level domain)：二級域名
+
+        - TLD 的下一個
+        - `EX. www.inf.ed.ac.uk --> SLD: ac, TLD: uk`
+
+      - Subdomain (子域)
+
+        - 你所擁有的 domain 都可以再自己建立 Subdomain
+
+        ```
+        EX.
+        mail.example.com & calendar.example.com
+        --> example.com 的 Subdomain
+
+        example.com
+        --> .com 的 Subdomain
+        ```
+
+    - DNS (Domain Name System)：查網域的地方 (如中華電信)
+
+    - Registrar (註冊商)：
+
+      - 負責記錄管理 domain 的公司
+      - 並非購買 domain，而是租用，到期需再續約
+      - 特例如 `.fire` 為 Amazon 專屬
+
+    - 註冊步驟：
+
+      - 查詢可用的 domain name：
+
+        - 註冊商會提供 **whois** 服務來查詢
+        - 也可用指令查詢 `$ whois xxx.com`
+
+      - 註冊 domain name：
+
+        - 註冊商官網仔細填表，確認資料無誤，送出付款無悔
+        - 註冊成功後收到通知
+        - 數小時內會通知所有 DNS
+
+      - DNS 刷新
+
+        - Authoritative name servers(top-level DNS servers)
+          (權威 DNS)
+        - 一般的 DNS 在有需要時，才會去向 Authoritative name servers 發送請求取的更新 (因此當新的 domain 啟用後，等到當地 DNS 有需求才會去向上詢問更新) (一般有快取，由下向上詢問)
+
+    - DNS Cache
+
+      - [清除 DNS Cache]：
+
+        - windows: `ipconfig /flushdns`
+        - mac: `sudo killall -HUP mDNSResponder`
+        - chrome: `chrome://net-internals/#dns`
+
+      - [time-to-live (ttl)]：
+
+        - DNS Server 快取時間 (多久向上發請求更新)
+        - 通常會設置在 1hr - 1day
+
+    </details>
 
   </details>
-
-- `Computer - Router - Modem - ISP (Modem-Router)`
-
-  - Router (路由器)：用來分流網路 (本身也是 computer)
-  - Modem (數據機)：用來轉換網路編碼＆電話編碼，始可透過電話線傳輸網路
-  - ISP (Internet Service Provider)：如中華電信
-
-<div class="imgBox" >
-  <img src="../image/Web/Internet_map1.png" alt="Internet_map1.png" />
-</div>
-
-<!-- Domain Name -->
-
-- <details close>
-     <summary>Domain Name</summary>
-
-  > REF: [域名] | [域名 .io] | [Domain Name]
-
-  - TLD (Top-Level Domain)：頂級域名
-
-    - max length is 63 characters
-
-    - gTLD (Generic Top Level Domain)
-
-      - 通用
-      - `.com`, `.edu`, `.gov`, `.net`, `.org`, `.mil`, etc.
-
-    - ccTLD (Country Code Top Level Domain)
-
-      - 國家、地區
-
-    - New gTLD (New Generic Top Level Domain)
-
-      - 2012, ICANN 新增
-      - `.book`, `.shoes`, `.food`, `.bike`, `.taipei`, etc.
-
-    - 早期一般通用的，現已無限制：
-
-      - `.com`：早期商業使用
-      - `.org`：早期非營利使用
-      - `.net`：早期網路服務供應商使用
-
-    - 特殊的：(美國專用，其他國家通常將其設定為 **SLD**)
-
-      - 商業使用：`.biz`
-      - 政府使用：`.gov`
-      - 教育使用：`.edu`
-
-    - 指定地區：`.us`, `.fr`, `.se`, etc.
-
-    - Google treats `.io` as a gTLD, and thus despite it actually being a ccTLD, you won’t be victim to geo-targeting.
-
-  - Label (or component)
-
-    - 1 ~ 63 字
-    - A-Z | 0-9 | -
-
-    - SLD (Second-level domain)：二級域名
-
-      - TLD 的下一個
-      - `EX. www.inf.ed.ac.uk --> SLD: ac, TLD: uk`
-
-    - Subdomain (子域)
-
-      - 你所擁有的 domain 都可以再自己建立 Subdomain
-
-      ```
-      EX.
-      mail.example.com & calendar.example.com
-      --> example.com 的 Subdomain
-
-      example.com
-      --> .com 的 Subdomain
-      ```
-
-  - DNS (Domain Name System)：查網域的地方 (如中華電信)
-
-  - Registrar (註冊商)：
-
-    - 負責記錄管理 domain 的公司
-    - 並非購買 domain，而是租用，到期需再續約
-    - 特例如 `.fire` 為 Amazon 專屬
-
-  - 註冊步驟：
-
-    - 查詢可用的 domain name：
-
-      - 註冊商會提供 **whois** 服務來查詢
-      - 也可用指令查詢 `$ whois xxx.com`
-
-    - 註冊 domain name：
-
-      - 註冊商官網仔細填表，確認資料無誤，送出付款無悔
-      - 註冊成功後收到通知
-      - 數小時內會通知所有 DNS
-
-    - DNS 刷新
-
-      - Authoritative name servers(top-level DNS servers)
-        (權威 DNS)
-      - 一般的 DNS 在有需要時，才會去向 Authoritative name servers 發送請求取的更新 (因此當新的 domain 啟用後，等到當地 DNS 有需求才會去向上詢問更新) (一般有快取，由下向上詢問)
-
-  - DNS Cache
-
-    - [清除 DNS Cache]：
-
-      - windows: `ipconfig /flushdns`
-      - mac: `sudo killall -HUP mDNSResponder`
-      - chrome: `chrome://net-internals/#dns`
-
-    - [time-to-live (ttl)]：
-
-      - DNS Server 快取時間 (多久向上發請求更新)
-      - 通常會設置在 1hr - 1day
-
-  </details>
-
-</details>
 
 <div class="imgBox" >
   <img src="../image/Web/Internet_map2.png" alt="Internet_map2.png" />
@@ -419,6 +421,8 @@
 ---
 
 ### 名詞：
+
+<!-- Web Server -->
 
 - <details close>
      <summary>Web Server：</summary>
@@ -444,6 +448,8 @@
 ---
 
 ### 其他：
+
+<!-- Web Server & Nginx -->
 
 - <details close>
      <summary>Web Server & Nginx</summary>
