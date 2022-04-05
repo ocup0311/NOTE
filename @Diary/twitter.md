@@ -52,6 +52,9 @@
 [#dom]: https://twitter.com/hashtag/DOM?src=hashtag_click
 [#prototype]: https://twitter.com/hashtag/prototype?src=hashtag_click
 [#promise]: https://twitter.com/hashtag/Promise?src=hashtag_click
+[#immutablejs]: https://twitter.com/hashtag/immutableJS?src=hashtag_click
+[#immutable]: https://twitter.com/hashtag/Immutable?src=hashtag_click
+[#fp]: https://twitter.com/hashtag/FP?src=hashtag_click
 
 <!-- ref -->
 
@@ -450,3 +453,17 @@ if (i == 1 && i == 'OMG' && i == -1) {
   <div class="imgBox" >
     <img src="../Language/JavaScript/src/image/base/promise.png" alt="promise.png" />
   </div>
+
+## [4.5.2022](https://twitter.com/chiawei37995568/status/1511321650436149248)
+
+> For Functional Programming ([#FP]), we can use "[#Immutable] data structure" instead of copy data every time.
+>
+> Such as the [#JavaScript] library [#immutableJS], copy datas just above the mutated data.
+>
+> It's save more space and still immutable.
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Apr/Immutable_data_structure.png" alt="Immutable_data_structure.png" />
+  </div>
+
+[REF](https://ithelp.ithome.com.tw/articles/10187571)
