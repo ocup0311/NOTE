@@ -40,13 +40,14 @@
 [cache1]: https://stackoverflow.com/questions/5799906/what-s-the-difference-between-expires-and-cache-control-headers
 [no-cache 差別]: https://stackoverflow.com/questions/1046966/whats-the-difference-between-cache-control-max-age-0-and-no-cache
 [mdn cache]: https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Headers/Cache-Control
+[http 狀態碼]: https://blog.miniasp.com/post/2009/01/16/Web-developer-should-know-about-HTTP-Status-Code
 
  <!-- ref -->
 
 # HTTP
 
 > DATE: 3, 4 (2022)
-> REF: [HTTP/1.1 (保)] | [HTTP/2 (保)] | [HTTP/3 (保)]
+> REF: [HTTP/1.1 (保)] | [HTTP/2 (保)] | [HTTP/3 (保)] | [HTTP 狀態碼]
 
 <!-- 工具 -->
 
@@ -346,6 +347,8 @@
 
     2015.5 ([RFC 7540])
 
+  <!-- 主要內容： -->
+
   - <details close>
       <summary>主要內容：</summary>
 
@@ -377,6 +380,10 @@
     - Multiplexing (多工，不按順序傳送多個 frame)
     - Header Compression (HPACK)
     - Server Push
+
+  <div class="imgBox" >
+    <img src="../image/HTTP/HTTP2_Multiplexing.png" alt="HTTP2_Multiplexing.png" />
+  </div>
 
   </details>
 

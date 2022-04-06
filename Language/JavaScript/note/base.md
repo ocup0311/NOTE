@@ -18,6 +18,7 @@
 [順序執行非同步]: https://medium.com/@mengweichen/%E8%AE%93js-array-reduce%E8%88%87async-await%E5%85%B1%E8%88%9E-157a66ea2dfb
 [for await...of]: ./others.md#for-awaitof-vs-promiseallhttpsstackoverflowcomquestions59694309for-await-of-vs-promise-all
 [all vs race]: https://alligator.io/js/promise-all-promise-race/
+[not relevant anymore]: https://stackoverflow.com/questions/1098040/checking-if-a-key-exists-in-a-javascript-object#:~:text=EDIT%3A%2012/04/2018%20%2D%20NOT%20RELEVANT%20ANYMORE
 
  <!-- ref -->
 
@@ -320,12 +321,16 @@
     - [順序執行非同步] (`for( ){ await new Promise}`)
 
       <div class="imgBox" >
-        <img src="../src/image/base/promise.png" alt="promise.png" />
+        <img src="../src/image/base/promise_method.png" alt="promise_method.png" />
       </div>
 
       [CODE](../src/code/base/promise.js)
 
     </details>
+
+  <div class="imgBox" >
+    <img src="../src/image/base/promise_flow.png" alt="promise_flow.png" />
+  </div>
 
   </details>
 
@@ -375,5 +380,22 @@
 
     console.log(calNum(10).add(1).add(2).result())
     ```
+
+    </details>
+
+- 改版：
+
+  <!-- Cascade -->
+
+  - <details close>
+    <summary>Object auto-assign undifined --> NOT ANYMORE</summary>
+
+    > REF: [NOT RELEVANT ANYMORE]
+
+    - 使用 `obj.a` 來確認是否存在，已改方法，不會再 assign 一個值 undifined
+
+    <div class="imgBox" >
+      <img src="../src/image/base/Object_NOT_AUTO_ASSIGN_ANYMORE.png" alt="Object_NOT_AUTO_ASSIGN_ANYMORE.png" />
+    </div>
 
     </details>

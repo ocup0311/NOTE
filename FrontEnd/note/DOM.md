@@ -79,8 +79,9 @@
 
   > REF: [W3C]
 
-  1. 事件捕獲 (Event Capturing)
-  2. 事件冒泡 (Event Bubbling)
+  1. Capturing Phase (事件捕獲)
+  2. Target Phase
+  3. Bubbling Phase (事件冒泡)
 
   ***
 
@@ -229,6 +230,15 @@
       EX.
       <img src="image.jpg" onerror="this.src='default.jpg'">
       ```
+
+      </details>
+
+    <!-- Target Phase -->
+
+    - <details close>
+      <summary>Target Phase</summary>
+
+      - 抵達 `Target Phase` 後，冒泡與捕抓監聽同時觸發，先監聽者先執行
 
       </details>
 
