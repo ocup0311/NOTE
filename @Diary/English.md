@@ -143,6 +143,20 @@
 
 </details>
 
+###### <!-- literacy -->
+
+<details close>
+
+<summary><b>literacy</b>
+
+> 識讀能力
+
+</summary>
+
+> Basic computer <mark>literacy</mark>. A basic understanding of what a web server is.
+
+</details>
+
 ## 動詞
 
 ###### <!-- manipulated -->
