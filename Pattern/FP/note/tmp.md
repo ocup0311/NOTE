@@ -15,6 +15,8 @@
 [monad]: https://medium.com/javascript-scene/javascript-monads-made-simple-7856be57bfe8
 [immutable.js]: https://ithelp.ithome.com.tw/articles/10187571
 [eslint-plugin-immutable]: https://blog.jerry-hong.com/series/fp/think-in-fp-03/
+[curry1]: https://javascript.info/currying-partials
+[curry2]: https://blog.logrocket.com/understanding-javascript-currying/
 
  <!-- ref -->
 
@@ -71,6 +73,28 @@
 
 - Higher-order function
 - Curried function / Composition
+
+  > REF: [Curry1] | [Curry2]
+
+  - Partial application vs. currying
+
+    - currying 一次只接受一個參數
+
+    ```
+    EX.
+    fn(a, b, c)
+
+    // currying
+    fn(a)(b)(c)
+
+    // Partial
+    fn(a)(b, c)
+    ```
+
+- DRY (Don’t Repeat Yourself)
+
+- Ramda
+  - "function first, data last" (有助建立 Pointfree 模式)
 
 ---
 
