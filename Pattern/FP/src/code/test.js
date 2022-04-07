@@ -1,4 +1,5 @@
 import { curry } from './curry.js'
+import { recurry } from './recurry.js'
 
 const curry_test = () => {
   const cal = (x, y, z) => (x + y) / z
@@ -14,7 +15,12 @@ const curry_test = () => {
 
   // Advanced Curry ------------------------------------
   const curriedCal = curry(cal)
+  const reCurriedCal = recurry(cal)
 
+  console.log(reCurriedCal(5, 7, 3)) // 2
+  console.log(reCurriedCal(5)(7)(3)) // 2
+  console.log(reCurriedCal(5)(7, 3)) // 2
+  console.log(reCurriedCal(5, 7)(3)) // 2
   console.log(curriedCal(3, 7, 5)) // 2
   console.log(curriedCal(3)(7)(5)) // 2
   console.log(curriedCal(3)(7, 5)) // 2
