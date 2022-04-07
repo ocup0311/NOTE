@@ -478,3 +478,9 @@ if (i == 1 && i == 'OMG' && i == -1) {
   <div class="imgBox" >
     <img src="./src/image/2022_Apr/curry.png" alt="curry.png" />
   </div>
+
+> And reverse curry
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Apr/recurry.png" alt="recurry.png" />
+  </div>
