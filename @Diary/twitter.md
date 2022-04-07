@@ -467,3 +467,14 @@ if (i == 1 && i == 'OMG' && i == -1) {
   </div>
 
 [REF](https://ithelp.ithome.com.tw/articles/10187571)
+
+## [4.7.2022](https://twitter.com/chiawei37995568/status/1512038592637730824)
+
+> [#JavaScript]
+>
+> Currying is a useful concept with Functional Programming ([#FP]).
+> That's to translate a function with multiple arguments to only one argument ( e.g. fn(a,b,c) --> fn(a)(b)(c) )
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Apr/curry.png" alt="curry.png" />
+  </div>
