@@ -157,6 +157,20 @@
 
 </details>
 
+###### <!-- remainder -->
+
+<details close>
+
+<summary><b>remainder</b>
+
+> 剩餘部分
+
+</summary>
+
+> <mark>The remainder of</mark> the response header includes information about the response (e.g. when it was generated), the server, and how it expects the browser to handle the page (e.g. the X-Frame-Options: DENY line tells the browser not to allow this page to be embedded in an iframe in another site).
+
+</details>
+
 ## 動詞
 
 ###### <!-- manipulated -->
