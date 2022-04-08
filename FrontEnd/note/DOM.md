@@ -17,6 +17,7 @@
 [非侵入式 javascript]: https://zh.wikipedia.org/wiki/%E9%9D%9E%E4%BE%B5%E5%85%A5%E5%BC%8FJavaScript
 [keycode 對照表]: https://gist.github.com/tylerbuchea/8011573
 [可用事件]: https://ithelp.ithome.com.tw/articles/10192175
+[usesyncexternalstore]: https://betterprogramming.pub/5-new-hooks-in-react-18-300aa713cefe
 
  <!-- ref -->
 
@@ -77,7 +78,9 @@
 - <details close>
      <summary>EVENT</summary>
 
+  > DATE: 3 (2022)
   > REF: [W3C]
+  > React 18 參考 [useSyncExternalStore]
 
   1. Capturing Phase (事件捕獲)
   2. Target Phase
