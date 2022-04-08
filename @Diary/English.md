@@ -1,14 +1,12 @@
 ###### <!-- ref -->
 
 [node.js enterprise support]: https://www.joyent.com/services/nodejs-support
-[the nitty-gritty]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/the-nitty-gritty
 [briefly go through]: https://ludwig.guru/s/briefly+go+through
-[i'll step through briefly.]: https://www.udemy.com/course/understand-nodejs/learn/lecture/3509218
 [in general]: #片語
 [but that's another topic]: #片語
 [let me attempt to answer your question.]: #片語
 [read my mind like a book]: #片語
-[i'll step through briefly.]: #片語
+[i'll step through briefly.]: https://www.udemy.com/course/understand-nodejs/learn/lecture/3509218
 [there are lower hanging fruit]: #片語
 [briefly speaking]: #片語
 [let me say it briefly]: #片語
@@ -16,8 +14,8 @@
 [in short]: #片語
 [out of the box]: #片語
 [enterprise support]: #名詞
-[the nitty-gritty]: #名詞
-[literacy]: #literacy
+[the nitty-gritty]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/the-nitty-gritty
+[literacy]: #名詞
 [remainder]: #名詞
 [the remainder of]: #名詞
 [manipulated]: #動詞
@@ -93,7 +91,7 @@
 
 </summary>
 
-> [[I'll step through briefly.]] It'll process the contents of my file a bit.
+> [I'll step through briefly.] It'll process the contents of my file a bit.
 
 > more: [briefly go through]
 
@@ -176,7 +174,7 @@
 
 </summary>
 
-> And so, we'll just step now into where we're really getting into [[the nitty-gritty]]. This is compile. Now, it's going to actually compile my code.
+> And so, we'll just step now into where we're really getting into [the nitty-gritty]. This is compile. Now, it's going to actually compile my code.
 
 </details>
 
