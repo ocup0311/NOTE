@@ -91,10 +91,21 @@
     fn(a)(b, c)
     ```
 
+  - Compose vs Pipe
+
+    ```
+    EX.
+    const compose = (fn1, fn2, fn3) => x => fn1(fn2(fn3(x)))
+    const pipe = (fn1, fn2, fn3) => x => fn3(fn2(fn1(x)))
+    ```
+
 - DRY (Don’t Repeat Yourself)
+
+- Pointfree style
 
 - Ramda
   - "function first, data last" (有助建立 Pointfree 模式)
+  - 任何 API 都是 curried function
 
 ---
 

@@ -1,5 +1,6 @@
 import { curry } from './curry.js'
 import { recurry } from './recurry.js'
+import * as R from 'ramda'
 
 const curry_test = () => {
   const cal = (x, y, z) => (x + y) / z
@@ -27,7 +28,13 @@ const curry_test = () => {
   console.log(curriedCal(3, 7)(5)) // 2
 }
 
-const tmp_test = () => {}
+const tmp_test = () => {
+  console.log(
+    R.add(1)(9),
+    R.compose(Math.abs, R.add(1), R.multiply(2))(-4),
+    R.pipe(Math.abs, R.add(1), R.multiply(2))(-4)
+  )
+}
 
 // run test ----------------------
 tmp_test()
