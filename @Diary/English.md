@@ -4,6 +4,25 @@
 [the nitty-gritty]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/the-nitty-gritty
 [briefly go through]: https://ludwig.guru/s/briefly+go+through
 [i'll step through briefly.]: https://www.udemy.com/course/understand-nodejs/learn/lecture/3509218
+[in general]: #片語
+[but that's another topic]: #片語
+[let me attempt to answer your question.]: #片語
+[read my mind like a book]: #片語
+[i'll step through briefly.]: #片語
+[there are lower hanging fruit]: #片語
+[briefly speaking]: #片語
+[let me say it briefly]: #片語
+[simply put]: #片語
+[in short]: #片語
+[out of the box]: #片語
+[enterprise support]: #名詞
+[the nitty-gritty]: #名詞
+[literacy]: #literacy
+[remainder]: #名詞
+[the remainder of]: #名詞
+[manipulated]: #動詞
+[underlying]: #形容詞
+[underlying programming language]: #形容詞
 
 <!-- ref -->
 
@@ -20,7 +39,7 @@
 
 </summary>
 
-> <mark>In general</mark>, since arrays give more than objects (arrays are ordered and objects not - hence array entries can be accessed just by position), that extra privilege arrays give comes at a cost - which is maintaining that order, hence operations done in the beginning of the array will be costly. However practically speaking no one would do that but that's another topic.
+> [In general], since arrays give more than objects (arrays are ordered and objects not - hence array entries can be accessed just by position), that extra privilege arrays give comes at a cost - which is maintaining that order, hence operations done in the beginning of the array will be costly. However practically speaking no one would do that but that's another topic.
 
 </details>
 
@@ -33,7 +52,7 @@
 
 </summary>
 
-> In general, since arrays give more than objects (arrays are ordered and objects not - hence array entries can be accessed just by position), that extra privilege arrays give comes at a cost - which is maintaining that order, hence operations done in the beginning of the array will be costly. However practically speaking no one would do that <mark>but that's another topic</mark>.
+> In general, since arrays give more than objects (arrays are ordered and objects not - hence array entries can be accessed just by position), that extra privilege arrays give comes at a cost - which is maintaining that order, hence operations done in the beginning of the array will be costly. However practically speaking no one would do that [but that's another topic].
 
 </details>
 
@@ -47,7 +66,7 @@
 </summary>
 
 > Hello Haresh,
-> <mark>Let me attempt to answer your question.</mark>
+> [Let me attempt to answer your question.]
 > First thing is to understand that two worlds are involved here. The "client world" where browsers live and the "server world" where node lives. These are two worlds apart and they only communicate via request-response period.
 
 </details>
@@ -61,7 +80,7 @@
 
 </summary>
 
-> Allan you <mark>read my mind like a book</mark>. exactly what I usually do - over complicate things. The reason I thought about that approach was since v8 is running in the browser(i think so) which would then be a think-client I thought why can't I have plugins so that each client could download which ever functionality they wanted. sorry if I got some greymatter wasted but just a thought. thanks for the light anyways.
+> Allan you [read my mind like a book]. exactly what I usually do - over complicate things. The reason I thought about that approach was since v8 is running in the browser(i think so) which would then be a think-client I thought why can't I have plugins so that each client could download which ever functionality they wanted. sorry if I got some greymatter wasted but just a thought. thanks for the light anyways.
 
 </details>
 
@@ -74,7 +93,7 @@
 
 </summary>
 
-> <mark>[I'll step through briefly.]</mark> It'll process the contents of my file a bit.
+> [[I'll step through briefly.]] It'll process the contents of my file a bit.
 
 > more: [briefly go through]
 
@@ -90,7 +109,7 @@
 
 </summary>
 
-> In terms of web performance optimization, <mark>there are lower hanging fruit</mark>, as the total time to create the CSSOM is generally less than the time it takes for one DNS lookup.
+> In terms of web performance optimization, [there are lower hanging fruit], as the total time to create the CSSOM is generally less than the time it takes for one DNS lookup.
 
 </details>
 
@@ -106,9 +125,27 @@
 
 > 相似：In a nutshell | Simply put | Briefly speaking | In short
 
-> <mark>Let me say it briefly</mark>, you may not need a car insurance, but you may need to pray before driving.
-> ... and the law firm also revealed that most of our evidences are weak or incompetent. <mark>Simply put</mark>, this lawsuit is in trouble.
-> <mark>In short</mark>, your car is able to run, but it won't last long.
+> [Let me say it briefly], you may not need a car insurance, but you may need to pray before driving.
+> ... and the law firm also revealed that most of our evidences are weak or incompetent. [Simply put], this lawsuit is in trouble.
+> [In short], your car is able to run, but it won't last long.
+
+</details>
+
+###### <!-- out of the box  -->
+
+<details close>
+
+<summary><b>out of the box</b>
+
+> 開箱即用
+
+</summary>
+
+> EX1.
+> Django follows the "Batteries included" philosophy and provides almost everything most developers might want to do "[out of the box]".
+>
+> EX2.
+> These solutions work straight [out of the box].
 
 </details>
 
@@ -123,7 +160,7 @@
 
 </summary>
 
-> Q: Are node have <mark>enterprise support</mark> ?
+> Q: Are node have [enterprise support] ?
 >
 > A: Yup: [Node.js Enterprise Support]
 
@@ -139,7 +176,7 @@
 
 </summary>
 
-> And so, we'll just step now into where we're really getting into <mark>[the nitty-gritty]</mark>. This is compile. Now, it's going to actually compile my code.
+> And so, we'll just step now into where we're really getting into [[the nitty-gritty]]. This is compile. Now, it's going to actually compile my code.
 
 </details>
 
@@ -153,7 +190,7 @@
 
 </summary>
 
-> Basic computer <mark>literacy</mark>. A basic understanding of what a web server is.
+> Basic computer [literacy]. A basic understanding of what a web server is.
 
 </details>
 
@@ -167,7 +204,7 @@
 
 </summary>
 
-> <mark>The remainder of</mark> the response header includes information about the response (e.g. when it was generated), the server, and how it expects the browser to handle the page (e.g. the X-Frame-Options: DENY line tells the browser not to allow this page to be embedded in an iframe in another site).
+> [The remainder of] the response header includes information about the response (e.g. when it was generated), the server, and how it expects the browser to handle the page (e.g. the X-Frame-Options: DENY line tells the browser not to allow this page to be embedded in an iframe in another site).
 
 </details>
 
@@ -183,6 +220,22 @@
 
 </summary>
 
-> The DOM is also exposed, and can be <mark>manipulated</mark> through various APIs in JavaScript.
+> The DOM is also exposed, and can be [manipulated] through various APIs in JavaScript.
+
+</details>
+
+## 形容詞
+
+###### <!-- underlying -->
+
+<details close>
+
+<summary><b>underlying</b>
+
+> 底層的
+
+</summary>
+
+> The effort to learn a web framework depends on how familiar you are with the [underlying programming language], the consistency of its API, the quality of its documentation, and the size and activity of its community.
 
 </details>
