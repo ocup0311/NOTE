@@ -55,6 +55,9 @@
 [#immutablejs]: https://twitter.com/hashtag/immutableJS?src=hashtag_click
 [#immutable]: https://twitter.com/hashtag/Immutable?src=hashtag_click
 [#fp]: https://twitter.com/hashtag/FP?src=hashtag_click
+[#incentive]: https://twitter.com/hashtag/Incentive?src=hashtag_click
+[#reclaiming_disk_space]: https://twitter.com/hashtag/Reclaiming_Disk_Space?src=hashtag_click
+[#spv]: https://twitter.com/hashtag/SPV?src=hashtag_click
 
 <!-- ref -->
 
@@ -484,3 +487,17 @@ if (i == 1 && i == 'OMG' && i == -1) {
   <div class="imgBox" >
     <img src="./src/image/2022_Apr/recurry.png" alt="recurry.png" />
   </div>
+
+## [4.9.2022](https://twitter.com/chiawei37995568/status/1512823352138014720)
+
+> [#BlockChain] Study Circle day Today.
+> [#Incentive] & [#Reclaiming_Disk_Space].
+>
+> My turn to have a presentation for Reclaiming Disk Space.
+> I reacquainted that not only miners but everyone who deal with the bitcoin at least NEED to be a [#SPV] Node.
+
+[PRESENTATION PPT](https://docs.google.com/presentation/d/1_xxZKado6A8TnAfyniyXhDIeCXIf4jiQMxbEENvtF70/edit?usp=sharing)
+
+> And an interesting discussion for the Instability of Bitcoin Without the Block Reward.
+
+[REF PAPTER](https://www.cs.princeton.edu/~arvindn/publications/mining_CCS.pdf)
