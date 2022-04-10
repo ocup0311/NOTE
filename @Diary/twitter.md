@@ -58,6 +58,11 @@
 [#incentive]: https://twitter.com/hashtag/Incentive?src=hashtag_click
 [#reclaiming_disk_space]: https://twitter.com/hashtag/Reclaiming_Disk_Space?src=hashtag_click
 [#spv]: https://twitter.com/hashtag/SPV?src=hashtag_click
+[#ramda]: https://twitter.com/hashtag/Ramda?src=hashtag_click
+[#composition]: https://twitter.com/hashtag/Composition?src=hashtag_click
+[#async]: https://twitter.com/hashtag/async?src=hashtag_click
+[#composep]: https://twitter.com/hashtag/composeP?src=hashtag_click
+[#composewith]: https://twitter.com/hashtag/composeWith?src=hashtag_click
 
 <!-- ref -->
 
@@ -501,3 +506,20 @@ if (i == 1 && i == 'OMG' && i == -1) {
 > And an interesting discussion for the Instability of Bitcoin Without the Block Reward.
 
 [REF PAPTER](https://www.cs.princeton.edu/~arvindn/publications/mining_CCS.pdf)
+
+## [4.10.2022](https://twitter.com/chiawei37995568/status/1513173722873884675)
+
+> [#JavaScript] with Functional Programming ([#FP]) by [#Ramda].
+>
+> To deal with [#async] function in [#Composition], it's recommended to use [#composeWith] instead [#composeP].
+>
+> There are two methods:
+>
+> 1. composeWithAsync: ONLY for async function
+> 2. composeWithAsyncMix: BOTH sync & async function
+
+[REF-composeWithAsyncMix](https://stackoverflow.com/questions/33486989/handling-asynchronous-programming-with-ramda) | [REF-composeWithAsync](https://github.com/ramda/ramda/issues/3099)
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Apr/composeWithAsync.png" alt="composeWithAsync.png" />
+  </div>
