@@ -19,6 +19,7 @@
 [remainder]: #名詞
 [the remainder of]: #名詞
 [manipulated]: #動詞
+[refactor]: #動詞
 [underlying]: #形容詞
 [underlying programming language]: #形容詞
 
@@ -219,6 +220,20 @@
 </summary>
 
 > The DOM is also exposed, and can be [manipulated] through various APIs in JavaScript.
+
+</details>
+
+###### <!-- manipulated -->
+
+<details close>
+
+<summary><b>refactor</b>
+
+> 程式碼重構
+
+</summary>
+
+> [Refactor] availablePrices with compose.
 
 </details>
 
