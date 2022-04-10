@@ -93,10 +93,25 @@
 
   - Compose vs Pipe
 
+    - Compose also makes a lot of sense when using React components.
+
     ```
     EX.
     const compose = (fn1, fn2, fn3) => x => fn1(fn2(fn3(x)))
     const pipe = (fn1, fn2, fn3) => x => fn3(fn2(fn1(x)))
+    ```
+
+    ```
+    // Implement:
+    const compose =
+      (...fnArr) =>
+      (x) =>
+        fnArr.reduceRight((result, fn) => fn(result), x)
+
+    const pipe =
+      (...fnArr) =>
+      (x) =>
+        fnArr.reduce((result, fn) => fn(result), x)
     ```
 
 - DRY (Don’t Repeat Yourself)
@@ -105,7 +120,7 @@
 
 - Ramda
   - "function first, data last" (有助建立 Pointfree 模式)
-  - 任何 API 都是 curried function
+  - 任何 API 都是 curried function (並非全部 e.g. compose)
 
 ---
 
