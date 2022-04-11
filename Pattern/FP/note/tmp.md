@@ -101,8 +101,9 @@
     const pipe = (fn1, fn2, fn3) => x => fn3(fn2(fn1(x)))
     ```
 
+    - 實作:
+
     ```
-    // Implement:
     const compose =
       (...fnArr) =>
       (x) =>
@@ -112,6 +113,51 @@
       (...fnArr) =>
       (x) =>
         fnArr.reduce((result, fn) => fn(result), x)
+    ```
+
+    - 使用時機：
+
+    ```
+    // 1. when only one line
+    const result1 = R.compose(fn7, fn6, fn5, fn4, fn3, fn2, fn1)(arg)
+
+    // easily read like Math:
+    // result1 = fn7(fn6(fn5(fn4(fn3(fn2(fn1(arg)))))))
+
+    --------------------------
+
+    // 2. when too long and break to many lines
+    const result2 = R.pipe(
+      veryLongFn1,
+      veryLongFn2,
+      veryLongFn3,
+      veryLongFn4
+    )(arg)
+
+    // easily read like JS:
+    // const r1 = veryLongFn1(arg)
+    // const r2 = veryLongFn2(r1)
+    // const r3 = veryLongFn3(r2)
+    // const result2 = veryLongFn4(r3)
+
+    --------------------------
+
+    // 3. when it's used for a component
+    const MyComponent = R.compose(
+      RequireAuth,
+      Container,
+      List,
+      R.map(ListItem)
+    )
+
+    // easily read like HTML:
+    // <RequireAuth>
+    //   <Container>
+    //     <List>
+    //       {R.map(ListItem)}
+    //     </List>
+    //   </Container>
+    // </RequireAuth>
     ```
 
 - DRY (Don’t Repeat Yourself)
