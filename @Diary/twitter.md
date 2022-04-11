@@ -63,12 +63,13 @@
 [#async]: https://twitter.com/hashtag/async?src=hashtag_click
 [#composep]: https://twitter.com/hashtag/composeP?src=hashtag_click
 [#composewith]: https://twitter.com/hashtag/composeWith?src=hashtag_click
+[#web]: https://twitter.com/hashtag/web?src=hashtag_click
 
 <!-- ref -->
 
 # [Daily Twitter](https://twitter.com/chiawei37995568)
 
-## [2.22.2022](https://twitter.com/chiawei37995568/status/1495966071735857154)
+## [2.22.2022](https://twitter.com/chiawei37995568/status/1495966071735857154) | [#Algorithm]
 
 [1.](https://twitter.com/chiawei37995568/status/1495966071735857154)
 
@@ -104,7 +105,7 @@
 
 [See More in GitHub](https://github.com/ocup0311/Algorithm/blob/master/note/6_Linear%20Data%20Structure)
 
-## [2.23.2022](https://twitter.com/chiawei37995568/status/1496416800174927872)
+## [2.23.2022](https://twitter.com/chiawei37995568/status/1496416800174927872) | [#JavaScript]
 
 > [#JavaScript] [#Array]
 >
@@ -117,7 +118,7 @@
 
 [When to use new Array](https://coderwall.com/p/h4xm0w/why-never-use-new-array-in-javascript)
 
-## [2.24.2022](https://twitter.com/chiawei37995568/status/1496833877113212929)
+## [2.24.2022](https://twitter.com/chiawei37995568/status/1496833877113212929) | [#JavaScript]
 
 > [#JavaScript] [#sort] [#V8]
 >
@@ -130,7 +131,7 @@
 
 [When to use new Array](https://v8.dev/blog/array-sort)
 
-## [2.25.2022](https://twitter.com/chiawei37995568/status/1497136994706952193)
+## [2.25.2022](https://twitter.com/chiawei37995568/status/1497136994706952193) | [#Algorithm]
 
 > [#BinarySearchTree] [#BST]
 >
@@ -141,7 +142,7 @@
 
 [See More in GitHub](https://github.com/ocup0311/Algorithm/blob/master/note/7_Tree)
 
-## [2.26.2022](https://twitter.com/chiawei37995568/status/1497578280404533251)
+## [2.26.2022](https://twitter.com/chiawei37995568/status/1497578280404533251) | [#JavaScript]
 
 > [#JavaScript]
 >
@@ -155,7 +156,7 @@
 
 [JavaScript at runtime](https://github.com/Fandix/Fandix.github.io-/blob/main/source/_posts/NodeJS/how-dose-javascript-work.md)
 
-## [2.28.2022](https://twitter.com/chiawei37995568/status/1498104963696066562)
+## [2.28.2022](https://twitter.com/chiawei37995568/status/1498104963696066562) | [#JavaScript]
 
 > [#JavaScript] [#JSMap]
 >
@@ -172,7 +173,7 @@
 
 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
 
-## [3.1.2022](https://twitter.com/chiawei37995568/status/1498631561184694275)
+## [3.1.2022](https://twitter.com/chiawei37995568/status/1498631561184694275) | [#BlockChain]
 
 > [#Brave] [#BAT]
 >
@@ -183,7 +184,7 @@
 
 [ref1](https://publishers.basicattentiontoken.org/) [ref2](https://www.hankexploring.com/%E8%B3%BA%E9%8C%A2-brave%E7%80%8F%E8%A6%BD%E5%99%A8-%E8%B3%BA%E9%8C%A2/)
 
-## [3.3.2022](https://twitter.com/chiawei37995568/status/1499312872941588483)
+## [3.3.2022](https://twitter.com/chiawei37995568/status/1499312872941588483) | [#Algorithm]
 
 > [#Dijkstra's] [#Algorithm] [#ShortedPath]
 >
@@ -204,7 +205,7 @@
 
 [see more in my Github](https://github.com/ocup0311/Algorithm/blob/e78205f4256de25c1e3a316d7dc0d0f76205e7c3/code/graph/Digraph.js)
 
-## [3.5.2022](https://twitter.com/chiawei37995568/status/1500106178185273350)
+## [3.5.2022](https://twitter.com/chiawei37995568/status/1500106178185273350) | [#JavaScript]
 
 > I think it doesn't matter to use ";" or not in [#JavaScript].
 > The more thing is Code Consistency, at least in one project.
@@ -224,7 +225,7 @@
 >
 > And it's also CLEAR and easy to understand.
 
-## [3.9.2022](https://twitter.com/chiawei37995568/status/1501440169786089478)
+## [3.9.2022](https://twitter.com/chiawei37995568/status/1501440169786089478) | [#Algorithm] | [#BlockChain]
 
 [1.](https://twitter.com/chiawei37995568/status/1501440169786089478)
 
@@ -235,7 +236,7 @@
 
 [2.](https://twitter.com/chiawei37995568/status/1501533565661884421)
 
-> For [#blockchain]:
+> For [#BlockChain]:
 > Yesterday, I was just thinking about why can't we find a method to let ONLY few people do the BIG THING.
 > Others can still own the full node or spv node and do the SMALL THING for verification.
 > AND still keep the feature. (trustable, decentralizable,...)
@@ -244,7 +245,7 @@
 
 [PoS](https://academy.binance.com/zt/articles/proof-of-stake-explained)
 
-## [3.12.2022](https://twitter.com/chiawei37995568/status/1502575284905975810)
+## [3.12.2022](https://twitter.com/chiawei37995568/status/1502575284905975810) | [#Algorithm]
 
 > Sometimes also give an answer with my thought to other student in udemy course.
 > Today is my first time to have a course in English.
@@ -254,13 +255,13 @@
     <img src="./src/image/2022_Mar/log_in_Big_O.png"  alt="log_in_Big_O.png" />
   </div>
 
-## [3.15.2022](https://twitter.com/chiawei37995568/status/1503706691032199173)
+## [3.15.2022](https://twitter.com/chiawei37995568/status/1503706691032199173) | [#JavaScript]
 
 > The most popular [#JavaScript] Engine [#V8] converts JS directly to machine code using just-in-time compilation before executing it.
 >
 > In addition to Chrome & Node. We also can embedded V8 into our C++ application to add new features for our custom JS.( Do Something like [#Nodejs] did )
 
-## [3.16.2022](https://twitter.com/chiawei37995568/status/1504097872190795777)
+## [3.16.2022](https://twitter.com/chiawei37995568/status/1504097872190795777) | [#Algorithm]
 
 > The last thing today was to quick review [#Algorithm] by a papular Ironman-compitition-articles in IThome (almost 500 subscribers). (half-done today)
 >
@@ -272,7 +273,7 @@
     <img src="./src/image/2022_Mar/Discussion_isBalanced.png" alt="Discussion_isBalanced.png" />
   </div>
 
-## [3.17.2022](https://twitter.com/chiawei37995568/status/1504464626515595264)
+## [3.17.2022](https://twitter.com/chiawei37995568/status/1504464626515595264) | [#Web]
 
 > As my friend discussing [#CORS] question, I study CORS all day :)
 >
@@ -282,7 +283,7 @@
 > Also made my note for that article here.
 > [Note in Github](https://github.com/ocup0311/NOTE/blob/master/Web/note/CORS.md)
 
-## [3.18.2022](https://twitter.com/chiawei37995568/status/1504805036899319812)
+## [3.18.2022](https://twitter.com/chiawei37995568/status/1504805036899319812) | [#Algorithm]
 
 > [#Algorithm]
 >
@@ -291,7 +292,7 @@
 
 [see more in my Github](https://github.com/ocup0311/Algorithm/blob/master/code/sorting/quickSort/byLoop.js)
 
-## [3.19.2022](https://twitter.com/chiawei37995568/status/1505224600661413888)
+## [3.19.2022](https://twitter.com/chiawei37995568/status/1505224600661413888) | [#Web]
 
 > Notice a situation when dealing [#CORS] Request with [#Cache].
 >
@@ -305,16 +306,16 @@
 
 [ref1](https://blog.techbridge.cc/2018/08/18/cors-issue/), [ref2](https://fetch.spec.whatwg.org/#cors-protocol-and-http-caches)
 
-## [3.20.2022](https://twitter.com/chiawei37995568/status/1505565689834520578)
+## [3.20.2022](https://twitter.com/chiawei37995568/status/1505565689834520578) | [#BlockChain]
 
-> Today was the [#BlockChain] Study Circle day. We were talking about the [#Consensus] for blockchain.
+> Today was the [#BlockChain] Study Circle day. We were talking about the [#Consensus] for BlockChain.
 >
 > Learned a cool and most topical consensus in these days -- Proof-of-History ([#PoH]) .
-> And the first blockchain to use PoH -- [#Solana]
+> And the first BlockChain to use PoH -- [#Solana]
 
 [PoH](https://tokens-economy.gitbook.io/consensus/chain-based-proof-of-capacity-space/proof-of-history#description)
 
-## [3.21.2022](https://twitter.com/chiawei37995568/status/1505834273387216903)
+## [3.21.2022](https://twitter.com/chiawei37995568/status/1505834273387216903) | [#JavaScript]
 
 > Use a more comprehensive method to [#DeepClone] in [#JavaScript].
 > Because of some JSON.stringify features, we can't use it for all instances.
@@ -327,7 +328,7 @@
 
 [JS 深拷貝是什麼？如何實現？](https://ithelp.ithome.com.tw/articles/10223178)
 
-## [3.24.2022](https://twitter.com/chiawei37995568/status/1506991343666892804)
+## [3.24.2022](https://twitter.com/chiawei37995568/status/1506991343666892804) | [#Web]
 
 > Review the way that Web works & how [#browsers] work today.
 > By this we can know the overview of web work.
@@ -339,7 +340,7 @@
     <img src="./src/image/2022_Mar/Browser_Waterfall_View.png" alt="Browser_Waterfall_View.png" />
   </div>
 
-## [3.25.2022](https://twitter.com/chiawei37995568/status/1507375846621089803)
+## [3.25.2022](https://twitter.com/chiawei37995568/status/1507375846621089803) | [#Algorithm]
 
 > [#Arithmetic], easily read by Infix for human. For computer, Prefix & Postfix are solutions.
 > The [#Algorithm] use TWO [#Stack] for Prefix but ONE for Postfix.
@@ -353,9 +354,9 @@
 
 [REF](https://magiclen.org/arithmetic/)
 
-## [3.27.2022](https://twitter.com/chiawei37995568/status/1508098041668325385)
+## [3.27.2022](https://twitter.com/chiawei37995568/status/1508098041668325385) | [#JavaScript]
 
-> #JavaScript is passed by value.
+> [#JavaScript] is passed by value.
 > That's easy to think for PRIMITIVE types.
 >
 > For OBJECT, you can think like it's "passed by value of address-copy" (or another say "passed by sharing")
@@ -368,7 +369,7 @@
 
 [REF1](https://ithelp.ithome.com.tw/articles/10191057), [REF2](http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/comment-page-1/#comment-256132)
 
-## [3.28.2022](https://twitter.com/chiawei37995568/status/1508432855936139265)
+## [3.28.2022](https://twitter.com/chiawei37995568/status/1508432855936139265) | [#JavaScript]
 
 > Review my message on [#iThome]. Remember something were called [#LHS] & [#RHS] LOOKUP for the [#JavaScript].
 >
@@ -381,7 +382,7 @@
     <img src="./src/image/2022_Mar/LHS_RHS.png" alt="LHS_RHS.png" />
   </div>
 
-## [3.30.2022]()
+## [3.30.2022](https://twitter.com/chiawei37995568/status/1509192163800023042) | [#DOM]
 
 > Review [#Event] of [#DOM]
 > Briefly, it's in the order: Capture, Target, Bubbling.
@@ -394,7 +395,7 @@
 
 [SEE MORE](https://github.com/ocup0311/NOTE/blob/master/FrontEnd/note/DOM.md)
 
-## [3.31.2022](https://twitter.com/chiawei37995568/status/1509526231171354624)
+## [3.31.2022](https://twitter.com/chiawei37995568/status/1509526231171354624) | [#JavaScript]
 
 > I usually avoid using "this" in [#JavaScript] (by FP)
 > But if necessary, I choose Arrow Function & "bind()".
@@ -406,7 +407,7 @@
 
 [SEE MORE](https://github.com/ocup0311/NOTE/blob/master/Language/JavaScript/note/base.md)
 
-## [4.1.2022](https://twitter.com/chiawei37995568/status/1509820059958804480)
+## [4.1.2022](https://twitter.com/chiawei37995568/status/1509820059958804480) | [#JavaScript]
 
 > It's a little confuse for the name of [#JavaScript] [#prototype].
 >
@@ -420,7 +421,7 @@
     <img src="./src/image/2022_Apr/prototype.png" alt="prototype.png" />
   </div>
 
-## [4.2.2022](https://twitter.com/chiawei37995568/status/1510255522708353035)
+## [4.2.2022](https://twitter.com/chiawei37995568/status/1510255522708353035) | [#JavaScript]
 
 > [#JavaScript]
 >
@@ -444,7 +445,7 @@ if (i == 1 && i == 'OMG' && i == -1) {
     <img src="./src/image/2022_Apr/interview_OMG_chrome.png" alt="interview_OMG_chrome.png" />
   </div>
 
-## [4.4.2022](https://twitter.com/chiawei37995568/status/1510885128201183234)
+## [4.4.2022](https://twitter.com/chiawei37995568/status/1510885128201183234) | [#JavaScript]
 
 > [#JavaScript]
 > Note for common [#Promise] usage
@@ -459,10 +460,10 @@ if (i == 1 && i == 'OMG' && i == -1) {
 > "for( ){ await new Promise}"
 
   <div class="imgBox" >
-    <img src="../Language/JavaScript/src/image/base/promise.png" alt="promise.png" />
+    <img src="../Language/JavaScript/src/image/base/promise_method.png" alt="promise_method.png" />
   </div>
 
-## [4.5.2022](https://twitter.com/chiawei37995568/status/1511321650436149248)
+## [4.5.2022](https://twitter.com/chiawei37995568/status/1511321650436149248) | [#FP]
 
 > For Functional Programming ([#FP]), we can use "[#Immutable] data structure" instead of copy data every time.
 >
@@ -476,7 +477,7 @@ if (i == 1 && i == 'OMG' && i == -1) {
 
 [REF](https://ithelp.ithome.com.tw/articles/10187571)
 
-## [4.7.2022](https://twitter.com/chiawei37995568/status/1512038592637730824)
+## [4.7.2022](https://twitter.com/chiawei37995568/status/1512038592637730824) | [#FP]
 
 > [#JavaScript]
 >
@@ -493,7 +494,7 @@ if (i == 1 && i == 'OMG' && i == -1) {
     <img src="./src/image/2022_Apr/recurry.png" alt="recurry.png" />
   </div>
 
-## [4.9.2022](https://twitter.com/chiawei37995568/status/1512823352138014720)
+## [4.9.2022](https://twitter.com/chiawei37995568/status/1512823352138014720) | [#BlockChain]
 
 > [#BlockChain] Study Circle day Today.
 > [#Incentive] & [#Reclaiming_Disk_Space].
@@ -507,7 +508,7 @@ if (i == 1 && i == 'OMG' && i == -1) {
 
 [REF PAPTER](https://www.cs.princeton.edu/~arvindn/publications/mining_CCS.pdf)
 
-## [4.10.2022](https://twitter.com/chiawei37995568/status/1513173722873884675)
+## [4.10.2022](https://twitter.com/chiawei37995568/status/1513173722873884675) | [#FP]
 
 > [#JavaScript] with Functional Programming ([#FP]) by [#Ramda].
 >
