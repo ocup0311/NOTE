@@ -64,6 +64,8 @@
 [#composep]: https://twitter.com/hashtag/composeP?src=hashtag_click
 [#composewith]: https://twitter.com/hashtag/composeWith?src=hashtag_click
 [#web]: https://twitter.com/hashtag/web?src=hashtag_click
+[#compose]: https://twitter.com/hashtag/Compose?src=hashtag_click
+[#pipe]: https://twitter.com/hashtag/Pipe?src=hashtag_click
 
 <!-- ref -->
 
@@ -523,4 +525,20 @@ if (i == 1 && i == 'OMG' && i == -1) {
 
   <div class="imgBox" >
     <img src="./src/image/2022_Apr/composeWithAsync.png" alt="composeWithAsync.png" />
+  </div>
+
+## [4.11.2022](https://twitter.com/chiawei37995568/status/1513370418664853504) | [#FP]
+
+> [#JavaScript]
+>
+> [#Compose] vs [#Pipe] in Functional Programming ([#FP])
+> The difference of them is only the order.
+>
+> And "WHEN TO USE" or "JUST USE ONE"?
+>
+> For Read in handy,
+> I think maybe we can choose each one in its fitting situation.
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Apr/compose_vs_pipe.png" alt="compose_vs_pipe.png" />
   </div>
