@@ -18,6 +18,7 @@
 [literacy]: #名詞
 [remainder]: #名詞
 [the remainder of]: #名詞
+[backbone]: #名詞
 [manipulated]: #動詞
 [refactor]: #動詞
 [underlying]: #形容詞
@@ -176,6 +177,21 @@
 </summary>
 
 > And so, we'll just step now into where we're really getting into [the nitty-gritty]. This is compile. Now, it's going to actually compile my code.
+
+</details>
+
+###### <!-- backbone -->
+
+<details close>
+
+<summary><b>backbone</b>
+
+> 骨架；骨幹
+
+</summary>
+
+> Are you Nuxt?
+> Nuxt is the [backbone] of your Vue.js project, giving structure to build your project with confidence while keeping flexibility.
 
 </details>
 
