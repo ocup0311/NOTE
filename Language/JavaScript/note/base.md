@@ -19,6 +19,8 @@
 [for await...of]: ./others.md#for-awaitof-vs-promiseallhttpsstackoverflowcomquestions59694309for-await-of-vs-promise-all
 [all vs race]: https://alligator.io/js/promise-all-promise-race/
 [not relevant anymore]: https://stackoverflow.com/questions/1098040/checking-if-a-key-exists-in-a-javascript-object#:~:text=EDIT%3A%2012/04/2018%20%2D%20NOT%20RELEVANT%20ANYMORE
+[number-precision]: https://github.com/nefe/number-precision
+[二進位浮點數]: https://www.itread01.com/content/1547654585.html
 
  <!-- ref -->
 
@@ -352,6 +354,51 @@
 
     </details>
 
+  <!-- 0.1 + 0.2 -->
+
+  - <details close>
+    <summary>0.1 + 0.2</summary>
+
+    > REF: [number-precision] | [二進位浮點數]
+
+    - 二進位浮點數問題
+
+      - 整數部分：除以 2 --> { 商數：繼續除, 餘數：結果 }
+      - 小數部分：乘以 2 --> { 小數：繼續乘, 整數：結果 }
+
+    ```
+    EX.
+    import NP from 'number-precision'
+
+    NP.strip(0.09999999999999998); // = 0.1
+    NP.plus(0.1, 0.2);             // = 0.3, not 0.30000000000000004
+    NP.plus(2.3, 2.4);             // = 4.7, not 4.699999999999999
+    NP.minus(1.0, 0.9);            // = 0.1, not 0.09999999999999998
+    NP.times(3, 0.3);              // = 0.9, not 0.8999999999999999
+    NP.times(0.362, 100);          // = 36.2, not 36.199999999999996
+    NP.divide(1.21, 1.1);          // = 1.1, not 1.0999999999999999
+    NP.round(0.105, 2);            // = 0.11, not 0.1
+    ```
+
+    ```
+    EX. 套件 'number-precision' 作法：
+
+    // iteratorOperation：使用 loop
+    // digitLength：轉自串後計算
+    // times：乘法
+
+    const plus = (...nums) => {
+      if (nums.length > 2) return iteratorOperation(nums, plus)
+
+      const [num1, num2] = nums
+      const baseNum = Math.pow(10, Math.max(digitLength(num1), digitLength(num2)))
+
+      return (times(num1, baseNum) + times(num2, baseNum)) / baseNum
+    }
+    ```
+
+    </details>
+
 - 小技巧：
 
   <!-- Cascade -->
@@ -385,7 +432,7 @@
 
 - 改版：
 
-  <!-- Cascade -->
+  <!-- Object auto-assign undifined -->
 
   - <details close>
     <summary>Object auto-assign undifined --> NOT ANYMORE</summary>
