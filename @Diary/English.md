@@ -23,6 +23,7 @@
 [refactor]: #動詞
 [underlying]: #形容詞
 [underlying programming language]: #形容詞
+[high-profile]: #形容詞
 
 <!-- ref -->
 
@@ -266,5 +267,19 @@
 </summary>
 
 > The effort to learn a web framework depends on how familiar you are with the [underlying programming language], the consistency of its API, the quality of its documentation, and the size and activity of its community.
+
+</details>
+
+###### <!-- high-profile -->
+
+<details close>
+
+<summary><b>high-profile</b>
+
+> 引人注目的，備受關注的；出名的
+
+</summary>
+
+> In other [high-profile] cases, millions of passwords, email addresses, and credit card details have been leaked into the public domain, exposing website users to both personal embarrassment and financial risk.
 
 </details>
