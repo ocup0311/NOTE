@@ -12,7 +12,7 @@
 
 ###### <!-- ref -->
 
-[monad]: https://medium.com/javascript-scene/javascript-monads-made-simple-7856be57bfe8
+[monad]: https://medium.com/javascript-scene/javascript-Monads-made-simple-7856be57bfe8
 [immutable.js]: https://ithelp.ithome.com.tw/articles/10187571
 [eslint-plugin-immutable]: https://blog.jerry-hong.com/series/fp/think-in-fp-03/
 [curry1]: https://javascript.info/currying-partials
@@ -55,7 +55,7 @@
 
   - [Monad]：把 Side Effect 用 Monad 封裝起來
   - `Dependency injection`：把問題丟給別人
-  - `Effect functor`：拖延戰術
+  - `Effect Functor`：拖延戰術
 
 - immutable 技巧
 
@@ -165,8 +165,15 @@
 - Pointfree style
 
 - Ramda
+
   - "function first, data last" (有助建立 Pointfree 模式)
   - 任何 API 都是 curried function (並非全部 e.g. compose)
+
+- Just (Container)
+
+  - Functor
+  - Monad 是可以變扁 (flatten) 的 pointed Functor
+  - Applicative Functor 是實現了 ap 方法的 pointed Functor
 
 ---
 
