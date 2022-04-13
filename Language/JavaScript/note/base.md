@@ -21,6 +21,8 @@
 [not relevant anymore]: https://stackoverflow.com/questions/1098040/checking-if-a-key-exists-in-a-javascript-object#:~:text=EDIT%3A%2012/04/2018%20%2D%20NOT%20RELEVANT%20ANYMORE
 [number-precision]: https://github.com/nefe/number-precision
 [二進位浮點數]: https://www.itread01.com/content/1547654585.html
+[class]: https://dmitripavlutin.com/javascript-classes-complete-guide/
+[prototype pollution]: https://tech-blog.cymetrics.io/posts/huli/prototype-pollution/
 
  <!-- ref -->
 
@@ -205,6 +207,8 @@
 - <details close>
   <summary>Prototype</summary>
 
+  > REF: [Prototype Pollution]
+
   <!-- new 建立實體 -->
 
   - <details close>
@@ -272,7 +276,7 @@
 
     </details>
 
-  <!-- js class -->
+  <!-- 建議基本操作 -->
 
   - <details close>
     <summary>建議基本操作</summary>
@@ -280,6 +284,53 @@
     - `Object.setPrototypeOf(<obj>, <proto>)`：設定 obj 的 prototype 為 proto
     - `Object.create(<proto>)`：回傳一個物件，其 prototype 為 proto
     - `Object.getPrototypeOf(<obj>)`：回傳 obj 的 prototype
+
+    </details>
+
+  <!-- 小技巧 -->
+
+  - <details close>
+    <summary>小技巧</summary>
+
+    <!-- Object.freeze() -->
+
+    - <details close>
+      <summary>Object.prototype.freeze()</summary>
+
+      - 凍結 object，使其內容不得變更
+
+      ```
+      // EX1. with object -------------------
+      const testObject = { x: 1, y: { z: 1 } }
+      Object.freeze(testObject)
+
+      // NO
+      testObject.y = ''
+      testObject.x = ''
+      // OK
+      testObject.y.z = ''
+
+      // EX2. with class -------------------
+      class TestClass {
+        constructor(value) {
+          this.value = value
+        }
+        testFn1() {}
+      }
+      Object.freeze(TestClass.prototype)
+
+      const testInstance = new TestClass(1)
+
+      // NO
+      TestClass.prototype.testFn1 = ''
+      TestClass.prototype.testFn2 = ''
+      testInstance.testFn1 = ''
+      // OK
+      testInstance.value = ''
+      testInstance.testFn2 = ''
+      ```
+
+      </details>
 
     </details>
 
@@ -335,6 +386,10 @@
   </div>
 
   </details>
+
+<!-- class -->
+
+- [class]
 
 ---
 
