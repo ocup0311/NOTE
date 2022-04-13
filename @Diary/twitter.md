@@ -66,6 +66,9 @@
 [#web]: https://twitter.com/hashtag/web?src=hashtag_click
 [#compose]: https://twitter.com/hashtag/Compose?src=hashtag_click
 [#pipe]: https://twitter.com/hashtag/Pipe?src=hashtag_click
+[#vulnerability]: https://twitter.com/hashtag/vulnerability?src=hashtag_click
+[#prototype]: https://twitter.com/hashtag/Prototype?src=hashtag_click
+[#freeze]: https://twitter.com/hashtag/freeze?src=hashtag_click
 
 <!-- ref -->
 
@@ -541,4 +544,16 @@ if (i == 1 && i == 'OMG' && i == -1) {
 
   <div class="imgBox" >
     <img src="./src/image/2022_Apr/compose_vs_pipe.png" alt="compose_vs_pipe.png" />
+  </div>
+
+## [4.13.2022](https://twitter.com/chiawei37995568/status/1514170387214770179) | [#JavaScript]
+
+> [#JavaScript] [#freeze]
+>
+> One of the way to prevent [#Prototype] Pollution [#vulnerability] is use "Object.freeze()"
+>
+> There are some test for "Object.freeze()":
+
+  <div class="imgBox" >
+    <img src="../Language/JavaScript/src/image/base/Object.freeze.png" alt="Object.freeze.png" />
   </div>
