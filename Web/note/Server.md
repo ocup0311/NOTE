@@ -22,6 +22,10 @@
 [owasp top ten]: https://owasp.org/www-project-top-ten/
 [vulnerability scanning tools]: https://owasp.org/www-community/Vulnerability_Scanning_Tools
 [sql injection]: https://www.imperva.com/learn/application-security/sql-injection-sqli/
+[owasp csrf]: https://owasp.org/www-community/attacks/csrf
+[csrf1]: https://blog.techbridge.cc/2017/02/25/csrf-introduction/
+[csrf2]: http://sj82516-blog.logdown.com/posts/1456564/site-form-to-send-security-configurations-using-recaptcha-with-csrf-token
+[use of custom request headers]: https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#use-of-custom-request-headers
 
  <!-- ref -->
 
@@ -196,7 +200,6 @@
       > REF: [SQL Injection]
 
       - 可能會給你含有 SQL 的 input，需要轉換特殊字元來預防
-      - 通常框架會幫你處理
       - 種類：
         - In-band SQLi
           - Error-based SQLi
@@ -260,12 +263,62 @@
   <!-- CSRF (Cross-Site Request Forgery) -->
 
   - <details close>
-    <summary>CSRF (Cross-Site Request Forgery)</summary>
+    <summary>CSRF (Cross-Site Request Forgery) (XSRF)</summary>
+
+    > REF: [OWASP CSRF] | [CSRF1] | [CSRF2]
 
     - 不知道被攻擊者的資訊，完全是他自己送出給 Server
-    - 被攻擊者點擊連結，送出 `你包裝好的 Request` + `他的 Cookie`
-    - 解法 1：Server 發專屬 secret 給 Client 加密 form
-    - 一般 Framework 已處理
+    - 使用者者點擊連結，送出 `攻擊者包裝好的 Request` + `使用者的 Cookie`
+    - 解法：
+
+      <!-- CSRF token -->
+
+      - <details close>
+        <summary>CSRF token</summary>
+
+        - Server response form 時，附帶隱藏的 CSRF token，POST 之後，Server 比對是否 token 沒變
+
+        </details>
+
+      <!-- reCAPTCHA -->
+
+      - <details close>
+        <summary>reCAPTCHA</summary>
+
+        - google 推出的「我不是機器人」防堵自動化填寫，也可防堵 CSRF
+
+        </details>
+
+      - 使用者自己輸入一個不存在 Cookie 的資料
+
+      - Multi-Step Transactions
+
+      <!-- client-side Double Submit Cookie -->
+
+      - <details close>
+        <summary>client-side Double Submit Cookie</summary>
+
+        - Request 發送前，在 client 生成 token 存入 Cookie & Form，到 Server 時比對兩者
+
+        </details>
+
+      <!-- 部分瀏覽器支援 SameSite cookie -->
+
+      - <details close>
+        <summary>部分瀏覽器支援 SameSite cookie</summary>
+
+        - 在 a.com 發送 b.com 的 request，則不帶 b.com cookie
+        - Strict：嚴格，通通限制 (預設)
+        - Lax：POST, PUT, DELETE, etc. 才會限制
+
+        ```
+        EX.
+        Set-Cookie: session_id=123; SameSite=Lax
+        ```
+
+        </details>
+
+      - [Use of Custom Request Headers] (最推薦？)
 
     </details>
 
