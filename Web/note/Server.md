@@ -26,6 +26,8 @@
 [csrf1]: https://blog.techbridge.cc/2017/02/25/csrf-introduction/
 [csrf2]: http://sj82516-blog.logdown.com/posts/1456564/site-form-to-send-security-configurations-using-recaptcha-with-csrf-token
 [use of custom request headers]: https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#use-of-custom-request-headers
+[prototype pollution]: https://tech-blog.cymetrics.io/posts/huli/prototype-pollution/
+[--disable-proto]: https://nodejs.org/api/cli.html#cli_disable_proto_mode
 
  <!-- ref -->
 
@@ -129,7 +131,7 @@
   - <details close>
     <summary>XSS (Cross-Site Scripting)</summary>
 
-    > REF: [徹底理解 XSS] | [防禦 XSS]
+    > REF: [徹底理解 XSS] | [防禦 XSS] | [Prototype Pollution]
 
     - 常見的攻擊
     - 使客戶端被嵌入 `client-side scripts`
@@ -182,6 +184,23 @@
           <summary>Mutation-based (mXSS)</summary>
 
           - 例如 `innerHTML`
+
+          </details>
+
+      - 延伸：
+
+        <!-- Prototype Pollution -->
+
+        - <details close>
+          <summary>Prototype Pollution</summary>
+
+          - 解法：
+
+            - 過濾 `__proto__` & `prototype`
+            - 用 Object.create(null) 建立則沒有 prototype
+            - 用 Map 取代 Object (Map 的 prototype 也是會被污染，例如改掉 `.get`)
+            - `Object.freeze(Object.prototype)` 使凍結 Object.prototype，不可再更改
+            - NodeJS [--disable-proto] 關掉 `__proto__`
 
           </details>
 
