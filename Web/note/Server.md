@@ -28,6 +28,8 @@
 [use of custom request headers]: https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#use-of-custom-request-headers
 [prototype pollution]: https://tech-blog.cymetrics.io/posts/huli/prototype-pollution/
 [--disable-proto]: https://nodejs.org/api/cli.html#cli_disable_proto_mode
+[官方 express middleware]: http://expressjs.com/en/resources/middleware.html
+[error-first callbacks]: https://fredkschott.com/post/2014/03/understanding-error-first-callbacks-in-node-js/
 
  <!-- ref -->
 
@@ -50,7 +52,7 @@
 <!-- server vs client -->
 
 - <details close>
-     <summary>server vs client</summary>
+  <summary>server vs client</summary>
 
   - server-side：control what information is sent to the user
   - client-side：handle the structure and presentation of that data to the user
@@ -60,7 +62,7 @@
 <!-- 框架選擇： -->
 
 - <details close>
-     <summary>框架選擇：</summary>
+  <summary>框架選擇：</summary>
 
   - 學習曲線
 
@@ -109,10 +111,59 @@
 <!-- Express -->
 
 - <details close>
-     <summary>Express</summary>
+  <summary>Express</summary>
 
-  - 底層的 node 環境在單線程中使用輕量級多任務處理，而不是為每個 web 請求提供單獨的進程
-  - the underlying node environment uses lightweight multitasking within a thread rather than spawning separate processes for every new web request
+  > REF: [官方 Express middleware]
+
+  <!-- 描述： -->
+
+  - <details close>
+    <summary>描述：</summary>
+
+    - 底層的 node 環境在單線程中使用輕量級多任務處理，而不是為每個 web 請求提供單獨的進程
+    - the underlying node environment uses lightweight multitasking within a thread rather than spawning separate processes for every new web request
+
+    </details>
+
+  <!-- 特性： -->
+
+  - <details close>
+    <summary>特性：</summary>
+
+    - unopinionated：較彈性、高度包容
+    - middleware
+    - [Error-First Callbacks]
+
+    </details>
+
+  <!-- 注意事項： -->
+
+  - <details close>
+    <summary>細節提醒：</summary>
+
+    - `app.all("/", cb)`：所有種類的請求都包括，取代設定所有的 `app.get("/", cb)`, `app.post("/", cb)`,..., etc.
+
+    - `express.Router()`：用來切 url (傾向於用 router 還是全部都寫完整 url？)
+
+    - Middleware 是照順序進行的。
+    - 支援所有 Node 支援的 DB
+
+    <!-- call back： -->
+
+    - <details close>
+      <summary>call back：</summary>
+
+      - Route：(req, res)
+      - Middleware：(req, res, next)
+      - Error：(err, req, res, next)
+
+      </details>
+
+    - Error Middleware 需最後 call，沒做則會把錯誤細節傳回 client
+
+    - Http status code 需自行加入 Middleware 處理
+
+    </details>
 
   </details>
 
