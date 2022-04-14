@@ -175,6 +175,10 @@
   - Monad 是可以變扁 (flatten) 的 pointed Functor
   - Applicative Functor 是實現了 ap 方法的 pointed Functor
 
+- Functor
+
+  - But what about `control flow`, `error handling`, `asynchronous actions`, `state` and, dare I say, `effects`?!
+
 ---
 
 ## 2. 其他補充
