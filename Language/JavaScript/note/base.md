@@ -23,6 +23,7 @@
 [二進位浮點數]: https://www.itread01.com/content/1547654585.html
 [class]: https://dmitripavlutin.com/javascript-classes-complete-guide/
 [prototype pollution]: https://tech-blog.cymetrics.io/posts/huli/prototype-pollution/
+[private class]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_With_Private_Class_Features
 
  <!-- ref -->
 
@@ -236,6 +237,8 @@
 
   - <details close>
     <summary>js class 即是用 prototype</summary>
+
+    - [private class] (e.g. `#privateValue`)
 
     ```
     EX.
