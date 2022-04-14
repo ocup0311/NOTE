@@ -69,6 +69,7 @@
 [#vulnerability]: https://twitter.com/hashtag/vulnerability?src=hashtag_click
 [#prototype]: https://twitter.com/hashtag/Prototype?src=hashtag_click
 [#freeze]: https://twitter.com/hashtag/freeze?src=hashtag_click
+[#functor]: https://twitter.com/hashtag/Functor?src=hashtag_click
 
 <!-- ref -->
 
@@ -556,4 +557,14 @@ if (i == 1 && i == 'OMG' && i == -1) {
 
   <div class="imgBox" >
     <img src="../Language/JavaScript/src/image/base/Object.freeze.png" alt="Object.freeze.png" />
+  </div>
+
+## [4.14.2022](https://twitter.com/chiawei37995568/status/1514624092670164993)
+
+> [#JavaScript]
+>
+> To learn [#FP] [#Functor], try to real-freeze the value 🤣
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Apr/Functor.png" alt="Functor.png" />
   </div>
