@@ -70,6 +70,10 @@
 [#prototype]: https://twitter.com/hashtag/Prototype?src=hashtag_click
 [#freeze]: https://twitter.com/hashtag/freeze?src=hashtag_click
 [#functor]: https://twitter.com/hashtag/Functor?src=hashtag_click
+[#nft]: https://twitter.com/hashtag/NFT?src=hashtag_click
+[#likecoin]: https://twitter.com/hashtag/LikeCoin?src=hashtag_click
+[#audience]: https://twitter.com/hashtag/Audience?src=hashtag_click
+[#creator]: https://twitter.com/hashtag/Creator?src=hashtag_click
 
 <!-- ref -->
 
@@ -568,3 +572,27 @@ if (i == 1 && i == 'OMG' && i == -1) {
   <div class="imgBox" >
     <img src="./src/image/2022_Apr/Functor.png" alt="Functor.png" />
   </div>
+
+## [4.15.2022](https://twitter.com/chiawei37995568/status/1514823689791221760)
+
+> [#BlockChain]
+
+> A little thought:
+>
+> "Why don't we make [#NFT] + [#LikeCoin] ?"
+>
+> By now, the value of NFT is only we like it & expect it'll be raised in price.
+>
+> Why don't we put a REAL VALUE on it?
+>
+> Let it value by [#Audience] & also FEEDBACK to [#Creator].
+
+> More detail like this:
+>
+> A platform to present REAL-VALUABLE [#NFT].
+>
+> #Audience can FEEDBACK to the NFT.
+> (The mechanism like the [#LikeCoin])
+>
+> And I prefer the detail declared by [#Creator] when the NFT's created.
+> (Presentation way, Profit sharing, etc.)
