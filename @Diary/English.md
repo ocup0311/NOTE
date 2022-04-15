@@ -19,6 +19,7 @@
 [remainder]: #名詞
 [the remainder of]: #名詞
 [backbone]: #名詞
+[skeleton]: #名詞
 [manipulated]: #動詞
 [refactor]: #動詞
 [underlying]: #形容詞
@@ -193,6 +194,20 @@
 
 > Are you Nuxt?
 > Nuxt is the [backbone] of your Vue.js project, giving structure to build your project with confidence while keeping flexibility.
+
+</details>
+
+###### <!-- skeleton -->
+
+<details close>
+
+<summary><b>skeleton</b>
+
+> 骨架
+
+</summary>
+
+> Use the Express Application Generator tool to create a [skeleton] website and application.
 
 </details>
 
