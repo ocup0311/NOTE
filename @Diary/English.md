@@ -13,6 +13,7 @@
 [simply put]: #片語
 [in short]: #片語
 [out of the box]: #片語
+[this is particularly true if]: #片語
 [enterprise support]: #名詞
 [the nitty-gritty]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/the-nitty-gritty
 [literacy]: #名詞
@@ -148,6 +149,20 @@
 >
 > EX2.
 > These solutions work straight [out of the box].
+
+</details>
+
+###### <!-- this is particularly true if -->
+
+<details close>
+
+<summary><b>this is particularly true if</b>
+
+> 尤為明顯
+
+</summary>
+
+> The benefit of using an ORM is that programmers can continue to think in terms of JavaScript objects rather than database semantics — [this is particularly true if] you need to work with different databases (on either the same or different websites). They also provide an obvious place to perform data validation.
 
 </details>
 
