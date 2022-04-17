@@ -87,3 +87,7 @@
 ## More Reference
 
 [Node 内部工作原理解析]
+
+### NPM
+
+- Because the tool isn't installed globally we can't launch it from the command line (unless we add it to the path) but we can call it from an NPM script because NPM knows all about the installed packages.
