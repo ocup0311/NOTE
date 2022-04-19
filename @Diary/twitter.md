@@ -596,3 +596,13 @@ if (i == 1 && i == 'OMG' && i == -1) {
 >
 > And I prefer the detail declared by [#Creator] when the NFT's created.
 > (Presentation way, Profit sharing, etc.)
+
+## [4.19.2022](https://twitter.com/chiawei37995568/status/1516414825987031042)
+
+> Practice on [#LeetCode] two days.
+>
+> Once I tried to run a BIGGER Time Complexity Algorithm, it's return "Time Limit Exceeded".
+> And if you try to use more Memory, that'll also be failed.
+>
+> So I think maybe we don't need to check Runtime & Memory Usage.
+> Just need to pass by submit.
