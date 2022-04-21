@@ -12,6 +12,11 @@
 
 ##### <!-- ref -->
 
+[#postorder]: https://twitter.com/hashtag/postOrder?src=hashtag_click
+[#inorder]: https://twitter.com/hashtag/inOrder?src=hashtag_click
+[#preorder]: https://twitter.com/hashtag/preOrder?src=hashtag_click
+[#dfs]: https://twitter.com/hashtag/DFS?src=hashtag_click
+[#depthfirstsearch]: https://twitter.com/hashtag/DepthFirstSearch?src=hashtag_click
 [#datastructure]: https://twitter.com/hashtag/DataStructure?src=hashtag_click
 [#linkedlist]: https://twitter.com/hashtag/LinkedList?src=hashtag_click
 [#javascript]: https://twitter.com/hashtag/JavaScript?src=hashtag_click
@@ -563,7 +568,7 @@ if (i == 1 && i == 'OMG' && i == -1) {
     <img src="../Language/JavaScript/src/image/base/Object.freeze.png" alt="Object.freeze.png" />
   </div>
 
-## [4.14.2022](https://twitter.com/chiawei37995568/status/1514624092670164993)
+## [4.14.2022](https://twitter.com/chiawei37995568/status/1514624092670164993) | [#FP]
 
 > [#JavaScript]
 >
@@ -573,7 +578,7 @@ if (i == 1 && i == 'OMG' && i == -1) {
     <img src="./src/image/2022_Apr/Functor.png" alt="Functor.png" />
   </div>
 
-## [4.15.2022](https://twitter.com/chiawei37995568/status/1514823689791221760)
+## [4.15.2022](https://twitter.com/chiawei37995568/status/1514823689791221760) | [#BlockChain]
 
 > [#BlockChain]
 
@@ -597,7 +602,7 @@ if (i == 1 && i == 'OMG' && i == -1) {
 > And I prefer the detail declared by [#Creator] when the NFT's created.
 > (Presentation way, Profit sharing, etc.)
 
-## [4.19.2022](https://twitter.com/chiawei37995568/status/1516414825987031042)
+## [4.19.2022](https://twitter.com/chiawei37995568/status/1516414825987031042) | [#LeetCode]
 
 > Practice on [#LeetCode] two days.
 >
@@ -606,3 +611,28 @@ if (i == 1 && i == 'OMG' && i == -1) {
 >
 > So I think maybe we don't need to check Runtime & Memory Usage.
 > Just need to pass by submit.
+
+## [4.21.2022](https://twitter.com/chiawei37995568/status/1517154237926735872) | [#Algorithm]
+
+> [#JavaScript] [#Algorithm]
+>
+> For [#BinarySearchTree] [#DepthFirstSearch] ([#DFS]), I was just thinking about maybe there are two faces to use it.
+> ([#preOrder], [#inOrder], [#postOrder])
+>
+> A. The TIMING we do something in the tree.
+> B. The ORDER we Traverse in the tree.
+>
+> Such as following:
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Apr/DFS.png"  alt="DFS.png" />
+  </div>
+
+> An example of A:
+> [#LeetCode] Maximum Depth of Binary Tree
+
+[LeetCode Maximum Depth of Binary Tree](https://leetcode.com/explore/interview/card/top-interview-questions-easy/94/trees/555/)
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_Apr/LeetCode_maxDepth.png"  alt="LeetCode_maxDepth.png" />
+  </div>
