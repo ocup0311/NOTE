@@ -26,6 +26,7 @@
 [underlying]: #形容詞
 [underlying programming language]: #形容詞
 [high-profile]: #形容詞
+[subtle]: #形容詞
 
 <!-- ref -->
 
@@ -311,5 +312,19 @@
 </summary>
 
 > In other [high-profile] cases, millions of passwords, email addresses, and credit card details have been leaked into the public domain, exposing website users to both personal embarrassment and financial risk.
+
+</details>
+
+###### <!-- subtle -->
+
+<details close>
+
+<summary><b>subtle</b>
+
+> 微妙的; 精妙的; 不易察覺的;
+
+</summary>
+
+> Follow up: If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more [subtle].
 
 </details>
