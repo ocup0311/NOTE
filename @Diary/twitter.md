@@ -636,3 +636,17 @@ if (i == 1 && i == 'OMG' && i == -1) {
   <div class="imgBox" >
     <img src="./src/image/2022_Apr/LeetCode_maxDepth.png"  alt="LeetCode_maxDepth.png" />
   </div>
+
+## [5.2.2022](https://twitter.com/chiawei37995568/status/1521136798692683776) | [#JavaScript]
+
+[#JavaScript]
+
+> Which coding style is better to read for the own functions of mainFunction?
+>
+> method1: need to get where the main function is
+> method2: need to get where the main step start
+> method3: sometimes confuse that the fn1, fn2 is the own function or not
+
+  <div class="imgBox" >
+    <img src="./src/image/2022_May/function.png"  alt="function.png" />
+  </div>
