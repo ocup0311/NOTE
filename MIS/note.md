@@ -61,7 +61,7 @@
 
 <!-- MAC（實體位址） -->
 
-- <details open>
+- <details close>
   <summary>MAC</summary>
 
   - 實體位址
@@ -199,9 +199,12 @@
 
   - 早期設備，已棄用，被 Switch 取代
 
+  - 想像成是對資料放大傳送，但不會對資料進行處理
+
   - 共享匯流排(shared bus)
 
-    - 資料傳輸時，連接 Hub 的所有終端設備都會接收到(Multiple Access)
+    - 資料傳輸時，連接 Hub 的所有終端設備都會接收到
+      (共同存取 Multiple Access)
 
     - 乙太網路，都是 Multiple Access
 
@@ -220,6 +223,115 @@
   <summary>Switch（交換器）</summary>
 
   - 會先比較 MAC ID，只將訊息傳送給 Target PC
+
+  </details>
+
+---
+
+## ＄現象
+
+<!-- 碰撞（collision） -->
+
+- <details close>
+  <summary>碰撞（collision）</summary>
+
+  - 已成歷史
+
+  - Hub 共享匯流排 + 共同存取 --> 一次只能一個人傳，否則碰撞後內容會混合亂掉，依然會傳送至所有電腦，但為無效傳送
+
+  - 用再多 hub 也無法解決碰撞區問題，早期用 Switch 在規劃碰撞區，目標將碰撞區縮小
+
+  - 現在都直接用 Switch 接電腦 --> 碰撞區規劃，已成歷史
+
+  <!-- 解決方案 -->
+
+  - <details close>
+    <summary>解決方案</summary>
+
+    <!-- CSMA/CD -->
+
+    - <details close>
+      <summary>CSMA/CD</summary>
+
+      - 解決有線網路的碰撞
+
+      <!-- CSMA -->
+
+      - <details close>
+        <summary>CSMA</summary>
+
+        - Carrier Sense Multiple Access
+        - 防止碰撞
+
+        - <details close>
+          <summary>步驟</summary>
+
+          - 網卡上有 CS，送出前可先偵測訊號
+          - 偵測到已有人正在傳輸則暫緩送出
+
+          </details>
+
+        </details>
+
+      <!-- CD -->
+
+      - <details close>
+        <summary>CD</summary>
+
+        - Collision Detection
+        - 偵測碰撞 --> 不可避免碰撞 --> 加速碰撞 --> 快點結束
+
+        - <details close>
+          <summary>步驟</summary>
+
+          - 若 PC1, PC2 同時傳送，則 CSMA 就破功，因為同時間都偵測到狀態為閒置，而同時送出
+          - 第三者 PC3 偵測到此情形，則送出 JAM 訊號，將訊號全部清空 --> 加速碰撞
+          - 使用後退演算法(Backoff Algorithm)，將兩台送出時間錯開，再重新發送
+
+          </details>
+
+        <!-- Early vs Late Collision -->
+
+        - <details close>
+          <summary>Early vs Late Collision</summary>
+
+          - 越早偵測到，越早解決 (以 512 bits 區分)
+
+          - Early Collision
+
+            - 正常在傳送 512 bits 前，被 CD 偵測到
+
+          - Late Collision
+
+            - 可能有其他硬體問題，可再改善
+            - 例如：Duplex 模式匹配有問題、網卡有問題、網路線不穩、接線太長、串接太多層.. 等等
+
+          </details>
+
+        </details>
+
+      </details>
+
+    <!-- CSMA/CA -->
+
+    - <details close>
+      <summary>CSMA/CA</summary>
+
+      - 解決無線網路的碰撞
+
+      - CSMA
+
+        - Carrier Sense Multiple Access
+        - 防止碰撞
+
+      - CA
+
+        - Collision Avoidance
+        - 避免碰撞
+
+      </details>
+
+    </details>
 
   </details>
 
