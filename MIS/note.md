@@ -217,12 +217,36 @@
 
   </details>
 
+<!-- Bridge（橋接器） -->
+
+- <details close>
+  <summary>Bridge（橋接器）</summary>
+
+  - Switch 前身
+  - 2 port
+  - 有防止迴圈的偵測
+  - STP 協定
+
+  </details>
+
 <!-- Switch（交換器） -->
 
 - <details close>
   <summary>Switch（交換器）</summary>
 
+  - 多 port 的 Bridge
   - 會先比較 MAC ID，只將訊息傳送給 Target PC
+  - 有作業系統（IOS）(e.g. Vlan, VTP, STP)
+
+    - 便宜的 Switch-Hub 沒有 IOS
+
+  - MAC TABLE
+    - 存在 Switch 記憶體
+    - 初始化
+      - port/MAC 配對
+        - 人工設定
+        - 學習：傳輸時，紀錄來源 (五分鐘會清除一次)
+        - flooding
 
   </details>
 
