@@ -14,11 +14,14 @@
 [in short]: #片語
 [out of the box]: #片語
 [this is particularly true if]: #片語
+[thus far]: https://tw.hinative.com/questions/1721384
+[so to speak]: #片語
 [enterprise support]: #名詞
 [the nitty-gritty]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/the-nitty-gritty
 [literacy]: #名詞
 [remainder]: #名詞
 [the remainder of]: #名詞
+[remainder]: #名詞
 [backbone]: #名詞
 [skeleton]: #名詞
 [manipulated]: #動詞
@@ -167,6 +170,36 @@
 
 </details>
 
+###### <!-- thus far -->
+
+<details close>
+
+<summary><b>thus far</b>
+
+> 迄今
+
+</summary>
+
+> Any questions on these comparisons [thus far]?
+
+</details>
+
+###### <!-- So to speak -->
+
+<details close>
+
+<summary><b>So to speak</b>
+
+> 也就是說
+
+</summary>
+
+> To run a file called "a.out" that's in this folder,
+> [so to speak], even though you don't see a graphical version of it.
+> You literally just type "./a.out"
+
+</details>
+
 ## 名詞
 
 ###### <!-- Enterprise Support -->
@@ -247,11 +280,14 @@
 
 <summary><b>remainder</b>
 
-> 剩餘部分
+> 剩餘部分; 餘數;
 
 </summary>
 
 > [The remainder of] the response header includes information about the response (e.g. when it was generated), the server, and how it expects the browser to handle the page (e.g. the X-Frame-Options: DENY line tells the browser not to allow this page to be embedded in an iframe in another site).
+>
+> Well, 20 divided by 10 goes in twice perfectly.
+> So [remainder] is 0, for instance.
 
 </details>
 
