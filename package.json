@@ -8,6 +8,7 @@
   "author": "OcupHuang",
   "dependencies": {
     "lodash": "^4.17.21",
+    "monet": "^0.9.3",
     "ramda": "^0.28.0"
   }
 }
