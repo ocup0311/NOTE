@@ -1,7 +1,7 @@
+import * as R from 'ramda'
 import { curry } from './curry.js'
 import { recurry } from './recurry.js'
 import { composeWithAsync, composeWithAsyncMix } from './composeWithAsync.js'
-import * as R from 'ramda'
 
 const curry_test = () => {
   const cal = (x, y, z) => (x + y) / z
@@ -134,7 +134,51 @@ const tmp_test = async () => {
 }
 
 // run test ----------------------
-tmp_test()
+// tmp_test()
 // curry_test()
 // composeAsync_test()
 // pipe_compose_test()
+
+// const Box = (v) => ({
+//   value: v,
+//   map: (g) => Box((x) => g(v(x))),
+//   runEffects: (x) => v(x),
+// })
+
+// const log = (x) => () => {
+//   console.log(`Hi ${x}~`)
+//   return x
+// }
+// const increment = (x) => x + 1
+// const one = Box(log(5)).map(increment).map(increment)
+// one.runEffects()
+// console.log(one.runEffects())
+
+// console.log(M.Some(1).map((x) => x + 2))
+
+const Box = (f) => ({
+  map: (g) => Box((x) => g(f(x))),
+  flatMap: (x) => f(x),
+  chain: (g) => Box(f).map(g).flatMap(),
+  runEffects: (x) => f(x),
+})
+Box.of = (val) => Box(() => val)
+
+// const Box = (f) => ({
+//   val: f,
+//   map: (g) => Box((x) => g(f(x))),
+//   flatMap: () => f,
+//   chain: (g) => Box(f).map(g).flatMap(),
+// })
+
+const x = Box.of(4)
+const a = Box((x) => x + 1)
+const b = () => Box((x) => x * 10)
+
+const c = a.chain(b).chain(b)
+// const d = x.map(a).flatMap().map(b).flatMap()
+
+// console.log('a:', a)
+// console.log('b:', b)
+console.log('c:', c.runEffects(4))
+// console.log('d:', d.runEffects())

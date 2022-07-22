@@ -52,15 +52,14 @@ class Functor {
 Object.freeze(Functor.prototype)
 
 // test --------------------------------------------------
-const myFunctor = new Functor({ x: 1 })
-const myFunctor2 = myFunctor.map((v) => ({ ...v, y: 2 }))
+const myFunctor1 = new Functor({ x: 1 })
+const myFunctor2 = myFunctor1.map((v) => ({ ...v, y: 2 }))
 
-// Functor.prototype.x = 5 // TypeError
-// myFunctor.get().x = 2 // TypeError
-console.log(myFunctor)
-console.log(myFunctor.get())
-console.log(myFunctor2)
-console.log(myFunctor2.get())
+// Functor.prototype.x = '' // TypeError
+// myFunctor1.get().x = '' // TypeError
+console.log(myFunctor1) // Functor {}
+console.log(myFunctor1.get()) // { x: 1 }
+console.log(myFunctor2.get()) // { x: 1, y: 2 }
 
 // const getResult = (functor) => {
 //   if (!(functor instanceof Functor)) return null

@@ -172,8 +172,17 @@
 - Just (Container)
 
   - Functor
-  - Monad 是可以變扁 (flatten) 的 pointed Functor
-  - Applicative Functor 是實現了 ap 方法的 pointed Functor
+
+    - 實現 map 的 Container
+
+  - Monad
+
+    - 可以變扁 (flatten) 的 pointed Functor
+
+  - Applicative Functor
+
+    - 實現了 ap 方法的 pointed Functor
+    - Functor 與 Functor 間的運算
 
 - Functor
 
