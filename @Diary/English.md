@@ -16,6 +16,8 @@
 [this is particularly true if]: #片語
 [thus far]: https://tw.hinative.com/questions/1721384
 [so to speak]: #片語
+[at the end of the day]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/at-the-end-of-the-day
+[ships with]: https://forum.wordreference.com/threads/to-ship-with.1517628/
 [enterprise support]: #名詞
 [the nitty-gritty]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/the-nitty-gritty
 [literacy]: #名詞
@@ -197,6 +199,32 @@
 > To run a file called "a.out" that's in this folder,
 > [so to speak], even though you don't see a graphical version of it.
 > You literally just type "./a.out"
+
+</details>
+
+###### <!-- at the end of the day -->
+
+<details close>
+
+<summary><b>at the end of the day</b>
+
+> 最終；到頭來；不管怎麽說
+
+</summary>
+
+> So an array, [at the end of the day], is just a side effect of storing stuff in memory back to back to back to back.
+
+###### <!-- ship with -->
+
+<details close>
+
+<summary><b>ship with</b>
+
+> 乘載; 附帶;
+
+</summary>
+
+> VS Code [ships with] a Git source control manager (SCM) extension.
 
 </details>
 
