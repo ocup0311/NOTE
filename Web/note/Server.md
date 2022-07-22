@@ -19,6 +19,7 @@
 [mongodb]: https://www.mongodb.com/docs/manual/faq/fundamentals/#how-does-mongodb-address-sql-or-query-injection
 [injection in mongodb]: https://zanon.io/posts/nosql-injection-in-mongodb/
 [預防 ddos]: https://kknews.cc/zh-tw/news/j4g6nyy.html
+[aws shield]: https://aws.amazon.com/tw/shield/?whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc
 [owasp top ten]: https://owasp.org/www-project-top-ten/
 [vulnerability scanning tools]: https://owasp.org/www-community/Vulnerability_Scanning_Tools
 [sql injection]: https://www.imperva.com/learn/application-security/sql-injection-sqli/
@@ -419,6 +420,8 @@
         - 提升設備規格，使有更多應對時間
         - 內部監控，異常流量警報
         - 過濾所有 RFC1918 IP 位址
+        - 產品 [AWS Shield]
+        - Trick：偵測到攻擊，塞廣告給他，攻擊越多賺越多
 
       </details>
 
