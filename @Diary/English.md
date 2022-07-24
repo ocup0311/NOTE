@@ -18,6 +18,7 @@
 [so to speak]: #片語
 [at the end of the day]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/at-the-end-of-the-day
 [ships with]: https://forum.wordreference.com/threads/to-ship-with.1517628/
+[odds are]: https://idioms.thefreedictionary.com/odds+are+that
 [enterprise support]: #名詞
 [the nitty-gritty]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/the-nitty-gritty
 [literacy]: #名詞
@@ -225,6 +226,20 @@
 </summary>
 
 > VS Code [ships with] a Git source control manager (SCM) extension.
+
+</details>
+
+###### <!-- odds are -->
+
+<details close>
+
+<summary><b>odds are</b>
+
+> 很可能;
+
+</summary>
+
+> When making change, [odds are] you want to minimize the number of coins you’re dispensing for each customer, lest you run out (or annoy the customer!). Fortunately, computer science has given cashiers everywhere ways to minimize numbers of coins due: greedy algorithms.
 
 </details>
 
