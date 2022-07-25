@@ -38,7 +38,7 @@ int main(void)
             }
 
             printf("%s\n" , INVALID);
-            return false;
+            return 0;
     }
 
     // run
@@ -53,7 +53,7 @@ int main(void)
     }
 
     printf("%s\n", checksum % 10 == 0 ? type : INVALID);
-    return false;
+    return 0;
 }
 
 
