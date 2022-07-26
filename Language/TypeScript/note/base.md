@@ -117,12 +117,52 @@
 
 ## 1. 基本介紹
 
-- Type Annotation
-
-<!--  -->
+<!-- 型別檢查 -->
 
 - <details close>
-  <summary></summary>
+  <summary>型別檢查</summary>
+
+  - 程式碼中，使用錯誤型別，會有 `紅色波浪狀底線` 標明錯誤資訊
+
+  <div class="imgBox" >
+    <img src="../src//image//base/%E5%9E%8B%E5%88%A5%E6%AA%A2%E6%9F%A5%EF%BC%BF%E7%A8%8B%E5%BC%8F%E7%A2%BC.png" alt="型別檢查＿程式碼.png" />
+  </div>
+
+  - 編譯時，也會拋出 error
+
+  <div class="imgBox" >
+    <img src="../src//image/base/%E5%9E%8B%E5%88%A5%E6%AA%A2%E6%9F%A5%EF%BC%BF%E7%B7%A8%E8%AD%AF.png" alt="型別檢查＿編譯.png" />
+  </div>
+
+  </details>
+
+<!-- Type Annotation -->
+
+- <details close>
+  <summary>Type Annotation (註記)</summary>
+
+  -
+
+  </details>
+
+<!-- Type Inference -->
+
+- <details close>
+  <summary>Type Inference (推論)</summary>
+
+  - 在未使用 Type Annotation 時，也會自動推論其 type
+  - 如下圖，變數並未註記 type，但 hover 時，有自動推論 type 為 `(string | number)[ ]`
+
+    <div class="imgBox" >
+      <img src="../src/image/base/Type_Inference_sample.png" alt="Type_Inference_sample.png" />
+    </div>
+
+  </details>
+
+<!-- 型別介紹 -->
+
+- <details close>
+  <summary>型別介紹</summary>
 
   -
 
@@ -131,6 +171,10 @@
 ---
 
 ## 2. 其他補充
+
+- 暫記：
+
+  - TypeScript 擴充型別：即 Enum 與 Tuple，內建在 TypeScript
 
 - 注意事項：
 

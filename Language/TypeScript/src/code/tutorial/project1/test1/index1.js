@@ -1,0 +1,10 @@
+var message1 = ['Hello, world!', 0];
+var array1 = [];
+array1.push(1);
+array1.push('1');
+var array2 = [];
+array2.push(null);
+array2.push('null');
+array2.push(null);
+array2.push(213456);
+console.log(array1, array2);
