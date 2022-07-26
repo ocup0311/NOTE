@@ -38,13 +38,21 @@
 
 ## 0. 環境
 
-- 安裝 TS
+<!-- 安裝 TS -->
+
+- <details close>
+  <summary>安裝 TS</summary>
 
   ```shell
   $ npm install -g typescript
   ```
 
-- 初始化 TS
+  </details>
+
+<!-- 初始化 TS -->
+
+- <details close>
+  <summary>初始化 TS</summary>
 
   ```shell
   $ tsc --init
@@ -54,49 +62,58 @@
   - 生成設定檔 `tsconfig.json`
   - [tsconfig doc]
 
-- 編譯 TS 成 JS
+  </details>
 
-  ```shell
-  $ tsc index.ts
-  ```
+<!-- 編譯 TS 成 JS -->
 
-  - 編譯 `index.ts`，並生成 `index.js`
+- <details close>
+  <summary>編譯 TS 成 JS</summary>
 
-  ```shell
-  $ tsc
-  ```
+  - ```shell
+    $ tsc index.ts
+    ```
 
-  - 掃描專案底下所有的 `.ts` 編譯生成對應的 `.js`
-  - 以一個 `tsconfig.json` 為一個專案
+    - 編譯 `index.ts`，並生成 `index.js`
 
-  ```
-  EX.
+  - ```shell
+    $ tsc
+    ```
 
-  project
-  └── test1
-      └── test1.ts
+    - 掃描專案底下所有的 `.ts` 編譯生成對應的 `.js`
+    - 以一個 `tsconfig.json` 為一個專案
+
+      ```txt
+      EX.
+
+      ＊ Directory Structure:
+      ---------------------------------
+
+      project
+      └── test1
+          └── test1.ts
+          └── tsconfig.json
+      └── test2
+          └── test2.ts
+      └── test3.ts
       └── tsconfig.json
-  └── test2
-      └── test2.ts
-  └── test3.ts
-  └── tsconfig.json
+      ---------------------------------
 
-  ----------------------
-  1)
-  /project/
-  $ tsc
-  生成 test1.js, test2.js, test3.js
+      ＊ 在三種不同位置執行 "tsc":
 
-  2)
-  /project/test1/
-  $ tsc
-  只生成 test1.js
+      1) /project/
+      $ tsc
+      --> 生成 test1.js, test2.js, test3.js
 
-  3)
-  /project/test2/
-  $ tsc
-  生成 test1.js, test2.js, test3.js
-  ```
+      2) /project/test1/
+      $ tsc
+      --> 只生成 test1.js
+
+      3) /project/test2/
+      $ tsc
+      --> 生成 test1.js, test2.js, test3.js
+      ```
+
+  </details>
 
 ## 1. 基本介紹
 
