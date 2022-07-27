@@ -18,6 +18,7 @@
 [ecmascript 相容表]: https://kangax.github.io/compat-table/es6/
 [tsconfig doc]: https://aka.ms/tsconfig
 [鐵人賽 2]: https://ithelp.ithome.com.tw/articles/10214719#:~:text=%22strictNullChecks%22%3A%20true%2C
+[ts 變數 name]: https://www.jianshu.com/p/78268bd9af0a
 
  <!-- ref -->
 
@@ -158,6 +159,47 @@
       <img src="../src/image/base/Type_Inference_sample.png" alt="Type_Inference_sample.png" />
     </div>
 
+  <!-- Nullable Types -->
+
+  - <details close>
+    <summary><code>Nullable Types</code> --> <code>any</code></summary>
+
+    - Nullable Types: `null`, `undefined`.. 等等
+      <div class="imgBox" >
+        <img src="../src/image/base/Nullable_Types_O.png" alt="Nullable_Types_O.png" />
+        <img src="../src/image/base/Nullable_Types_X.png" alt="Nullable_Types_X.png" />
+      </div>
+
+    - Delayed Initialization 可視為初始化指派為 `undefined` --> `any`
+      <div class="imgBox" >
+        <img src="../src/image/base/Nullable_Types_Delay.png" alt="Nullable_Types_Delay.png" />
+      </div>
+
+      - 若有 `Type Annotation` 則會形成 Temporal Dead Zone
+        <div class="imgBox" >
+          <img src="../src/image/base/Delayed_Initialization.png" alt="Delayed_Initialization.png" />
+        </div>
+
+    </details>
+
+  <!-- 自動進行檢查 -->
+
+  - <details close>
+    <summary>Type Inference --> 自動進行檢查</summary>
+
+    - 即使沒有 Type Annotation，TS 自動認定其為 Type Inference 後的型別
+
+      - 因為 Nullable Types --> any，所以可以再指派為任何型別，而其他的則已固定型別
+
+        <div class="imgBox" >
+          <img src="../src/image/base/Type_Inference_check.png" alt="Type_Inference_check.png" />
+        </div>
+
+    </details>
+
+  - <mark>杯論：</mark>
+    - 因為有 Type Inference 功能，所以可以只在 `未立刻賦值` 或 `特殊需求的型別` 時，才使用 Type Annotation？
+
   </details>
 
 <!-- 型別介紹 -->
@@ -180,8 +222,11 @@
 - 注意事項：
 
   - `"strictNullChecks": true` 的優劣？
+
     - [鐵人賽 2] 建議 `true`
     - default `true`
     - `tru` 有什麼好處、什麼必要？
+
+  - [TS 變數 name]
 
 - 小技巧：
