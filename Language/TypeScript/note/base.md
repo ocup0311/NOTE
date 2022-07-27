@@ -17,6 +17,7 @@
 [鐵人賽 1]: https://ithelp.ithome.com.tw/articles/10214714
 [ecmascript 相容表]: https://kangax.github.io/compat-table/es6/
 [tsconfig doc]: https://aka.ms/tsconfig
+[鐵人賽 2]: https://ithelp.ithome.com.tw/articles/10214719#:~:text=%22strictNullChecks%22%3A%20true%2C
 
  <!-- ref -->
 
@@ -177,5 +178,10 @@
   - TypeScript 擴充型別：即 Enum 與 Tuple，內建在 TypeScript
 
 - 注意事項：
+
+  - `"strictNullChecks": true` 的優劣？
+    - [鐵人賽 2] 建議 `true`
+    - default `true`
+    - `tru` 有什麼好處、什麼必要？
 
 - 小技巧：

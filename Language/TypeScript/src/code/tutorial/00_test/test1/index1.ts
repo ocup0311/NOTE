@@ -22,3 +22,20 @@ const fn1 = (input: string) => {
 fn1('false')
 
 function fn2() {}
+
+// 測試 "strictNullChecks": true -------------------------------
+// type obj = {
+//   name: string
+//   age: number
+// }
+
+const loggedInUsername: string = 'Oby'
+
+const users = [
+  { name: 'Oby', age: 12 },
+  { name: 'Heera', age: 32 },
+]
+
+const loggedInUser = users.find((u) => u.name === loggedInUsername)
+console.log(loggedInUser?.age)
+// 測試 "strictNullChecks": true -------------------------------
