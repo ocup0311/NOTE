@@ -209,32 +209,43 @@
 
   <!-- Object -->
 
-  - <details open>
+  - <details close>
     <summary>Object</summary>
 
-    - 當 key 值為 Nullable Types，其 Type Inference 會明確定義 type，而不是 any
+    <!-- 當 key 值為 Nullable Types，其 Type Inference 會明確定義 type，而不是 any -->
 
-      <div class="imgBox" >
-        <img src="../src/image/base/Type_Inference_object.png" alt="Type_Inference_object.png" />
-      </div>
+    - <details close>
+      <summary>當 key 值為 Nullable Types，其 Type Inference 會明確定義 type，而不是 any</summary>
 
-    - `&` vs `|`
+        <div class="imgBox" >
+          <img src="../src/image/base/Type_Inference_object.png" alt="Type_Inference_object.png" />
+        </div>
+
+      </details>
+
+    <!-- & vs | -->
+
+    - <details close>
+      <summary><code>&</code> vs <code>|</code></summary>
 
       - `&`：必須都有
       - `|`：至少需有其中一個，剩下的 key 也必須包含在其他的 type
 
-      <div class="imgBox" >
-        <img src="../src/image/base/object_type_&_|.png" alt="object_type_&_|.png" />
-      </div>
+        <div class="imgBox" >
+          <img src="../src/image/base/object_type_&_|.png" alt="object_type_&_|.png" />
+        </div>
 
-    - `type object` vs `自定義 object type` vs `Type Inference`
+      </details>
+
+    - <details close>
+      <summary><code>type object</code> vs <code>自定義 object type</code> vs <code>Type Inference</code></summary>
 
       - `Type Inference` 較接近 `自定義 object type`
       - `type object`：可覆寫成任何 JS object (包含 [], new Number().. etc)，但不能對該 object 的內部做更動
 
-      <div class="imgBox" >
-        <img src="../src/image/base/object_type.png" alt="object_type.png" />
-      </div>
+        <div class="imgBox" >
+          <img src="../src/image/base/object_type.png" alt="object_type.png" />
+        </div>
 
       </details>
 
