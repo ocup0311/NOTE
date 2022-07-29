@@ -19,6 +19,7 @@
 [tsconfig doc]: https://aka.ms/tsconfig
 [鐵人賽 2]: https://ithelp.ithome.com.tw/articles/10214719#:~:text=%22strictNullChecks%22%3A%20true%2C
 [ts 變數 name]: https://www.jianshu.com/p/78268bd9af0a
+[function signature]: https://developer.mozilla.org/en-US/docs/Glossary/Signature/Function
 
  <!-- ref -->
 
@@ -143,7 +144,36 @@
 - <details close>
   <summary>Type Annotation (註記)</summary>
 
-  -
+  - 3 種 Type Annotation 方式：
+
+    <div class="imgBox" >
+      <img src="../src/image/base/Type_Annotation.png" alt="Type_Annotation.png" />
+    </div>
+
+    <!-- 差異：`第一種`(x4, x7) 方式一定要完全符合 -->
+
+    - <details close>
+      <summary>差異：<code>第一種</code> 方式一定要完全符合</summary>
+
+      1. 不能有多餘的，如 z。 (x4)
+      2. 一定要有 y。 (x7)
+
+      <div class="imgBox" >
+        <img src="../src/image/base/Type_Annotation_diff.png" alt="Type_Annotation_diff.png" />
+      </div>
+
+      </details>
+
+    <!-- 不能：三種皆不可只有多餘的（z），卻沒有該有的（y） -->
+
+    - <details close>
+      <summary>不能：三種皆不可只有多餘的（z），卻沒有該有的（y）</summary>
+
+      <div class="imgBox" >
+        <img src="../src/image/base/Type_Annotation_same.png" alt="Type_Annotation_same.png" />
+      </div>
+
+      </details>
 
   </details>
 
@@ -237,6 +267,8 @@
 
       </details>
 
+    <!-- type object vs 自定義 object type vs Type Inference -->
+
     - <details close>
       <summary><code>type object</code> vs <code>自定義 object type</code> vs <code>Type Inference</code></summary>
 
@@ -248,6 +280,68 @@
         </div>
 
       </details>
+
+    </details>
+
+  <!-- Function -->
+
+  - <details close>
+    <summary>Function</summary>
+
+    <!-- 提醒 Implicit Any -->
+
+    - <details close>
+      <summary>提醒 <code>Implicit Any</code></summary>
+
+      - 如圖 1，參數未指定 type ，則會報錯 `Implicit Any`。
+      - 例如於圖 2 中，將參數指定為 any 後，雖可以正常編譯，但是可能就會產生 bug ，如 str2 會得到 number ，而不是其指定的 string。
+      - 因此 `Implicit Any` 警告，可以協助預防此問題。
+
+        <div class="imgBox" >
+          <img src="../src/image/base/function_Implicit_Any.png" alt="function_Implicit_Any.png" />
+        </div>
+
+      </details>
+
+    <!-- Function type 檢查 -->
+
+    - <details close>
+      <summary>Function type 檢查</summary>
+
+      - 會報錯：
+
+        - 1. 變數的 type 改變
+        - 2. 變數一樣是 function 但 回傳 type 改變
+        - 3. 變數一樣是 function 但 參數 type 改變
+
+      - 不會報錯：
+
+        - 4. 參數消失了，被 TS 忽略，不會報錯
+        - 5. 變數一樣是 function，參數、回傳的 type 都正確
+
+      <div class="imgBox" >
+        <img src="../src/image/base/function_type_檢查.png" alt="function_type_檢查.png" />
+      </div>
+
+      </details>
+
+    <!-- Function signature -->
+
+    - <details close>
+      <summary><a href="https://developer.mozilla.org/en-US/docs/Glossary/Signature/Function">Function signature</a></summary>
+
+      - 函式簽章，定義 function 的 input & output 的 type
+      - 只包含 type，而不包含 命名（object 的 key 才會包含命名）
+      - 但 vscode 的顯示，會包含命名的部分（而實際上不包含）
+      - 所以命名順序亂了，但 type 順序不亂 --> 檢查不報錯
+
+      <div class="imgBox" >
+        <img src="../src/image/base/Function_signature.png" alt="Function_signature.png" />
+      </div>
+
+      </details>
+
+    </details>
 
   </details>
 
