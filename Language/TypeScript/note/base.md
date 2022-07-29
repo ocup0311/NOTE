@@ -341,6 +341,21 @@
 
       </details>
 
+    - <mark>杯論：</mark>
+
+      - 是否必要維持所有的 function `output` 都做 Type Annotation？
+
+        - 正論（所有都明寫）：
+
+          - 可確保其型別沒被誤改
+          - 可清楚從 code 中閱讀
+
+        - 反論（只特殊情況寫）：
+
+          - 通常 Type Inference 都能正確給出其型別
+          - vscode 的提示，也可以閱讀
+          - 因 Type Inference 正確，則 TS 也會列入檢查。
+
     </details>
 
   </details>
