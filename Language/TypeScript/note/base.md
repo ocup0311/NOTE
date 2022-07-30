@@ -358,6 +358,78 @@
 
     </details>
 
+  <!-- Array -->
+
+  - <details close>
+    <summary>Array</summary>
+
+    <!-- Homogeneous Type Array (同質性陣列) -->
+
+    - <details close>
+      <summary>Homogeneous Type Array (同質性陣列)</summary>
+
+      - Array 中只有一種 type
+      - vs `Heterogenous Type Array`: Array 中不只一種 type
+
+      ```ts
+      // 全數字: number[]
+      const numbers = [1, 2, 3, 4, 5]
+
+      // 全字串: string[]
+      const strings = ['hi', 'go', 'to']
+
+      // 數字混字串: (string | number)[]
+      const numbers_strings = [1, '21', 123, 'asdf']
+      ```
+
+      </details>
+
+    <!-- Mix Nested Arrary Type Inference -->
+
+    - <details close>
+      <summary>Mix Nested Arrary Type Inference</summary>
+
+      - Type Inference 為個別型別，而不是自動融合
+      - 例如下圖情況不會變成：`(string | number | boolean | null | undefined)[][]`
+
+      <div class="imgBox" >
+        <img src="../src/image/base/Mix_Nested_Arrary_Type_Inference.png" alt="Mix_Nested_Arrary_Type_Inference.png" />
+      </div>
+
+      </details>
+
+    <!-- Tuple -->
+
+    - <details close>
+      <summary>Tuple</summary>
+
+      - 對 Array 的每個項目定義固定的 type
+
+      ```ts
+      // Type Inference  -->  Array: (number | boolean)[]
+      const array = [1, 2, 3, false]
+
+      // Tuple: [number, number, number, boolean]
+      const tuple: [number, number, number, boolean] = [1, 2, 3, false]
+      ```
+
+      </details>
+
+    </details>
+
+<!-- 其他 -->
+
+- <details close>
+  <summary>其他</summary>
+
+  - union (聯集)
+
+    - (string | number)
+
+  - Generics 泛用型別
+
+  </details>
+
   </details>
 
 ---
