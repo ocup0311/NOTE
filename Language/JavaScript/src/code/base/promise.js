@@ -105,6 +105,32 @@ const promise_test = (type) => {
         })()
       })()
       break
+
+    case '6. create a method: asyncForEach':
+      // '6. create a method: asyncForEach'
+      // { value: '🥝', time: 22 }
+      // for { value: '🥝', time: 22 }
+      // { value: '🍓', time: 33 }
+      // for { value: '🍓', time: 33 }
+      // { value: '🍍', time: 11 }
+      // for { value: '🍍', time: 11 }
+      // { value: '🍇', time: 44 }
+      // for { value: '🍇', time: 44 }
+
+      ;(() => {
+        Array.prototype.asyncForEach = async function (callback) {
+          for (let index = 0; index < this.length; index++) {
+            await callback(this[index], index, this)
+          }
+        }
+        ;(async () => {
+          itemArr.asyncForEach(async (item) => {
+            await buildPromise(item)
+            console.log('for', item)
+          })
+        })()
+      })()
+      break
     default:
       console.log('give a valid promise_test type')
   }
