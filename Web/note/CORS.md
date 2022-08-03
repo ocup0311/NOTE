@@ -35,58 +35,70 @@
 ### AJAX & CORS
 
 - **[Simple Request] (簡單請求)**: CORS 只擋 response 而不擋 request
-    <details close>
-    <summary>簡略條件：</summary>
+
+  <!-- 簡略條件 -->
 
   - <details close>
-    <summary>使用基本方法</summary>
+    <summary>簡略條件(<code>＠所列為白名單</code>)：</summary>
 
-    - `GET`
-    - `POST`
-    - `HEAD`
+    <!-- 使用基本方法 -->
 
-    > [2.2.1 - CORS-safelisted method]
+    - <details close>
+      <summary>使用基本方法</summary>
+
+      - `GET`
+      - `POST`
+      - `HEAD`
+
+      > [2.2.1 - CORS-safelisted method]
+
+      </details>
+
+    <!-- 無自訂的 header -->
+
+    - <details close>
+      <summary>無自訂的 header</summary>
+
+      - `accept`
+      - `accept-language`
+      - `content-language`
+      - `content-type`
+
+      > [2.2.2. - CORS-safelisted request-header]
+
+      </details>
+
+    <!-- Content-Type 三選一 -->
+
+    - <details close>
+      <summary>Content-Type 三選一</summary>
+
+      - `application/x-www-form-urlencoded`
+      - `multipart/form-data`
+      - `text/plain`
+
+      </details>
 
     </details>
-
-  - <details close>
-    <summary>無自訂的 header</summary>
-
-    - `accept`
-    - `accept-language`
-    - `content-language`
-    - `content-type`
-
-    > [2.2.2. - CORS-safelisted request-header]
-
-    </details>
-
-  - <details close>
-    <summary>Content-Type 三選一</summary>
-
-    - `application/x-www-form-urlencoded`
-    - `multipart/form-data`
-    - `text/plain`
-
-    </details>
-
-</details>
 
 - **Preflight Request (預檢請求)**: 若非 Simple Request，則自動生成 Preflight Request ( **OPTIONS** ) 先送出檢查，若沒過，則真正的請求就不會送出。
-  <details close>
-  <summary>簡略步驟：</summary>
 
-  1. 瀏覽器自動生成兩個 Header：
+  <!-- 簡略步驟： -->
 
-  ```
-  ex.
-  Access-Control-Request-Headers: content-type
-  Access-Control-Request-Method: POST
-  ```
+  - <details close>
+    <summary>簡略步驟：</summary>
 
-  2. 以 OPTIONS 方式發出請求
+    1. 瀏覽器自動生成兩個 Header：
 
-</details>
+    ```
+    ex.
+    Access-Control-Request-Headers: content-type
+    Access-Control-Request-Method: POST
+    ```
+
+    2. 以 OPTIONS 方式發出請求
+
+    </details>
 
   <div class="imgBox" >
     <img src="../image/CORS/Preflight%20Request.png" alt="Discussion_array.png" />
@@ -96,11 +108,15 @@
 
 ### 為什麼會發生 CORS 問題？
 
+<!-- origin：scheme + host + port -->
+
 - **origin**：scheme + host + port
 
-    <details close>
+  <!-- ex： https://google.com -->
+
+  - <details close>
     <summary>ex： https://google.com</summary>
-    
+
     - 名詞：
       - scheme：`https`
       - host：`google.com`
@@ -110,12 +126,16 @@
       1. `https://google.com & http://google.com`
       2. `https://google.com & https://google.com：3000`
       3. `https://google.com & https://api.google.com`
-        **(domain & subdomain 不同源，可共用 Cookie)**
+         **(domain & subdomain 不同源，可共用 Cookie)**
       4. `https://api.google.com & https://data.google.com`
 
     </details>
 
+<!-- domain & subdomain 不同源，但可共用 Cookie -->
+
 - domain & subdomain 不同源，但可共用 Cookie
+
+<!-- image、CSS、script ..等等不擋 -->
 
 - <details close><summary>image、CSS、script ..等等不擋</summary>
 
@@ -125,45 +145,59 @@
 
   </details>
 
+<!-- CORS 是針對「在 瀏覽器 上寫 JS」(其他的是另一回事) -->
+
 - CORS 是針對「在**瀏覽器**上寫 JS」(其他的是另一回事)
 
 ---
 
 ### 解決「簡單請求」 CORS 問題
 
-<details close>
-<summary>「治標」爛方法：</summary>
+<!-- 「治標」爛方法： -->
 
-- 關掉瀏覽器的安全性設置
-- [把 fetch mode 設成 no-cors]：
-  我發 request 給 no-cors header 的資源，我不要 response
-  --> 絕對沒有 response
-- 不要用 AJAX 拿資料 (用 JSONP, JSON with Padding) - JSONP: script 標籤 - AJAX: XMLHttpRequest 或是 fetch
-</details>
+- <details close>
+  <summary>「治標」爛方法：</summary>
 
-<details open>
-<summary>「治本」方法：</summary>
-
-- 請「後端」加上 **CORS header**
-
-  - 設定 `Access-Control-Allow-Origin`
-  - 只能設定一個 [origin] 或是 全部 ( \* )。多個需動態設定。
-
-  <details close>
-  <summary>ex. </summary>
-
-  > REF： [res.header]>
-
-  ```
-  res.header('Access-Control-Allow-Origin', <ORIGIN || '*'>)
-  ```
+  - 關掉瀏覽器的安全性設置
+  - [把 fetch mode 設成 no-cors]：
+    我發 request 給 no-cors header 的資源，我不要 response
+    --> 絕對沒有 response
+  - 不要用 AJAX 拿資料 (用 JSONP, JSON with Padding) - JSONP: script 標籤 - AJAX: XMLHttpRequest 或是 fetch
 
   </details>
 
-- 使用 **proxy server**
-  用 proxy server 幫你加上 CORS header
+<!-- 「治本」方法： -->
 
-</details>
+- <details open>
+  <summary>「治本」方法：</summary>
+
+  <!-- 請「後端」加上 CORS header -->
+
+  - <details close>
+    <summary>請「後端」加上 <b>CORS header</b></summary>
+
+    - 設定 `Access-Control-Allow-Origin`
+    - 只能設定一個 [origin] 或是 全部 ( \* )。多個需動態設定。
+
+    > REF： [res.header]>
+
+    ```
+    res.header('Access-Control-Allow-Origin', <ORIGIN || '*'>)
+    ```
+
+    </details>
+
+  <!-- 使用 proxy server -->
+
+  - <details close>
+    <summary>使用 <b>proxy server</b></summary>
+
+    - 用 proxy server 幫你加上 CORS header
+    - 因為 CORS 只發生在`前端`跟後端要資料的情況（proxy server 跟 server 之間不會產生 CORS）
+
+    </details>
+
+  </details>
 
 ---
 
@@ -176,133 +210,145 @@
 
 - 請「後端」處理各種 Preflight Request (OPTIONS)
 
-    <details close>
+  <!-- 處理因 content-type 引起 -->
+
+  - <details close>
     <summary>處理因 content-type 引起</summary>
 
-  - 設定 `Access-Control-Allow-Headers`，除了：
-    - application/x-www-form-urlencoded
-    - multipart/form-data
-    - text/plain
+    - 設定 `Access-Control-Allow-Headers`，除了：
+      - application/x-www-form-urlencoded
+      - multipart/form-data
+      - text/plain
 
-  ***
+    ***
 
-  > REF： [res.header] | <[ORIGIN]>
+    > REF： [res.header] | <[ORIGIN]>
 
-  ```
-  app.options('/form', (req, res) => {
-    res.header('Access-Control-Allow-Origin', <ORIGIN || '*'>)
-    res.header('Access-Control-Allow-Headers', 'content-type')
-    res.end()
-  })
-  ```
+    ```
+    app.options('/form', (req, res) => {
+      res.header('Access-Control-Allow-Origin', <ORIGIN || '*'>)
+      res.header('Access-Control-Allow-Headers', 'content-type')
+      res.end()
+    })
+    ```
 
     </details>
 
-    <details close>
+  <!-- 處理 Cookie 需求 -->
+
+  - <details close>
     <summary>處理 Cookie 需求</summary>
 
-  - 跨來源請求，預設不會帶上 Cookie
-  - Client 加入 `credentials: 'include'`
-  - Server 設定 `Access-Control-Allow-Credentials` 為 true
-  - `Access-Control-Allow-Origin` 不能是 \*，要指定 [origin]
+    - 跨來源請求，預設不會帶上 Cookie
+    - Client 加入 `credentials: 'include'`
+    - Server 設定 `Access-Control-Allow-Credentials` 為 true
+    - `Access-Control-Allow-Origin` 不能是 \*，要指定 [origin]
 
-  ***
+    ***
 
-  > REF： [res.header] | <[ORIGIN]>
+    > REF： [res.header] | <[ORIGIN]>
 
-  ```
-  app.post('/form', (req, res) => {
-    res.header('Access-Control-Allow-Origin', <ORIGIN>)
-    res.header('Access-Control-Allow-Credentials', true)
-  })
+    ```
+    app.post('/form', (req, res) => {
+      res.header('Access-Control-Allow-Origin', <ORIGIN>)
+      res.header('Access-Control-Allow-Credentials', true)
+    })
 
-  app.options('/form', (req, res) => {
-    res.header('Access-Control-Allow-Origin', <ORIGIN>)
-    res.header('Access-Control-Allow-Credentials', true)
-    res.header('Access-Control-Allow-Headers', 'content-type, X-App-Version')
-    res.end()
-  })
-  ```
+    app.options('/form', (req, res) => {
+      res.header('Access-Control-Allow-Origin', <ORIGIN>)
+      res.header('Access-Control-Allow-Credentials', true)
+      res.header('Access-Control-Allow-Headers', 'content-type, X-App-Version')
+      res.end()
+    })
+    ```
 
     </details>
 
-    <details close>
+  <!-- 前端欲取得 response 自定義 Header -->
+
+  - <details close>
     <summary>前端欲取得 response 自定義 Header</summary>
 
-  - 設定 `Access-Control-Expose-Headers` (將該 Header 暴露)
+    - 設定 `Access-Control-Expose-Headers` (將該 Header 暴露)
 
-  ***
+    ***
 
-  > REF： [res.header] | <[ORIGIN]>
+    > REF： [res.header] | <[ORIGIN]>
 
-  ```
-  app.get('/', (req, res) => {
-    res.header('X-List-Version', '1.3')
-    res.header('Access-Control-Allow-Origin', <ORIGIN || '*'>)
-    res.header('Access-Control-Expose-Headers', 'X-List-Version')
-  })
-  ```
+    ```
+    app.get('/', (req, res) => {
+      res.header('X-List-Version', '1.3')
+      res.header('Access-Control-Allow-Origin', <ORIGIN || '*'>)
+      res.header('Access-Control-Expose-Headers', 'X-List-Version')
+    })
+    ```
 
     </details>
 
-    <details close>
+  <!-- 使用其他 HTTP method -->
+
+  - <details close>
     <summary>使用其他 HTTP method</summary>
 
-  - 設定 `Access-Control-Allow-Methods` (除了 GET、HEAD、POST)
+    - 設定 `Access-Control-Allow-Methods` (除了 GET、HEAD、POST)
 
-  ***
+    ***
 
-  > REF： [res.header] | <[ORIGIN]>
+    > REF： [res.header] | <[ORIGIN]>
 
-  ```
-  app.options('/form', (req, res) => {
-    res.header('Access-Control-Allow-Origin', <ORIGIN || '*'>)
-    res.header('Access-Control-Allow-Methods', 'PATCH')
-    res.end()
-  })
-  ```
+    ```
+    app.options('/form', (req, res) => {
+      res.header('Access-Control-Allow-Origin', <ORIGIN || '*'>)
+      res.header('Access-Control-Allow-Methods', 'PATCH')
+      res.end()
+    })
+    ```
 
     </details>
 
-    <details close>
+  <!-- 使 Preflight Response 被瀏覽器 Cache -->
+
+  - <details close>
     <summary>使 Preflight Response 被瀏覽器 Cache</summary>
 
-  - 設定 `Access-Control-Max-Age` 的秒數，單位-秒
+    - 設定 `Access-Control-Max-Age` 的秒數，單位-秒
 
-  ***
+    ***
 
-  > REF： [res.header] | <[ORIGIN]>
+    > REF： [res.header] | <[ORIGIN]>
 
-  ```
-  app.options('/form', (req, res) => {
-    res.header('Access-Control-Allow-Origin', <ORIGIN || '*'>)
-    res.header('Access-Control-Max-Age', 300)
-    res.end()
-  })
-  ```
+    ```
+    app.options('/form', (req, res) => {
+      res.header('Access-Control-Allow-Origin', <ORIGIN || '*'>)
+      res.header('Access-Control-Max-Age', 300)
+      res.end()
+    })
+    ```
 
     </details>
 
-    <details close>
+  <!-- 不同 Origin 條件發送同請求時使用 Cache -->
+
+  - <details close>
     <summary>不同 Origin 條件發送同請求時使用 Cache</summary>
 
-  - 例如 `<img>` 與 `js fetch` 都對同一個來源發送 CORS Request
-  - 方法 1: 設定 `Vary: Origin` ，針對不同 Origin 分辨 Cache
-  - 方法 2: `<img>` 加上 `crossorigin="anonymous"`，使其帶上 Origin
-  - 淮：Vary header 也要看防火牆有沒有通的樣子
+    - 例如 `<img>` 與 `js fetch` 都對同一個來源發送 CORS Request
+    - 方法 1: 設定 `Vary: Origin` ，針對不同 Origin 分辨 Cache
+    - 方法 2: `<img>` 加上 `crossorigin="anonymous"`，使其帶上 Origin
+    - 淮：Vary header 也要看防火牆有沒有通的樣子
 
-  ***
+    ***
 
-  > REF： [res.header] | <[ORIGIN]> | [使用 CORS 與 Cache 時的注意事項]
+    > REF： [res.header] | <[ORIGIN]> | [使用 CORS 與 Cache 時的注意事項]
 
-  ```
-  app.options('/form', (req, res) => {
-    res.header('Access-Control-Allow-Origin', <ORIGIN || '*'>)
-    res.header('Access-Control-Max-Age', 300)
-    Vary: Origin
-    res.end()
-  })
-  ```
+    ```
+    app.options('/form', (req, res) => {
+      res.header('Access-Control-Allow-Origin', <ORIGIN || '*'>)
+      res.header('Access-Control-Max-Age', 300)
+      Vary: Origin
+      res.end()
+    })
+    ```
 
     </details>
 
@@ -329,9 +375,11 @@
 
 ### 其他
 
-<details close><summary>待釐清</summary>
+<!-- 待釐清 -->
 
-- 今天會有 same-origin policy 跟 CORS，是因為我們「在瀏覽器上寫 JS」，所以受到執行環境的限制。如果我們今天寫的是 Node.js，就完全沒有這些問題，想拿什麼就拿什麼，不會有人擋我們?
--
+- <details close><summary>待釐清</summary>
 
-</details>
+  - 今天會有 same-origin policy 跟 CORS，是因為我們「在瀏覽器上寫 JS」，所以受到執行環境的限制。如果我們今天寫的是 Node.js，就完全沒有這些問題，想拿什麼就拿什麼，不會有人擋我們?
+  -
+
+  </details>
