@@ -385,7 +385,7 @@
     </details>
 
   <div class="imgBox" >
-    <img src="../src/image/base/promise_flow.png" alt="promise_flow.png" />
+    <img src="../src//image/base/Promise_flow.png" alt="promise_flow.png" />
   </div>
 
   </details>
