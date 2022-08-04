@@ -371,7 +371,7 @@
       - Array 中只有一種 type
       - vs `Heterogenous Type Array`: Array 中不只一種 type
 
-      ```ts
+      ```typescript
       // 全數字: number[]
       const numbers = [1, 2, 3, 4, 5]
 
@@ -398,37 +398,192 @@
 
       </details>
 
-    <!-- Tuple -->
+    </details>
+
+  <!-- Tuple -->
+
+  - <details close>
+    <summary>Tuple</summary>
+
+    - 對 Array 的每個項目定義固定的 type
+
+    ```typescript
+    // Type Inference  -->  Array: (number | boolean)[]
+    const array = [1, 2, 3, false]
+
+    // Tuple: [number, number, number, boolean]
+    const tuple: [number, number, number, boolean] = [1, 2, 3, false]
+    ```
+
+    - 常見用法：
+
+      <!-- 1. input 與 output 保持一致 -->
+
+      - <details close>
+        <summary>1. input 與 output 保持一致</summary>
+
+        - 優：Tuple 比 object 便宜
+
+        ```typescript
+        type Vector = [number, number]
+
+        const move = (v1: Vector, v2: Vector): Vector => {
+          const [x1, y1] = v1
+          const [x2, y2] = v2
+          return [x1 + x2, y1 + y2]
+        }
+
+        console.log(move([0, 0], [5, 10]))
+        console.log(move([10, 0], [3, 7]))
+        ```
+
+        </details>
+
+      <!-- 2. 模仿 Python 的 Tuple -->
+
+      - <details close>
+        <summary>2. 模仿 Python 的 Tuple</summary>
+
+        - 使用 `Readonly` 讓內容物不得更改
+
+        ```typescript
+        type Tuple = Readonly<[number, string]>
+
+        const x: Tuple = [1, 'yes']
+
+        // 以下會發生錯誤
+        x[0] = 10
+        x[1] = 'No'
+        ```
+
+        </details>
+
+    </details>
+
+  <!-- Enum -->
+
+  - <details close>
+    <summary>Enum</summary>
+
+    <!-- 型別 -->
 
     - <details close>
-      <summary>Tuple</summary>
+      <summary>型別</summary>
 
-      - 對 Array 的每個項目定義固定的 type
+      ```typescript
+      enum WeekDay {
+        Sun,
+        Mon,
+      }
 
-      ```ts
-      // Type Inference  -->  Array: (number | boolean)[]
-      const array = [1, 2, 3, false]
+      const day = WeekDay[0] // type: string --> Sun
+      const nthDay = WeekDay.Sun // type: WeekDay --> 0
+      ```
 
-      // Tuple: [number, number, number, boolean]
-      const tuple: [number, number, number, boolean] = [1, 2, 3, false]
+      </details>
+
+    <!-- 反射性 -->
+
+    - <details close>
+      <summary>反射性</summary>
+
+      ```typescript
+      enum WeekDay {
+        Sun,
+        Mon,
+      }
+
+      // WeekDay[0] === "Sun"
+      // WeekDay["Sun"] === 0
+      ```
+
+      </details>
+
+    <!-- 元素不重複 -->
+
+    - <details close>
+      <summary>元素不重複</summary>
+
+      ```typescript
+      // 以下會發生錯誤：不能有兩個 Sun
+      enum WeekDay {
+        Sun,
+        Mon,
+        Sun,
+      }
+      ```
+
+      </details>
+
+    <!-- 唯獨：建立 enum 之後，就不能再對他做更改 -->
+
+    - <details close>
+      <summary>唯獨：建立 enum 之後，就不能再對他做更改</summary>
+
+      ```typescript
+      enum WeekDay {
+        Sun,
+        Mon,
+      }
+
+      // 以下都會發生錯誤：
+      WeekDay = { XXXX }
+      WeekDay[5] = 'XXX'
+      WeekDay.Sun = 2
+      WeekDay.XXX = 3
+      ```
+
+      </details>
+
+    <!-- 取值 ＆ 賦值 -->
+
+    - <details close>
+      <summary>取值 ＆ 賦值</summary>
+
+      ```typescript
+      enum WeekDay {
+        Sun,
+        Mon,
+      }
+
+      let day: string = WeekDay[0]
+      console.log(WeekDay[day]) // 會發生錯誤，不可用 day 來當 key 取值
+      day = 'lalala'
+
+      let n: WeekDay = WeekDay.Fri
+      console.log(WeekDay[n])
+      n = 9
+      ```
+
+      </details>
+
+    <!-- 用於參數 -->
+
+    - <details close>
+      <summary>用於參數</summary>
+
+      ```typescript
+      enum WeekDay {
+        Sun,
+        Mon,
+      }
+
+      const fn = (x: WeekDay) => {
+        if (x !== WeekDay.Sun) fn(WeekDay.Sun)
+        return
+      }
+
+      fn(WeekDay.Sun)
+      fn(WeekDay.Mon)
+
+      // 以下會發生錯誤： 只能傳 type 為 WeekDay 的參數
+      fn(WeekDay.La)
+      fn('s')
       ```
 
       </details>
 
     </details>
-
-<!-- 其他 -->
-
-- <details close>
-  <summary>其他</summary>
-
-  - union (聯集)
-
-    - (string | number)
-
-  - Generics 泛用型別
-
-  </details>
 
   </details>
 
@@ -439,6 +594,19 @@
 - 暫記：
 
   - TypeScript 擴充型別：即 Enum 與 Tuple，內建在 TypeScript
+
+  <!-- 其他 -->
+
+  - <details close>
+    <summary>其他</summary>
+
+    - union (聯集)
+
+      - (string | number)
+
+    - Generics 泛用型別
+
+    </details>
 
 - 注意事項：
 

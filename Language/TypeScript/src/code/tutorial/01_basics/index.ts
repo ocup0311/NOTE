@@ -263,3 +263,135 @@
   fn = (z: number, y: string, x: number) => {}
   fn = (d: number, g: string, h: number) => {}
 })()
+
+// 7. array
+;(() => {
+  // 全部都是數字
+  // let numbers: number[]
+  const numbers = [1, 2, 3, 4, 5]
+  numbers[9] = 0
+  numbers[9] = '1'
+  numbers.push(1)
+  numbers.push('1')
+
+  // 全部都是字串
+  // let strings: string[]
+  const strings = ['hi', 'how are you', 'goodbye']
+  strings[9] = 1234
+  strings.push(1234)
+
+  let numbers_strings = [1, '21', 123, 'asdf']
+  numbers_strings[9] = '1234'
+  numbers_strings[9] = { x: 1 }
+
+  const objects1 = [{ x: 1 }, { x: 2 }, { x: 3 }]
+  const objects2 = [{ x: 1 }, { x: '2' }, { x: 3 }]
+
+  const objects3 = [
+    { x: 1, y: 3 },
+    { x: 2, y: 2 },
+    { x: 3, y: '' },
+  ]
+
+  const arr = [[1], [2]]
+  // Type Inference 會將所有可能都各做一個 獨立的型別，而不會合在一起
+  // 例如此情況不會變成 (string | number | boolean | null | undefined)[][]
+  const mixArr = [
+    [1, 2, 3],
+    [1, '2'],
+    [null, false, 1],
+    [1, undefined],
+  ]
+})()
+
+// 8. Tuple
+;(() => {
+  // Tuple vs Array:
+  // Type Inference  -->  Array: (number | boolean)[]
+  const array = [1, 2, 3, false]
+
+  // Tuple: [number, number, number, boolean]
+  const tuple: [number, number, number, boolean] = [1, 2, 3, false]
+
+  // Readonly
+  type Tuple1 = Readonly<[number, string]>
+  const employee1: Tuple1 = [1, 'Steve']
+  employee1[0] = 10
+
+  type Tuple2 = [number, string]
+  const employee: Tuple2 = [1, 'Steve']
+  employee[0] = 10
+
+  type X = Readonly<{ x: string; y: number }>
+
+  const test: X = { x: 's', y: 1 }
+  test.x = 'f'
+
+  // Readonly
+  type Tuple1 = [number, string]
+
+  const employee1: Tuple1 = [1, 'Steve']
+  employee1[0] = 10
+
+  type Tuple2 = Readonly<[number, string]>
+
+  const employee2: Tuple2 = [1, 'Steve']
+  employee2[0] = 10
+})()
+
+// 9. Enum
+;(() => {
+  enum WeekDay {
+    Sun,
+    Mon,
+    Tue,
+    Wes,
+    Thu,
+    Fri,
+    Sat,
+  }
+
+  let day: string = WeekDay[0]
+  console.log(WeekDay[day])
+  day = 'lalala'
+
+  let n: WeekDay = WeekDay.Fri
+  console.log(WeekDay[n])
+  n = 9
+
+  //
+  enum ShapeKind {
+    Circle,
+    Square,
+  }
+
+  interface Circle {
+    kind: ShapeKind.Circle
+    radius: number
+  }
+
+  interface Square {
+    kind: ShapeKind.Square
+    sideLength: number
+  }
+
+  let c: Circle = {
+    kind: ShapeKind.Square,
+    radius: 100,
+  }
+
+  //
+  enum E {
+    Sun,
+    Mon,
+  }
+  const fn = (x: E) => {
+    if (x !== E.Sun) fn(E.Sun)
+    return
+  }
+
+  fn(E.Sun)
+  fn(E.Mon)
+  fn(E.La)
+  fn('s')
+})()
