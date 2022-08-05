@@ -641,6 +641,20 @@
 
   </details>
 
+<!-- Optional Property Annotation -->
+
+- <details close>
+  <summary>Optional Property Annotation</summary>
+
+  - 使用 `?` 記註為 `Optional Property`
+  - 直接用 `undefined` ，依然需給他的值初始化為 `undefined` 才可
+
+  <div class="imgBox" >
+    <img src="../src/image/base/Optional_Property_Annotation.png" alt="Optional_Property_Annotation.png" />
+  </div>
+
+  </details>
+
 ---
 
 ## 2. 其他補充

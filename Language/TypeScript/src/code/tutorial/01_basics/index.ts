@@ -452,3 +452,13 @@
   fn1(obj5)
   fn1(obj6)
 })()
+
+// 12. Optional Property Annotation
+;(() => {
+  type T1 = { x: number; y: string | undefined }
+  const obj1: T1 = { x: 1 }
+  const obj2: T1 = { x: 1, y: undefined }
+
+  type T2 = { x: number; y?: string }
+  const obj3: T2 = { x: 1 }
+})()
