@@ -20,6 +20,7 @@
 [鐵人賽 2]: https://ithelp.ithome.com.tw/articles/10214719#:~:text=%22strictNullChecks%22%3A%20true%2C
 [ts 變數 name]: https://www.jianshu.com/p/78268bd9af0a
 [function signature]: https://developer.mozilla.org/en-US/docs/Glossary/Signature/Function
+[function 誤區注意]: https://ithelp.ithome.com.tw/articles/10215270
 
  <!-- ref -->
 
@@ -234,7 +235,7 @@
 
 <!-- 型別介紹 -->
 
-- <details open>
+- <details close>
   <summary>型別介紹</summary>
 
   <!-- Object -->
@@ -587,6 +588,59 @@
 
   </details>
 
+<!-- Literal Types -->
+
+- <details close>
+  <summary>Literal Types</summary>
+
+  - 直接將 type 以明文方式註記
+
+  ```typescript
+  // EX.
+  // Object Literal Type
+  const obj: { x: number; y: string } = { x: 1, y: '' }
+
+  // Function Literal Type
+  const fn: (param: number) => number = (param) => param * 2
+  ```
+
+  </details>
+
+<!-- Type Alias -->
+
+- <details close>
+  <summary>Type Alias</summary>
+
+  - 以變數形式，定義 `type`
+  - 減少 code 畫面上的複雜度
+  - 抽象化，重複使用
+
+  ```typescript
+  // EX.
+  // Object Type Alias
+  type OBJ = { x: number; y: string }
+  const obj: OBJ = { x: 1, y: '' }
+
+  // Function Type Alias
+  type FN = (param: number) => number
+  const fn: FN = (param) => param * 2
+  ```
+
+  - **[Function 誤區注意]**
+
+    - 大部分情況下，input object 只需滿足 `有包含 function 定義的 param object 的所有 key`
+    - 討論點正方：
+      - 如此情況，照理說應該並無影響，只要該有的都有即可
+      - 符合 js 的彈性使用特性
+    - 討論點反方：
+      - `type` 應該為 `靜態格式`，如此的彈性功能應該只在於 `interface`
+
+  <div class="imgBox" >
+    <img src="../src/image/base/Function_input_type.png" alt="Function_input_type.png" />
+  </div>
+
+  </details>
+
 ---
 
 ## 2. 其他補充
@@ -603,6 +657,10 @@
     - union (聯集)
 
       - (string | number)
+
+    - intersection（交集）
+
+      - (string & number)
 
     - Generics 泛用型別
 

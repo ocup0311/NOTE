@@ -395,3 +395,60 @@
   fn(E.La)
   fn('s')
 })()
+
+// 10. Literal Types
+;(() => {
+  // Object Literal Type
+  const obj: { x: number; y: string } = { x: 1, y: '' }
+
+  // Function Literal Type
+  const fn: (param: number) => number = (param) => param * 2
+})()
+
+// 11. Type Alias
+;(() => {
+  // EX.
+  // Object Literal Type
+  type OBJ = { x: number; y: string }
+  const obj11: OBJ = { x: 1, y: '' }
+  const obj22: OBJ = { x: 1, y: '', z: 1 }
+  const obj33: OBJ = { x: 1 }
+
+  // Function Literal Type
+  type FN = (param: number) => number
+  const fn11: FN = (param) => param * 2
+
+  // ！！object type 的狀況討論：
+  type OBJ1 = { x: string; y: number }
+  type OBJ2 = { x: string; y: number; z: number }
+
+  const fn1 = ({ x, y }: OBJ1): OBJ1 => ({ x, y })
+  const fn2 = (param: OBJ1): OBJ1 => param
+  const fn3 = (param: { x: string; y: number }): { x: string; y: number } =>
+    param
+
+  // 1. 以 "明文" input，則必須 “完全符合” type: OBJ1
+  fn1({ x: 'x', y: 1, z: 1 })
+
+  // 2. 以 "變數" input，則只需 “包含” type: OBJ1
+  const obj1 = { x: 'x', y: 1, z: 1 }
+  fn1(obj1)
+
+  // 3. 即便以另一個 type: OBJ2 定義  "變數" input，依然只需 “包含” type: OBJ1
+  const obj2: OBJ2 = { x: 'x', y: 1, z: 1 }
+  fn1(obj2)
+
+  // 4. 即便 function 回傳 type: OBJ1，依然只需 “包含” type: OBJ1
+  const obj3: OBJ2 = { x: 'x', y: 1, z: 1 }
+  fn2(obj3)
+
+  // 5. 即便都用 “Literal Type”，但以 "變數" input，依然只需 “包含”
+  const obj4: { x: string; y: number; z: number } = { x: 'x', y: 1, z: 1 }
+  fn3(obj4)
+
+  // 5. 其他基本規則：
+  const obj5 = { x: 1, y: 1 }
+  const obj6 = { y: 1, z: 1 }
+  fn1(obj5)
+  fn1(obj6)
+})()
