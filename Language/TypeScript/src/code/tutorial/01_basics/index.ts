@@ -115,6 +115,15 @@
 
   let obj11 = { fn: () => 1 }
   obj11.fn = () => 3
+
+  // type {} === type object
+  let y1: { b: number } = { a: 1, b: 1 }
+  y1.b = 5
+  let x1: {} = { a: 1, b: 1 } // 等同 let x1: object = { a: 1, b: 1 }
+  x1.a = 5
+  x1 = []
+  x1 = String()
+  x1 = new String()
 })()
 
 // 2. function: Implicit Any
@@ -462,3 +471,6 @@
   type T2 = { x: number; y?: string }
   const obj3: T2 = { x: 1 }
 })()
+
+// 13.
+;(() => {})()

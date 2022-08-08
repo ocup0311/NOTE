@@ -282,6 +282,15 @@
 
       </details>
 
+    - <details close>
+      <summary><code>type {}</code> 等同 <code>type object</code></summary>
+
+        <div class="imgBox" >
+          <img src="../src/image/base/object_type2.png" alt="object_type2.png" />
+        </div>
+
+      </details>
+
     </details>
 
   <!-- Function -->
