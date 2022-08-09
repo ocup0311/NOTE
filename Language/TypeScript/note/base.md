@@ -21,6 +21,7 @@
 [ts 變數 name]: https://www.jianshu.com/p/78268bd9af0a
 [function signature]: https://developer.mozilla.org/en-US/docs/Glossary/Signature/Function
 [function 誤區注意]: https://ithelp.ithome.com.tw/articles/10215270
+[never & unknown]: https://blog.logrocket.com/when-to-use-never-and-unknown-in-typescript-5e4d6c5799ad/
 
  <!-- ref -->
 
@@ -145,6 +146,8 @@
 - <details close>
   <summary>Type Annotation (註記)</summary>
 
+  <!-- 3 種 Type Annotation 方式： -->
+
   - 3 種 Type Annotation 方式：
 
     <div class="imgBox" >
@@ -175,6 +178,19 @@
       </div>
 
       </details>
+
+  <!-- 沒 Annotation ＋ 沒 Assign -->
+
+  - <details close>
+    <summary>沒 Annotation ＋ 沒 Assign</summary>
+
+    - 此情況下，`Type Inference` 的結果會不斷改變（X1）
+
+    <div class="imgBox" >
+      <img src="../src/image/base/NoAnnotation_&_NoAssign.png" alt="NoAnnotation_&_NoAssign.png" />
+    </div>
+
+    </details>
 
   </details>
 
@@ -237,6 +253,20 @@
 
 - <details close>
   <summary>型別介紹</summary>
+
+  <!-- Any -->
+
+  - <details close>
+    <summary>Any</summary>
+
+    - 可以將 `any` assign 給任何 type 的變數，而不會報錯
+    - X11：請參考 _Type Annotation / 沒 Annotation ＋ 沒 Assign_
+
+    <div class="imgBox" >
+      <img src="../src/image/base/type_any.png" alt="type_any.png" />
+    </div>
+
+    </details>
 
   <!-- Object -->
 
@@ -595,6 +625,7 @@
 
     </details>
 
+  - [never & unknown]
   </details>
 
 <!-- Literal Types -->

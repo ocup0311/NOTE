@@ -472,5 +472,66 @@
   const obj3: T2 = { x: 1 }
 })()
 
-// 13.
-;(() => {})()
+// 13. Type Annotation, Type Inference
+;(() => {
+  // A vs X
+  let U: unknown // U:unknown
+  let A: any // A:any
+  let X // X:any
+
+  A = X // A:any,       X:undefined
+  A = U // A:any,       U:unknown
+  U = A // U:unknown,   A:any
+  X = U // X:any,       U:unknown
+  A = X // A:any,       X:unknown
+  U = X // U:unknown,   X:unknown
+  X = U // X:any,       U:unknown
+  U = X // U:unknown,   X:any
+  X = U // X:any,       U:unknown
+  A = X // A:any,       X:unknown
+
+  let B = A // B:any,       A:any
+  X = A // X:any,       A:any
+  A = X // A:any,       X:any
+
+  // A1 vs X1
+  let A1: any // A1:any
+  let X1 // X1:any
+  let N: number = 1 // N:number
+  X1 = N // X1:any        N:number
+  A1 = N // A1:any        N:number
+  let A2 = A1 // A2:any        A1:any
+  let X2 = X1 // X2:number     X1:number
+  console.log(A2) // A2:any
+  console.log(X2) // X2:number
+
+  // any
+  let A11: any // A11:any
+  let X11 // X11:any
+  let N11: number = 5 // N11:number
+  let S11: string = '' // S11:string
+
+  A11 = true // A11:any
+  X11 = true // X11:any
+  N11 = A11 // N11:number   A11:any
+  N11 = X11 // N11:number   X11:boolean
+  S11 = A11 // S11:string   A11:any
+  S11 = X11 // S11:string   X11:boolean
+  console.log(N11) // N11:number
+  console.log(S11) // S11:string
+})()
+
+// 14. never
+;(() => {
+  let a: never
+  let fn = function (x: null) {
+    while (true) {}
+    return 1
+  }
+  fn(null)
+
+  let X11: number & any = 1
+  console.log(X11) // any
+  let X22: number & unknown = 1
+  console.log(X22) // number
+})()
