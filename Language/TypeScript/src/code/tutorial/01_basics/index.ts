@@ -523,15 +523,62 @@
 
 // 14. never
 ;(() => {
-  let a: never
-  let fn = function (x: null) {
-    while (true) {}
-    return 1
-  }
-  fn(null)
+  type T = number // 任意選一個 type
 
-  let X11: number & any = 1
-  console.log(X11) // any
-  let X22: number & unknown = 1
-  console.log(X22) // number
+  // any vs unknown
+  type T1 = T & any // any
+  type T2 = T & unknown // T
+
+  // any vs never
+  type T3 = any & never // never
+  type T4 = any | never //any
+
+  // unknown vs never
+  type T5 = T | never // T
+  type T6 = T & unknown // T
+
+  //
+  const fn1 = (): never => {
+    const x = Math.random()
+
+    while (x > -Infinity) {
+      throw new Error('You are my ERROR!')
+    }
+  }
+  const fn2 = (): never => {
+    while (true) {
+      throw new Error('You are my ERROR!')
+    }
+  }
+
+  //
+  const fn = (): never => {
+    throw new Error('You are my ERROR!')
+  }
+
+  const x1: string = fn()
+  const x2: number = fn()
+  const x3: null = fn()
+  const x4: never = fn()
+
+  //
+  const fn3 = (): number => {
+    throw new Error('You are my ERROR!')
+  }
+  const fn4 = (): T | never => {
+    throw new Error('You are my ERROR!')
+  }
 })()
+;(() => {
+  type T = number // 任意選一個 type
+  let x1: T | never // x1:number
+  let x2: number | never // x2:number
+  const fn1 = (): T | never => 1 // fn1:() => number
+  const fn2 = (): number | never => 1 // fn2:() => number | never
+})()
+
+type T = number // 任意選一個 type
+let x1: T | never // x1:number
+let x2: number | never // x2:number
+const fn1 = (): T | never => 1 // fn1:() => T | never
+const fn2 = (): number | never => 1 // fn2:() => number | never

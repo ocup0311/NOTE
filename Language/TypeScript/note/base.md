@@ -22,13 +22,15 @@
 [function signature]: https://developer.mozilla.org/en-US/docs/Glossary/Signature/Function
 [function 誤區注意]: https://ithelp.ithome.com.tw/articles/10215270
 [never & unknown]: https://blog.logrocket.com/when-to-use-never-and-unknown-in-typescript-5e4d6c5799ad/
+[typescript 新手指南]: https://willh.gitbook.io/typescript-tutorial/
+[深入理解typescript]: https://jkchao.github.io/typescript-book-chinese/
 
  <!-- ref -->
 
 # TS 基礎
 
 > DATE: 7 (2022)
-> REF: [TS Docs] | [google TS style guide] | [鐵人賽 1]
+> REF: [TS Docs] | [google TS style guide] | [鐵人賽 1] | [typescript 新手指南] | [深入理解 TypeScript]
 
  <!-- 工具 -->
 
@@ -625,7 +627,71 @@
 
     </details>
 
-  - [never & unknown]
+  <!-- never & unknown -->
+
+  - <details close>
+    <summary>never & unknown</summary>
+
+    > REF: [never & unknown]
+
+    <!-- never -->
+
+    - <details close>
+      <summary>never</summary>
+
+      <!-- 為所有 type 的 subtype -->
+
+      - <details close>
+        <summary>為所有 type 的 subtype</summary>
+
+        ```typescript
+        // 等同於 let x: T
+        // (T 可以是任何 type)
+        let x: T | never
+        ```
+
+        </details>
+
+      <!-- 可以 assign 給任何其他 type -->
+
+      - <details close>
+        <summary>可以 assign 給任何其他 type</summary>
+
+        <div class="imgBox" >
+          <img src="../src/image/base/type_never1.png" alt="type_never1.png" />
+        </div>
+
+        </details>
+
+      <!-- Type Annotation 只能用在 compile 階段即確認是 never 的情況 -->
+
+      - <details close>
+        <summary>Type Annotation 只能用在 compile 階段即確認是 never 的情況</summary>
+
+        <div class="imgBox" >
+          <img src="../src/image/base/type_never2.png" alt="type_never2.png" />
+        </div>
+
+        </details>
+
+      </details>
+
+    <!-- unknown -->
+
+    - <details close>
+      <summary>unknown</summary>
+
+      </details>
+
+    <!-- vs -->
+
+    - <details close>
+      <summary>vs</summary>
+
+      </details>
+
+    </details>
+
   </details>
 
 <!-- Literal Types -->
