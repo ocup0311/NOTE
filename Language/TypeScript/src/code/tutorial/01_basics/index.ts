@@ -539,16 +539,11 @@
 
   //
   const fn1 = (): never => {
-    const x = Math.random()
-
-    while (x > -Infinity) {
-      throw new Error('You are my ERROR!')
-    }
+    if (1 > 0) throw new Error('You are my ERROR!')
   }
+
   const fn2 = (): never => {
-    while (true) {
-      throw new Error('You are my ERROR!')
-    }
+    if (true) throw new Error('You are my ERROR!')
   }
 
   //
@@ -569,6 +564,8 @@
     throw new Error('You are my ERROR!')
   }
 })()
+
+// 15. function VS global ( T | never 等同 T ，在 Type Inference 的小差異) （原因未知）
 ;(() => {
   type T = number // 任意選一個 type
   let x1: T | never // x1:number
@@ -582,3 +579,134 @@ let x1: T | never // x1:number
 let x2: number | never // x2:number
 const fn1 = (): T | never => 1 // fn1:() => T | never
 const fn2 = (): number | never => 1 // fn2:() => number | never
+
+// 16. unknown vs any
+;(() => {
+  const NUMBER: number = 1
+
+  // any
+  const ANY: any = NUMBER
+  const a1: number = ANY
+  const b1: string = ANY
+
+  // unknown
+  const UNKNOWN: unknown = NUMBER
+  const a2: number = UNKNOWN // error
+  const b2: string = UNKNOWN // error
+
+  const a3: number = typeof UNKNOWN === 'number' ? UNKNOWN : 0
+  const b3: string = typeof UNKNOWN === 'string' ? UNKNOWN : ''
+  const b4: string = typeof UNKNOWN === 'number' ? UNKNOWN : '' // error
+
+  console.log(a1, a2, a3, b1, b2, b3, b4)
+})()
+
+// 17. unknown 用途：safeJsonParse
+;(() => {
+  const safeJsonParse = (jsonString: string): unknown => {
+    return JSON.parse(jsonString)
+  }
+
+  const json1 = '{ "x": 1 }'
+  const json2 = '[1, 2]'
+
+  const x1: {} = JSON.parse(json1)
+  const y1: [] = JSON.parse(json2)
+
+  const x2: {} = safeJsonParse(json1)
+  const y2: [] = safeJsonParse(json2)
+
+  const a = safeJsonParse(json1)
+  const b = safeJsonParse(json2)
+
+  const x3: {} = typeof a === 'object' && a !== null ? a : {}
+  const y3: any[] = Array.isArray(b) ? b : []
+
+  const x4: {} = a instanceof Object ? a : {}
+  const y4: any[] = b instanceof Array ? b : []
+
+  const x5: {} = a in Object ? a : {}
+  const y5: any[] = b in Array ? b : []
+})()
+
+// 18. enum 初始化
+;(() => {
+  // 一般情形
+  enum X1 {
+    a,
+  }
+  let sample11 = X1.a // 0
+  let sample12 = X1[0] // a
+
+  // 初始化為 string 後：
+  // (1)沒有 index 對照，ex.sample23。
+  // (2)無法使用 value 呼叫出 key，ex.sample24
+  enum X2 {
+    a = 'a1',
+  }
+  let sample21 = X2.a // a1
+  let sample22 = X2['a'] // a1
+  let sample23 = X2[0] //error
+  let sample24 = X2['a1'] // error
+
+  // 可以有些初始化為 string 有些為 number
+  enum X3 {
+    a = 'a1',
+    b = 0,
+  }
+  let sample31 = X3.a // a1
+  let sample32 = X3['a'] // a1
+  let sample33 = X3[0] // b
+  let sample34 = X3['a1'] // error
+
+  // 有初始化為 string，則必須所有項目都進行 初始化
+  enum X4 {
+    a = 'a1',
+    b,
+  } // error
+
+  enum X5 {
+    a = 1,
+    b,
+    c = 0,
+    d,
+    e,
+    f,
+    g,
+  }
+  let sample51 = X5.a // 3
+  let sample52 = X5.b // 4
+  let sample53 = X5.c // 0
+  let sample54 = X5.d // 1
+  let sample55 = X5.e // 2
+  let sample56 = X5.f // 3
+  let sample57 = X5.g // 4
+  let sample58 = X5[3] // f
+})()
+
+// 19.
+;(() => {
+  // interface
+  interface Necklace {
+    kind: string
+    brand: string
+  }
+  interface bracelet {
+    brand: string
+    year: number
+  }
+
+  // type
+  type Accessory = Necklace | bracelet
+
+  // function
+  const isNecklace = (b: Accessory): b is Necklace => {
+    return (b as Necklace).kind !== undefined
+  }
+
+  // run
+  const Necklace: Accessory = { kind: 'Choker', brand: 'TASAKI' }
+  const bracelet: Accessory = { brand: 'Cartier', year: 2021 }
+  console.log(isNecklace(bracelet)) // false
+  console.log(isNecklace(Necklace)) // true
+})()

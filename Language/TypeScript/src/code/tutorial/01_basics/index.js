@@ -94,6 +94,14 @@
 //   array1.pop = () => {}
 //   let obj11 = { fn: () => 1 }
 //   obj11.fn = () => 3
+//   // type {} === type object
+//   let y1: { b: number } = { a: 1, b: 1 }
+//   y1.b = 5
+//   let x1: {} = { a: 1, b: 1 } // 等同 let x1: object = { a: 1, b: 1 }
+//   x1.a = 5
+//   x1 = []
+//   x1 = String()
+//   x1 = new String()
 // })()
 // // 2. function: Implicit Any
 // ;(() => {
@@ -221,7 +229,9 @@
 //   // 全部都是數字
 //   // let numbers: number[]
 //   const numbers = [1, 2, 3, 4, 5]
+//   numbers[9] = 0
 //   numbers[9] = '1'
+//   numbers.push(1)
 //   numbers.push('1')
 //   // 全部都是字串
 //   // let strings: string[]
@@ -247,12 +257,34 @@
 //     [null, false, 1],
 //     [1, undefined],
 //   ]
+// })()
+// // 8. Tuple
+// ;(() => {
 //   // Tuple vs Array:
 //   // Type Inference  -->  Array: (number | boolean)[]
 //   const array = [1, 2, 3, false]
 //   // Tuple: [number, number, number, boolean]
 //   const tuple: [number, number, number, boolean] = [1, 2, 3, false]
-//   // Enum
+//   // Readonly
+//   type Tuple1 = Readonly<[number, string]>
+//   const employee1: Tuple1 = [1, 'Steve']
+//   employee1[0] = 10
+//   type Tuple2 = [number, string]
+//   const employee: Tuple2 = [1, 'Steve']
+//   employee[0] = 10
+//   type X = Readonly<{ x: string; y: number }>
+//   const test: X = { x: 's', y: 1 }
+//   test.x = 'f'
+//   // Readonly
+//   type Tuple1 = [number, string]
+//   const employee1: Tuple1 = [1, 'Steve']
+//   employee1[0] = 10
+//   type Tuple2 = Readonly<[number, string]>
+//   const employee2: Tuple2 = [1, 'Steve']
+//   employee2[0] = 10
+// })()
+// // 9. Enum
+// ;(() => {
 //   enum WeekDay {
 //     Sun,
 //     Mon,
@@ -262,33 +294,304 @@
 //     Fri,
 //     Sat,
 //   }
-//   // WeekDay.Sat = WeekDay.Sat
-//   let day = WeekDay[0]
-//   day = 'WeekDay[0]'
-//   let nthOfDay: WeekDay = WeekDay.Fri
-//   nthOfDay = 12
-//   // type Tuple = Readonly<[number, string]>
-//   // let employee: Tuple = [1, 'Steve']
-//   // employee[0] = 10
-//   // employee = [10, 'Sam']
+//   let day: string = WeekDay[0]
+//   console.log(WeekDay[day])
+//   day = 'lalala'
+//   let n: WeekDay = WeekDay.Fri
+//   console.log(WeekDay[n])
+//   n = 9
+//   //
+//   enum ShapeKind {
+//     Circle,
+//     Square,
+//   }
+//   interface Circle {
+//     kind: ShapeKind.Circle
+//     radius: number
+//   }
+//   interface Square {
+//     kind: ShapeKind.Square
+//     sideLength: number
+//   }
+//   let c: Circle = {
+//     kind: ShapeKind.Square,
+//     radius: 100,
+//   }
+//   //
+//   enum E {
+//     Sun,
+//     Mon,
+//   }
+//   const fn = (x: E) => {
+//     if (x !== E.Sun) fn(E.Sun)
+//     return
+//   }
+//   fn(E.Sun)
+//   fn(E.Mon)
+//   fn(E.La)
+//   fn('s')
 // })()
-// Enum
-var WeekDay;
-(function (WeekDay) {
-    WeekDay[WeekDay["Sun"] = 0] = "Sun";
-    WeekDay[WeekDay["Mon"] = 1] = "Mon";
-    WeekDay[WeekDay["Tue"] = 2] = "Tue";
-    WeekDay[WeekDay["Wes"] = 3] = "Wes";
-    WeekDay[WeekDay["Thu"] = 4] = "Thu";
-    WeekDay[WeekDay["Fri"] = 5] = "Fri";
-    WeekDay[WeekDay["Sat"] = 6] = "Sat";
-})(WeekDay || (WeekDay = {}));
-// WeekDay.Sat = WeekDay.Sat
-let day = WeekDay[0];
-console.log('day 1: ', day);
-day = 'lalala';
-console.log('day 2: ', day);
-let n = WeekDay.Fri;
-console.log('n 1:', n, WeekDay[n]);
-n = 9;
-console.log('n 2:', n, WeekDay[100]);
+// // 10. Literal Types
+// ;(() => {
+//   // Object Literal Type
+//   const obj: { x: number; y: string } = { x: 1, y: '' }
+//   // Function Literal Type
+//   const fn: (param: number) => number = (param) => param * 2
+// })()
+// // 11. Type Alias
+// ;(() => {
+//   // EX.
+//   // Object Literal Type
+//   type OBJ = { x: number; y: string }
+//   const obj11: OBJ = { x: 1, y: '' }
+//   const obj22: OBJ = { x: 1, y: '', z: 1 }
+//   const obj33: OBJ = { x: 1 }
+//   // Function Literal Type
+//   type FN = (param: number) => number
+//   const fn11: FN = (param) => param * 2
+//   // ！！object type 的狀況討論：
+//   type OBJ1 = { x: string; y: number }
+//   type OBJ2 = { x: string; y: number; z: number }
+//   const fn1 = ({ x, y }: OBJ1): OBJ1 => ({ x, y })
+//   const fn2 = (param: OBJ1): OBJ1 => param
+//   const fn3 = (param: { x: string; y: number }): { x: string; y: number } =>
+//     param
+//   // 1. 以 "明文" input，則必須 “完全符合” type: OBJ1
+//   fn1({ x: 'x', y: 1, z: 1 })
+//   // 2. 以 "變數" input，則只需 “包含” type: OBJ1
+//   const obj1 = { x: 'x', y: 1, z: 1 }
+//   fn1(obj1)
+//   // 3. 即便以另一個 type: OBJ2 定義  "變數" input，依然只需 “包含” type: OBJ1
+//   const obj2: OBJ2 = { x: 'x', y: 1, z: 1 }
+//   fn1(obj2)
+//   // 4. 即便 function 回傳 type: OBJ1，依然只需 “包含” type: OBJ1
+//   const obj3: OBJ2 = { x: 'x', y: 1, z: 1 }
+//   fn2(obj3)
+//   // 5. 即便都用 “Literal Type”，但以 "變數" input，依然只需 “包含”
+//   const obj4: { x: string; y: number; z: number } = { x: 'x', y: 1, z: 1 }
+//   fn3(obj4)
+//   // 5. 其他基本規則：
+//   const obj5 = { x: 1, y: 1 }
+//   const obj6 = { y: 1, z: 1 }
+//   fn1(obj5)
+//   fn1(obj6)
+// })()
+// // 12. Optional Property Annotation
+// ;(() => {
+//   type T1 = { x: number; y: string | undefined }
+//   const obj1: T1 = { x: 1 }
+//   const obj2: T1 = { x: 1, y: undefined }
+//   type T2 = { x: number; y?: string }
+//   const obj3: T2 = { x: 1 }
+// })()
+// // 13. Type Annotation, Type Inference
+// ;(() => {
+//   // A vs X
+//   let U: unknown // U:unknown
+//   let A: any // A:any
+//   let X // X:any
+//   A = X // A:any,       X:undefined
+//   A = U // A:any,       U:unknown
+//   U = A // U:unknown,   A:any
+//   X = U // X:any,       U:unknown
+//   A = X // A:any,       X:unknown
+//   U = X // U:unknown,   X:unknown
+//   X = U // X:any,       U:unknown
+//   U = X // U:unknown,   X:any
+//   X = U // X:any,       U:unknown
+//   A = X // A:any,       X:unknown
+//   let B = A // B:any,       A:any
+//   X = A // X:any,       A:any
+//   A = X // A:any,       X:any
+//   // A1 vs X1
+//   let A1: any // A1:any
+//   let X1 // X1:any
+//   let N: number = 1 // N:number
+//   X1 = N // X1:any        N:number
+//   A1 = N // A1:any        N:number
+//   let A2 = A1 // A2:any        A1:any
+//   let X2 = X1 // X2:number     X1:number
+//   console.log(A2) // A2:any
+//   console.log(X2) // X2:number
+//   // any
+//   let A11: any // A11:any
+//   let X11 // X11:any
+//   let N11: number = 5 // N11:number
+//   let S11: string = '' // S11:string
+//   A11 = true // A11:any
+//   X11 = true // X11:any
+//   N11 = A11 // N11:number   A11:any
+//   N11 = X11 // N11:number   X11:boolean
+//   S11 = A11 // S11:string   A11:any
+//   S11 = X11 // S11:string   X11:boolean
+//   console.log(N11) // N11:number
+//   console.log(S11) // S11:string
+// })()
+// // 14. never
+// ;(() => {
+//   type T = number // 任意選一個 type
+//   // any vs unknown
+//   type T1 = T & any // any
+//   type T2 = T & unknown // T
+//   // any vs never
+//   type T3 = any & never // never
+//   type T4 = any | never //any
+//   // unknown vs never
+//   type T5 = T | never // T
+//   type T6 = T & unknown // T
+//   //
+//   const fn1 = (): never => {
+//     if (1 > 0) throw new Error('You are my ERROR!')
+//   }
+//   const fn2 = (): never => {
+//     if (true) throw new Error('You are my ERROR!')
+//   }
+//   //
+//   const fn = (): never => {
+//     throw new Error('You are my ERROR!')
+//   }
+//   const x1: string = fn()
+//   const x2: number = fn()
+//   const x3: null = fn()
+//   const x4: never = fn()
+//   //
+//   const fn3 = (): number => {
+//     throw new Error('You are my ERROR!')
+//   }
+//   const fn4 = (): T | never => {
+//     throw new Error('You are my ERROR!')
+//   }
+// })()
+// // 15. function VS global ( T | never 等同 T ，在 Type Inference 的小差異) （原因未知）
+// ;(() => {
+//   type T = number // 任意選一個 type
+//   let x1: T | never // x1:number
+//   let x2: number | never // x2:number
+//   const fn1 = (): T | never => 1 // fn1:() => number
+//   const fn2 = (): number | never => 1 // fn2:() => number | never
+// })()
+// type T = number // 任意選一個 type
+// let x1: T | never // x1:number
+// let x2: number | never // x2:number
+// const fn1 = (): T | never => 1 // fn1:() => T | never
+// const fn2 = (): number | never => 1 // fn2:() => number | never
+// // 16. unknown vs any
+// ;(() => {
+//   const NUMBER: number = 1
+//   // any
+//   const ANY: any = NUMBER
+//   const a1: number = ANY
+//   const b1: string = ANY
+//   // unknown
+//   const UNKNOWN: unknown = NUMBER
+//   const a2: number = UNKNOWN // error
+//   const b2: string = UNKNOWN // error
+//   const a3: number = typeof UNKNOWN === 'number' ? UNKNOWN : 0
+//   const b3: string = typeof UNKNOWN === 'string' ? UNKNOWN : ''
+//   const b4: string = typeof UNKNOWN === 'number' ? UNKNOWN : '' // error
+//   console.log(a1, a2, a3, b1, b2, b3, b4)
+// })()
+// // 17. unknown 用途：safeJsonParse
+// ;(() => {
+//   const safeJsonParse = (jsonString: string): unknown => {
+//     return JSON.parse(jsonString)
+//   }
+//   const json1 = '{ "x": 1 }'
+//   const json2 = '[1, 2]'
+//   const x1: {} = JSON.parse(json1)
+//   const y1: [] = JSON.parse(json2)
+//   const x2: {} = safeJsonParse(json1)
+//   const y2: [] = safeJsonParse(json2)
+//   const a = safeJsonParse(json1)
+//   const b = safeJsonParse(json2)
+//   const x3: {} = typeof a === 'object' && a !== null ? a : {}
+//   const y3: any[] = Array.isArray(b) ? b : []
+//   const x4: {} = a instanceof Object ? a : {}
+//   const y4: any[] = b instanceof Array ? b : []
+//   const x5: {} = a in Object ? a : {}
+//   const y5: any[] = b in Array ? b : []
+// })()
+// // 18.
+// ;(() => {
+//   // interface
+//   interface Necklace {
+//     kind: string
+//     brand: string
+//   }
+//   interface bracelet {
+//     brand: string
+//     year: number
+//   }
+//   // type
+//   type Accessory = Necklace | bracelet
+//   // function
+//   const isNecklace = (b: Accessory): b is Necklace => {
+//     return (b as Necklace).kind !== undefined
+//   }
+//   // run
+//   const Necklace: Accessory = { kind: 'Choker', brand: 'TASAKI' }
+//   const bracelet: Accessory = { brand: 'Cartier', year: 2021 }
+//   console.log(isNecklace(bracelet)) // false
+//   console.log(isNecklace(Necklace)) // true
+//   // 一般情形
+//   enum X1 { a }
+//   let sample11 = X1.a     // 0
+//   let sample12 = X1[0]    // a
+//   // 初始化為 string 後：
+//   // (1)沒有 index 對照，ex.sample23。
+//   // (2)無法使用 value 呼叫出 key，ex.sample24
+//   enum X2 { a = 'a1' }
+//   let sample21 = X2.a     // a1
+//   let sample22 = X2['a']  // a1
+//   let sample23 = X2[0]    //error
+//   let sample24 = X2['a1'] // error
+//   // 可以有些初始化為 string 有些為 number
+//   enum X3 { a = 'a1', b = 0 }
+//   let sample31 = X3.a     // a1
+//   let sample32 = X3['a']  // a1
+//   let sample33 = X3[0]    // b
+//   let sample34 = X3['a1'] // error
+//   // 有初始化為 string，則必須所有項目都進行 初始化
+//   enum X4 { a = 'a1', b } // error
+//   enum X5 { a = 1, b, c = 0, d, e, f, g }
+//   let sample51 = X5.a     // 3
+//   let sample52 = X5.b     // 4
+//   let sample53 = X5.c     // 0
+//   let sample54 = X5.d     // 1
+//   let sample55 = X5.e     // 2
+//   let sample56 = X5.f     // 3
+//   let sample57 = X5.g     // 4
+//   const fn = () => {}
+//   console.log(
+//     sample12,
+//     sample11,
+//     sample21,
+//     sample22,
+//     sample23,
+//     sample24,
+//     sample31,
+//     sample32,
+//     sample33,
+//     sample34,X4,X5
+//     fn
+//   )
+// })()
+var X5;
+(function (X5) {
+    X5[X5["a"] = 1] = "a";
+    X5[X5["b"] = 2] = "b";
+    X5[X5["c"] = 0] = "c";
+    X5[X5["d"] = 1] = "d";
+    X5[X5["e"] = 2] = "e";
+    X5[X5["f"] = 3] = "f";
+    X5[X5["g"] = 4] = "g";
+})(X5 || (X5 = {}));
+let sample51 = X5.a; // 3
+let sample52 = X5.b; // 4
+let sample53 = X5.c; // 0
+let sample54 = X5.d; // 1
+let sample55 = X5.e; // 2
+let sample56 = X5.f; // 3
+let sample57 = X5.g; // 4
+let sample58 = X5[3]; // 4
+console.log(sample51, sample52, sample53, sample54, sample55, sample56, sample57, sample58);

@@ -625,6 +625,19 @@
 
       </details>
 
+    <!-- Enum 初始化 -->
+
+    - <details close>
+      <summary>Enum 初始化</summary>
+
+      - 好習慣：要馬全部初始化，要馬全部沒有
+
+      <div class="imgBox" >
+        <img src="../src/image/base/enum_initializer.png" alt="enum_initializer.png" />
+      </div>
+
+      </details>
+
     </details>
 
   <!-- never & unknown -->
@@ -649,6 +662,12 @@
         // (T 可以是任何 type)
         let x: T | never
         ```
+
+        - Type Inference 小差異（原因待查）
+
+        <div class="imgBox" >
+          <img src="../src/image/base/Never_Type_Inference.png" alt="Never_Type_Inference.png" />
+        </div>
 
         </details>
 
@@ -680,6 +699,32 @@
 
     - <details close>
       <summary>unknown</summary>
+
+      <!-- `unknown` is the type-safe counterpart of `any`. -->
+
+      - `unknown` is the type-safe counterpart of `any`.
+
+      <!-- 符合 `typeof` 下，才能 assign 給其他 type 的變數 -->
+
+      - <details close>
+        <summary>符合 <code>typeof</code> 下，才能 assign 給其他 type 的變數</summary>
+
+        <div class="imgBox" >
+          <img src="../src/image/base/unknown_VS_any.png" alt="unknown_VS_any.png" />
+        </div>
+
+        </details>
+
+      <!-- unknown 使用情境範本 -->
+
+      - <details close>
+        <summary>unknown 使用情境範本</summary>
+
+        <div class="imgBox" >
+          <img src="../src/image/base/unknown_sample_safeJsonParse.png" alt="unknown_sample_safeJsonParse.png" />
+        </div>
+
+        </details>
 
       </details>
 
