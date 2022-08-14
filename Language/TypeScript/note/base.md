@@ -24,6 +24,9 @@
 [never & unknown]: https://blog.logrocket.com/when-to-use-never-and-unknown-in-typescript-5e4d6c5799ad/
 [typescript 新手指南]: https://willh.gitbook.io/typescript-tutorial/
 [深入理解typescript]: https://jkchao.github.io/typescript-book-chinese/
+[methods for typescript runtime type checking]: https://blog.logrocket.com/methods-for-typescript-runtime-type-checking/
+[type guard1]: https://medium.com/onedegree-tech-blog/typescript-%E4%B8%80%E4%BA%9B%E4%BB%A4%E4%BA%BA%E5%8F%88%E6%84%9B%E5%8F%88%E6%81%A8%E7%9A%84%E5%85%A7%E5%AE%B9-type-guard-narrowing-1655a9ae2a4d
+[type guard2]: https://blog.logrocket.com/how-to-use-type-guards-typescript/
 
  <!-- ref -->
 
@@ -704,14 +707,58 @@
 
       - `unknown` is the type-safe counterpart of `any`.
 
-      <!-- 符合 `typeof` 下，才能 assign 給其他 type 的變數 -->
+      <!-- 為所有 type 的 supertype -->
 
       - <details close>
-        <summary>符合 <code>typeof</code> 下，才能 assign 給其他 type 的變數</summary>
+        <summary>為所有 type 的 supertype</summary>
+
+        ```typescript
+        // 等同於 let x: T
+        // (T 可以是任何 type)
+        let x: T & unknown
+        ```
+
+        - Type Inference 小差異（原因待查）
+
+        <div class="imgBox" >
+          <img src="../src/image/base/Never_Type_Inference.png" alt="Never_Type_Inference.png" />
+        </div>
+
+        </details>
+
+      <!-- 通過 `Type Guard` 後，才能使用 -->
+
+      - <details close>
+        <summary>通過 <code>Type Guard</code> 後，才能使用</summary>
+
+        - 才能 assign 給其他 type 的變數
 
         <div class="imgBox" >
           <img src="../src/image/base/unknown_VS_any.png" alt="unknown_VS_any.png" />
         </div>
+
+        - 才能進行個別 type 的操作（ex.`+ - * /`）
+
+        <div class="imgBox" >
+          <img src="../src/image/base/Type_Guard_with_unknown.png" alt="Type_Guard_with_unknown.png" />
+        </div>
+
+        </details>
+
+      <!-- (X) 直接進行轉型 -->
+
+      - <details close>
+        <summary>(X) 直接進行轉型</summary>
+
+        - 不建議使用
+        - 直接轉型，不會進行檢查、提醒、報錯。
+        - 只在很確定他的 type 時，才可使用 ( <-- 既然可以確定，那麼在更之前就應該註記成正確的 type，而不是用 unknown )
+
+        ```typescript
+        const UNKNOWN: unknown = ''
+        const n1: number = UNKNOWN as number
+        const n2: number = <number>UNKNOWN
+        ```
 
         </details>
 
@@ -728,10 +775,24 @@
 
       </details>
 
-    <!-- vs -->
+    <!-- never VS any VS unknown -->
 
     - <details close>
-      <summary>vs</summary>
+      <summary>never VS any VS unknown</summary>
+
+      - 暫時推論：
+
+        - 右半部以 subtype 的形式，形成一個系統。而 `any` 包含 `never` 之外的所有。
+
+        <div class="imgBox" >
+          <img src="../src/image/base/never_any_unknown2.jpeg" alt="never_any_unknown2.jpeg" />
+        </div>
+
+        - 以 (1)(2)(3) 規則按照優先順序遵守，`never` > `any` > `unknown`
+
+        <div class="imgBox" >
+          <img src="../src/image/base/never_any_unknown1.png" alt="never_any_unknown1.png" />
+        </div>
 
       </details>
 
@@ -842,3 +903,7 @@
   - [TS 變數 name]
 
 - 小技巧：
+
+  - [Methods for TypeScript runtime type checking]
+
+  - [Type Guard1] | [Type Guard2]

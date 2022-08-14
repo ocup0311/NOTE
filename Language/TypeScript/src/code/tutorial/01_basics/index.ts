@@ -521,22 +521,55 @@
   console.log(S11) // S11:string
 })()
 
-// 14. never
+// 14. never VS any VS unknown
 ;(() => {
   type T = number // 任意選一個 type
 
   // any vs unknown
-  type T1 = T & any // any
-  type T2 = T & unknown // T
+  type T0 = T & any // any
+  type T1 = T & unknown // T
 
   // any vs never
-  type T3 = any & never // never
-  type T4 = any | never //any
+  type T2 = any & never // never
+  type T3 = any | never //any
 
   // unknown vs never
-  type T5 = T | never // T
-  type T6 = T & unknown // T
 
+  // 1. never: subtype
+  type T4 = T & never // never
+  type T5 = T | never // T
+
+  // 2. any
+  type T6 = T & any // any
+  type T7 = T | any // any
+
+  // 3. unknown: supertype
+  type T8 = T & unknown // T
+  type T9 = T | unknown // unknown
+
+  // never VS any VS unknown
+  type T12 = never & any // never
+  type T13 = never | any // any
+  type T14 = unknown & any // any
+  type T15 = unknown | any // any
+
+  let x:
+    | T0
+    | T15
+    | T1
+    | T2
+    | T3
+    | T4
+    | T5
+    | T6
+    | T7
+    | T8
+    | T9
+    | T10
+    | T11
+    | T12
+    | T13
+    | T14
   //
   const fn1 = (): never => {
     if (1 > 0) throw new Error('You are my ERROR!')
@@ -610,9 +643,11 @@ const fn2 = (): number | never => 1 // fn2:() => number | never
   const json1 = '{ "x": 1 }'
   const json2 = '[1, 2]'
 
+  // 原生 JSON.parse --> any
   const x1: {} = JSON.parse(json1)
   const y1: [] = JSON.parse(json2)
 
+  // 包一層 unknown 後
   const x2: {} = safeJsonParse(json1)
   const y2: [] = safeJsonParse(json2)
 
@@ -624,9 +659,6 @@ const fn2 = (): number | never => 1 // fn2:() => number | never
 
   const x4: {} = a instanceof Object ? a : {}
   const y4: any[] = b instanceof Array ? b : []
-
-  const x5: {} = a in Object ? a : {}
-  const y5: any[] = b in Array ? b : []
 })()
 
 // 18. enum 初始化
@@ -684,7 +716,48 @@ const fn2 = (): number | never => 1 // fn2:() => number | never
   let sample58 = X5[3] // f
 })()
 
-// 19.
+// 19. unknown：被直接轉型（Ｘ）
+;(() => {
+  const UNKNOWN: unknown = ''
+
+  const n1: number = UNKNOWN as number
+  const n2: number = <number>UNKNOWN
+
+  const n3: number = UNKNOWN instanceof Number ? UNKNOWN : 0
+  const n4: number = typeof UNKNOWN === 'number' ? UNKNOWN : 0
+
+  console.log(n1, n2, n3, n4)
+})()
+
+// 20. unknown narrowing
+;(() => {
+  const ANY: any = 1
+  const UNKNOWN: unknown = 1
+
+  const n0 = ANY.asdfasdf
+  const n1 = ANY * 1
+  const n2 = ANY.toString()
+  const n3 = UNKNOWN * 1
+  const n4 = UNKNOWN.toString()
+  const n5 = typeof UNKNOWN === 'number' ? UNKNOWN * 1 : null
+  const n6 = UNKNOWN === 'number' ? UNKNOWN.toString() : null
+
+  console.log(n1, n2, n3, n4)
+})()
+
+// 21.
+;(() => {
+  const ANY: any = 1
+  const UNKNOWN: unknown = 1
+
+  type x = unknown & null & undefined
+  type y = null & undefined
+  type z = string & number
+
+  console.log(n1, n2, n3, n4)
+})()
+
+// oo. Type Guard
 ;(() => {
   // interface
   interface Necklace {
