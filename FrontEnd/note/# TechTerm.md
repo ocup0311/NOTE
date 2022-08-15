@@ -1,5 +1,3 @@
-<!-- rename to TechTerm.md -->
-
 <style> 
 .imgBox{
   display: flex; 

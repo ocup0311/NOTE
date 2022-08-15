@@ -70,7 +70,7 @@
   <!-- WINDOW 大圖 -->
 
   <div class="imgBox" >
-    <img src="../image/DOM/DOM_BOM.png" alt="DOM_BOM.png" />
+    <img src="../src/image/DOM/DOM_BOM.png" alt="DOM_BOM.png" />
   </div>
 
 <!-- EVENT -->
@@ -128,7 +128,7 @@
   <!-- 事件流 大圖 -->
 
   <div class="imgBox" >
-    <img src="../image/DOM/DOM_Event.png" alt="DOM_Event.png" />
+    <img src="../src/image/DOM/DOM_Event.png" alt="DOM_Event.png" />
   </div>
 
   </details>

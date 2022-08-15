@@ -156,7 +156,7 @@
       </details>
 
   <div class="imgBox" >
-    <img src="./image/MAC_ID.png" alt="MAC_ID.png" />
+    <img src="../src/image/MAC_ID.png" alt="MAC_ID.png" />
   </div>
 
   </details>
