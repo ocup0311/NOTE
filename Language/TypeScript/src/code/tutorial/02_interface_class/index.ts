@@ -66,3 +66,99 @@
   fn11(obj12)
   fn11(obj13)
 })()
+
+// 2. interface extend
+;(() => {
+  // interface
+  interface X1 {
+    a: number
+    b: string
+  }
+
+  interface Y1 {
+    c?: number
+    d?: string
+  }
+
+  interface Z1 extends X1, Y1 {
+    e?: [null]
+  }
+
+  const test1: Z1 = { a: 1, b: '' }
+  const test2: Z1 = { a: 1, b: '', c: 1, e: [null] }
+  const test3: Z1 = { a: 1, b: '', c: '' }
+  const test4: Z1 = { a: 1, b: '', e: 1 }
+  const test5: Z1 = {}
+
+  // type
+  type X2 = { a: number; b: string }
+  type Y2 = { c?: number; d?: string }
+  type Z2 = X2 & Y2
+
+  const test6: Z2 = {
+    a: 1,
+    b: '',
+  }
+})()
+
+// 3. extends 的子項目，不能有衝突
+;(() => {
+  // interface
+  interface I1 {
+    a: number
+    b: string
+  }
+
+  interface I2 {
+    a: number
+  }
+
+  interface I3 {
+    a?: number
+  }
+
+  interface I4 {
+    a: string
+  }
+
+  interface NI1 extends I1, I2 {}
+  interface NI2 extends I1, I3 {}
+  interface NI3 extends I1, I4 {}
+
+  // type
+  type T1 = {
+    a: number
+    b: string
+  }
+
+  type T2 = {
+    a: string
+  }
+
+  type T3 = T1 & T2
+
+  const x: T3 = { b: '1', a: getNever() }
+
+  function getNever(): never {
+    throw Error()
+  }
+})()
+
+// 00. 給朋友舉例
+;(() => {
+  // 1. enum 設定檔
+  enum SIZE {
+    L = 'L',
+    M = 'M',
+    S = 'S',
+  }
+
+  type Settings = {
+    size: SIZE
+  }
+
+  const doSomething = (name: string, age: number, settings: Settings) => {}
+
+  const mySettings = { size: SIZE.M }
+  doSomething('Ocup', 18, mySettings)
+})()

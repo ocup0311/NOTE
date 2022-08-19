@@ -867,7 +867,7 @@
   <!-- 兩種形式 -->
 
   - <details close>
-    <summary><code>兩種形式</code></summary>
+    <summary>兩種形式</summary>
 
     1. Object
     2. Function
@@ -888,15 +888,74 @@
 
     </details>
 
-  <!-- Type Inference 的細部規則，與 `type` 想同 -->
+  <!-- extends -->
 
-  - `Type Inference` 的細部規則，與 `type` 想同
+  - <details close>
+    <summary><code>extends</code></summary>
+
+    - 基本用法
+
+    ```typescript
+    // interface newInterface extends I1, I2, ... In {}
+
+    interface I1 {
+      a: number
+      b: string
+    }
+
+    interface I2 {
+      c?: number
+      d?: string
+    }
+
+    interface I3 extends I1, I2 {
+      e?: number[]
+    }
+
+    const test: I3 = { a: 1, b: '', c: 1, e: [1, 2] }
+    ```
+
+    - extends 來源，不能有衝突
+
+    ```typescript
+    interface I1 {
+      a: number
+      b: string
+    }
+
+    interface I2 {
+      a: number
+    }
+
+    interface I3 {
+      a?: number
+    }
+
+    interface I4 {
+      a: string
+    }
+
+    interface NI1 extends I1, I2 {}
+    interface NI2 extends I1, I3 {} // error
+    interface NI3 extends I1, I4 {} // error
+    ```
+
+    </details>
+
+  <!-- interface VS type -->
+
+  - <details close>
+    <summary><code>interface</code> VS <code>type</code></summary>
+
+    - `Type Inference` 的細部規則相似
+
+    - 意義上：
+      - `type` --> 獨立的靜態型別
+      - `interface` --> 可擴充、組合
+
+    </details>
 
   </details>
-
-  <!-- <div class="imgBox" >
-    <img src="../src/image/base/.png" alt=".png" />
-  </div> -->
 
 <!-- Optional Property Annotation -->
 
