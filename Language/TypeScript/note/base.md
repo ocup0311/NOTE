@@ -125,6 +125,8 @@
 
   </details>
 
+---
+
 ## 1. 基本介紹
 
 <!-- 型別檢查 -->
@@ -800,6 +802,10 @@
 
   </details>
 
+---
+
+## 2. 基本方法
+
 <!-- Literal Types -->
 
 - <details close>
@@ -853,6 +859,45 @@
 
   </details>
 
+<!-- Interface -->
+
+- <details close>
+  <summary>Interface</summary>
+
+  <!-- 兩種形式 -->
+
+  - <details close>
+    <summary><code>兩種形式</code></summary>
+
+    1. Object
+    2. Function
+
+    ```typescript
+    // Object
+    interface OBJ1 {
+      x: number
+      y: (p1: string) => void
+      z: string
+    }
+
+    // Function
+    interface FN1 {
+      (p1: number): void
+    }
+    ```
+
+    </details>
+
+  <!-- Type Inference 的細部規則，與 `type` 想同 -->
+
+  - `Type Inference` 的細部規則，與 `type` 想同
+
+  </details>
+
+  <!-- <div class="imgBox" >
+    <img src="../src/image/base/.png" alt=".png" />
+  </div> -->
+
 <!-- Optional Property Annotation -->
 
 - <details close>
@@ -869,7 +914,7 @@
 
 ---
 
-## 2. 其他補充
+## 3. 其他補充
 
 - 暫記：
 
