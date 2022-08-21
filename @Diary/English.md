@@ -1,7 +1,12 @@
-###### <!-- ref -->
+##### <!-- ref -->
+
+###### <!-- 其他 -->
 
 [node.js enterprise support]: https://www.joyent.com/services/nodejs-support
 [briefly go through]: https://ludwig.guru/s/briefly+go+through
+
+###### <!-- 片語 -->
+
 [in general]: #片語
 [but that's another topic]: #片語
 [let me attempt to answer your question.]: #片語
@@ -19,6 +24,9 @@
 [at the end of the day]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/at-the-end-of-the-day
 [ships with]: https://forum.wordreference.com/threads/to-ship-with.1517628/
 [odds are]: https://idioms.thefreedictionary.com/odds+are+that
+
+###### <!-- 名詞 -->
+
 [enterprise support]: #名詞
 [the nitty-gritty]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/the-nitty-gritty
 [literacy]: #名詞
@@ -27,12 +35,23 @@
 [remainder]: #名詞
 [backbone]: #名詞
 [skeleton]: #名詞
+[aesthetics]: #名詞
+
+###### <!-- 動詞 -->
+
 [manipulated]: #動詞
 [refactor]: #動詞
+[stretch]: #動詞
+
+###### <!-- 形容詞 -->
+
 [underlying]: #形容詞
 [underlying programming language]: #形容詞
 [high-profile]: #形容詞
 [subtle]: #形容詞
+[deliberately]: #形容詞
+[deliberate]: #形容詞
+[it just looks lame to the human]: https://www.bilibili.com/video/BV1DA411Y7jk?p=3&t=2899.8
 
 <!-- ref -->
 
@@ -215,6 +234,8 @@
 
 > So an array, [at the end of the day], is just a side effect of storing stuff in memory back to back to back to back.
 
+</details>
+
 ###### <!-- ship with -->
 
 <details close>
@@ -334,6 +355,20 @@
 
 </details>
 
+###### <!-- aesthetics -->
+
+<details close>
+
+<summary><b>aesthetics</b>
+
+> 審美觀，美感
+
+</summary>
+
+> I didn't want him or her to see Score 0, Score 1, Score 2, because [it just looks lame to the human]. The computer needs to think in terms of zeros. My humans and my users do not, so just an [aesthetics].
+
+</details>
+
 ## 動詞
 
 ###### <!-- manipulated -->
@@ -350,7 +385,7 @@
 
 </details>
 
-###### <!-- manipulated -->
+###### <!-- refactor -->
 
 <details close>
 
@@ -361,6 +396,20 @@
 </summary>
 
 > [Refactor] availablePrices with compose.
+
+</details>
+
+###### <!-- stretch -->
+
+<details close>
+
+<summary><b>refactor</b>
+
+> 伸懶腰
+
+</summary>
+
+> Was this a hand or just a [stretch]? No, [stretch].
 
 </details>
 
@@ -405,5 +454,35 @@
 </summary>
 
 > Follow up: If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more [subtle].
+
+</details>
+
+###### <!-- deliberate -->
+
+<details close>
+
+<summary><b>deliberate</b>
+
+> （常指壞事）有意的，故意的，蓄意的
+
+</summary>
+
+> Let me go ahead and open up a sandbox here, and I'm going to go ahead and create a new file called buggy0.c in which I will, this time, [deliberately] introduce a bug.
+>
+> So this is actually [deliberate].
+
+</details>
+
+###### <!-- lame -->
+
+<details close>
+
+<summary><b>lame</b>
+
+> 一瘸一拐的; 站不住腳的;
+
+</summary>
+
+> I didn't want him or her to see Score 0, Score 1, Score 2, because [it just looks lame to the human]. The computer needs to think in terms of zeros. My humans and my users do not, so just an [aesthetics].
 
 </details>
