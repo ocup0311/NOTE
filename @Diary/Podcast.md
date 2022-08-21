@@ -19,6 +19,7 @@
 [吃史 eat history]: https://podcasts.apple.com/tw/podcast/%E5%90%83%E5%8F%B2-eat-history/id1512632541
 [星箭廣播]: https://podcasts.apple.com/tw/podcast/%E6%98%9F%E7%AE%AD%E5%BB%A3%E6%92%AD/id1459758276
 [良人拾號 smart food]: https://podcasts.apple.com/tw/podcast/%E8%89%AF%E4%BA%BA%E6%8B%BE%E8%99%9Fsmart-food/id1412392029
+[科技職涯 talent connect]: https://podcasts.apple.com/tw/podcast/%E7%A7%91%E6%8A%80%E8%81%B7%E6%B6%AF-talent-connect/id1500645516
 
 ###### <!-- 完結節目 -->
 
@@ -32,12 +33,22 @@
 [gooaye 股癌]: https://podcasts.apple.com/tw/podcast/gooaye-%E8%82%A1%E7%99%8C/id1500839292
 [法法漾播客 vavayan podcast]: https://podcasts.apple.com/tw/podcast/%E6%B3%95%E6%B3%95%E6%BC%BE%E6%92%AD%E5%AE%A2vavayan-podcast/id1500383868
 [轉角國際・出鏡報導]: https://podcasts.apple.com/tw/podcast/%E8%BD%89%E8%A7%92%E5%9C%8B%E9%9A%9B-%E5%87%BA%E9%8F%A1%E5%A0%B1%E5%B0%8E/id1615138951
+[尼爾喝牛奶：你的次文化指南]: https://podcasts.apple.com/tw/podcast/%E5%B0%BC%E7%88%BE%E5%96%9D%E7%89%9B%E5%A5%B6-%E4%BD%A0%E7%9A%84%E6%AC%A1%E6%96%87%E5%8C%96%E6%8C%87%E5%8D%97/id1440108889
+[瑞典劉先生的頭殼]: https://podcasts.apple.com/tw/podcast/%E7%91%9E%E5%85%B8%E5%8A%89%E5%85%88%E7%94%9F%E7%9A%84%E9%A0%AD%E6%AE%BC/id1503238087
+[那些電影教我的事]: https://podcasts.apple.com/tw/podcast/%E9%82%A3%E4%BA%9B%E9%9B%BB%E5%BD%B1%E6%95%99%E6%88%91%E7%9A%84%E4%BA%8B/id1519378369
+
+###### <!-- 單集小整理 -->
+
+[馬力歐單口特輯：事情永遠做不完，用 gtd 時間管理之術搞定待辦任務]: https://podcasts.apple.com/ca/podcast/%E6%98%A5%E6%97%A5%E8%BF%B7%E4%BD%A0%E5%AD%A3-%E9%A6%AC%E5%8A%9B%E6%AD%90%E5%96%AE%E5%8F%A3%E7%89%B9%E8%BC%AF-%E4%BA%8B%E6%83%85%E6%B0%B8%E9%81%A0%E5%81%9A%E4%B8%8D%E5%AE%8C-%E7%94%A8gtd%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86%E4%B9%8B%E8%A1%93%E6%90%9E%E5%AE%9A%E5%BE%85%E8%BE%A6%E4%BB%BB%E5%8B%99/id1192212072?i=1000475401681
+[台北 101 總經理｜張振亞：經營家庭也需要策略，把自己每個角色該做的事放進行事曆就不會焦慮]: https://podcasts.apple.com/nz/podcast/s4ep24-%E5%8F%B0%E5%8C%97101%E7%B8%BD%E7%B6%93%E7%90%86-%E5%BC%B5%E6%8C%AF%E4%BA%9E-%E7%B6%93%E7%87%9F%E5%AE%B6%E5%BA%AD%E4%B9%9F%E9%9C%80%E8%A6%81%E7%AD%96%E7%95%A5-%E6%8A%8A%E8%87%AA%E5%B7%B1%E6%AF%8F%E5%80%8B%E8%A7%92%E8%89%B2%E8%A9%B2%E5%81%9A%E7%9A%84%E4%BA%8B%E6%94%BE%E9%80%B2%E8%A1%8C%E4%BA%8B%E6%9B%86%E5%B0%B1%E4%B8%8D%E6%9C%83%E7%84%A6%E6%85%AE/id1192212072?i=1000499559348
 
 # Podcast 小筆記
 
 > 開始來記錄一下平常分享的單集、節目
 
-### # 常聽節目
+## # 節目清單
+
+### 【常聽節目】
 
 - [矽谷輕鬆談 Just Kidding Tech]
 - [解鎖地球 Unlock the Earth]
@@ -45,12 +56,12 @@
 - [區塊勢]
 - [法學叫獸的 X 話群組]
 
-## # 完結節目
+### 【完結節目】
 
 - [科技島讀]
 - [我們與駭的距離 The Hacks Between Us]
 
-## # 其他節目
+### 【其他節目】
 
 - [《The Real Story》By 報導者]
 - [程人頻道]
@@ -64,15 +75,23 @@
 - [良人拾號 Smart Food]
 - [寶博朋友說]
 - [星箭廣播]
+- [科技職涯 Talent Connect]
 
-## # 候聽清單
+### 【候聽清單】
 
 - [Acquired]
 - [Lex Fridman Podcast]
 - [Gooaye 股癌]
 - [法法漾播客 Vavayan Podcast]
 - [轉角國際・出鏡報導]
+- [尼爾喝牛奶：你的次文化指南]
+- [瑞典劉先生的頭殼]
+- [那些電影教我的事]
 
 ---
 
-### # 單集小整理
+## # 單集小整理
+
+- 時間管理
+  - [馬力歐單口特輯：事情永遠做不完，用 GTD 時間管理之術搞定待辦任務]
+  - [台北 101 總經理｜張振亞：經營家庭也需要策略，把自己每個角色該做的事放進行事曆就不會焦慮]
