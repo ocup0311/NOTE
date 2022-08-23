@@ -27,6 +27,7 @@
 [methods for typescript runtime type checking]: https://blog.logrocket.com/methods-for-typescript-runtime-type-checking/
 [type guard1]: https://medium.com/onedegree-tech-blog/typescript-%E4%B8%80%E4%BA%9B%E4%BB%A4%E4%BA%BA%E5%8F%88%E6%84%9B%E5%8F%88%E6%81%A8%E7%9A%84%E5%85%A7%E5%AE%B9-type-guard-narrowing-1655a9ae2a4d
 [type guard2]: https://blog.logrocket.com/how-to-use-type-guards-typescript/
+[top 50 typescript interview questions explained]: https://betterprogramming.pub/top-50-typescript-interview-questions-explained-5e69b73eeab1
 
  <!-- ref -->
 
@@ -955,6 +956,21 @@
 
     </details>
 
+  <!-- Function Overload -->
+
+  - <details close>
+    <summary>Function Overload</summary>
+
+    - 可以在同一個 function 設定不同參數型別時，做不同動作
+    - 使用時，必須符合其中一種設定(EX. `add1(1, '2')` 會 Error)
+    - 必須以 Type Guard 區分出所有設定的 function type
+
+    <div class="imgBox" >
+      <img src="../src/image/base/Function_Overload.png" alt="Function_Overload.png" />
+    </div>
+
+    </details>
+
   </details>
 
 <!-- Optional Property Annotation -->
@@ -1011,3 +1027,7 @@
   - [Methods for TypeScript runtime type checking]
 
   - [Type Guard1] | [Type Guard2]
+
+- 延伸閱讀：
+
+  - [Top 50 TypeScript Interview Questions Explained]

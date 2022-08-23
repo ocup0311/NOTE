@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 // 1. 兩種 interface：Object & Function
 // (此部分 interface 與 type 似無差異)
 ;(() => {
@@ -142,6 +144,57 @@
   function getNever(): never {
     throw Error()
   }
+})()
+
+// 4. Function Overload
+;(() => {
+  // 1.function
+  interface ADD1 {
+    (p1: number, p2: number): number
+    (p1: string, p2: string): number
+  }
+
+  // a. arrow function
+  const add1: ADD1 = (p1: number | string, p2: number | string): number => {
+    if (_.isNumber(p1) && _.isNumber(p2)) return p1 + p2
+    if (_.isString(p1) && _.isString(p2)) return parseInt(p1) + parseInt(p2)
+
+    throw Error('Params Needed: both number | both string.')
+  }
+
+  add1(1, 2)
+  add1('1', '2')
+  add1(1, '2')
+
+  // b. regular function
+  const add2: ADD1 = function (
+    p1: number | string,
+    p2: number | string
+  ): number {
+    if (_.isNumber(p1) && _.isNumber(p2)) return p1 + p2
+    if (_.isString(p1) && _.isString(p2)) return parseInt(p1) + parseInt(p2)
+
+    throw Error('Params Needed: both number | both string.')
+  }
+
+  add2(1, 2)
+
+  // 2.object.fn
+  interface ADD2 {
+    add(p1: number, p2: number): number
+    add(p1: string, p2: string): number
+  }
+
+  const add3: ADD2 = {
+    add(p1: number | string, p2: number | string): number {
+      if (_.isNumber(p1) && _.isNumber(p2)) return p1 + p2
+      if (_.isString(p1) && _.isString(p2)) return parseInt(p1) + parseInt(p2)
+
+      throw Error('Params Needed: both number | both string.')
+    },
+  }
+
+  add3.add(1, 2)
 })()
 
 // 00. 給朋友舉例
