@@ -257,6 +257,45 @@ import _ from 'lodash'
   }
 })()
 
+// 6. Index Signatures (舊：Indexable Types)
+;(() => {
+  // interface
+  interface StringArray1 {
+    [index: number]: string
+  }
+
+  const arr1: StringArray1 = ['a', 'b']
+  const item1 = arr1[0]
+
+  const obj1: StringArray1 = {}
+  const obj3: StringArray1 = { 0: 'a' }
+
+  // type
+  type StringArray2 = string[]
+  const arr2: StringArray2 = ['a', 'b']
+  const item2 = arr2[0]
+
+  const obj2: StringArray2 = {}
+  const obj4: StringArray2 = { 0: 'a' }
+
+  console.log(item1, item2, obj1, obj2, obj3, obj4)
+
+  // Dictionary
+  interface NumberOrStringDictionary {
+    [index: string]: number | string
+    length: number
+    name: string
+  }
+
+  const X: NumberOrStringDictionary = {
+    name: '兩個 keys 為必須: name, length',
+    length: 123,
+    x: 1,
+  }
+
+  X
+})()
+
 // 00. 給朋友舉例
 ;(() => {
   // 1. enum 設定檔

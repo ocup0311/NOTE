@@ -865,13 +865,28 @@
 - <details close>
   <summary>Interface</summary>
 
-  <!-- 兩種形式 -->
+  <!-- 三種形式 -->
 
   - <details close>
-    <summary>兩種形式</summary>
+    <summary>三種形式</summary>
 
     1. Object
     2. Function
+    3. <details close>
+       <summary>Index Signatures (舊：Indexable Types)</summary>
+
+       - index 只能是 number, string, symbol 三種
+       - Index Signatures(array) VS type Array
+
+      <div class="imgBox" >
+        <img src="../src/image/base/Index_Signatures_VS_type_array.png" alt="Index_Signatures_VS_type_array.png" />
+      </div>
+      
+      <div class="imgBox" >
+        <img src="../src/image/base/Index_Signatures_Dictionary.png" alt="Index_Signatures_Dictionary.png" />
+      </div>
+
+      </details>
 
     ```typescript
     // Object
@@ -884,6 +899,11 @@
     // Function
     interface FN1 {
       (p1: number): void
+    }
+
+    // Index Signatures ( ex. ["a", "b"] )
+    interface StringArray1 {
+      [index: number]: string
     }
     ```
 
@@ -1040,6 +1060,13 @@
 
   </details>
 
+<!-- Declaration Merging -->
+
+- <details close>
+  <summary>Declaration Merging</summary>
+
+  </details>
+
 ---
 
 ## 4. 其他補充
@@ -1062,6 +1089,8 @@
       - (string & number)
 
     - Generics 泛用型別
+
+    - [Indexable Types](https://www.typescriptlang.org/docs/handbook/interfaces.html#indexable-types)
 
     </details>
 
