@@ -956,18 +956,51 @@
 
     </details>
 
-  <!-- Function Overload -->
+  <!-- Interface Merging -->
 
   - <details close>
-    <summary>Function Overload</summary>
+    <summary>Interface Merging</summary>
 
-    - 可以在同一個 function 設定不同參數型別時，做不同動作
-    - 使用時，必須符合其中一種設定(EX. `add1(1, '2')` 會 Error)
-    - 必須以 Type Guard 區分出所有設定的 function type
+    - `Declaration Merging` 的一種
+    - 定義同名稱的 `interface`
+      - 最後結果為所有的「交集」
+      - 重複的屬性，型別必須不衝突
+      - 不能參雜 `type`
+    - <mark>杯論：</mark>學習到 `namespace` 後再回頭看 `Interface Merging` 的應用 (MiddleWare)
 
-    <div class="imgBox" >
-      <img src="../src/image/base/Function_Overload.png" alt="Function_Overload.png" />
-    </div>
+    ```typescript
+    interface Box {
+      height: number
+      width: number
+    }
+    interface Box {
+      scale: number
+    }
+    const box1: Box = { height: 5, width: 6, scale: 10 }
+    const box2: Box = { height: 5, width: 6 } // Error，因為缺少 scale
+    ```
+
+    ```typescript
+    interface Box {
+      height: number
+      width: number
+    }
+    interface Box {
+      scale: number
+      height: string // Error，因為前面已定義 height: number
+    }
+    ```
+
+    ```typescript
+    // Error: 不能參雜 type
+    type Box = {
+      height: number
+      width: number
+    }
+    interface Box {
+      scale: number
+    }
+    ```
 
     </details>
 
@@ -989,7 +1022,27 @@
 
 ---
 
-## 3. 其他補充
+## 3. 特殊用法
+
+<!-- Function Overload -->
+
+- <details close>
+  <summary>Function Overload</summary>
+
+  - 可以在同一個 function 設定不同參數型別時，做不同動作
+  - 使用時，必須符合其中一種設定 (EX. `add1(1, '2')` 會 Error)
+  - 必須以 Type Guard 區分出所有設定的 function type
+  - `type` & `interface` 皆可，但建議只在 `interface` 使用此方法
+
+  <div class="imgBox" >
+    <img src="../src/image/base/Function_Overload.png" alt="Function_Overload.png" />
+  </div>
+
+  </details>
+
+---
+
+## 4. 其他補充
 
 - 暫記：
 

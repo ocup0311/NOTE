@@ -195,6 +195,66 @@ import _ from 'lodash'
   }
 
   add3.add(1, 2)
+
+  // 應用
+  interface A {
+    a?: Number
+  }
+  interface B {
+    b?: number
+  }
+  interface C {
+    c?: string
+  }
+
+  interface ABC extends A, B, C {}
+  interface FN {
+    get(tag: 'a'): A
+    get(tag: 'b'): B
+    get(tag: 'c'): C
+  }
+  const abc: ABC = { a: 1 }
+
+  const fn: FN = {
+    get: (tag: 'a' | 'b' | 'c'): ABC => {
+      if (tag === 'a') return { a: 1 }
+      if (tag === 'b') return { b: 1 }
+      if (tag === 'c') return { c: '1' }
+      throw Error('')
+    },
+  }
+})()
+
+// 5. Interface Merging
+;(() => {
+  type Box = {
+    height: number
+    width: number
+  }
+  interface Box {
+    scale: number
+  }
+  const box1: Box = { height: 5, width: 6, scale: 10 }
+  const box2: Box = { height: 5, width: 6 }
+
+  for (let i = 0; i < 1; i++) {
+    interface Box {
+      scale: number
+      height: string
+    }
+    const box3: Box = { height: '', scale: 1, width: 6 }
+  }
+
+  // namespace 也可以 Declaration Merging，但必須在最外層定義
+  namespace Animals {
+    export class Zebra {}
+  }
+  namespace Animals {
+    export interface Legged {
+      numberOfLegs: number
+    }
+    export class Dog {}
+  }
 })()
 
 // 00. 給朋友舉例
