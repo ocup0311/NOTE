@@ -39,8 +39,13 @@
 
 ###### <!-- 單集小整理 -->
 
-[馬力歐單口特輯：事情永遠做不完，用 gtd 時間管理之術搞定待辦任務]: https://podcasts.apple.com/ca/podcast/%E6%98%A5%E6%97%A5%E8%BF%B7%E4%BD%A0%E5%AD%A3-%E9%A6%AC%E5%8A%9B%E6%AD%90%E5%96%AE%E5%8F%A3%E7%89%B9%E8%BC%AF-%E4%BA%8B%E6%83%85%E6%B0%B8%E9%81%A0%E5%81%9A%E4%B8%8D%E5%AE%8C-%E7%94%A8gtd%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86%E4%B9%8B%E8%A1%93%E6%90%9E%E5%AE%9A%E5%BE%85%E8%BE%A6%E4%BB%BB%E5%8B%99/id1192212072?i=1000475401681
-[台北 101 總經理｜張振亞：經營家庭也需要策略，把自己每個角色該做的事放進行事曆就不會焦慮]: https://podcasts.apple.com/nz/podcast/s4ep24-%E5%8F%B0%E5%8C%97101%E7%B8%BD%E7%B6%93%E7%90%86-%E5%BC%B5%E6%8C%AF%E4%BA%9E-%E7%B6%93%E7%87%9F%E5%AE%B6%E5%BA%AD%E4%B9%9F%E9%9C%80%E8%A6%81%E7%AD%96%E7%95%A5-%E6%8A%8A%E8%87%AA%E5%B7%B1%E6%AF%8F%E5%80%8B%E8%A7%92%E8%89%B2%E8%A9%B2%E5%81%9A%E7%9A%84%E4%BA%8B%E6%94%BE%E9%80%B2%E8%A1%8C%E4%BA%8B%E6%9B%86%E5%B0%B1%E4%B8%8D%E6%9C%83%E7%84%A6%E6%85%AE/id1192212072?i=1000499559348
+[馬力歐單口：事情永遠做不完，gtd 時間管理搞定待辦任務]: https://podcasts.apple.com/ca/podcast/%E6%98%A5%E6%97%A5%E8%BF%B7%E4%BD%A0%E5%AD%A3-%E9%A6%AC%E5%8A%9B%E6%AD%90%E5%96%AE%E5%8F%A3%E7%89%B9%E8%BC%AF-%E4%BA%8B%E6%83%85%E6%B0%B8%E9%81%A0%E5%81%9A%E4%B8%8D%E5%AE%8C-%E7%94%A8gtd%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86%E4%B9%8B%E8%A1%93%E6%90%9E%E5%AE%9A%E5%BE%85%E8%BE%A6%E4%BB%BB%E5%8B%99/id1192212072?i=1000475401681
+[101 總經理｜張振亞：把自己每個角色的事放進行事曆]: https://podcasts.apple.com/nz/podcast/s4ep24-%E5%8F%B0%E5%8C%97101%E7%B8%BD%E7%B6%93%E7%90%86-%E5%BC%B5%E6%8C%AF%E4%BA%9E-%E7%B6%93%E7%87%9F%E5%AE%B6%E5%BA%AD%E4%B9%9F%E9%9C%80%E8%A6%81%E7%AD%96%E7%95%A5-%E6%8A%8A%E8%87%AA%E5%B7%B1%E6%AF%8F%E5%80%8B%E8%A7%92%E8%89%B2%E8%A9%B2%E5%81%9A%E7%9A%84%E4%BA%8B%E6%94%BE%E9%80%B2%E8%A1%8C%E4%BA%8B%E6%9B%86%E5%B0%B1%E4%B8%8D%E6%9C%83%E7%84%A6%E6%85%AE/id1192212072?i=1000499559348
+[區塊鏈社會學 ft. 讚賞公民基金會創辦人高重建]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000484946425
+[一場森林裡的會議決定人類金融未來！？ft. 林仲生]: https://podcasts.apple.com/tw/podcast/%E5%AF%B6%E5%8D%9A%E6%9C%8B%E5%8F%8B%E8%AA%AA/id1484923390?i=1000455346463
+[肌力訓練｜何立安：體育的教育意義在於「模擬人生」]: https://podcasts.apple.com/tw/podcast/%E9%A6%AC%E5%8A%9B%E6%AD%90%E9%99%AA%E4%BD%A0%E5%96%9D%E4%B8%80%E6%9D%AF/id1192212072?i=1000488774682
+[馬來人、華人、印度人愛恨糾葛 ft. 小植]: https://podcasts.apple.com/tw/podcast/%E8%A7%A3%E9%8E%96%E5%9C%B0%E7%90%83-unlock-the-earth/id1476564589?i=1000539102408
+[apple 大戰 facebook：隱私保護與精準廣告之爭]: https://podcasts.apple.com/tw/podcast/%E7%9F%BD%E8%B0%B7%E8%BC%95%E9%AC%86%E8%AB%87-just-kidding-tech/id1493189417?i=1000509061572
 
 # Podcast 小筆記
 
@@ -93,5 +98,13 @@
 ## # 單集小整理
 
 - 時間管理
-  - [馬力歐單口特輯：事情永遠做不完，用 GTD 時間管理之術搞定待辦任務]
-  - [台北 101 總經理｜張振亞：經營家庭也需要策略，把自己每個角色該做的事放進行事曆就不會焦慮]
+
+  - [馬力歐單口：事情永遠做不完，GTD 時間管理搞定待辦任務]
+  - [101 總經理｜張振亞：把自己每個角色的事放進行事曆]
+
+- 其他暫存
+  - [區塊鏈社會學 ft. 讚賞公民基金會創辦人高重建]
+  - [一場森林裡的會議決定人類金融未來！？ft. 林仲生]
+  - [肌力訓練｜何立安：體育的教育意義在於「模擬人生」]
+  - [馬來人、華人、印度人愛恨糾葛 ft. 小植]
+  - [Apple 大戰 Facebook：隱私保護與精準廣告之爭]
