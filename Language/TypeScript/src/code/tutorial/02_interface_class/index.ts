@@ -296,6 +296,61 @@ import _ from 'lodash'
   X
 })()
 
+// 7. readonly
+;(() => {
+  type T = {
+    readonly x: number
+    readonly y: string
+    readonly o1: { a: number }
+    z: number
+    u: string
+    o2: { a: number }
+  }
+
+  const obj: T = {
+    x: 1,
+    y: 'y',
+    o1: { a: 1 },
+    z: 2,
+    u: 'u',
+    o2: { a: 9 },
+  }
+  obj.x = 2
+  obj.y = 'x'
+  obj.o1 = { a: 2 }
+  obj.o1.a = 2
+  obj.z = 1
+  obj.u = 'z'
+  obj.o2 = { a: 8 }
+  obj.o2.a = 7
+})()
+
+// 8. Hybrid Types Interface (看起來就是 js class 的前身)
+;(() => {
+  interface Counter {
+    (start: number): string
+
+    interval: number
+    reset(): void
+  }
+
+  function getCounter(): Counter {
+    const counter = function (start: number) {} as Counter
+
+    counter.interval = 123
+    counter.reset = () => {}
+
+    return counter
+  }
+
+  const c = getCounter()
+  c(10)
+  c.reset()
+  c.interval = 5
+
+  const a = { x: 1 } as { x: number; y: string }
+})()
+
 // 00. 給朋友舉例
 ;(() => {
   // 1. enum 設定檔

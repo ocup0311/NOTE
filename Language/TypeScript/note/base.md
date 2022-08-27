@@ -870,21 +870,35 @@
   - <details close>
     <summary>三種形式</summary>
 
-    1. Object
-    2. Function
-    3. <details close>
+    <!-- Object -->
+
+    - <details close>
+       <summary>Object</summary>
+
+      </details>
+
+    <!-- Function -->
+
+    - <details close>
+       <summary>Function</summary>
+
+      </details>
+
+    <!-- Index Signatures -->
+
+    - <details close>
        <summary>Index Signatures (舊：Indexable Types)</summary>
 
-       - index 只能是 number, string, symbol 三種
-       - Index Signatures(array) VS type Array
+      - index 只能是 number, string, symbol 三種
+      - Index Signatures(array) VS type Array
 
-      <div class="imgBox" >
-        <img src="../src/image/base/Index_Signatures_VS_type_array.png" alt="Index_Signatures_VS_type_array.png" />
-      </div>
-      
-      <div class="imgBox" >
-        <img src="../src/image/base/Index_Signatures_Dictionary.png" alt="Index_Signatures_Dictionary.png" />
-      </div>
+        <div class="imgBox" >
+          <img src="../src/image/base/Index_Signatures_VS_type_array.png" alt="Index_Signatures_VS_type_array.png" />
+        </div>
+
+        <div class="imgBox" >
+          <img src="../src/image/base/Index_Signatures_Dictionary.png" alt="Index_Signatures_Dictionary.png" />
+        </div>
 
       </details>
 
@@ -1024,12 +1038,47 @@
 
     </details>
 
+  <!-- Hybrid Type Interface -->
+
+  - <details close>
+    <summary>Hybrid Type Interface</summary>
+
+    > [REF](https://stackoverflow.com/questions/32016275/create-class-from-hybrid-interface-type)
+
+    - 看起來就是 js class 前身
+
+    ```typescript
+    // EX.
+    interface Counter {
+      (start: number): string
+
+      interval: number
+      reset(): void
+    }
+
+    function getCounter(): Counter {
+      const counter = function (start: number) {} as Counter
+
+      counter.interval = 123
+      counter.reset = () => {}
+
+      return counter
+    }
+
+    const c = getCounter()
+    c(10)
+    c.reset()
+    c.interval = 5
+    ```
+
+    </details>
+
   </details>
 
 <!-- Optional Property Annotation -->
 
 - <details close>
-  <summary>Optional Property Annotation</summary>
+  <summary>Optional Property Annotation (<code>?</code>)</summary>
 
   - 使用 `?` 記註為 `Optional Property`
   - 直接用 `undefined` ，依然需給他的值初始化為 `undefined` 才可
@@ -1037,6 +1086,41 @@
   <div class="imgBox" >
     <img src="../src/image/base/Optional_Property_Annotation.png" alt="Optional_Property_Annotation.png" />
   </div>
+
+  </details>
+
+<!-- readonly -->
+
+- <details close>
+  <summary><code>readonly</code></summary>
+
+  ```typescript
+  type T = {
+    readonly x: number
+    readonly y: string
+    readonly o1: { a: number }
+    z: number
+    u: string
+    o2: { a: number }
+  }
+
+  const obj: T = {
+    x: 1,
+    y: 'y',
+    o1: { a: 1 },
+    z: 2,
+    u: 'u',
+    o2: { a: 9 },
+  }
+  obj.x = 2 // error
+  obj.y = 'x' // error
+  obj.o1 = { a: 2 } // error
+  obj.o1.a = 2
+  obj.z = 1
+  obj.u = 'z'
+  obj.o2 = { a: 8 }
+  obj.o2.a = 7
+  ```
 
   </details>
 
