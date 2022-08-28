@@ -351,6 +351,9 @@ import _ from 'lodash'
   const a = { x: 1 } as { x: number; y: string }
 })()
 
+// 8.
+;(() => {})()
+
 // 00. 給朋友舉例
 ;(() => {
   // 1. enum 設定檔
@@ -369,3 +372,17 @@ import _ from 'lodash'
   const mySettings = { size: SIZE.M }
   doSomething('Ocup', 18, mySettings)
 })()
+
+const obj1 = { x: 1, y: '', z: 1 } as { x: number; y: string }
+const obj2 = { x: 1 } as { x: number; y: string }
+const obj3 = { x: '' } as { x: number; y: string }
+
+const x = 1 as any as string as number
+const y = 1 as any as string as never as number as any as string
+
+let a = 1 as any as { x: string } as { x: string; y: number }
+let b = 1 as any as { x: string; y: number } as { x: string }
+a = { x: '' }
+a = { x: '', y: 1 }
+b = { x: '' }
+b = { x: '', y: 1 }

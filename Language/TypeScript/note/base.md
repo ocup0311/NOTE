@@ -28,6 +28,7 @@
 [type guard1]: https://medium.com/onedegree-tech-blog/typescript-%E4%B8%80%E4%BA%9B%E4%BB%A4%E4%BA%BA%E5%8F%88%E6%84%9B%E5%8F%88%E6%81%A8%E7%9A%84%E5%85%A7%E5%AE%B9-type-guard-narrowing-1655a9ae2a4d
 [type guard2]: https://blog.logrocket.com/how-to-use-type-guards-typescript/
 [top 50 typescript interview questions explained]: https://betterprogramming.pub/top-50-typescript-interview-questions-explained-5e69b73eeab1
+[type vs interface]: https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces
 
  <!-- ref -->
 
@@ -822,6 +823,40 @@
   // Function Literal Type
   const fn: (param: number) => number = (param) => param * 2
   ```
+
+  </details>
+
+<!-- Type Assertions -->
+
+- <details close>
+  <summary>Type Assertions (斷言)</summary>
+
+  - 兩種方法：`<>`, `as`
+
+  ```typescript
+  // EX.
+  const obj1 = { x: 1, y: '' } as { x: number; y: string }
+  const obj2 = <{ x: number; y: string }>{ x: 1, y: '' }
+  ```
+
+  - 不管是否內容完全符合 type，直接斷定為該 type （可能是 未完成 或是 有多餘）
+
+  ```typescript
+  // 多餘 --> Pass
+  const obj1 = { x: 1, y: '', z: 1 } as { x: number; y: string }
+  // 未完成 --> Pass
+  const obj2 = { x: 1 } as { x: number; y: string }
+  // 錯誤 --> Error
+  const obj3 = { x: '' } as { x: number; y: string }
+  ```
+
+  - `as` 串
+    - 以最後一次為該變數的 type
+    - 只在意相鄰的兩次 as，只需兩者有交集即可（前者包含後者 | 後者包含前者）
+
+  <div class="imgBox" >
+    <img src="../src/image/base/not_only_one_as.png" alt="not_only_one_as.png" />
+  </div>
 
   </details>
 
