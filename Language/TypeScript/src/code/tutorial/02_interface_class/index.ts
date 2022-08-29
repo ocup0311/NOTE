@@ -351,8 +351,51 @@ import _ from 'lodash'
   const a = { x: 1 } as { x: number; y: string }
 })()
 
-// 8.
-;(() => {})()
+// 8. Type Assertions (as & <>)
+;(() => {
+  const obj1 = { x: 1, y: '', z: 1 } as { x: number; y: string }
+  const obj2 = { x: 1 } as { x: number; y: string }
+  const obj3 = { x: '' } as { x: number; y: string }
+
+  const x = 1 as any as string as number
+  const y = 1 as any as string as never as number as any as string
+
+  let a = 1 as any as { x: string } as { x: string; y: number }
+  let b = 1 as any as { x: string; y: number } as { x: string }
+  a = { x: '' }
+  a = { x: '', y: 1 }
+  b = { x: '' }
+  b = { x: '', y: 1 }
+})()
+
+// 9.
+;(() => {
+  //
+  interface X {
+    [index: number]: string | number
+    0: string
+    1: number
+  }
+
+  const x1: X = ['', 1]
+  const x2: X = ['', 1, 1]
+
+  type Y = [string, number]
+  const y1: Y = ['', 1]
+  const y2: Y = ['', 1, 1]
+
+  interface Z extends Y {}
+
+  const z1: Z = ['', 1]
+  const z2: Z = ['', 1, 1]
+
+  // Mapped object types
+  type Fruit = 'apple' | 'orange' | 'banana'
+
+  type FruitCount = {
+    [key in Fruit]: number
+  }
+})()
 
 // 00. 給朋友舉例
 ;(() => {
@@ -372,17 +415,3 @@ import _ from 'lodash'
   const mySettings = { size: SIZE.M }
   doSomething('Ocup', 18, mySettings)
 })()
-
-const obj1 = { x: 1, y: '', z: 1 } as { x: number; y: string }
-const obj2 = { x: 1 } as { x: number; y: string }
-const obj3 = { x: '' } as { x: number; y: string }
-
-const x = 1 as any as string as number
-const y = 1 as any as string as never as number as any as string
-
-let a = 1 as any as { x: string } as { x: string; y: number }
-let b = 1 as any as { x: string; y: number } as { x: string }
-a = { x: '' }
-a = { x: '', y: 1 }
-b = { x: '' }
-b = { x: '', y: 1 }
