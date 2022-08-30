@@ -7,6 +7,7 @@
 
 ###### <!-- 片語 -->
 
+[jumping to conclusions]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/jump-to-conclusions
 [in general]: #片語
 [but that's another topic]: #片語
 [let me attempt to answer your question.]: #片語
@@ -261,6 +262,20 @@
 </summary>
 
 > When making change, [odds are] you want to minimize the number of coins you’re dispensing for each customer, lest you run out (or annoy the customer!). Fortunately, computer science has given cashiers everywhere ways to minimize numbers of coins due: greedy algorithms.
+
+</details>
+
+###### <!-- jump to conclusions -->
+
+<details close>
+
+<summary><b>jump to conclusions</b>
+
+> 貿然斷定；過早下結論 （跳到結論）
+
+</summary>
+
+> I advised him against [jumping to conclusions].
 
 </details>
 
