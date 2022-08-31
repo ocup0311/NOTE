@@ -1229,6 +1229,8 @@
 
   - [Type Guard1] | [Type Guard2]
 
+    - 碰到 union 過後的型別，多數狀況下我們必須主動使用 Type Guard
+
 - 延伸閱讀：
 
   - [Top 50 TypeScript Interview Questions Explained]

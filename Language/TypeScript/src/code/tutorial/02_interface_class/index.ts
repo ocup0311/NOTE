@@ -370,7 +370,7 @@ import _ from 'lodash'
 
 // 9.
 ;(() => {
-  //
+  // interface vs type : tuple
   interface X {
     [index: number]: string | number
     0: string
@@ -395,6 +395,41 @@ import _ from 'lodash'
   type FruitCount = {
     [key in Fruit]: number
   }
+})()
+
+// 10. | &
+;(() => {
+  type T1 = {
+    x: number
+    y: number
+  }
+  type T2 = {
+    z: string
+    u: number
+  }
+
+  type T3 = T1 | T2
+  type T4 = T1 & T2
+
+  type T5 = {
+    x: number
+    y: number
+    z: string
+    u: number
+  }
+
+  // T3
+  const a1: T3 = { x: 1 }
+  const a2: T3 = { x: 1, y: 1 }
+  const a3: T3 = { z: '', u: 1 }
+  const a4: T3 = { x: 1, y: 1, z: '' }
+  const a5: T3 = { x: 1, z: '' }
+  const a6: T3 = { x: 1, y: 1, d: 1 }
+  const a7: T3 = { x: 1, y: 1, z: '', u: 1, d: 1 }
+  const a8: T3 = {}
+
+  // T4
+  const b1: T4 = { x: 1, y: 1, z: '', u: 1 }
 })()
 
 // 00. 給朋友舉例
