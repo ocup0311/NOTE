@@ -29,3 +29,25 @@ output: Grade 5
 input: As the average number of letters and words per sentence increases, the Coleman-Liau index gives the text a higher reading level. If you were to take this paragraph, for instance, which has longer words and sentences than either of the prior two examples, the formula would give the text an eleventh grade reading level.
 output: Grade 11
 ```
+
+# 補充：
+
+- 若運算後會轉型，則必須在運算前，先進行轉型
+
+```c
+// A. 結果為先以原型別(int)運算，再轉型為 float
+int x = 3;
+int y = 5;
+float z = x / y; // 0.000000
+
+
+// B. 一開始就定義為 float
+float x = 3;
+float y = 5;
+float z = x / y; // 0.600000
+
+// C. 運算前轉為 float（認為此方法為 佳）
+int x = 3;
+int y = 5;
+float z = (float)x / (float)y; // 0.600000
+```
