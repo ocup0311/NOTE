@@ -57,7 +57,7 @@ bool check_word(int charCode){
     return charCode == SPACE;
 }
 int count_word(string text){
-    return count_from_text(text, check_word);
+    return count_from_text(text, check_word) + 1;
 }
 
 bool check_sentence(int charCode){
