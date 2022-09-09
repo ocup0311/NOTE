@@ -1,4 +1,5 @@
 // Luhn’s Algorithm
+
 #include <stdio.h>
 #include <cs50.h>
 
@@ -76,10 +77,3 @@ int get_part2_digit(long part) {
 
     return digit;
 }
-
-
-
-// 補充：
-// Why "int main(void){}"
-// return 0 正常，return 1 Error。
-// https://blog.moli.rocks/2016/12/15/why-should-main-return-in-c/
