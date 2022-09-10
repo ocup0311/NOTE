@@ -7,6 +7,7 @@
 
 ###### <!-- 片語 -->
 
+[in spite of]: #片語
 [jumping to conclusions]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/jump-to-conclusions
 [in general]: #片語
 [but that's another topic]: #片語
@@ -276,6 +277,20 @@
 </summary>
 
 > I advised him against [jumping to conclusions].
+
+</details>
+
+###### <!-- in spite of -->
+
+<details close>
+
+<summary><b>in spite of</b>
+
+> 儘管
+
+</summary>
+
+> Consistent means doing something the same way over time whereas persistent means continuing something [in spite of] all the challenges and difficulties.
 
 </details>
 
