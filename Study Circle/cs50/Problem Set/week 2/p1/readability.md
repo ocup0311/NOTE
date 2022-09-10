@@ -1,4 +1,4 @@
-[Reading Level](https://cs50.harvard.edu/x/2021/psets/2/readability/)
+# [Reading Level](https://cs50.harvard.edu/x/2021/psets/2/readability/)
 
 - 公式：`index = 0.0588 * L - 0.296 * S - 15.8`
   - `L`: letters / 100 words

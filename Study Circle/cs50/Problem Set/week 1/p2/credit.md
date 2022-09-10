@@ -1,4 +1,5 @@
-- [credit](https://cs50.harvard.edu/x/2021/psets/1/credit/)
+# [Credit](https://cs50.harvard.edu/x/2021/psets/1/credit/)
+
 - `Luhn’s Algorithm`
 
 # 補充：

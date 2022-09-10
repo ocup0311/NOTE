@@ -19,7 +19,6 @@ int main(int n, string p[])
 
     // var
     int key = atoi(p[1]);
-    printf("key: %i\n", key);
     string text = get_string("plaintext: ");
 
     // run
