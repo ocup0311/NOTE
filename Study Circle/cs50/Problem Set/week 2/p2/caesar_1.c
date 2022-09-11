@@ -11,6 +11,7 @@ int A = 65, Z = 90, a = 97, z = 122;
 
 // declare
 bool isNumKey(string key);
+int convert_code(int preCode, int key);
 
 // main
 int main(int n, string p[])
@@ -29,25 +30,14 @@ int main(int n, string p[])
     }
 
     // var
-    int key = atoi(p[1]);
     string text = get_string("plaintext: ");
+    int key = atoi(p[1]);
 
     // run
     for(int i = 0; i < strlen(text); i++)
     {
         int preCode = (int) text[i];
-        int newCode = preCode;
-
-        if(preCode >= A && preCode <= Z)
-        {
-            newCode = (preCode - A + key) % 26 + A;
-        }
-        else if(preCode >= a && preCode <= z)
-        {
-            newCode = (preCode - a + key) % 26 + a;
-        }
-
-        
+        int newCode = convert_code(preCode, key);
         char newChar = newCode;
         text[i] = newChar;
     }
@@ -66,4 +56,28 @@ bool isNumKey(string key)
     }
 
     return true;
+}
+
+int convert_code_by_datas(int preCode, int key, int rows, int datas[rows][2])
+{
+    for(int i = 0; i < rows; i++)
+    {
+        int S = datas[i][0];
+        int E = datas[i][1];
+
+        if(preCode >= S && preCode <= E)
+        {
+            return (preCode - S + key) % 26 + S;
+        }
+    }
+
+    return preCode;
+}
+
+int convert_code(int preCode, int key)
+{
+    int datas[2][2] = { { A , Z } , { a , z } };
+    int rows = sizeof(datas) / sizeof(datas[0]);
+
+    return convert_code_by_datas(preCode, key, rows, datas);
 }
