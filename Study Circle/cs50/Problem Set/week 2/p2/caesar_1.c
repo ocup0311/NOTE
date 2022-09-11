@@ -3,9 +3,14 @@
 #include <stdlib.h>
 #include <math.h>
 #include <cs50.h>
+#include <ctype.h>
+
 
 // CONST
 int A = 65, Z = 90, a = 97, z = 122;
+
+// declare
+bool isNumKey(string key);
 
 // main
 int main(int n, string p[])
@@ -14,6 +19,12 @@ int main(int n, string p[])
     if(n != 2)
     {
         printf("Need only one Key!\n");
+        return true;
+    }
+
+    if(!isNumKey(p[1]))
+    {
+        printf("Usage: ./caesar\n");
         return true;
     }
 
@@ -46,3 +57,13 @@ int main(int n, string p[])
     return false;
 }
 
+// function
+bool isNumKey(string key)
+{
+    for(int i = 0; i < strlen(key); i++)
+    {
+        if(!isdigit(key[i])) return false;
+    }
+
+    return true;
+}

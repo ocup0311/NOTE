@@ -4,9 +4,9 @@
 #include <cs50.h>
 
 // declare
-bool count_letter(int charCode);
-bool count_word(int charCode);
-bool count_sentence(int charCode);
+bool isLetter(int charCode);
+bool isWord(int charCode);
+bool isSentence(int charCode);
 
 // main
 int main(void)
@@ -24,9 +24,9 @@ int main(void)
     {
         int charCode = (int) text[i];
 
-        if(count_letter(charCode)) nofLetters++;
-        else if(count_word(charCode)) nofWords++;
-        else if(count_sentence(charCode)) nofSentences++;
+        if(isLetter(charCode)) nofLetters++;
+        else if(isWord(charCode)) nofWords++;
+        else if(isSentence(charCode)) nofSentences++;
     }
 
     L = (float)nofLetters * 100 / (float)nofWords;
@@ -42,21 +42,21 @@ int main(void)
 
 
 // function
-bool count_letter(int charCode){
+bool isLetter(int charCode){
     // CONST
     int A = 65, Z = 90, a = 97, z = 122;
 
     return (charCode >= A && charCode <= Z) || (charCode >= a && charCode <= z);
 }
 
-bool count_word(int charCode){
+bool isWord(int charCode){
     // CONST
     int SPACE = 32;
 
     return charCode == SPACE;
 }
 
-bool count_sentence(int charCode){
+bool isSentence(int charCode){
     // CONST
     int PERIOD = 46, QUESTTION = 63, EXCLAMATION = 33;
 
