@@ -29,6 +29,7 @@
 [type guard2]: https://blog.logrocket.com/how-to-use-type-guards-typescript/
 [top 50 typescript interview questions explained]: https://betterprogramming.pub/top-50-typescript-interview-questions-explained-5e69b73eeab1
 [type vs interface]: https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces
+["void return" in interface doesn't trigger error in "implementation"]: https://stackoverflow.com/questions/70546619/why-typescript-return-type-void-in-interface-doesnt-trigger-error-in-implementa
 
  <!-- ref -->
 
@@ -654,7 +655,7 @@
 
     > REF: [never & unknown]
 
-    <!-- never -->
+      <!-- never -->
 
     - <details close>
       <summary>never</summary>
@@ -702,7 +703,7 @@
 
       </details>
 
-    <!-- unknown -->
+      <!-- unknown -->
 
     - <details close>
       <summary>unknown</summary>
@@ -779,7 +780,7 @@
 
       </details>
 
-    <!-- never VS any VS unknown -->
+      <!-- never VS any VS unknown -->
 
     - <details close>
       <summary>never VS any VS unknown</summary>
@@ -797,6 +798,67 @@
         <div class="imgBox" >
           <img src="../src/image/base/never_any_unknown1.png" alt="never_any_unknown1.png" />
         </div>
+
+      </details>
+
+    </details>
+
+  <!-- class -->
+
+  - <details close>
+    <summary>class</summary>
+
+    <!-- 需保證所有的 Member Variable (Property) 都有註記＆值 -->
+
+    - <details close>
+      <summary>需保證所有的 Member Variable (Property) 都有註記＆值</summary>
+
+      - 必須有型別註記 ( line 6, 14, 21：未註記 `name` )
+      - 必須 初始化 或是 從 constructor 賦值 ( line 10：`mobile` 未賦值 )
+      - 必須傳值給 constructor 進行 賦值 ( line 27：`age` 未傳值且無預設值 )
+
+      <div class="imgBox" >
+        <img src="../src/image/base/type_class.png" alt="type_class.png" />
+      </div>
+
+      </details>
+
+    <!-- implements -->
+
+    - <details close>
+      <summary>implements</summary>
+
+      - 實作 method 的 type 必須與 type 相符
+
+      <div class="imgBox" >
+        <img src="../src/image/base/class_implements_diffReturnType.png" alt="class_implements_diffReturnType.png" />
+      </div>
+
+      - 實作未如 type 定義回傳 `void`，不會報錯
+      - REF: ["void return" in interface doesn't trigger error in "implementation"]
+
+      <div class="imgBox" >
+        <img src="../src/image/base/class_implements_void.png" alt="class_implements_void.png" />
+      </div>
+
+      - 必須實作所有已定義的 method type
+
+      <div class="imgBox" >
+        <img src="../src/image/base/class_implements_noMethod.png" alt="class_implements_noMethod.png" />
+      </div>
+
+      - 實作可以多出 type 中未定義的 method
+
+      <div class="imgBox" >
+        <img src="../src/image/base/class_implements_noType.png" alt="class_implements_noType.png" />
+      </div>
+
+      </details>
+
+    <!-- Access Modifiers（存取修飾子） -->
+
+    - <details close>
+      <summary>Access Modifiers（存取修飾子）</summary>
 
       </details>
 
