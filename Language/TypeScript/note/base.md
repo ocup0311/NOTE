@@ -82,6 +82,8 @@
 - <details close>
   <summary>編譯 TS 成 JS</summary>
 
+  - 即便有 `error`，依然會編譯成一份 JS
+
   - ```shell
     $ tsc index.ts
     ```
@@ -859,6 +861,67 @@
 
     - <details close>
       <summary>Access Modifiers（存取修飾子）</summary>
+
+      <!-- 三種 Access Modifiers -->
+
+      - <details close>
+        <summary>三種 Access Modifiers</summary>
+
+        - `public`：公開（預設）
+        - `private`：唯此 class 存取
+        - `protected`：繼承 class 皆可存取
+
+        </details>
+
+      <!-- 若繼承至 interface，則只能為 public -->
+
+      - <details close>
+        <summary>若繼承至<code>interface</code>，則只能為 <code>public</code></summary>
+
+        <div class="imgBox" >
+          <img src="../src/image/base/class_public_VS_interface.png" alt="class_public_VS_interface.png" />
+        </div>
+
+        </details>
+
+      <!-- private ＆ protected 都只是 TS 在編譯時做檢查，依然可以被繞過存取 -->
+
+      - <details close>
+        <summary><code>private</code>＆<code>protected</code>都只是 TS 在編譯時做檢查，依然可以被繞過存取</summary>
+
+        - 若要阻止被外部存取，得用 js class `#屬性`
+
+        <div class="imgBox" >
+          <img src="../src/image/base/class_private1.png" alt="class_private1.png" />
+        </div>
+
+        </details>
+
+      <!-- 自動綁定 `this` -->
+
+      - <details close>
+        <summary>參數自動綁定 <code>this</code> 屬性</summary>
+
+        - 在`constructor`參數定義`Access Modifiers`，等同於定義`class`中的屬性，並自動綁定`this.a = a`
+        - 以下兩段 code 編譯後，相等
+
+        ```typescript
+        class C {
+          constructor(private a: string) {}
+        }
+        ```
+
+        ```typescript
+        class C {
+          private a: string
+
+          constructor(a: string) {
+            this.a = a
+          }
+        }
+        ```
+
+        </details>
 
       </details>
 
