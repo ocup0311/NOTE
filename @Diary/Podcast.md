@@ -39,6 +39,9 @@
 
 ###### <!-- 單集小整理 -->
 
+[投資型 dao ft. matrixdao 孫彬盛]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000554913186
+[激進市場五大重點]: https://podcasts.apple.com/tw/podcast/%E5%AF%B6%E5%8D%9A%E6%9C%8B%E5%8F%8B%E8%AA%AA/id1484923390?i=1000456655038
+[平方募資法 ft. 激進改變台北社群梁智程、黃雅信]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000487129036
 [銀行級加密貨幣金庫 ft. 資安公司 cybavo]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000499079707
 [馬力歐單口：事情永遠做不完，gtd 時間管理搞定待辦任務]: https://podcasts.apple.com/ca/podcast/%E6%98%A5%E6%97%A5%E8%BF%B7%E4%BD%A0%E5%AD%A3-%E9%A6%AC%E5%8A%9B%E6%AD%90%E5%96%AE%E5%8F%A3%E7%89%B9%E8%BC%AF-%E4%BA%8B%E6%83%85%E6%B0%B8%E9%81%A0%E5%81%9A%E4%B8%8D%E5%AE%8C-%E7%94%A8gtd%E6%99%82%E9%96%93%E7%AE%A1%E7%90%86%E4%B9%8B%E8%A1%93%E6%90%9E%E5%AE%9A%E5%BE%85%E8%BE%A6%E4%BB%BB%E5%8B%99/id1192212072?i=1000475401681
 [101 總經理｜張振亞：把自己每個角色的事放進行事曆]: https://podcasts.apple.com/nz/podcast/s4ep24-%E5%8F%B0%E5%8C%97101%E7%B8%BD%E7%B6%93%E7%90%86-%E5%BC%B5%E6%8C%AF%E4%BA%9E-%E7%B6%93%E7%87%9F%E5%AE%B6%E5%BA%AD%E4%B9%9F%E9%9C%80%E8%A6%81%E7%AD%96%E7%95%A5-%E6%8A%8A%E8%87%AA%E5%B7%B1%E6%AF%8F%E5%80%8B%E8%A7%92%E8%89%B2%E8%A9%B2%E5%81%9A%E7%9A%84%E4%BA%8B%E6%94%BE%E9%80%B2%E8%A1%8C%E4%BA%8B%E6%9B%86%E5%B0%B1%E4%B8%8D%E6%9C%83%E7%84%A6%E6%85%AE/id1192212072?i=1000499559348
@@ -107,6 +110,12 @@
 - 駭客
 
   - [HITCON CTF 世界第二: Alan & Jeff]
+
+- 平方投票(Quadratic Voting)
+
+  - [平方募資法 ft. 激進改變台北社群梁智程、黃雅信]
+  - [激進市場五大重點]
+  - [投資型 DAO ft. MatrixDAO 孫彬盛]
 
 - 其他暫存
 
