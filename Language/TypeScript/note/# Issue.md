@@ -17,6 +17,7 @@
 [type_vs_interface 1]: https://stackoverflow.com/questions/37233735/interfaces-vs-types-in-typescript
 [多重繼承]: https://zh.wikipedia.org/wiki/%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF
 [虛繼承]: https://zh.wikipedia.org/wiki/%E8%99%9A%E7%BB%A7%E6%89%BF
+[javascript 中的 proxy 與 reflect]: https://blog.techbridge.cc/2018/05/27/js-proxy-reflect/
 
 <!-- ref -->
 
@@ -81,6 +82,17 @@
 
   // class CashMachine implements TransactionSystem, AccountSystem {}
   ```
+
+  </details>
+
+<!-- Javascript 中的 Proxy 與 Reflect -->
+
+- <details close>
+  <summary>Javascript 中的 Proxy 與 Reflect</summary>
+
+  > REF: [Javascript 中的 Proxy 與 Reflect]
+
+  - 待研究群組中的問題（關鍵字搜尋：typescript typeof）
 
   </details>
 
