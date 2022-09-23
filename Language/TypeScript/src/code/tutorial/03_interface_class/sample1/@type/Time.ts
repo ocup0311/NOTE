@@ -1,1 +1,1 @@
-type Time = [number, number, number]
+export type Time = [number, number, number]

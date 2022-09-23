@@ -1,4 +1,6 @@
-class TicketSystem {
+import { Time, TrainStops, Transports } from '../../@type'
+
+export class TicketSystem {
   constructor(
     private type: Transports,
     protected startingPoint: TrainStops,

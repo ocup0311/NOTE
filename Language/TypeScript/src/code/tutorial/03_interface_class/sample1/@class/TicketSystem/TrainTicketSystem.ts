@@ -1,4 +1,7 @@
-class TrainTicketSystem extends TicketSystem {
+import { Time, TrainStopDetail, TrainStops, Transports } from '../../@type'
+import { TicketSystem } from './TicketSystem'
+
+export class TrainTicketSystem extends TicketSystem {
   constructor(
     startingPoint: TrainStops,
     destination: TrainStops,

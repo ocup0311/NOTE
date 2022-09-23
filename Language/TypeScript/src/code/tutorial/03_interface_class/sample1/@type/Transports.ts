@@ -1,11 +1,13 @@
-enum Transports {
+import { Time } from './Time'
+
+export enum Transports {
   Train,
   MRT,
   Aviation,
 }
 
 // Train
-enum TrainStops {
+export enum TrainStops {
   Pingtung = 'Pingtung',
   Kaohsiung = 'Kaohsiung',
   Tainan = 'Tainan',
@@ -14,14 +16,14 @@ enum TrainStops {
   Taipei = 'Taipei',
 }
 
-type TrainStopDetail = {
+export type TrainStopDetail = {
   name: TrainStops
   nextStop: TrainStops
   duration: Time
 }
 
 // MRT
-enum MRTStops {
+export enum MRTStops {
   Taipei,
   Taoyuan,
   Taichung,
@@ -29,20 +31,20 @@ enum MRTStops {
   Kaohsiung,
 }
 
-type MRTStopDetail = {
+export type MRTStopDetail = {
   name: TrainStops
   nextStop: TrainStops
   duration: Time
 }
 
 // Aviation
-enum AviationStops {
+export enum AviationStops {
   Taipei,
   Taoyuan,
   Kaohsiung,
 }
 
-type AviationStopDetail = {
+export type AviationStopDetail = {
   name: TrainStops
   nextStop: TrainStops
   duration: Time
