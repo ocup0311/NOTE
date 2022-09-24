@@ -39,6 +39,7 @@
 
 ###### <!-- 單集小整理 -->
 
+[陽光伏特家 - 太陽能電廠]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000480833455
 [投資型 dao ft. matrixdao 孫彬盛]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000554913186
 [激進市場五大重點]: https://podcasts.apple.com/tw/podcast/%E5%AF%B6%E5%8D%9A%E6%9C%8B%E5%8F%8B%E8%AA%AA/id1484923390?i=1000456655038
 [平方募資法 ft. 激進改變台北社群梁智程、黃雅信]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000487129036
@@ -116,6 +117,10 @@
   - [平方募資法 ft. 激進改變台北社群梁智程、黃雅信]
   - [激進市場五大重點]
   - [投資型 DAO ft. MatrixDAO 孫彬盛]
+
+- 區塊鏈應用
+
+  - [陽光伏特家 - 太陽能電廠]
 
 - 其他暫存
 
