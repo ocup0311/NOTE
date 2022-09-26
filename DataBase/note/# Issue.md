@@ -22,7 +22,7 @@
 <!-- 1. Why Token-based Pagination Performs Better Than Offset Based? -->
 
 - <details close>
-    <summary>1. Why Token-based Pagination Performs Better Than Offset Based?</summary>
+  <summary>1. Why Token-based Pagination Performs Better Than Offset Based?</summary>
 
   > DATE: 9.2022
 
@@ -32,12 +32,28 @@
   > 2. [MongoDB Pagination, Fast & Consistent]
   > 3. [龐大資料庫分頁方案 Cursor-based pagination]
 
-  - In MongoDB, when the find() method is used to find the documents present in the given collection, then this method returned a pointer which will points to the documents of the collection, now this pointer is known as cursor.
+  <!-- 參考內容 -->
 
-  - In MongoDB parlance, a cursoris an object that you can use to iterate through the results of a query. If you execute a query against a MongoDB server directly, the result is a cursor rather than a bunch of documents. Similarly, the MongoDB Node.js driver will return a cursor from find () . In most cases the cursor API is overkill, so mongoose hides it from you by default.
+  - <details close>
+    <summary>參考內容</summary>
 
-  - [Mongodb create index]
+    - In MongoDB, when the find() method is used to find the documents present in the given collection, then this method returned a pointer which will points to the documents of the collection, now this pointer is known as cursor.
 
-    - But don't be afraid to call createIndex too often. The documentation guarantees that when an index with the same settings already exists, nothing will happen. So you can attach it to some common database operations executed by new users.
+    - In MongoDB parlance, a cursoris an object that you can use to iterate through the results of a query. If you execute a query against a MongoDB server directly, the result is a cursor rather than a bunch of documents. Similarly, the MongoDB Node.js driver will return a cursor from find () . In most cases the cursor API is overkill, so mongoose hides it from you by default.
+
+    - [Mongodb create index]
+
+      - But don't be afraid to call createIndex too often. The documentation guarantees that when an index with the same settings already exists, nothing will happen. So you can attach it to some common database operations executed by new users.
 
     </details>
+
+  <!-- 問題集 -->
+
+  - <details close>
+    <summary>問題集</summary>
+
+    -
+
+    </details>
+
+  </details>
