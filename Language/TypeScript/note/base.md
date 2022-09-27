@@ -35,7 +35,7 @@
 
 # TS 基礎
 
-> DATE: 7 (2022)
+> DATE: 7 ~ 10 (2022)
 > REF: [TS Docs] | [google TS style guide] | [鐵人賽 1] | [typescript 新手指南] | [深入理解 TypeScript]
 
  <!-- 工具 -->
@@ -127,6 +127,40 @@
       $ tsc
       --> 生成 test1.js, test2.js, test3.js
       ```
+
+  </details>
+
+<!-- import module -->
+
+- <details close>
+  <summary>import module</summary>
+
+  - 目的：
+
+    - 使用 es6 up，且 `import` 時不需加副檔名，且可以使用 `index.js`
+
+    ```typescript
+    // EX. 自動 import from "./@class/TicketSystem/index.js"
+    import { TrainTicketSystem } from './@class/TicketSystem'
+    ```
+
+  - 目前的解法：
+
+    - 將 es6 up 編譯成 commonJS
+    - `tsconfig.json` 中設定（從 es2016 編譯成 commonJS）
+
+    ```typescript
+    "target": "es2016",
+    "module": "commonjs",
+    ```
+
+    - `package.json` 中設定（因為最後是編譯成 commonJS）
+
+    ```typescript
+    "type": "commonjs",
+    ```
+
+  - TODO: 是否有解法可以編譯成 es6 up 且達成目的？
 
   </details>
 
