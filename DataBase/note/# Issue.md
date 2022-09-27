@@ -12,6 +12,8 @@
 
 ###### <!-- ref -->
 
+[implementing api pagination with nodejs, mongoose]: https://cloudnweb.dev/2021/04/pagination-nodejs-mongoose/
+[fast and efficient pagination in mongodb]: https://www.codementor.io/@arpitbhayani/fast-and-efficient-pagination-in-mongodb-9095flbqr
 [mongoose - what does the exec function do?]: https://stackoverflow.com/questions/31549857/mongoose-what-does-the-exec-function-do
 [mongoose .exec()]: https://mongoosejs.com/docs/promises.html
 [mongoose index]: https://mongoosejs.com/docs/guide.html#indexes
@@ -34,6 +36,8 @@
   > 1. [Why Token-based Pagination Performs Better Than Offset Based?]
   > 2. [MongoDB Pagination, Fast & Consistent]
   > 3. [龐大資料庫分頁方案 Cursor-based pagination]
+  > 4. [Fast and Efficient Pagination in MongoDB]
+  > 5. [Implementing API Pagination with NodeJS, Mongoose]
 
   <!-- 參考內容 -->
 
@@ -124,6 +128,7 @@
 
     - 4. Pagination: offset VS token
 
+      - TODO: 在閱讀一次 [Implementing API Pagination with NodeJS, Mongoose]
       - offset:
 
         - 也就是 mongodb 中的 skip
