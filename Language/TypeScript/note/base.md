@@ -12,6 +12,7 @@
 
 ###### <!-- ref -->
 
+[zod]: https://github.com/colinhacks/zod
 [ts docs]: https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html
 [google ts style guide]: https://google.github.io/styleguide/tsguide.html
 [鐵人賽 1]: https://ithelp.ithome.com.tw/articles/10214714
@@ -41,13 +42,12 @@
  <!-- 工具 -->
 
 - <details close>
-     <summary>工具：</summary>
+  <summary>工具：</summary>
 
   - [ECMAScript 相容表]
+  - [zod]：可協助檢查 API 回傳的 type
 
-    </details>
-
-    </details>
+  </details>
 
 ## 0. 環境
 
@@ -970,7 +970,7 @@
       ```typescript
       // 1. static（靜態）
       class CircleS {
-        private static PI = 3.14
+        private static readonly PI = 3.14
 
         static calArea(radius: number): number {
           return CircleS.PI * radius ** 2
@@ -983,7 +983,7 @@
 
       // 2. 一般（動態）
       class Circle {
-        private PI = 3.14
+        private readonly PI = 3.14
 
         constructor(public radius: number) {}
 
@@ -996,6 +996,104 @@
       const area21 = circle2.calArea() // 31400
       const area22 = Circle.calArea(100) // [error]
       ```
+
+      </details>
+
+    <!-- Accessors (Getter / Setter) -->
+
+    - <details close>
+      <summary>Accessors (Getter / Setter)</summary>
+
+      <!-- Getter -->
+
+      - <details close>
+        <summary>Getter</summary>
+
+        - 只能讀取
+        - 會隨著 property 變動
+        - 不能有參數，必須有回傳值
+
+        ```typescript
+        class Circle1 {
+          private readonly PI = 3.14
+
+          constructor(public radius: number) {}
+
+          get area(): number {
+            return this.PI * this.radius ** 2
+          }
+        }
+
+        const circle = new Circle1(100)
+        const area11 = circle.area
+        circle.radius = 200
+        const area12 = circle.area
+        console.log(area11, area12) // 31400, 125600
+
+        circle.area = 123 // [error]
+        ```
+
+        </details>
+
+      <!-- Setter -->
+
+      - <details close>
+        <summary>Setter</summary>
+
+        - 可以使其 set 後產生 side effect (ex. 改變面積後，自動改變半徑)
+        - 必須有唯一參數，即為 assign 到該屬性的值
+        - 不能有回傳值
+        - 直接用 `=` 賦值，且會做 type 檢查
+
+        ```typescript
+        class Circle2 {
+          private readonly PI = 3.14
+
+          constructor(public radius: number) {}
+
+          get area(): number {
+            return this.PI * this.radius ** 2
+          }
+
+          set area(value: number) {
+            this.radius = (value / this.PI) ** 0.5
+          }
+        }
+
+        const circle2 = new Circle2(100)
+        const area21 = circle2.area
+        circle2.area = 70650
+        const area22 = circle2.area
+        const radius = circle2.radius
+        console.log(area21, area22, radius) // 31400, 70650, 150
+
+        circle2.area = '70650' // [error]
+        ```
+
+        </details>
+
+      <!-- Accessors 基本上可以使用 Type Inference 不會出錯 -->
+
+      - <details close>
+        <summary>Accessors 基本上可以使用 Type Inference 不會出錯</summary>
+
+        ```typescript
+        class Circle2 {
+          private readonly PI = 3.14
+
+          constructor(public radius: number) {}
+
+          get area() {
+            return this.PI * this.radius ** 2
+          }
+
+          set area(value) {
+            this.radius = (value / this.PI) ** 0.5
+          }
+        }
+        ```
+
+        </details>
 
       </details>
 

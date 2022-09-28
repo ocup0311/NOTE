@@ -128,7 +128,7 @@
 ;(() => {
   // static（靜態）
   class CircleS {
-    private static PI = 3.14
+    private static readonly PI = 3.14
 
     static calArea(radius: number): number {
       return CircleS.PI * radius ** 2
@@ -141,7 +141,7 @@
 
   // 一般（動態）
   class Circle {
-    private PI = 3.14
+    private readonly PI = 3.14
 
     constructor(public radius: number) {}
 
@@ -153,6 +153,52 @@
   const circle2 = new Circle(100)
   const area21 = circle2.calArea() // 31400
   const area22 = Circle.calArea(100) // [error]
+})()
+
+// 7.
+;(() => {
+  // 1.
+  class Circle1 {
+    private readonly PI = 3.14
+
+    constructor(public radius: number) {}
+
+    get area(): number {
+      return this.PI * this.radius ** 2
+    }
+  }
+
+  const circle = new Circle1(100)
+  const area11 = circle.area
+  circle.radius = 200
+  const area12 = circle.area
+  console.log(area11, area12) // 31400, 125600
+
+  // circle.area = 123 // [error]
+
+  // 2.
+  class Circle2 {
+    private readonly PI = 3.14
+
+    constructor(public radius: number) {}
+
+    get area() {
+      return this.PI * this.radius ** 2
+    }
+
+    set area(value) {
+      this.radius = (value / this.PI) ** 0.5
+    }
+  }
+
+  const circle2 = new Circle2(100)
+  const area21 = circle2.area
+  circle2.area = 70650
+  const area22 = circle2.area
+  const radius = circle2.radius
+  console.log(area21, area22, radius) // 31400, 70650, 150
+
+  circle2.area = '70650' // [error]
 })()
 
 // 其他------------------------

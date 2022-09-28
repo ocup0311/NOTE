@@ -26,11 +26,11 @@
 <!-- Type vs Interface -->
 
 - <details close>
-   <summary>Type vs Interface</summary>
+  <summary>Type vs Interface</summary>
 
   > REF: [Type_vs_Interface 文件] | [Type_vs_Interface 鐵人] | [Type_vs_Interface 1]
 
-   </details>
+  </details>
 
 <!-- 鑽石問題 -->
 

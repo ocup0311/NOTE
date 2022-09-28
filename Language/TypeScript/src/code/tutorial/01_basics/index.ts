@@ -360,8 +360,10 @@
     Sat,
   }
 
-  let day1: keyof typeof WeekDay = WeekDay[0]
-  let day2: keyof typeof WeekDay = 'Sat'
+  type WeekDayKey = keyof typeof WeekDay
+
+  const day1: WeekDayKey = WeekDay[0]
+  const day2: WeekDayKey = 'Sat'
 
   let day: string = WeekDay[0]
   console.log(WeekDay[day])
