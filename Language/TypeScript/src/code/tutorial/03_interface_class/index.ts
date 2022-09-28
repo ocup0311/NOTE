@@ -6,6 +6,7 @@
     hasPet: boolean
     hasCar: boolean = true
     mobile: string
+    private static test: number = 1
 
     //建構子函式
     constructor(name: string, age: number, hasPet: boolean = true) {
@@ -123,8 +124,36 @@
   }
 })()
 
-// 6.
-;(() => {})()
+// 6. static
+;(() => {
+  // static（靜態）
+  class CircleS {
+    private static PI = 3.14
+
+    static calArea(radius: number): number {
+      return CircleS.PI * radius ** 2
+    }
+  }
+
+  const circle1 = new CircleS()
+  const area11 = circle1.calArea(100) // [error]
+  const area12 = CircleS.calArea(100) // 31400
+
+  // 一般（動態）
+  class Circle {
+    private PI = 3.14
+
+    constructor(public radius: number) {}
+
+    public calArea(): number {
+      return this.PI * this.radius ** 2
+    }
+  }
+
+  const circle2 = new Circle(100)
+  const area21 = circle2.calArea() // 31400
+  const area22 = Circle.calArea(100) // [error]
+})()
 
 // 其他------------------------
 ;(() => {

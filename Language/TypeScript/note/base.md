@@ -959,6 +959,46 @@
 
       </details>
 
+    <!-- static -->
+
+    - <details close>
+      <summary>static</summary>
+
+      - class 本身的屬性與方法，為「靜態」屬性與方法
+      - 因為不管從 class 產生出任何 object，static 不變 --> 「靜態」
+
+      ```typescript
+      // 1. static（靜態）
+      class CircleS {
+        private static PI = 3.14
+
+        static calArea(radius: number): number {
+          return CircleS.PI * radius ** 2
+        }
+      }
+
+      const circle1 = new CircleS()
+      const area11 = circle1.calArea(100) // [error]
+      const area12 = CircleS.calArea(100) // 31400
+
+      // 2. 一般（動態）
+      class Circle {
+        private PI = 3.14
+
+        constructor(public radius: number) {}
+
+        public calArea(): number {
+          return this.PI * this.radius ** 2
+        }
+      }
+
+      const circle2 = new Circle(100)
+      const area21 = circle2.calArea() // 31400
+      const area22 = Circle.calArea(100) // [error]
+      ```
+
+      </details>
+
     </details>
 
   </details>

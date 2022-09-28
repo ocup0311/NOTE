@@ -9,7 +9,8 @@ export class TrainTicketSystem extends TicketSystem {
   ) {
     super(Transports.Train, startingPoint, destination, departureTime)
   }
-  private trainStopDetails: Map<TrainStops, TrainStopDetail> = new Map([
+
+  private static trainStopDetails: Map<TrainStops, TrainStopDetail> = new Map([
     [
       TrainStops.Pingtung,
       {
@@ -67,7 +68,7 @@ export class TrainTicketSystem extends TicketSystem {
     const calDurationTime = (STA: TrainStops, DES: TrainStops): Time => {
       if (STA === DES) return [0, 0, 0]
 
-      const detail = this.trainStopDetails.get(STA)
+      const detail = TrainTicketSystem.trainStopDetails.get(STA)
       if (!detail) throw new Error('Wrong stop detail!')
 
       const { nextStop, duration: preDuration } = detail
