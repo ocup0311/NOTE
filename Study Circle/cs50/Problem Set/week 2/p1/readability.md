@@ -52,6 +52,8 @@ int y = 5;
 float z = (float)x / (float)y; // 0.600000
 ```
 
+- [處理數字的套件](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)
+
 # 測試用範例
 
 - (Before Grade 1)
