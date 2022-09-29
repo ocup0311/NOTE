@@ -12,6 +12,9 @@
 
 ###### <!-- ref -->
 
+[鐵人賽片段 1]: https://ithelp.ithome.com.tw/articles/10218770#:~:text=%E5%96%AE%E4%BE%8B%E9%A1%9E%E5%88%A5%E7%9A%84%E7%B9%BC%E6%89%BF%20Singleton%20Class%20Inheritance
+[can we inherit singleton class?]: https://stackoverflow.com/questions/3564758/can-we-inherit-singleton-class
+[read-only properties in typescript]: https://mariusschulz.com/blog/read-only-properties-in-typescript
 [zod]: https://github.com/colinhacks/zod
 [ts docs]: https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html
 [google ts style guide]: https://google.github.io/styleguide/tsguide.html
@@ -997,6 +1000,26 @@
       const area22 = Circle.calArea(100) // [error]
       ```
 
+      - `this`:
+        - 在 static method 中，`this` 為 class 本身
+        - 在 method 中，`this` 為 instance 本身
+
+      ```typescript
+      class Test {
+        constructor(private x: object) {}
+
+        private static x: object = {}
+
+        static staticMethod() {
+          console.log(Test.x === this.x) // true
+        }
+
+        method() {
+          console.log(Test.x === this.x) // false
+        }
+      }
+      ```
+
       </details>
 
     <!-- Accessors (Getter / Setter) -->
@@ -1485,7 +1508,98 @@
 
 ---
 
-## 4. 其他補充
+## 4. 設計模式
+
+<!-- Singleton (單例模式) -->
+
+- <details close>
+  <summary>Singleton (單例模式)</summary>
+
+  <!-- 「直接使用 `instance`」 VS 「使用 `getInstance()`」 -->
+
+  - <details close>
+    <summary>「直接使用 `instance`」 VS 「使用 `getInstance()`」</summary>
+
+    - TODO: 是否有優劣？
+
+    - 方法 A：直接使用 `instance`
+
+    ```typescript
+    class Singleton {
+      private constructor(
+        public readonly name: string,
+        public readonly age: number
+      ) {}
+
+      static readonly instance: Singleton = new Singleton('Ocup', 18)
+    }
+
+    const a = Singleton.instance
+    const b = Singleton.instance
+    console.log(a === b) // true
+    ```
+
+    - 方法 B：使用 `getInstance()`
+
+    ```typescript
+    class Singleton {
+      private constructor(
+        public readonly name: string,
+        public readonly age: number
+      ) {}
+
+      private static instance: Singleton = new Singleton('Ocup', 18)
+
+      static getInstance(): Singleton {
+        return Singleton.instance
+      }
+    }
+
+    const a = Singleton.getInstance()
+    const b = Singleton.getInstance()
+    console.log(a === b) // true
+    ```
+
+    </details>
+
+  <!-- Lazy Initialization in Singleton -->
+
+  - <details close>
+    <summary>Lazy Initialization in Singleton</summary>
+
+    - 當第一次 getInstance 時，再產生 instance，避免造成浪費
+
+    ```typescript
+    class LazySingleton {
+      private constructor(
+        public readonly name: string,
+        public readonly age: number
+      ) {}
+
+      private static instance: LazySingleton
+
+      static getInstance(): LazySingleton {
+        if (!LazySingleton.instance) {
+          LazySingleton.instance = new LazySingleton('Ocup', 18)
+        }
+
+        return LazySingleton.instance
+      }
+    }
+    ```
+
+    </details>
+
+  - TODO: `inherit` Singleton 的問題
+
+    - [鐵人賽片段 1]
+    - [Can we inherit singleton class?]
+
+  </details>
+
+---
+
+## 5. 其他補充
 
 - 暫記：
 
@@ -1519,6 +1633,10 @@
     - `tru` 有什麼好處、什麼必要？
 
   - [TS 變數 name]
+
+  - 基本上 TS 的部分都是在 compile 階段使用，編譯成 JS 後，都不再具有功效
+
+    > REF: [Read-Only Properties in TypeScript]
 
 - 小技巧：
 
