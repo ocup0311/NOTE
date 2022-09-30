@@ -7,6 +7,7 @@
 
 ###### <!-- 片語 -->
 
+[eat the word]: https://funkyenglish.com/idiom-eat-your-words/
 [in spite of]: #片語
 [jumping to conclusions]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/jump-to-conclusions
 [in general]: #片語
@@ -291,6 +292,20 @@
 </summary>
 
 > Consistent means doing something the same way over time whereas persistent means continuing something [in spite of] all the challenges and difficulties.
+
+</details>
+
+###### <!-- eat the word -->
+
+<details close>
+
+<summary><b>eat the word</b>
+
+> 被打臉
+
+</summary>
+
+> Now this I think is correct. We'll see if I [eat the word] in a moment.
 
 </details>
 
