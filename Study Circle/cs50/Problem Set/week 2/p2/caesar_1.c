@@ -20,13 +20,13 @@ int main(int n, string p[])
     if(n != 2)
     {
         printf("Need only one Key!\n");
-        return true;
+        return 1;
     }
 
     if(!isNumKey(p[1]))
     {
         printf("Usage: ./caesar\n");
-        return true;
+        return 1;
     }
 
     // var
@@ -44,7 +44,7 @@ int main(int n, string p[])
 
     printf("ciphertext: %s\n", text);
  
-    return false;
+    return 0;
 }
 
 // function

@@ -24,7 +24,7 @@ int main(void)
     
     print_grade(index);
 
-    return false;
+    return 0;
 }
 
 

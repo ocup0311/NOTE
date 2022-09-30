@@ -18,7 +18,7 @@ int main(int n, string p[])
     if(n != 2)
     {
         printf("Need only one Key!\n");
-        return true;
+        return 1;
 
     }
 
@@ -39,7 +39,7 @@ int main(int n, string p[])
     else
     {
         printf("The key is not VALID! Need 26 unduplicated uppercase char.\n");
-        return true;
+        return 1;
     }
 
     // var
@@ -63,7 +63,7 @@ int main(int n, string p[])
 
     printf("ciphertext: %s\n", text);
  
-    return false;
+    return 0;
 }
 
 // function
