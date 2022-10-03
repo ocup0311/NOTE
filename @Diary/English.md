@@ -28,8 +28,13 @@
 [ships with]: https://forum.wordreference.com/threads/to-ship-with.1517628/
 [odds are]: https://idioms.thefreedictionary.com/odds+are+that
 
+###### <!-- 俚語 -->
+
+[no-brainer]: #俚語
+
 ###### <!-- 名詞 -->
 
+[spoiler]: #名詞
 [enterprise support]: #名詞
 [the nitty-gritty]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/the-nitty-gritty
 [literacy]: #名詞
@@ -309,6 +314,22 @@
 
 </details>
 
+## 俚語
+
+###### <!-- no-brainer -->
+
+<details close>
+
+<summary><b>no-brainer</b>
+
+> 不費腦筋之事；容易處理的問題
+
+</summary>
+
+> This feels like a [no-brainer], super straightforward.
+
+</details>
+
 ## 名詞
 
 ###### <!-- Enterprise Support -->
@@ -411,6 +432,20 @@
 </summary>
 
 > I didn't want him or her to see Score 0, Score 1, Score 2, because [it just looks lame to the human]. The computer needs to think in terms of zeros. My humans and my users do not, so just an [aesthetics].
+
+</details>
+
+###### <!-- spoiler -->
+
+<details close>
+
+<summary><b>spoiler</b>
+
+> 劇透
+
+</summary>
+
+> Let's go into my directory and compile this program, which, slight [spoiler], noswap is the name.
 
 </details>
 
