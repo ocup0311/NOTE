@@ -862,10 +862,52 @@
 
       </details>
 
+    <!-- class 的 Type 判定並非由「是誰的 instance」來比較，而是由「instance 的內容是否符合」來比較 -->
+
+    - <details close>
+      <summary>class 的 Type 判定並非由「是誰的 instance」來比較，而是由「instance 的內容是否符合」來比較</summary>
+
+      > 1. 幾乎可將其視為 `object type` 來做比較
+      > 2. `instance` 只需涵括 `class type` 的所有內容即可
+
+      - 1. 只要由「完全相同的 class member（propery & method）」的 class 所產生的 instance，TS 將認定為相同 `type`
+
+      <div class="imgBox" >
+        <img src="../src/image/base/class_type_compare1.png" alt="class_type_compare1.png" />
+      </div>
+
+      - 2. 可能 `instanceof` 不同，但 TS 認定相同 `type`
+
+      <div class="imgBox" >
+        <img src="../src/image/base/class_type_compare2.png" alt="class_type_compare2.png" />
+      </div>
+
+      - 3. 只要擁有「完全相同的 propery & method」的 object，也會被 TS 認定與對應的 `class type` 為一樣的 `type`
+
+      <div class="imgBox" >
+        <img src="../src/image/base/class_type_compare3.png" alt="class_type_compare3.png" />
+      </div>
+
+      - 4. 如果是各自定義的 `private` | `protected`，則視為不同
+
+      <div class="imgBox" >
+        <img src="../src/image/base/class_type_compare4.png" alt="class_type_compare4.png" />
+      </div>
+
+      - 5. instance 比 class type 多出 member，也會被 TS 錯誤判定忽略
+
+      <div class="imgBox" >
+        <img src="../src/image/base/class_type_compare5.png" alt="class_type_compare5.png" />
+      </div>
+
+      </details>
+
     <!-- implements -->
 
     - <details close>
       <summary>implements</summary>
+
+      - 建議 implements `interface` 而不是 `type`
 
       - 實作 method 的 type 必須與 type 相符
 

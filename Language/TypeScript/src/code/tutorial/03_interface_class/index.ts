@@ -371,3 +371,184 @@
   console.log('a===b? ', a === b)
   console.log('a? ', a)
 })()
+
+// 10. class type 判定
+;(() => {
+  enum Color {
+    White,
+    Black,
+    Brown,
+    Grey,
+    Rainbow,
+  }
+
+  class Horse {
+    constructor(
+      public name: string,
+      public color: Color,
+      public readonly type: string,
+      private noise: string = 'Laaaaaaaa~~'
+    ) {}
+
+    public makeNoise() {
+      console.log(this.noise)
+    }
+
+    public info() {
+      console.log(this.infoText())
+    }
+
+    protected infoText(): string {
+      return `The ${this.color} horse ${this.name} is a ${this.type} horse.`
+    }
+  }
+
+  const horse1 = new Horse('Bubu', Color.Rainbow, 'B')
+
+  horse1.info()
+
+  //
+  class Unicorn extends Horse {
+    constructor(name: string) {
+      super(
+        name,
+        Color.Rainbow,
+        'Mystical Unicorn',
+        'Nheeeeeeheeehehé~hehé~hehé~hehé~n~'
+      )
+    }
+
+    protected infoText(): string {
+      return `It's a mystical unicorn! Its name is ${this.name}!`
+    }
+
+    public puke(): void {
+      console.log('Puking rainbow vomit!')
+    }
+  }
+
+  const unicorn1 = new Unicorn('Ocup')
+
+  unicorn1.info()
+
+  //
+  class Stallion extends Horse {
+    constructor(name: string) {
+      super(name, Color.Brown, 'Mystical Stallion', 'Stallion~~~')
+    }
+  }
+
+  const unicorn2: Unicorn = new Horse('Bubu', Color.Rainbow, 'B')
+  const stallion1: Stallion = new Horse('Bubu', Color.Rainbow, 'B')
+
+  const horse2: Horse = new Unicorn('Unier')
+  const horse3: Horse = new Stallion('Staller')
+  const horse4: Unicorn = horse3
+  const horse5: Stallion = horse3
+
+  console.log(stallion1 instanceof Horse) // true
+  console.log(stallion1 instanceof Stallion) // false
+  console.log(horse3 instanceof Horse) // true
+  console.log(horse3 instanceof Stallion) // true
+
+  // 1.
+  ;(() => {
+    class A {
+      constructor(public name: string) {}
+    }
+
+    class C {
+      constructor(public name: string) {}
+    }
+
+    class D {
+      constructor(public name: string, public age: number) {}
+    }
+
+    const c1: C = new A('Ocup')
+    const d1: D = new A('Ocup')
+  })()
+
+  // 2.
+  ;(() => {
+    class A {
+      constructor(public name: string) {}
+    }
+
+    class B extends A {
+      constructor(name: string) {
+        super(name)
+      }
+    }
+
+    class C {
+      constructor(public name: string) {}
+    }
+
+    const a1: A = new B('Ocup')
+    const b1: B = new A('Ocup')
+    const c1: C = new A('Ocup')
+
+    console.log(a1 instanceof A) // true
+    console.log(a1 instanceof B) // true
+    console.log(b1 instanceof A) // true
+    console.log(b1 instanceof B) // false
+    console.log(c1 instanceof A) // true
+    console.log(c1 instanceof B) // false
+  })()
+
+  // 3.
+  ;(() => {
+    class A {
+      constructor(public name: string) {}
+    }
+
+    const a1: A = { name: 'Ocup' }
+    const a2: A = { name: 'Ocup', age: 18 }
+    const a3: A = {}
+  })()
+
+  // 4.
+  ;(() => {
+    class A {
+      constructor(public name: string, private age: number) {}
+    }
+
+    class B extends A {
+      constructor(name: string, age: number) {
+        super(name, age)
+      }
+    }
+
+    class C {
+      constructor(public name: string, private age: number) {}
+    }
+
+    const a1: A = new B('Ocup', 18)
+    const b1: B = new A('Ocup', 18)
+    const c1: C = new A('Ocup', 18)
+  })()
+
+  // 5.
+  ;(() => {
+    class A {
+      constructor(public name: string) {}
+    }
+
+    class D {
+      constructor(public name: string, public age: number) {}
+    }
+
+    const a3: A = new D('Ocup', 12)
+    const d3: D = new A('Ocup')
+
+    console.log(a3)
+    // D: {
+    //   "name": "Ocup",
+    //   "age": 12
+    // }
+
+    type X = { name: string; age: number }
+    const x: X = { name: 'Ocup', age: 18 }
+  })()
+})()
