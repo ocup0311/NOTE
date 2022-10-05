@@ -1190,6 +1190,12 @@
         <img src="../src/image/base/implements_VS_extends2.png" alt="implements_VS_extends2.png" />
       </div>
 
+      - 3. 一次只能 `extends` 一個 class。而可以 `implements` 多個。
+
+      <div class="imgBox" >
+        <img src="../src/image/base/implements_VS_extends3.png" alt="implements_VS_extends3.png" />
+      </div>
+
       </details>
 
     </details>

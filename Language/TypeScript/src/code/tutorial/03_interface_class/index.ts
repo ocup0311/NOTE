@@ -585,15 +585,7 @@
     }
   }
 
-  class C4 implements C3 {
-    m1() {
-      return 1
-    }
-
-    m2() {
-      return 1
-    }
-  }
+  class C4 extends C3 {}
 
   class C5 implements C1, C2 {
     m1() {
@@ -605,25 +597,8 @@
     }
   }
 
-  class C6 extends C3 {
-    m1() {
-      return 1
-    }
-
-    m2() {
-      return 1
-    }
-  }
-
-  // class C7 extends C1, C2 {
-  //   m1() {
-  //     return 1
-  //   }
-
-  //   m2() {
-  //     return 1
-  //   }
-  // }
+  // Would be Error:
+  // class C6 extends C1, C2 {}
 })()
 
 // 12. implements VS extends
