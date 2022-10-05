@@ -12,6 +12,8 @@
 
 ###### <!-- ref -->
 
+[difference between typescript class and interface]: https://www.javatpoint.com/typescript-class-vs-interface
+[what's the difference between 'extends' and 'implements' in typescript]: https://stackoverflow.com/questions/38834625/whats-the-difference-between-extends-and-implements-in-typescript
 [鐵人賽片段 1]: https://ithelp.ithome.com.tw/articles/10218770#:~:text=%E5%96%AE%E4%BE%8B%E9%A1%9E%E5%88%A5%E7%9A%84%E7%B9%BC%E6%89%BF%20Singleton%20Class%20Inheritance
 [can we inherit singleton class?]: https://stackoverflow.com/questions/3564758/can-we-inherit-singleton-class
 [read-only properties in typescript]: https://mariusschulz.com/blog/read-only-properties-in-typescript
@@ -1160,6 +1162,33 @@
         ```
 
         </details>
+
+      </details>
+
+    <!-- implements VS extends -->
+
+    - <details close>
+      <summary><code>implements</code> VS <code>extends</code></summary>
+
+      > REF:
+      >
+      > 1. [What's the difference between 'extends' and 'implements' in TypeScript]
+      > 2. [Difference between TypeScript Class and Interface]
+
+      - `extends`: "inheritance", "child", 已擁有所有 parent 內容
+      - `implements`: "polymorphism", "same shape", 須自己實作內容
+
+      - 1. 只能 `implements` 只有 `public` 的 `class`
+
+      <div class="imgBox" >
+        <img src="../src/image/base/implements_VS_extends1.png" alt="implements_VS_extends1.png" />
+      </div>
+
+      - 2. `extends` 已擁有 parent 的一切，可以不用再自己實作。而 `implements` 需要實作
+
+      <div class="imgBox" >
+        <img src="../src/image/base/implements_VS_extends2.png" alt="implements_VS_extends2.png" />
+      </div>
 
       </details>
 

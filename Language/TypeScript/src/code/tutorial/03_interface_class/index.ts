@@ -552,3 +552,135 @@
     const x: X = { name: 'Ocup', age: 18 }
   })()
 })()
+
+// 11. class implements
+;(() => {
+  interface I1 {
+    m1(): number
+  }
+
+  interface I2 {
+    m2(): number
+  }
+
+  class C1 implements I1 {
+    m1() {
+      return 1
+    }
+  }
+
+  class C2 implements I2 {
+    m2() {
+      return 1
+    }
+  }
+
+  class C3 implements I1, I2 {
+    m1() {
+      return 1
+    }
+
+    m2() {
+      return 1
+    }
+  }
+
+  class C4 implements C3 {
+    m1() {
+      return 1
+    }
+
+    m2() {
+      return 1
+    }
+  }
+
+  class C5 implements C1, C2 {
+    m1() {
+      return 1
+    }
+
+    m2() {
+      return 1
+    }
+  }
+
+  class C6 extends C3 {
+    m1() {
+      return 1
+    }
+
+    m2() {
+      return 1
+    }
+  }
+
+  // class C7 extends C1, C2 {
+  //   m1() {
+  //     return 1
+  //   }
+
+  //   m2() {
+  //     return 1
+  //   }
+  // }
+})()
+
+// 12. implements VS extends
+;(() => {
+  // 1.
+  ;(() => {
+    // 不能 implements 有 protected, private 的 class (只能用 extends)
+    class A1 {
+      constructor(protected name: string) {}
+    }
+
+    class B1 extends A1 {
+      constructor(protected name: string) {
+        super(name)
+      }
+    }
+
+    class C1 implements A1 {
+      constructor(protected name: string) {}
+    }
+
+    // 可以 implements 只有 public 的 class
+    class A2 {
+      constructor(public name: string) {}
+    }
+
+    class B2 extends A2 {
+      constructor(public name: string) {
+        super(name)
+      }
+    }
+
+    class C2 implements A2 {
+      constructor(public name: string) {}
+    }
+  })()
+
+  // 2. extends 已擁有 parent 的一切，可以不用再實作。而 implements 需要實作
+  ;(() => {
+    class A2 {
+      constructor(public name: string) {}
+      public m1(): void {}
+    }
+
+    class B2 extends A2 {
+      constructor() {
+        super('Ocup')
+      }
+    }
+
+    class C2 implements A2 {
+      constructor(public name: string) {}
+      public m1(): void {}
+    }
+
+    class C3 implements A2 {
+      constructor(public name: string) {}
+    }
+  })()
+})()
