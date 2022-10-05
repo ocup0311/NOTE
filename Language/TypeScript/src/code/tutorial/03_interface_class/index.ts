@@ -28,12 +28,12 @@
 
 // 2. class implements
 ;(() => {
-  type T = {
+  interface I {
     m1(): void
     m2(): number
   }
 
-  class C implements T {
+  class C implements I {
     m1() {
       return '1'
     }

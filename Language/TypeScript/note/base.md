@@ -909,14 +909,15 @@
 
       - 建議 implements `interface` 而不是 `type`
 
-      - 實作 method 的 type 必須與 type 相符
+      - 實作 method 的 type 必須與定義的 type 相符
 
       <div class="imgBox" >
         <img src="../src/image/base/class_implements_diffReturnType.png" alt="class_implements_diffReturnType.png" />
       </div>
 
       - 實作未如 type 定義回傳 `void`，不會報錯
-      - REF: ["void return" in interface doesn't trigger error in "implementation"]
+
+        > REF: ["void return" in interface doesn't trigger error in "implementation"]
 
       <div class="imgBox" >
         <img src="../src/image/base/class_implements_void.png" alt="class_implements_void.png" />
