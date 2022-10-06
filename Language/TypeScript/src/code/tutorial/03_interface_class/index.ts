@@ -659,3 +659,88 @@
     }
   })()
 })()
+
+// 13. class
+;(() => {
+  interface I1 {
+    x: number
+  }
+
+  interface I2 {
+    y: number
+  }
+
+  class C1 implements I1, I2 {
+    constructor(public x: number, public y: number) {}
+  }
+
+  class C2 {
+    constructor(public x: number, public y: number) {}
+  }
+
+  const instance1: I1 = new C1(1, 2)
+  const instance2: I2 = new C1(1, 2)
+  const instance3: C1 = new C1(1, 2)
+  const instance4 = new C1(1, 2)
+  const instance5: { x: number } = new C1(1, 2)
+  const instance6: { x: number } = { x: 1, y: 2 }
+  const instance7: { x: number } = { x: 1 }
+  instance7.y = 2
+
+  const fn = () => ({ x: 1, y: 2 })
+  const instance8: { x: number } = fn()
+
+  const instance9: C1 = new C2(1, 2)
+  const instance10: C2 = new C1(1, 2)
+  const instance11: I1 = new C2(1, 2)
+
+  const p1: { x: number; y: number } = { x: 1, y: 2 }
+  const fn1 = (p: I1) => {}
+  fn1(instance1)
+  fn1(instance2)
+  fn1(instance3)
+  fn1(instance4)
+  fn1(instance5)
+  fn1(instance6)
+  fn1(instance7)
+  fn1(instance8)
+  fn1({ x: 1, y: 2 })
+  fn1(p1)
+
+  console.log(instance1.y)
+  console.log(instance2.y)
+  console.log(instance3.y)
+  console.log(instance4.y)
+  console.log(instance5.y)
+})()
+
+// 14. 回應鐵人賽文章
+;(() => {
+  interface I1 {
+    x: number
+  }
+
+  class C1 implements I1 {
+    constructor(public x: number) {}
+    public m1(p1: I1) {}
+  }
+
+  class C2 {
+    constructor(public x: number) {}
+  }
+
+  const instance1 = new C1(1)
+
+  // Error: 不能有 y:1
+  instance1.m1({ x: 1, y: 1 })
+
+  // 以下皆非由 implements `I1` 的 class 所創建，但依然不會有 Error
+  const p1 = { x: 1 }
+  const p2 = { x: 1, y: 1 }
+  const p3: I1 = { x: 1 }
+  const p4: C2 = { x: 1 }
+  instance1.m1(p1)
+  instance1.m1(p2)
+  instance1.m1(p3)
+  instance1.m1(p4)
+})()
