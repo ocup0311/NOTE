@@ -1689,7 +1689,7 @@
 - <details close>
   <summary>Strategy (策略模式)</summary>
 
-  > Changing algorithm during runtime.
+  > Changing algorithm during **runtime**.
 
   </details>
 

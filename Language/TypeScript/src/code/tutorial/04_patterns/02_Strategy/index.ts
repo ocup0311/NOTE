@@ -13,3 +13,5 @@ instance3.introduce()
 // active
 instance2.attack(instance1)
 instance3.attack(instance1)
+
+console.log(instance1)
