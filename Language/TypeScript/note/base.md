@@ -169,6 +169,15 @@
 
   </details>
 
+<!-- tsconfig.json 常用設定 -->
+
+- <details close>
+  <summary><code>tsconfig.json</code> 常用設定</summary>
+
+  - `"outDir": "./build"`：集中編譯後所有的 `.js` 在 "./build"
+
+  </details>
+
 ---
 
 ## 1. 基本介紹
@@ -1675,7 +1684,14 @@
 
   </details>
 
----
+<!-- Strategy (策略模式) -->
+
+- <details close>
+  <summary>Strategy (策略模式)</summary>
+
+  > Changing algorithm during runtime.
+
+  </details>
 
 ## 5. 其他補充
 
