@@ -1,4 +1,4 @@
-import { Swordsman, Warlock } from './@class'
+import { Swordsman, Warlock, Weapon } from './@class'
 
 // instance
 const instance1 = new Swordsman('Ocup')
@@ -15,3 +15,10 @@ instance2.attack(instance1)
 instance3.attack(instance1)
 
 console.log(instance1)
+
+instance1.equipWeapon(new Weapon.BasicSword())
+instance1.attack(instance2)
+instance1.equipWeapon(new Weapon.BasicWand())
+instance1.attack(instance2)
+instance1.equipWeapon(new Weapon.Dagger())
+instance1.attack(instance2)

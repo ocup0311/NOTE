@@ -18,6 +18,8 @@ export default class Character {
   }
 
   public attack(target: Character) {
+    if (target === this) throw Error('Attack Target Error!')
+
     this.attackRef.attack(this, target)
   }
 
