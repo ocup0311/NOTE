@@ -1691,6 +1691,8 @@
 
   > Changing algorithm during **runtime**.
 
+  - 利用 `interface` 可自行組合，重複使用邏輯
+
   </details>
 
 ## 5. 其他補充

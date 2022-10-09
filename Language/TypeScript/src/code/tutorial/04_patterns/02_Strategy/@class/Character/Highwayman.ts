@@ -2,8 +2,8 @@ import { Role } from '../../@type'
 import { Weapon } from '../@equipments'
 import Character from './Character'
 
-export default class Swordsman extends Character {
+export default class Highwayman extends Character {
   constructor(public readonly name: string) {
-    super(name, Role.Swordsman, { weaponRef: new Weapon.BasicSword() })
+    super(name, Role.Highwayman, { weaponRef: new Weapon.Dagger() })
   }
 }
