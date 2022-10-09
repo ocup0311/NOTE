@@ -96,6 +96,13 @@
 
   </details>
 
+<!-- class、type.. 等，是不是應該比較適合以全域處理，而不是以 module 處理？ -->
+
+- <details close>
+  <summary>class、type.. 等，是不是應該比較適合以全域處理，而不是以 module 處理？</summary>
+
+  </details>
+
 <!--  -->
 
 - <details close>
