@@ -101,12 +101,25 @@
 - <details close>
   <summary>class、type.. 等，是不是應該比較適合以全域處理，而不是以 module 處理？</summary>
 
+  - TODO: 待解答
+
   </details>
 
-<!--  -->
+<!-- 如何命名 class vs interface? -->
 
 - <details close>
-  <summary></summary>
+  <summary>如何命名 class vs interface?</summary>
+
+  - TODO: 待解答
+  - 以下情形，該如何處理？
+    - 是否不用再搞一個 interface? 直接將 class 當 interface 使用？
+    - 若要 implements 數個 interface，則不會有重名問題，因為此時的含義不同。
+    - class 要是有多的 member，名字照理也不同。
+
+  ```typescript
+  interface Weapon {}
+  class Weapon implements Weapon {}
+  ```
 
   </details>
 
