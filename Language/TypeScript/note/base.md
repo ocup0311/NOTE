@@ -1207,6 +1207,43 @@
 
       </details>
 
+    <!-- abstract class -->
+
+    - <details close>
+      <summary><code>abstract class</code></summary>
+
+      - 不能產生實例的 `class`
+
+      ```typescript
+      abstract class C {}
+
+      // Error: 不能用來產生實例
+      const instance = new C()
+      ```
+
+      - 可使用 `abstract` 方法 (只有 `abstract class` 可用)
+
+      ```typescript
+      abstract class C1 {
+        abstract x: string
+      }
+
+      // Error: 必須實作 abstract member
+      // (x: string)
+      class C2 extends C1 {}
+      ```
+
+      - 不能同時是 `private` & `abstract`
+
+      ```typescript
+      // Error: 不能同時是 `private` & `abstract`
+      abstract class C1 {
+        private abstract x: string
+      }
+      ```
+
+      </details>
+
     </details>
 
   </details>
@@ -1692,6 +1729,13 @@
   > Changing algorithm during **runtime**.
 
   - 利用 `interface` 可自行組合，重複使用邏輯
+
+  </details>
+
+<!-- Abstract -->
+
+- <details close>
+  <summary>Abstract (模式)</summary>
 
   </details>
 
