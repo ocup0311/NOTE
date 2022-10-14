@@ -1634,6 +1634,19 @@
 
 ## 4. 設計模式
 
+<!-- 設計原則 -->
+
+- <details close>
+  <summary>設計原則</summary>
+
+  > REF：深入淺出設計模式
+
+  - 找出應用程式中`會變的部分`，把他們和`不會變的部分`隔開 (p9)
+  - 針對`介面`寫程式，而不是針對`實作`寫程式 (p11)
+  - 多用`組合`，少用`繼承` (p23)
+
+  </details>
+
 <!-- Singleton (單例模式) -->
 
 - <details close>
@@ -1726,7 +1739,8 @@
 - <details close>
   <summary>Strategy (策略模式)</summary>
 
-  > Changing algorithm during **runtime**.
+  > 使能夠："Changing algorithm during runtime."
+  > `策略模式`可以定義和封裝一系列的演算法，並且讓他們是可替換的。這個模式可以讓你在不影響用戶端的情況下獨立改變演算法。 (p24)
 
   - 利用 `interface` 可自行組合，重複使用邏輯
 
