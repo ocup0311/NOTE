@@ -1,15 +1,22 @@
 {
-  "name": "promblem1-sample",
+  "name": "strategy-sample",
   "version": "0.0.0",
   "type": "commonjs",
   "engines": {
     "node": "16.0.0"
   },
   "author": "OcupHuang",
+  "scripts": {
+    "start:watch": "tsc -w",
+    "start:run": "nodemon build/index.js",
+    "start": "concurrently yarn:start:*"
+  },
   "dependencies": {
     "@types/lodash": "^4.14.184",
+    "concurrently": "^7.4.0",
     "lodash": "^4.17.21",
     "monet": "^0.9.3",
+    "nodemon": "^2.0.20",
     "ramda": "^0.28.0"
   }
 }

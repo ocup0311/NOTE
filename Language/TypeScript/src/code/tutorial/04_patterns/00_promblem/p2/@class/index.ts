@@ -1,3 +1,4 @@
-export * from './Character'
-export * from './@abilities'
-export * from './@equipments'
+export { default as Character } from './Character'
+export { default as Swordsman } from './Swordsman'
+export { default as Warlock } from './Warlock'
+export { default as Highwayman } from './Highwayman'

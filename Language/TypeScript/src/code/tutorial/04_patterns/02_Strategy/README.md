@@ -1,1 +1,1 @@
-> 用來解決 [Promblem1](../00_promblem/p1/README.md)
+> 用來解決 [Promblem2](../00_promblem/p2/README.md)
