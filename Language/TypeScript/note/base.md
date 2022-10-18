@@ -1644,6 +1644,7 @@
   - 找出應用程式中`會變的部分`，把他們和`不會變的部分`隔開 (p9)
   - 針對`介面`寫程式，而不是針對`實作`寫程式 (p11)
   - 多用`組合`，少用`繼承` (p23)
+  - 努力為彼此互動的物件做出`低耦合`的設計 (p54)
 
   </details>
 
@@ -1746,10 +1747,20 @@
 
   </details>
 
-<!-- Abstract -->
+<!-- Abstract (抽象模式) -->
 
 - <details close>
-  <summary>Abstract (模式)</summary>
+  <summary>Abstract (抽象模式)</summary>
+
+  </details>
+
+<!-- Observer (觀察者模式) -->
+
+- <details close>
+  <summary>Observer (觀察者模式)</summary>
+
+  - 「一對多」關係的解法（ 一個發布者 subject ＋ 多個訂閱者 observer ）
+  - 定義物件之間的一對多依賴關係，當一個物件改變狀態時，依賴他的物件都會自動收到通知與更新
 
   </details>
 
