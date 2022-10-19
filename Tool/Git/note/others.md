@@ -20,6 +20,8 @@
 
 ## 1. [The Git & Github Bootcamp]
 
+- 有些人覺得 `git checkout` 做太多事了，因此誕生 `git switch` 來專門切換 `branch`
+
 ---
 
 ## 2. []
