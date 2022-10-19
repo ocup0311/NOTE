@@ -13,6 +13,26 @@
   - 再疊上一個新 commit 標註所做的 revert 行為
 
   ```shell
-  git revert --no-commit <ID>..
-  git commit -m "<MESSAGE>"
+  $ git revert --no-commit <ID>..
+  $ git commit -m "<MESSAGE>"
+  ```
+
+  - `e65aa22..` 等同於 `2e38833, e57c112, 41e2903`
+  - 若不加 `--no-commit`，則每個 revert 都需要 commit 一次，也就是範例中會需要三次 commit
+  - 因為 `--no-commit`，所以最後須自己再加一個 commit 說明此動作
+  - `git revert e65aa22` 只會 revert `e65aa22`
+
+  ```shell
+  # EX.
+
+  # 在 2e38833 當下進行
+  $ git revert e65aa22..
+  $ git commit -m  "[REVERT] 移除 2e38833 ~ 41e2903 的內容"
+
+  # 以下為 git log --oneline 結果
+  72ff826 (HEAD -> master) [REVERT] 移除 2e38833 ~ 41e2903 的內容
+  2e38833 [ADD] test5
+  e57c112 [ADD] test4
+  41e2903 [ADD] test3
+  e65aa22 [ADD] something here
   ```
