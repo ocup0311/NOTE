@@ -21,6 +21,12 @@
 ## 1. [The Git & Github Bootcamp]
 
 - 有些人覺得 `git checkout` 做太多事了，因此誕生 `git switch` 來專門切換 `branch`
+- `git diff`
+
+  - `git diff`："Staging Area" | "Working Directory"
+  - `git diff <COMMIT>`："特定 COMMIT" | "Working Directory"
+  - `git diff --staged` (`--cached` 同)： "last commit" | "Staging Area"
+  - `git diff <pointer1>..<pointer2>`："pointer1" | "pointer2"
 
 ---
 
