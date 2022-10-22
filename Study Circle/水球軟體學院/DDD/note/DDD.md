@@ -12,9 +12,13 @@
 
 ###### <!-- ref -->
 
+[event storming miro 討論]: https://miro.com/app/board/uXjVPLbiyto=/
+
  <!-- ref -->
 
 ## Event Storming
+
+> REF: [Event Storming miro 討論]
 
 - process modeling
 
