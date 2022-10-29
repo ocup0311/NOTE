@@ -7,6 +7,7 @@
 
 ###### <!-- 片語 -->
 
+[nowhere near]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/near?q=nowhere+near#:~:text=not%20close%20in%20distance%2C%20time%2C%20amount%2C%20or%20quality
 [eat the word]: https://funkyenglish.com/idiom-eat-your-words/
 [in spite of]: #片語
 [jumping to conclusions]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/jump-to-conclusions
@@ -30,6 +31,7 @@
 
 ###### <!-- 俚語 -->
 
+[apples and oranges]: https://www.xuehua.us/a/5eb9fc9c86ec4d5748fef90a?lang=zh-tw
 [no-brainer]: #俚語
 
 ###### <!-- 名詞 -->
@@ -314,7 +316,35 @@
 
 </details>
 
+###### <!-- nowhere near -->
+
+<details close>
+
+<summary><b>nowhere near</b>
+
+> 遠非; （距離、時間、數量或質量）遠遠沒有;
+
+</summary>
+
+> It's [nowhere near] as common, but I do want to make it clear that there's a distinction.
+
+</details>
+
 ## 俚語
+
+###### <!-- apples and oranges -->
+
+<details close>
+
+<summary><b>apples and oranges</b>
+
+> 天差地別的事物
+
+</summary>
+
+> But now you're kind of doing the whole [apples and oranges] thing right now.
+
+</details>
 
 ###### <!-- no-brainer -->
 
