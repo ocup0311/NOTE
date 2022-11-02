@@ -31,6 +31,16 @@
 
 - `git stash apply`：叫出 stash 後，仍保留該 stash
 
+- `git push -u`
+
+  - `upstream`
+  - 連結上特定 remote
+
+    - 連結上以後，在該分支使用 `git push`，就會將該分支 push 到連結的 remote
+
+  - 寫入 config： `branch.<branchName>.remote=<remoteName>`
+    - EX. `branch.master.remote=origin`
+
 ---
 
 ## 2. []
