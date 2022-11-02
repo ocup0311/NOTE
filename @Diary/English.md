@@ -49,6 +49,8 @@
 
 ###### <!-- 動詞 -->
 
+[encapsulated]: #動詞
+[encapsulates]: #動詞
 [manipulated]: #動詞
 [refactor]: #動詞
 [stretch]: #動詞
@@ -480,6 +482,22 @@
 </details>
 
 ## 動詞
+
+###### <!-- encapsulate -->
+
+<details close>
+
+<summary><b>encapsulate</b>
+
+> 封裝
+
+</summary>
+
+> It's all [encapsulated], which is a term of art inside of the same type reminiscent if some of you have programmed before.
+
+> Because my person data type [encapsulates] now everything that it means to be a person at least in this narrow world.
+
+</details>
 
 ###### <!-- manipulated -->
 
