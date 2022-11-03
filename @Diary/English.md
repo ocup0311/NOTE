@@ -7,6 +7,7 @@
 
 ###### <!-- 片語 -->
 
+[from scratch]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/from-scratch
 [nowhere near]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/near?q=nowhere+near#:~:text=not%20close%20in%20distance%2C%20time%2C%20amount%2C%20or%20quality
 [eat the word]: https://funkyenglish.com/idiom-eat-your-words/
 [in spite of]: #片語
@@ -36,6 +37,7 @@
 
 ###### <!-- 名詞 -->
 
+[tug of war]: #名詞
 [spoiler]: #名詞
 [enterprise support]: #名詞
 [the nitty-gritty]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/the-nitty-gritty
@@ -70,6 +72,19 @@
 # Useful English
 
 ## 片語
+
+###### <!-- from scratch -->
+
+<details close>
+<summary><b>from scratch</b>
+
+> 從頭開始
+
+</summary>
+
+> In short, you need a data privacy API that can keep up with the near-constant changes, so you don’t need to write all the logic [from scratch].
+
+</details>
 
 ###### <!-- In general -->
 
@@ -363,6 +378,19 @@
 </details>
 
 ## 名詞
+
+###### <!-- tug of war -->
+
+<details close>
+<summary><b>tug of war</b>
+
+> 拔河
+
+</summary>
+
+> And just like a [tug of war], lines are continually being drawn.
+
+</details>
 
 ###### <!-- Enterprise Support -->
 
