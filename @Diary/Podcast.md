@@ -39,6 +39,10 @@
 
 ###### <!-- 單集小整理 -->
 
+[月租制的鏈上私人銀行 ft. bitmark]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000514136052
+[風尚旅行]: https://podcasts.apple.com/tw/podcast/%E9%A6%AC%E5%8A%9B%E6%AD%90%E9%99%AA%E4%BD%A0%E5%96%9D%E4%B8%80%E6%9D%AF/id1192212072?i=1000496588708
+[九十路公車]: https://podcasts.apple.com/tw/podcast/%E8%A7%A3%E9%8E%96%E5%9C%B0%E7%90%83-unlock-the-earth/id1476564589?i=1000578594355
+[hakka finance 創辦人陳品]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000523850915
 [陽光伏特家 - 太陽能電廠]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000480833455
 [投資型 dao ft. matrixdao 孫彬盛]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000554913186
 [激進市場五大重點]: https://podcasts.apple.com/tw/podcast/%E5%AF%B6%E5%8D%9A%E6%9C%8B%E5%8F%8B%E8%AA%AA/id1484923390?i=1000456655038
@@ -122,8 +126,14 @@
 
   - [陽光伏特家 - 太陽能電廠]
 
+- 旅行社
+
+  - [九十路公車]
+  - [風尚旅行]
+
 - 其他暫存
 
+  - [Hakka Finance 創辦人陳品]
   - [區塊鏈社會學 ft. 讚賞公民基金會創辦人高重建]
   - [一場森林裡的會議決定人類金融未來！？ft. 林仲生]
   - [肌力訓練｜何立安：體育的教育意義在於「模擬人生」]
@@ -133,3 +143,6 @@
 - 有興趣
 
   - [銀行級加密貨幣金庫 ft. 資安公司 CYBAVO]
+    - 已被 Circle 併購
+  - [月租制的鏈上私人銀行 ft. Bitmark]
+    - 加密貨幣管理系統
