@@ -7,6 +7,7 @@
 
 ###### <!-- 片語 -->
 
+[seismic shift]: #片語
 [from scratch]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/from-scratch
 [nowhere near]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/near?q=nowhere+near#:~:text=not%20close%20in%20distance%2C%20time%2C%20amount%2C%20or%20quality
 [eat the word]: https://funkyenglish.com/idiom-eat-your-words/
@@ -32,6 +33,8 @@
 
 ###### <!-- 俚語 -->
 
+[old habits die hard]: #俚語
+[bread and butter]: https://www.businessweekly.com.tw/careers/blog/20180
 [apples and oranges]: https://www.xuehua.us/a/5eb9fc9c86ec4d5748fef90a?lang=zh-tw
 [no-brainer]: #俚語
 
@@ -72,6 +75,19 @@
 # Useful English
 
 ## 片語
+
+###### <!-- seismic shift -->
+
+<details close>
+<summary><b>seismic shift</b>
+
+> 災難性的劇變
+
+</summary>
+
+> But this is not some [seismic shift]. It's just a branch name that you can change and you'll likely see more and more people using main rather than master.
+
+</details>
 
 ###### <!-- from scratch -->
 
@@ -348,6 +364,34 @@
 </details>
 
 ## 俚語
+
+###### <!-- old habits die hard -->
+
+<details close>
+
+<summary><b>old habits die hard</b>
+
+> 老習慣難改
+
+</summary>
+
+> Old habits die hard.
+
+</details>
+
+###### <!-- bread and butter -->
+
+<details close>
+
+<summary><b>bread and butter</b>
+
+> 謀生之道
+
+</summary>
+
+> So nothing crazy here, but really the [bread and butter] of working with GitHub is just getting your code up on GitHub and then as we'll soon see, getting code down, pulling down from GitHub, which we haven't yet learned.
+
+</details>
 
 ###### <!-- apples and oranges -->
 
