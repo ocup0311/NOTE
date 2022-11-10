@@ -39,6 +39,12 @@
 
 ###### <!-- 單集小整理 -->
 
+[gitcoin 民意代表 suji]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000540557261
+[幣圈創投]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000533922690
+[likecoin]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000529520896
+[區塊鏈社會學 ft. 讚賞公民基金會創辦人高重建]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000484946425
+[台北以太坊社群]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000452821489
+[likecoin 驗證者]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000539819991
 [月租制的鏈上私人銀行 ft. bitmark]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000514136052
 [風尚旅行]: https://podcasts.apple.com/tw/podcast/%E9%A6%AC%E5%8A%9B%E6%AD%90%E9%99%AA%E4%BD%A0%E5%96%9D%E4%B8%80%E6%9D%AF/id1192212072?i=1000496588708
 [九十路公車]: https://podcasts.apple.com/tw/podcast/%E8%A7%A3%E9%8E%96%E5%9C%B0%E7%90%83-unlock-the-earth/id1476564589?i=1000578594355
@@ -122,9 +128,20 @@
   - [激進市場五大重點]
   - [投資型 DAO ft. MatrixDAO 孫彬盛]
 
-- 區塊鏈應用
+- 區塊鏈
 
+  - [台北以太坊社群]
+  - [區塊鏈社會學 ft. 讚賞公民基金會創辦人高重建]
   - [陽光伏特家 - 太陽能電廠]
+  - [幣圈創投]
+
+  - LikeCoin
+
+    - [LikeCoin]
+    - [LikeCoin 驗證者]
+
+  - GitCoin
+    - [Gitcoin 民意代表 Suji]
 
 - 旅行社
 
