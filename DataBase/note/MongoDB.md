@@ -12,25 +12,44 @@
 
 ###### <!-- ref -->
 
+[everything you know about mongodb is wrong!]: https://www.mongodb.com/developer/products/mongodb/everything-you-know-is-wrong/
 [bson1]: https://www.mongodb.com/docs/manual/reference/bson-types/
-[bson2]: ??
+[bson2]: https://www.mongodb.com/basics/bson
 
  <!-- ref -->
 
 # MongoDB
 
-- 簡介
+### 簡介
 
-  - Build for Speed
-  - Rich Document based queries
-  - Full index support
-  - Map/reduce for aggregation
-  - Replication and Failover
-  - Auto Sharding
+- Build for Speed
+- Rich Document based queries
+- Full index support
+- Map/reduce for aggregation
+- Replication and Failover
+- Auto Sharding
 
-- BSON
+### BSON
 
-  > REF: [BSON1] | [BSON2]
+> REF: [BSON1] | [BSON2]
+
+- binary encoded Javascript Object Notation (JSON)
+
+- 官網範例
+
+  ```javascript
+  // JSON:
+  {"hello": "world"} →
+
+  // BSON:
+  \x16\x00\x00\x00           // total document size
+  \x02                       // 0x02 = type String
+  hello\x00                  // field name
+  \x06\x00\x00\x00world\x00  // field value
+  \x00                       // 0x00 = type EOO ('end of object')
+  ```
+
+- 測試範例
 
   ```javascript
   // 範例處理：
@@ -93,3 +112,11 @@
     // [0d 00 00 00] [10] [61 62 00] [01 00 00 00] [00]
     // [full size]  [num]  [key:ab]   [value:1]    [end]
     ```
+
+### 其他
+
+- Within a single `mongod` instance, `timestamp` values are always unique.
+
+### 延伸閱讀
+
+- [Everything You Know About MongoDB is Wrong!]
