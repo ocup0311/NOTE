@@ -55,6 +55,7 @@
 
 ###### <!-- 動詞 -->
 
+[resemble]: #動詞
 [encapsulated]: #動詞
 [encapsulates]: #動詞
 [manipulated]: #動詞
@@ -569,6 +570,26 @@
 </details>
 
 ## 動詞
+
+###### <!-- resemble -->
+
+<details close>
+
+<summary><b>resemble</b>
+
+> 像；看起來像；與…相似
+
+</summary>
+
+> Now type
+>
+> `cd sort`
+>
+> followed by Enter to move yourself into (i.e., open) that directory. Your prompt should now [resemble] the below.
+>
+> `sort/ $`
+
+</details>
 
 ###### <!-- encapsulate -->
 
