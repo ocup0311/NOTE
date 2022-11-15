@@ -35,7 +35,7 @@ int main(int argc, string argv[])
     }
     if (argc == 2) 
     {
-        printf("winner:%s\n", argv[1]);
+        printf("%s\n", argv[1]);
         return 0;
     }
     if (candidate_count > MAX)

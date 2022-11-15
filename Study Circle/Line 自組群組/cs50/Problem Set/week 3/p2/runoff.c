@@ -43,7 +43,7 @@ int main(int argc, string argv[])
     }
     if (argc == 2) 
     {
-        printf("Electee:%s\n", argv[1]);
+        printf("%s\n", argv[1]);
         return 0;
     }
 
@@ -137,6 +137,11 @@ bool vote(int voter, int rank, string name)
     {
         if(strcmp(candidates[i].name, name) == 0) 
         {
+            for(int j = 0; j < rank; j++)
+            {
+                if(preferences[voter][j] == i) return false;
+            }
+
             preferences[voter][rank] = i;
             return true;
         }
