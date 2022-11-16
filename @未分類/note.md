@@ -8,6 +8,3 @@
 - 資安：
 
   > 簡訊只要運用 SS7 就有可能被攔截，所以 2FA 並不建議用簡訊來驗證
-
-- 讀書會：[OS HackMD
-  ](https://hackmd.io/@e_Me9JgsS1y8VahM1nF7wg/BJd6obMBj)
