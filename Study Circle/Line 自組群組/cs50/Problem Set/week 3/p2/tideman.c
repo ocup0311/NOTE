@@ -160,59 +160,59 @@ void add_pairs(void)
 }
 
 // Sort pairs in decreasing order by strength of victory
-void merge(pair arr[], int l, int m, int r)
+void merge(pair arr[], int idxS, int idxM, int idxE)
 {
-    int i, j, k;
-    int n1 = m - l + 1;
-    int n2 = r - m;
-    pair L[n1], R[n2];
+    int ptrL = 0; 
+    int ptrR = 0; 
+    int ptrM = idxS; 
+    int len1 = idxM - idxS + 1;
+    int len2 = idxE - idxM;
 
-    for (i = 0; i < n1; i++) L[i] = arr[l + i];
-    for (j = 0; j < n2; j++) R[j] = arr[m + 1 + j];
+    pair arrL[len1], arrR[len2];
+    for (int i = 0; i < len1; i++) arrL[i] = arr[idxS + i];
+    for (int j = 0; j < len2; j++) arrR[j] = arr[idxM + 1 + j];
 
-    i = 0; // Initial index of first subarray
-    j = 0; // Initial index of second subarray
-    k = l; // Initial index of merged subarray
-    while (i < n1 && j < n2) 
+   
+    while (ptrL < len1 && ptrR < len2) 
     {
-        int x = preferences[L[i].winner][L[i].loser];
-        int y = preferences[R[j].winner][R[j].loser];
-        if (x <= y) 
+        int keyL = preferences[arrL[ptrL].winner][arrL[ptrL].loser];
+        int keyR = preferences[arrR[ptrR].winner][arrR[ptrR].loser];
+        if (keyL >= keyR) 
         {
-            arr[k] = L[i];
-            i++;
+            arr[ptrM] = arrL[ptrL];
+            ptrL++;
         }
         else 
         {
-            arr[k] = R[j];
-            j++;
+            arr[ptrM] = arrR[ptrR];
+            ptrR++;
         }
-        k++;
+        ptrM++;
     }
-    while (i < n1) 
+    while (ptrL < len1) 
     {
-        arr[k] = L[i];
-        i++;
-        k++;
+        arr[ptrM] = arrL[ptrL];
+        ptrL++;
+        ptrM++;
     }
-    while (j < n2) 
+    while (ptrR < len2) 
     {
-        arr[k] = R[j];
-        j++;
-        k++;
+        arr[ptrM] = arrR[ptrR];
+        ptrR++;
+        ptrM++;
     }
 }
 
-void sort(pair arr[], int l, int r)
+void sort(pair arr[], int idxS, int idxE)
 {
-    if (l < r) 
+    if (idxS < idxE) 
     {
-        int m = l + (r - l) / 2;
+        int idxM = idxS + (idxE - idxS) / 2;
 
-        sort(arr, l, m);
-        sort(arr, m + 1, r);
+        sort(arr, idxS, idxM);
+        sort(arr, idxM + 1, idxE);
 
-        merge(arr, l, m, r);
+        merge(arr, idxS, idxM, idxE);
     }
 }
 
