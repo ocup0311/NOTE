@@ -9,6 +9,8 @@ npm-debug.log_
 yarn-debug.log*
 yarn-error.log*
 
+# c
+output/
 
 # Runtime data
 
