@@ -12,6 +12,7 @@
 
 ###### <!-- ref -->
 
+[mongodb limits and thresholds]: https://www.mongodb.com/docs/manual/reference/limits/
 [everything you know about mongodb is wrong!]: https://www.mongodb.com/developer/products/mongodb/everything-you-know-is-wrong/
 [bson1]: https://www.mongodb.com/docs/manual/reference/bson-types/
 [bson2]: https://www.mongodb.com/basics/bson
@@ -116,7 +117,46 @@
 ### 其他
 
 - Within a single `mongod` instance, `timestamp` values are always unique.
+- 新增時，若 `_id` 已存在該 `collection`，則新增失敗
+- `mongosh` 是以 `TS` 撰寫的專案
+
+- `atomic operators`
+
+  - 如 `$set`, `$gt`.. 等等
+
+  ```shell
+  # EX.
+  > db.user.updateOne({ _id: 1 }, { $set: { name: 'B' } })
+  ```
+
+- `projection`
+
+  - 設定需要獲取的欄位 ( `_id` 默認 1 )
+
+  ```shell
+  # EX.
+  > db.user.find({})
+  [{ _id: 1, name: 'A', age: 30 }]
+  > db.user.find({},{name: 1})
+  [{ _id: 1, name: 'A' }]
+  > db.user.find({},{name: 1, _id: 0})
+  [{ name: 'A' }]
+  ```
+
+- [MongoDB Limits and Thresholds]
+  - 16 MB / doc
+  - 100 levels of nesting
 
 ### 延伸閱讀
 
 - [Everything You Know About MongoDB is Wrong!]
+
+# 暫存 Linux
+
+- `ps`
+  - Process Status
+- `grep`
+  - g/re/p（globally search a regular expression and print)
+  - `grep xxxx`：過濾出 xxxx
+  - `grep -v yyyy`：反向過濾 xxxx （去除 yyyy）
+  - `grep -v grep`：去除掉 `grep` 本身產生的 `precess`
