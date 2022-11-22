@@ -51,8 +51,8 @@
 
         - mongoDB:
 
-          - 回傳 cursor
-          - 以 `.toArray()` 撈資料
+          - 回傳 cursor，再以`iterate`方式取得資料
+          - 或直接以 `.toArray()` 撈資料，會直接回傳`所有資料`
 
           ```javascript
           // mongodb
