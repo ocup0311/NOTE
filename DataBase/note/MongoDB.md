@@ -12,6 +12,8 @@
 
 ###### <!-- ref -->
 
+[full text search engines]: https://www.mongodb.com/basics/full-text-search
+[nosql 數據建模技術]: https://coolshell.cn/articles/7270.html#15_%E5%B5%8C%E5%A5%97%E6%96%87%E6%A1%A3%E6%89%81%E5%B9%B3%E5%8C%96%EF%BC%9A%E6%9C%89%E9%99%90%E7%9A%84%E5%AD%97%E6%AE%B5%E5%90%8D_Nested_Documents_Flattening_Numbered_Field_Names
 [mongodb limits and thresholds]: https://www.mongodb.com/docs/manual/reference/limits/
 [everything you know about mongodb is wrong!]: https://www.mongodb.com/developer/products/mongodb/everything-you-know-is-wrong/
 [bson1]: https://www.mongodb.com/docs/manual/reference/bson-types/
@@ -114,6 +116,18 @@
     // [full size]  [num]  [key:ab]   [value:1]    [end]
     ```
 
+### 慣用方法
+
+| O                         | X            | 原因               |
+| ------------------------- | ------------ | ------------------ |
+| `updateMany`, `updateOne` | ~~`update`~~ | Ｘ會覆蓋掉整個 doc |
+| `replaceOne`              | ~~`update`~~ | Ｏ一次覆蓋一筆 doc |
+| `insertMany`, `insertOne` | ~~`insert`~~ | Ｏ返回 insertID    |
+
+### 注意默認值
+
+- `insertMany`(`{ordered:true}`)：照順序 insert，遇到 err 則後半段停止
+
 ### 其他
 
 - Within a single `mongod` instance, `timestamp` values are always unique.
@@ -144,12 +158,82 @@
   ```
 
 - [MongoDB Limits and Thresholds]
+
   - 16 MB / doc
   - 100 levels of nesting
+
+- `mongoimport`
+
+  - `-d`：database
+  - `-c`：collection
+  - `--jsonArray`：檔案裡的資料為多筆 doc
+  - `--drop`：先 drop 該 collection 再重建
+
+  ```shell
+  # EX.
+  $ mongoimport < .json 路徑 > -d < database name > -c < collection name > --jsonArray --drop
+  ```
+
+- `$size`+`$gt`
+
+  - `$size`：array length
+  - `$gt`：大於
+  - `$expr`：用於 aggregation expressions
+
+  ```shell
+  # EX.
+
+  # 尋找有 2 個 actors 的
+  > db.movie.find({ actors: { $size: 2 } })
+
+  # 尋找大於 2 個 actors 的
+  # 1. 錯誤寫法
+  > db.movie.find({ actors: { $size: { $gt: 2 } } })
+  # 2. 正確寫法
+  > db.movie.find({ $expr: { $gt: [{ $size: '$actors' }, 2] } })
+  ```
+
+- `sort` 是對 `find` 結果進行排序，即便放在 `limit` 之後也一樣
+
+  ```shell
+  # EX. 以下兩者結果相同
+  > db.movie.find().sort({ imdb_score: 1 }).limit(3)
+  > db.movie.find().limit(3).sort({ imdb_score: 1 })
+
+  # 使用 aggregate 才會依照順序執行
+  # 先 { $limit: 3 } 再進行 { $sort: { imdb_score: 1 } }
+  > db.movie.aggregate([{ $limit: 3 }, { $sort: { imdb_score: 1 } }])
+  ```
+
+- `$`：update 時，find 出來的 `$` 為第一層 array 的 index
+
+  ```shell
+  # data
+  # {
+  #   _id: 8,
+  #   B: [
+  #     { _id: 16, C: [ { _id: 15 }, { _id: 39 } ] },
+  #     { _id: 14, C: [ { _id: 37 }, { _id: 34 } ] }
+  #   ]
+  # }
+
+  # 下列的 $ = 1
+  # 因為 "B.C._id":37 在 B[1]
+  > db.test.updateOne({ 'B.C._id': 37 }, { $set: { 'B.$.C.2.catch': true } })
+  {
+    _id: 8,
+    B: [
+      { _id: 16, C: [ { _id: 15 }, { _id: 39 } ] },
+      { _id: 14, C: [ { _id: 37 }, { _id: 34 }, {catch: true} ] }
+    ]
+  }
+  ```
 
 ### 延伸閱讀
 
 - [Everything You Know About MongoDB is Wrong!]
+- [NOSQL 數據建模技術]
+  - `Document database` group indexes by field `names`, as opposed to [Full Text Search Engines] that group indexes by field `values`.
 
 # 暫存 Linux
 
