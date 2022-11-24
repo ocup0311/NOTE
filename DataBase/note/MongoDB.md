@@ -13,7 +13,7 @@
 ###### <!-- ref -->
 
 [full text search engines]: https://www.mongodb.com/basics/full-text-search
-[nosql 數據建模技術]: https://coolshell.cn/articles/7270.html#15_%E5%B5%8C%E5%A5%97%E6%96%87%E6%A1%A3%E6%89%81%E5%B9%B3%E5%8C%96%EF%BC%9A%E6%9C%89%E9%99%90%E7%9A%84%E5%AD%97%E6%AE%B5%E5%90%8D_Nested_Documents_Flattening_Numbered_Field_Names
+[nosql 數據建模技術]: https://coolshell.cn/articles/7270.html
 [mongodb limits and thresholds]: https://www.mongodb.com/docs/manual/reference/limits/
 [everything you know about mongodb is wrong!]: https://www.mongodb.com/developer/products/mongodb/everything-you-know-is-wrong/
 [bson1]: https://www.mongodb.com/docs/manual/reference/bson-types/
@@ -128,6 +128,134 @@
 
 - `insertMany`(`{ordered:true}`)：照順序 insert，遇到 err 則後半段停止
 
+### Index
+
+- 系統預設會建立一個以`_id`排序的 index
+
+- `unique`：所有的 doc，該 `index key` 的 `value` 不能有重複
+
+  ```shell
+  # EX.
+  # 若有重複 title + year 組合，則無法建立此 index
+  # index 建立後，若給他重複的 title + year 組合，則插入或更新會失敗
+  > db.movie.createIndex({ title: 1, year:1 }, { unique: true })
+
+  # EX. 重複 title + year 組合：
+  # A: { _id: 1, title: "La vita è bella", year:"1997" }
+  # B: { _id: 2, title: "La vita è bella", year:"1997" }
+  # --> A, B 重複
+  ```
+
+- TTL Indexes
+
+  - `expireAfterSeconds`
+
+  ```shell
+  # 當超過該 doc 的 createAt 10 秒後，會自動刪除該 doc
+  > db.people.createIndex({ createAt: 1 }, { expireAfterSeconds: 10 })
+  ```
+
+- <mark>Q: 如何查詢某個更新，需要維護幾個 index?</mark>
+- <mark>Q: 為何當回傳資料數量太多筆時，使用 index 反而變慢？因為分頁的關係，導致去找 index 的次數變多？因為 index 並非複製一份 doc，所以每筆都需再回 collection 撈？</mark>
+
+- 範例：
+
+- 建立：`db.movie.createIndex({ year: 1 })`
+- 刪除：`db.movie.dropIndex({ year: 1 })`
+- 查詢：`db.movie.getIndexes()`
+
+  - 未建立 index
+
+  ```shell
+  > db.movie.explain('executionStats').find({ year: { $gte: 2015 } })
+  {
+    ...,
+    executionStats: {
+      executionSuccess: true,
+      nReturned: 747,
+      executionTimeMillis: 16,
+      totalKeysExamined: 0,
+      totalDocsExamined: 28795,
+      executionStages: {
+        stage: 'COLLSCAN',      # --> 直接去 collection 查詢
+        filter: { year: { '$gte': 2015 } },
+        nReturned: 747,
+        executionTimeMillisEstimate: 0,
+        works: 28797,
+        advanced: 747,
+        needTime: 28049,
+        needYield: 0,
+        saveState: 28,
+        restoreState: 28,
+        isEOF: 1,
+        direction: 'forward',
+        docsExamined: 28795
+      }
+    },
+    ...
+  }
+  ```
+
+  - 建立以 year 排序的 index
+
+  ```shell
+  > db.movie.createIndex({ year: 1 })
+  year_1
+
+  > db.movie.explain('executionStats').find({ year: { $gte: 2015 } })
+  {
+    ...,
+    executionStats: {
+      executionSuccess: true,
+      nReturned: 747,
+      executionTimeMillis: 1,
+      totalKeysExamined: 747,
+      totalDocsExamined: 747,
+      executionStages: {
+        stage: 'FETCH',
+        nReturned: 747,
+        executionTimeMillisEstimate: 0,
+        works: 748,
+        advanced: 747,
+        needTime: 0,
+        needYield: 0,
+        saveState: 0,
+        restoreState: 0,
+        isEOF: 1,
+        docsExamined: 747,
+        alreadyHasObj: 0,
+        inputStage: {
+          stage: 'IXSCAN',        # --> 改用 index 查詢
+          nReturned: 747,
+          executionTimeMillisEstimate: 0,
+          works: 748,             # --> 所需步驟變少
+          advanced: 747,
+          needTime: 0,
+          needYield: 0,
+          saveState: 0,
+          restoreState: 0,
+          isEOF: 1,
+          keyPattern: { year: 1 },
+          indexName: 'year_1',
+          isMultiKey: false,
+          multiKeyPaths: { year: [] },
+          isUnique: false,
+          isSparse: false,
+          isPartial: false,
+          indexVersion: 2,
+          direction: 'forward',
+          indexBounds: { year: [ '[2015, inf.0]' ] },
+          keysExamined: 747,
+          seeks: 1,
+          dupsTested: 0,
+          dupsDropped: 0
+        }
+      }
+    },
+    ...
+  }
+  ```
+
 ### 其他
 
 - Within a single `mongod` instance, `timestamp` values are always unique.
@@ -228,6 +356,39 @@
     ]
   }
   ```
+
+- `db.test.explain("executionStats")`
+
+```shell
+# 可回傳 DB 執行的相關資訊，如執行時間等
+> db.movie.explain('executionStats').find({ year: { $gte: 2015 } })
+{
+  ...,
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 747,
+    executionTimeMillis: 16,
+    totalKeysExamined: 0,
+    totalDocsExamined: 28795,
+    executionStages: {
+      stage: 'COLLSCAN',
+      filter: { year: { '$gte': 2015 } },
+      nReturned: 747,
+      executionTimeMillisEstimate: 0,
+      works: 28797,
+      advanced: 747,
+      needTime: 28049,
+      needYield: 0,
+      saveState: 28,
+      restoreState: 28,
+      isEOF: 1,
+      direction: 'forward',
+      docsExamined: 28795
+    }
+  },
+  ...
+}
+```
 
 ### 延伸閱讀
 
