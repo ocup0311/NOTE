@@ -1,5 +1,7 @@
 ###### <!-- ref -->
 
+[worker.cc]: https://github.com/nodejs/node/blob/921493e228/src/node_worker.cc
+[深入理解 node.js worker threads]: https://zhuanlan.zhihu.com/p/167920353
 [udemy]: https://www.udemy.com/course/understand-nodejs/
 [level of abstraction]: ../image/Node/Level_of_Abstraction.png
 [how to jit(just in time)]: https://eli.thegreenplace.net/2013/11/05/how-to-jit-an-introduction
@@ -84,10 +86,12 @@
 
 - Immediately Invoked Function Expressions (IIFEs)
 
-## More Reference
+## 延伸閱讀
 
-[Node 内部工作原理解析]
+- [Node 内部工作原理解析]
+- [深入理解 Node.js Worker Threads]
+  - Worker Threads 簡單說是，透過 [worker.cc]，再開一個 nodejs runtime 給他用
 
-### NPM
+## NPM
 
 - Because the tool isn't installed globally we can't launch it from the command line (unless we add it to the path) but we can call it from an NPM script because NPM knows all about the installed packages.
