@@ -61,7 +61,41 @@ void fn3()
     // printf("&u: %p , &p2: %p , p2: %p , *p2: %d\n", &u, &p2, p2, *p2);
 }
 
+void fn4()
+{
+  //
+  char s1[] = "abc";
+  char t1[] = "abc";
+  
+  printf("1.\nt1: %s: %p\n", t1, t1); // t1: abc: 0x7ff7b345c1c8
+  
+  t1[0] = 'b';
 
+  printf("s1: %s: %p\n", s1, s1);     // s1: abc: 0x7ff7b345c1cc
+  printf("t1: %s: %p\n", t1, t1);     // t1: bbc: 0x7ff7b345c1c8
+
+  //
+  char* s2 = "abc";
+  char* t2 = "abc";
+  
+  printf("2.\nt2: %s: %p\n", t2, t2); // t2: abc: 0x10caa6f5d
+
+  t2 = "dfg";
+
+  printf("s2: %s: %p\n", s2, s2);     // s2: abc: 0x10caa6f5d
+  printf("t2: %s: %p\n", t2, t2);     // t2: dfg: 0x10caa6f70
+
+  //
+  string s3 = "abc";
+  string t3 = "abc";
+  
+  printf("3.\nt3: %s: %p\n", t3, t3); // t3: abc: 0x10caa6f5d
+  
+  t3 = "dfg";
+
+  printf("s3: %s: %p\n", s3, s3);     // s3: abc: 0x10caa6f5d
+  printf("t3: %s: %p\n", t3, t3);     // t3: dfg: 0x10caa6f70
+}
 
 int main(void)
 {
@@ -73,18 +107,9 @@ int main(void)
 
   // // int *
   // fn3();
-  // char ss[] = "asd";
-  // printf("%s\n", ss);
 
-  char s[] = "abc";
-  char t[] = "abc";
-  
-  printf("%s: %p\n", t, t);
-  
-  t[0] = 'b';
-
-  printf("%s: %p\n", s, s);
-  printf("%s: %p\n", t, t);
+  // string
+  fn4();
 
   return 0;
 }

@@ -22,3 +22,11 @@
   - [CS50 Sandbox]
   - [cs50.h]
   - [cs50 文件]
+
+## 再研究議題
+
+### Week 4
+
+- check50
+- memery
+- 兩種 string 差異
