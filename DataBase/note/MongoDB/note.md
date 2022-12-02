@@ -12,6 +12,8 @@
 
 ###### <!-- ref -->
 
+[text indexes]: https://www.mongodb.com/docs/manual/core/index-text/#text-indexes
+[mongodb 基本原理：索引（indexes）]: https://blog.csdn.net/guangyacyb/article/details/104339183
 [full text search engines]: https://www.mongodb.com/basics/full-text-search
 [nosql 數據建模技術]: https://coolshell.cn/articles/7270.html
 [mongodb limits and thresholds]: https://www.mongodb.com/docs/manual/reference/limits/
@@ -23,7 +25,7 @@
 
 # MongoDB
 
-### 簡介
+### # 簡介
 
 - Build for Speed
 - Rich Document based queries
@@ -32,7 +34,7 @@
 - Replication and Failover
 - Auto Sharding
 
-### BSON
+### # BSON
 
 > REF: [BSON1] | [BSON2]
 
@@ -116,7 +118,7 @@
     // [full size]  [num]  [key:ab]   [value:1]    [end]
     ```
 
-### 慣用方法
+### # 慣用方法
 
 | O                         | X            | 原因               |
 | ------------------------- | ------------ | ------------------ |
@@ -124,11 +126,13 @@
 | `replaceOne`              | ~~`update`~~ | Ｏ一次覆蓋一筆 doc |
 | `insertMany`, `insertOne` | ~~`insert`~~ | Ｏ返回 insertID    |
 
-### 注意默認值
+### # 注意默認值
 
 - `insertMany`(`{ordered:true}`)：照順序 insert，遇到 err 則後半段停止
 
-### Index
+### # Index
+
+> REF: [mongodb 基本原理：索引（Indexes）]
 
 - 系統預設會建立一個以`_id`排序的 index
 
@@ -155,14 +159,19 @@
   > db.people.createIndex({ createAt: 1 }, { expireAfterSeconds: 10 })
   ```
 
-- <mark>Q: 如何查詢某個更新，需要維護幾個 index?</mark>
-- <mark>Q: 為何當回傳資料數量太多筆時，使用 index 反而變慢？因為分頁的關係，導致去找 index 的次數變多？因為 index 並非複製一份 doc，所以每筆都需再回 collection 撈？</mark>
+- [Text Indexes]
+
+  ```sh
+  # EX.
+  > db.movie.createIndex({ title: 'text' })
+  > db.movie.find({ $text: { $search: 'room' } })
+  ```
 
 - 範例：
 
-- 建立：`db.movie.createIndex({ year: 1 })`
-- 刪除：`db.movie.dropIndex({ year: 1 })`
-- 查詢：`db.movie.getIndexes()`
+  - 建立：`db.movie.createIndex({ year: 1 })`
+  - 刪除：`db.movie.dropIndex({ year: 1 })`
+  - 查詢：`db.movie.getIndexes()`
 
   - 未建立 index
 
@@ -256,7 +265,7 @@
   }
   ```
 
-### 其他
+### # 其他
 
 - Within a single `mongod` instance, `timestamp` values are always unique.
 - 新增時，若 `_id` 已存在該 `collection`，則新增失敗
@@ -390,11 +399,49 @@
 }
 ```
 
-### 延伸閱讀
+### # 延伸閱讀
 
 - [Everything You Know About MongoDB is Wrong!]
 - [NOSQL 數據建模技術]
   - `Document database` group indexes by field `names`, as opposed to [Full Text Search Engines] that group indexes by field `values`.
+
+### # 待解決問題集中區
+
+- <mark>Q: 如何查詢某個更新，需要維護幾個 index?</mark>
+- <mark>Q: 為何當回傳資料數量太多筆時，使用 index 反而變慢？因為分頁的關係，導致去找 index 的次數變多？因為 index 並非複製一份 doc，所以每筆都需再回 collection 撈？</mark>
+
+```
+是不是 index 中是只有紀錄資料在 collection 中的位置，
+再依照從 index 獲得位置去 collection 撈資料？
+
+影片 4:35 中所說的「查了 index」，是不是指上述的步驟？
+
+另外，以回傳一個 year 區間的例子來看，
+是否他只需到 index 中查詢到 頭尾，就可以直接遍歷一次呢？
+```
+
+```
+我使用 version 6.0 測試排序時發現一件事，
+在想是否新版本中，MongoDB 改善了排序速度，
+使得即便使用 index 也可能反而使 `find().sort()` 變慢了？
+
+不過測試中，若是使用兩個參數來排序的情況下，(EX. `{ year: 1, title: 1 }`)
+使用 index 將會比直接在 collection 中查詢來得快一些些。
+因此在想，是否要至少超過兩個排序參數才建議建立 index？
+
+
+或是有哪個推薦的資源詳細介紹 index 的使用時機與設計？
+```
+
+```
+1. 在 find({name: "Jack", age: 20}) 中，使用 name_1 與 age_1 是不是速度是差不多的？
+
+2. 他是以什麼為依據來評估應該要選擇用 age_1 而不是其他方案呢？
+
+3. 當有好幾種方案時，他需要去評估該使用哪種方案，是不是會拖慢速度？抑或是，評估時所花時間少到可忽略不計？還是因為通常會用 queryHash, planCacheKey 來記著，所以不會太常需要重新評估？
+
+4. 也不太明白 planCacheKey 的機制，我以 find({name: "Jack", age: 20}) 實測發現，當我只有 age_1 index 時，與只有 name_1 時，planCacheKey 是一樣的。
+```
 
 # 暫存 Linux
 
@@ -405,3 +452,110 @@
   - `grep xxxx`：過濾出 xxxx
   - `grep -v yyyy`：反向過濾 xxxx （去除 yyyy）
   - `grep -v grep`：去除掉 `grep` 本身產生的 `precess`
+
+# 未整理問題暫存
+
+; -------------------------------------------------------------
+
+Q1: pipeline 底層做法?
+https://www.udemy.com/course/best-mongodb/learn/lecture/13340016#questions
+ref: https://www.mongodb.com/docs/manual/aggregation/
+
+剛在想一個問題, mongodb aggregate 會是 pipeline 一條條跑, 還是他會按照 pipeline 的條件直接做一次處理。
+例如這個他會先搜尋出來後, 再弄成只拿 10 筆, 還是一開始就只搜尋 10 筆
+limit num 會不會有差別
+
+; -------------------------------------------------------------
+
+Q2:
+https://www.udemy.com/course/best-mongodb/learn/lecture/13237654#questions
+
+; -------------------------------------------------------------
+
+Q3
+https://www.udemy.com/course/best-mongodb/learn/lecture/13340918#questions
+
+ref:
+https://mongoing.com/archives/2214
+https://unix.stackexchange.com/questions/11544/what-is-the-difference-between-opt-and-usr-local
+https://stackoverflow.com/questions/13827915/location-of-the-mongodb-database-on-mac
+https://source.wiredtiger.com/develop/arch-data-file.html
+
+mongodb data 位置
+
+                          Intel Processor	                Apple M1 Processor
+
+Data Directory /usr/local/var/mongodb /opt/homebrew/var/mongodb
+Configuration file /usr/local/etc/mongod.conf /opt/homebrew/etc/mongod.conf
+Log directory /usr/local/var/log/mongodb /opt/homebrew/var/log/mongodb
+
+```
+The .wt files cannot be “converted” to readable text files, since they’re stored in very specific format, with compression, with encryption (if applicable), etc.
+```
+
+那我的理解, 要是用 mongodump 之後產生的 .bson 備份 是不是就沒加密, 可以直接解讀?
+
+.wt 跟 .bson 有什麼差別?
+
+; -------------------------------------------------------------
+
+authentic 真正的 -ation 動作 --> 認證
+author 作者 authorize 作者批准 -ation 動作 --> 授權
+
+; -------------------------------------------------------------
+
+Q4
+https://www.udemy.com/course/best-mongodb/learn/lecture/13355184#questions
+
+ref:
+https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/#:~:text=argument%20%2D%2Dbind_ip-,WARNING,-Before%20binding%20to
+
+如何用 brew services + authentication
+
+```
+// 不行:
+brew services start mongodb --auth --port 27017 --dbpath /usr/local/var/mongodb
+```
+
+; -------------------------------------------------------------
+
+Q5
+
+Q 測試從 shell create index 跟在平台新增的差異
+從 shell 新增, 也會出現在平台上。
+
+Q 測試從 mongoose 新增 index
+
+; -------------------------------------------------------------
+
+Q6
+https://www.udemy.com/course/best-mongodb/learn/lecture/13422594#content
+
+必讀 REF :https://www.mongodb.com/docs/manual/replication/
+
+Atlas: https://www.mongodb.com/docs/atlas/review-replica-set-metrics/
+https://ondrej-kvasnovsky.medium.com/mongodb-replica-set-on-local-macos-f5fc383b3fd6
+https://gist.github.com/davisford/bb37079900888c44d2bbcb2c52a5d6e8
+
+有效: https://stackoverflow.com/questions/68975769/brew-services-cant-start-service-get-bootstrap-failed-5-input-output-error
+
+https://silvae86.github.io/2021/03/04/migrate-mongodb-from-single-to-replicaset/#activate-the-new-replica-set
+改 /usr/local/etc/mongod.conf (不能有註解?)
+launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mongodb-community.plist
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mongodb-community.plist
+
+A replica set in MongoDB is a group of mongod processes that provide redundancy and high availability.
+; -------------------------------------------------------------
+
+Q7
+
+REF:
+https://www.mongodb.com/docs/manual/sharding/
+
+shard sql vs nosql 差在哪?
+
+; -------------------------------------------------------------
+
+不建議用 $lookup
+
+bucket patterns - iot
