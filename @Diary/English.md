@@ -33,6 +33,7 @@
 
 ###### <!-- 俚語 -->
 
+[partner in crime]: https://www.urbandictionary.com/define.php?term=Partner%20in%20crime
 [switching gears]: https://matters.news/@NaotoSama/78789-%E4%BD%A0%E7%9F%A5%E9%81%93-switch-gears-%E9%99%A4%E4%BA%86-%E6%8F%9B%E6%AA%94-%E4%B9%8B%E5%A4%96-%E9%82%84%E6%9C%89-%E8%BD%89%E6%8F%9B%E8%A9%B1%E9%A1%8C-%E7%9A%84%E6%84%8F%E6%80%9D%E5%97%8E-bafyreietek3tltmqholxuz3g5ejx5u5nopf5m6lhatp244ugadacm4xcne
 [old habits die hard]: #俚語
 [bread and butter]: https://www.businessweekly.com.tw/careers/blog/20180
@@ -366,6 +367,21 @@
 </details>
 
 ## 俚語
+
+###### <!-- partner in crime -->
+
+<details close>
+
+<summary><b>partner in crime</b>
+
+> 死黨
+
+</summary>
+
+> The fork() system call is strange; its [partner in crime], exec(), is not
+> so normal either.
+
+</details>
 
 ###### <!-- switch gears -->
 
