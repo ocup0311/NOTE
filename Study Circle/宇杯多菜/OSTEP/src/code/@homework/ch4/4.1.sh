@@ -1,0 +1,1 @@
+python3 $CH4 -s 1 -l 3:50,3:50 -I IO_RUN_IMMEDIATE -c -p
