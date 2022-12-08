@@ -12,6 +12,7 @@ main(int argc, char *argv[])
 
     
     int rc = fork();
+
     if (rc < 0) {
         // fork failed; exit
         fprintf(stderr, "fork failed\n");
@@ -19,6 +20,49 @@ main(int argc, char *argv[])
     } else if (rc == 0) {
         // child (new process)
         printf("hello, I am child (pid:%d)\n", (int) getpid());
+        int count = 0;
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
+        sleep(1);
+        printf("%i\n",count++);
         char *myargs[3];
         myargs[0] = strdup("wc");   // program: "wc" (word count)
         myargs[1] = strdup("./cpu-api/p3.c"); // argument: file to count
@@ -27,6 +71,7 @@ main(int argc, char *argv[])
         printf("this shouldn't print out\n");
     } else {
         // parent goes down this path (original process)
+        printf("before..........\n");
         int wc = wait(NULL);
         printf("hello, I am parent of %d (wc:%d) (pid:%d)\n",
 	       rc, wc, (int) getpid());
