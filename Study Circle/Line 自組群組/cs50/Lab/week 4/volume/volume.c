@@ -8,15 +8,15 @@
 // Number of bytes in .wav header
 const int HEADER_SIZE = 44;
 
-void printArr(uint8_t array[], int size)
-{
+// void printArr(uint8_t array[], int size)
+// {
 
-    printf("[ ");
-    for (int i = 0; i < size; i++) {
-        printf("%d ", array[i]);
-    }
-    printf(" ]\n");
-}
+//     printf("[ ");
+//     for (int i = 0; i < size; i++) {
+//         printf("%d ", array[i]);
+//     }
+//     printf(" ]\n");
+// }
 
 int main(int argc, char *argv[])
 {
@@ -53,7 +53,8 @@ int main(int argc, char *argv[])
     // printf("header1  ----------\n");
     // printf("%p : %u\n", &header,*header);
     // printArr(header, HEADER_SIZE);    
-    
+    // printf("sizeof(header): %lu\nsizeof(uint8_t)*HEADER_SIZE: %lu\n",sizeof(header),sizeof(uint8_t)*HEADER_SIZE);
+
     fread(&header,sizeof(uint8_t),HEADER_SIZE,input);
     fwrite(&header,sizeof(uint8_t),HEADER_SIZE,output);
 
