@@ -9,11 +9,11 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
     {
         for(int j = 0; j < width; j++)
         {
-            BYTE rgbtGray = round((image[i][j].rgbtRed + image[i][j].rgbtGreen + image[i][j].rgbtBlue) / 3.0);
+            BYTE gray = round((image[i][j].rgbtRed + image[i][j].rgbtGreen + image[i][j].rgbtBlue) / 3.0);
 
-            image[i][j].rgbtRed = rgbtGray;
-            image[i][j].rgbtGreen = rgbtGray;
-            image[i][j].rgbtBlue = rgbtGray;
+            image[i][j].rgbtRed = gray;
+            image[i][j].rgbtGreen = gray;
+            image[i][j].rgbtBlue = gray;
         }
     }
 
@@ -21,27 +21,27 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
 }
 
 // Convert image to sepia
-BYTE calculate_sepia(float ratered, float rateGreen, float rateBlue, RGBTRIPLE pixel )
+BYTE cal_sepia(float rateR, float rateG, float rateB, RGBTRIPLE *pixel )
 {
-    int result = round(ratered * pixel.rgbtRed + rateGreen * pixel.rgbtGreen + rateBlue * pixel.rgbtBlue);
+    int result = round(rateR * (*pixel).rgbtRed + rateG * (*pixel).rgbtGreen + rateB * (*pixel).rgbtBlue);
 
     return result > 255 ? 255 : result;
 }
 
 void sepia(int height, int width, RGBTRIPLE image[height][width])
 {
-
     for(int i = 0; i < height; i++)
     {
         for(int j = 0; j < width; j++)
         {
-            BYTE sepiaRed = calculate_sepia(0.393, 0.769, 0.189, image[i][j]);
-            BYTE sepiaGreen = calculate_sepia(0.349, 0.686, 0.168, image[i][j]);
-            BYTE sepiaBlue = calculate_sepia(0.272, 0.534, 0.131, image[i][j]);
+            RGBTRIPLE *pixel = &image[i][j];
+            BYTE sepiaR = cal_sepia(0.393, 0.769, 0.189, pixel);
+            BYTE sepiaG = cal_sepia(0.349, 0.686, 0.168, pixel);
+            BYTE sepiaB = cal_sepia(0.272, 0.534, 0.131, pixel);
             
-            image[i][j].rgbtRed = sepiaRed;
-            image[i][j].rgbtGreen = sepiaGreen;
-            image[i][j].rgbtBlue = sepiaBlue;
+            (*pixel).rgbtRed = sepiaR;
+            (*pixel).rgbtGreen = sepiaG;
+            (*pixel).rgbtBlue = sepiaB;
         }
     }
 
@@ -64,7 +64,7 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
     {
         for(int j = 0; j < width / 2; j++)
         {
-            swap_RGBTRIPLE(&image[i][j],&image[i][width-j-1]);
+            swap_RGBTRIPLE(&image[i][j], &image[i][width-j-1]);
         }
     }
 
@@ -89,33 +89,31 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 
     // 開始以濾鏡處理圖片
     for(int i = 0; i < height; i++)
-    {
         for(int j = 0; j < width; j++)
         {
             // 以下用來處理一個九宮格
-            // 命名方式： s: start, e: end, h: height, w: width, c: count
-            float blurSumRed = 0, blurSumGreen = 0, blurSumBlue = 0;
-            int sh = i - 1 > 0 ? i - 1 : 0;
-            int eh = i + 2 < height ? i + 2 : height;
-            int sw = j - 1 > 0 ? j - 1 : 0;
-            int ew = j + 2 < width ? j + 2 : width;
-            int c = (eh - sh) * (ew - sw);
+            int sumR = 0, sumG = 0, sumB = 0;
+            float count = 0;
 
-            for(int x = sh; x < eh; x++)
+            for(int a = 0; a < 3; a++)
             {
-                for(int y = sw; y < ew; y++)
+                int h = a + i - 1;
+                if( h < 0 || h >= height) continue;
+                for(int b = 0; b < 3; b++)
                 {
-                    blurSumRed = blurSumRed + copyImage[x][y].rgbtRed;
-                    blurSumGreen = blurSumGreen + copyImage[x][y].rgbtGreen;
-                    blurSumBlue = blurSumBlue + copyImage[x][y].rgbtBlue;
+                    int w = b + j - 1;
+                    if( w < 0 || w >= width) continue;
+                    sumR += copyImage[h][w].rgbtRed;
+                    sumG += copyImage[h][w].rgbtGreen;
+                    sumB += copyImage[h][w].rgbtBlue;
+                    count++;
                 } 
             }
 
-            image[i][j].rgbtRed = round(blurSumRed / c);
-            image[i][j].rgbtGreen = round(blurSumGreen / c);
-            image[i][j].rgbtBlue = round(blurSumBlue / c);
+            image[i][j].rgbtRed = round(sumR / count);
+            image[i][j].rgbtGreen = round(sumG / count);
+            image[i][j].rgbtBlue = round(sumB / count);
         }
-    }
 
     return;
 }
