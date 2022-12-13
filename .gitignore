@@ -13,6 +13,8 @@ yarn-error.log*
 output/
 *.wav
 *.bmp
+*.raw
+
 
 # Runtime data
 
