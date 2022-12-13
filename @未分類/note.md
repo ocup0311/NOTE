@@ -18,6 +18,7 @@
 - [ChatGPT LINE Bot](https://github.com/isdaviddong/chatGPTLineBot?fbclid=IwAR25gtlDC1DCSRQQovO4PtD3MJUxwxmq2TtK52kc8mLn_hnjx1hGmynd6CY)
 
   - [FB 貼文](https://www.facebook.com/DotNetWalker/posts/pfbid02HAjmCETiwDVpm8TjoDrSunRuYuuzuxLHEiusdsUq8qLVdJS8oRsBajHLwJQaUpKYl)
+  - [另一個？](https://github.com/memochou1993/ai-assistant?fbclid=IwAR0IvjZWWA87jUGc1E2nFPNemJBXdcA_be6CLiHhcYG-BT1cxqttaG6Qg1U)
 
 - [ChatGPT for Google](https://chrome.google.com/webstore/detail/chatgpt-for-google/jgjaeacdkonaoafenlfkkkmbaopkbilf)
 - [ChatGPT Voice Input](https://github.com/sigglas/ChatGPTVoiceInput)
