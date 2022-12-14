@@ -14,26 +14,17 @@ const BYTE SINGN_JPG2[2] = {224, 239};
 void printArr(BYTE array[], int size)
 {
     printf("[ ");
-
     for (int i = 0; i < 4; i++) 
         printf("%d ", array[i]);
-
     printf(" ]\n");
 }
 
-char* concat(const char *s1, const char *s2)
+char *gen_filename(int num)
 {
-    char *result = malloc(strlen(s1) + strlen(s2) + 1);
-    strcpy(result, s1);
-    strcat(result, s2);
-    return result;
-}
-
-char* gen_filename(int num)
-{
-    char filename[4];
-    sprintf(filename, "%03d", num);
-    return concat(filename, ".jpg");
+    char *filename = malloc(8);
+    // char filename[8];
+    sprintf(filename, "%03d.jpg", num);
+    return filename;
 }
 
 bool is_jpg_head(BYTE buffer[])
@@ -70,19 +61,14 @@ int main(int argc, char *argv[])
   BYTE buffer[BLOCK_SIZE];
   FILE *output = NULL;
   int n = 0;
-  // 測試用 ------------------------
-  // char *filename = gen_filename(12);
-  // output = fopen(filename, "w");
-  // 測試用 ------------------------
 
   while (fread(buffer, sizeof(BYTE), BLOCK_SIZE, raw_file) == BLOCK_SIZE)
   {
     if(is_jpg_head(buffer))
     {
-      // 結束測試再打開 ----------------------------
       if(output != NULL)
       {
-        printf("close: %i\n\n", n);
+        printf("close: %i\n\n", n - 1);
         fclose(output);
       }
       char *filename = gen_filename(n);
@@ -93,14 +79,13 @@ int main(int argc, char *argv[])
           printf("Could not open output file.\n");
           return 1;
       } 
-      // 結束測試再打開 ----------------------------
       n++;
     }
     
-    // fwrite(&buffer, sizeof(BYTE), BLOCK_SIZE, output);
+    if(output != NULL) fwrite(buffer, sizeof(buffer), 1, output);
   }
 
 
   fclose(raw_file);
-  // fclose(output);
+  fclose(output);
 }
