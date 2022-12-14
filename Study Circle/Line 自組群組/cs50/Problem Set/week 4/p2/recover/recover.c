@@ -7,8 +7,20 @@
 
 typedef uint8_t BYTE;
 const int BLOCK_SIZE = 512;
+const BYTE SINGN_JPG1[3] = {255, 216, 255};
+const BYTE SINGN_JPG2[2] = {224, 239};
 
 // function
+void printArr(BYTE array[], int size)
+{
+    printf("[ ");
+
+    for (int i = 0; i < 4; i++) 
+        printf("%d ", array[i]);
+
+    printf(" ]\n");
+}
+
 char* concat(const char *s1, const char *s2)
 {
     char *result = malloc(strlen(s1) + strlen(s2) + 1);
@@ -17,17 +29,24 @@ char* concat(const char *s1, const char *s2)
     return result;
 }
 
-char* gen_filename(int n)
+char* gen_filename(int num)
 {
-    char str[3];
-    sprintf(str, "%d", n);
-    return concat(str, ".jpg");
+    char filename[4];
+    sprintf(filename, "%03d", num);
+    return concat(filename, ".jpg");
 }
 
-bool is_jpg_head(BYTE *buffer)
+bool is_jpg_head(BYTE buffer[])
 {
+  for(int i = 0; i < 3; i++)
+    if(buffer[i] != SINGN_JPG1[i]) return false;
 
-  printf("%d", buffer[0]);
+  for(int i = 0; i < 2; i++)
+    if(buffer[3] == SINGN_JPG2[i])
+    {
+      printArr(buffer, BLOCK_SIZE);
+      return true;
+    } 
 
   return false;
 }
@@ -35,7 +54,6 @@ bool is_jpg_head(BYTE *buffer)
 // main
 int main(int argc, char *argv[])
 {
-  printf("111");
   if (argc != 2)
   {
     printf("Usage: ./recover card.raw\n");
@@ -48,32 +66,41 @@ int main(int argc, char *argv[])
     printf("Could not open input file.\n");
     return 1;
   }
-  printf("7");
 
   BYTE buffer[BLOCK_SIZE];
-  FILE *output;
-  int n;
+  FILE *output = NULL;
+  int n = 0;
+  // 測試用 ------------------------
+  // char *filename = gen_filename(12);
+  // output = fopen(filename, "w");
+  // 測試用 ------------------------
 
-  while (fread(buffer, 1, BLOCK_SIZE, raw_file) == BLOCK_SIZE)
+  while (fread(buffer, sizeof(BYTE), BLOCK_SIZE, raw_file) == BLOCK_SIZE)
   {
-    printf("1");
     if(is_jpg_head(buffer))
     {
-      printf("2");
-      fclose(output);
+      // 結束測試再打開 ----------------------------
+      if(output != NULL)
+      {
+        printf("close: %i\n\n", n);
+        fclose(output);
+      }
       char *filename = gen_filename(n);
       output = fopen(filename, "w");
+      printf("--> open: %i\n\n", n);
       if (output == NULL)
       {
           printf("Could not open output file.\n");
           return 1;
       } 
+      // 結束測試再打開 ----------------------------
       n++;
     }
-    printf("3");
     
-    fwrite(&buffer, sizeof(BLOCK_SIZE), 1, output);
+    // fwrite(&buffer, sizeof(BYTE), BLOCK_SIZE, output);
   }
 
+
   fclose(raw_file);
+  // fclose(output);
 }
