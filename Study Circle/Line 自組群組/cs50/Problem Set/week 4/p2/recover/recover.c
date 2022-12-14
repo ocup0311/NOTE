@@ -7,40 +7,11 @@
 
 typedef uint8_t BYTE;
 const int BLOCK_SIZE = 512;
-const BYTE SINGN_JPG1[3] = {255, 216, 255};
-const BYTE SINGN_JPG2[2] = {224, 239};
+BYTE SINGN_JPG1[3] = {0xff, 0xd8, 0xff};
+BYTE SINGN_JPG2 = 0xe0;
 
 // function
-void printArr(BYTE array[], int size)
-{
-    printf("[ ");
-    for (int i = 0; i < 4; i++) 
-        printf("%d ", array[i]);
-    printf(" ]\n");
-}
-
-char *gen_filename(int num)
-{
-    char *filename = malloc(8);
-    // char filename[8];
-    sprintf(filename, "%03d.jpg", num);
-    return filename;
-}
-
-bool is_jpg_head(BYTE buffer[])
-{
-  for(int i = 0; i < 3; i++)
-    if(buffer[i] != SINGN_JPG1[i]) return false;
-
-  for(int i = 0; i < 2; i++)
-    if(buffer[3] == SINGN_JPG2[i])
-    {
-      printArr(buffer, BLOCK_SIZE);
-      return true;
-    } 
-
-  return false;
-}
+bool is_jpg_head(BYTE *buffer);
 
 // main
 int main(int argc, char *argv[])
@@ -60,32 +31,42 @@ int main(int argc, char *argv[])
 
   BYTE buffer[BLOCK_SIZE];
   FILE *output = NULL;
-  int n = 0;
+  int num = 0;
 
   while (fread(buffer, sizeof(BYTE), BLOCK_SIZE, raw_file) == BLOCK_SIZE)
   {
     if(is_jpg_head(buffer))
     {
-      if(output != NULL)
+      if(output != NULL) 
       {
-        printf("close: %i\n\n", n - 1);
         fclose(output);
+        num++;
       }
-      char *filename = gen_filename(n);
+      char filename[8];
+      sprintf(filename, "%03i.jpg", num);
       output = fopen(filename, "w");
-      printf("--> open: %i\n\n", n);
       if (output == NULL)
       {
           printf("Could not open output file.\n");
+          fclose(raw_file);
           return 1;
       } 
-      n++;
     }
     
     if(output != NULL) fwrite(buffer, sizeof(buffer), 1, output);
   }
 
-
   fclose(raw_file);
   fclose(output);
+}
+
+// function
+bool is_jpg_head(BYTE *buffer)
+{
+  for(int i = 0; i < 3; i++)
+    if(buffer[i] != SINGN_JPG1[i]) return false;
+
+  if((buffer[3] & 0xf0) == SINGN_JPG2) return true;
+
+  return false;
 }
