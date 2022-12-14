@@ -20,9 +20,8 @@ int main(void)
     {
         print_timesof_str(" ", height - i);
         print_timesof_str("#", i);
-        printf(" ");
+        printf("  ");
         print_timesof_str("#", i);
-        print_timesof_str(" ", height - i);
         printf("\n");
     }
 }
