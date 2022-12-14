@@ -5,15 +5,14 @@
 #include <cs50.h>
 
 // CONST
-int A = 65, Z = 90, a = 97, z = 122;
+const int A = 65, Z = 90, a = 97, z = 122;
 
 // declare
 bool isValidKey(string key);
 
 // main
 int main(int n, string p[])
-{
-    
+{    
     // exception
     if(n != 2)
     {
@@ -32,6 +31,9 @@ int main(int n, string p[])
         for(int i = 0; i < 26; i++)
         {
             int code = (int) key[i];
+            bool isaz = code >= a && code <= z;
+            if(isaz) code = code - diff;
+
             KEY[i + 26] = code;
             KEY[i] = code + diff;
         }
@@ -55,7 +57,7 @@ int main(int n, string p[])
         if(preCode >= A && preCode <= Z) index = preCode - A + 26;
         else if(preCode >= a && preCode <= z) index = preCode - a;
         
-        if(index > 0) newCode = KEY[index];
+        if(index >= 0) newCode = KEY[index];
 
         char newChar = newCode;
         text[i] = newChar;
@@ -75,11 +77,14 @@ bool isValidKey(string key)
 
     for(int i = 0; i < 26; i++)
     {
-
         int code = (int) key[i];
-        int index = code - A;
+        int index;
+        bool isAZ = code >= A && code <= Z;
+        bool isaz = code >= a && code <= z;
 
-        if(!(code >= A && code <= Z)) return false;
+        if(!(isAZ || isaz)) return false;
+        if(isAZ) index = code - A;
+        else index = code - a;
         if(store[index] == 1) return false;
 
         store[index] = 1;
