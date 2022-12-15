@@ -30,3 +30,8 @@
 
 - [rive editor](https://editor.rive.app/file/loading2/292023)
   - 可以作互動動畫，大小很小，而且他的動畫可以合併，輕易整合到每個平台
+
+## # Linux (or macOS)
+
+- `printenv`：查 shell 環境變數
+- `/etc/paths.d`：系統 path 設定位置
