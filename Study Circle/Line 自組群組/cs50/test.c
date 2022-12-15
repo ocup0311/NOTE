@@ -63,6 +63,12 @@ void fn3()
 
 void fn4()
 {
+  char* s5 = get_string("s5:");
+  char* t5 = get_string("t5:");
+
+  printf("s5: %s: %p\n", s5, s5);     // s5: abc: 0x7ff3f6004080
+  printf("t5: %s: %p\n", t5, t5);     // t5: abc: 0x7ff3f60040a0
+
   //
   char s1[] = "abc";
   char t1[] = "abc";
