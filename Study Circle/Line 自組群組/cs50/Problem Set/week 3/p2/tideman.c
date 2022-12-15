@@ -5,6 +5,7 @@
 // Max number of candidates
 #define MAX 9
 
+// 全域性變數、靜態變數，初始化時會自動被設定為0
 // preferences[i][j] is number of voters who prefer i over j
 int preferences[MAX][MAX];
 
@@ -64,7 +65,6 @@ int main(int argc, string argv[])
         for (int j = 0; j < candidate_count; j++)
         {
             locked[i][j] = false;
-            preferences[i][j] = 0;
         }
     }
 
@@ -260,46 +260,18 @@ void lock_pairs(void)
 // Print the winner of the election
 void print_winner(void)
 {
-    if(pair_count == 0)
-    {
-        for(int i = 0; i < candidate_count; i++)
-        {
-            printf("%s",candidates[i]);
-        }
-        return;
-    }
-
-    int win;
-
     for(int i = 0; i < candidate_count; i++)
     {
-        if(win) break;
-
+        bool isWinner = true;
         for(int j = 0; j < candidate_count; j++)
         {
-            if(win) break;
-            if(locked[i][j]) win = i + 1;
+            if(locked[j][i] == false) continue;
+            isWinner = false;
+            break;
         }
+        if(isWinner) printf("%s\n", candidates[i]);
     }
-
-    win--;
-
-    if(win < 0) 
-    {
-        printf("There's no winner!\n");
-        return;
-    }
-    
-    for(int i = 0; i < candidate_count; i++)
-    {
-        if(locked[i][win]) 
-        {
-            win = i;
-            i = 0;
-        }
-    }
-
-    printf("%s\n", candidates[win]);
 
     return;
 }
+
