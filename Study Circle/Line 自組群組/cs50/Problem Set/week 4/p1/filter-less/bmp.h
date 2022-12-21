@@ -15,6 +15,7 @@ typedef uint16_t WORD;
 // and layout of a file that contains a DIB [device-independent bitmap].
 // Adapted from http://msdn.microsoft.com/en-us/library/dd183374(VS.85).aspx.
 
+// TODO: 查一下 __attribute__ 跟 __packed__
 typedef struct
 {
     WORD   bfType;
