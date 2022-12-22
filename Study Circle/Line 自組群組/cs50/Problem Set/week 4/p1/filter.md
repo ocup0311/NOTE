@@ -74,7 +74,48 @@
 
 ### Q3: bmp scanlines
 
-- scanlines 的 padding 需要兩次 %4，是因為第一次的結果會有 0 的情況。
+- scanlines 的 padding 需要兩次`% 4`，是因為第一次的結果會有`0`的情況。
 
 ![](https://i.imgur.com/8xfSpzB.png)
 ![](https://i.imgur.com/5QlajZx.png)
+
+### Q4: fseek()
+
+- 用來移動某個已開啟的 file 的 pointer。(i.e. SEEK_CUR)
+  - 文件頭（SEEK_SET）
+  - 當前位置（SEEK_CUR）
+  - 文件尾（SEEK_END）
+
+### Q5: `__attribute__` & `__packed__`
+
+- 範例：
+
+  ```c
+  // EX.
+  typedef struct
+  {
+    BYTE  rgbtBlue;
+    BYTE  rgbtGreen;
+    BYTE  rgbtRed;
+  } __attribute__((__packed__))
+  RGBTRIPLE;
+
+  // 也可寫作：
+  typedef struct __attribute__((__packed__))
+  {
+    BYTE  rgbtBlue;
+    BYTE  rgbtGreen;
+    BYTE  rgbtRed;
+  }
+  RGBTRIPLE;
+  ```
+
+- `__attribute__`可用來設定一些參數 ( EX.`__packed__` )。是 GCC 編譯器的一個擴展，可以用於指定結構體、聲明或函數的特殊屬性。它可以用於設置結構體的佈局、設置函數的傳參方式、設置函數的不可覆蓋性、設置函數的優化級別等。
+- `__packed__`：指定結構體中的成員按照在程式碼中出現的順序進行實際佈局，而不進行字體對齊。
+
+  ![](https://i.imgur.com/2qgOYVO.png)
+
+### Q6: 為什麼可以 fread 到 BITMAPFILEHEADER 中?
+
+- C 語言的 struct 是整塊在同一空間的，並按照順序存在。
+- 以上述範例`RGBTRIPLE`的情況為例，假設該變數的起點為 0x7ff7be000000，那麼 `rgbtBlue` 存在 0x7ff7be000000 ~ 0x7ff7be000007，`rgbtGreen` 存在 0x7ff7be000008 ~ 0x7ff7be00000f，`rgbtRed` 存在 0x7ff7be000010 ~ 0x7ff7be000017

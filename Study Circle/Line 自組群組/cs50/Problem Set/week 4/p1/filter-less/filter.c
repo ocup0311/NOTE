@@ -57,7 +57,6 @@ int main(int argc, char *argv[])
         return 5;
     }
 
-    // TODO:為什麼可以 read 到 BITMAPFILEHEADER 中?
     // Read infile's BITMAPFILEHEADER
     BITMAPFILEHEADER bf;
     fread(&bf, sizeof(BITMAPFILEHEADER), 1, inptr);
@@ -99,7 +98,6 @@ int main(int argc, char *argv[])
         // Read row into pixel array
         fread(image[i], sizeof(RGBTRIPLE), width, inptr);
 
-        // TODO: 研究 fseek()
         // Skip over padding
         fseek(inptr, padding, SEEK_CUR);
     }
