@@ -119,3 +119,20 @@
 
 - C 語言的 struct 是整塊在同一空間的，並按照順序存在。
 - 以上述範例`RGBTRIPLE`的情況為例，假設該變數的起點為 0x7ff7be000000，那麼 `rgbtBlue` 存在 0x7ff7be000000 ~ 0x7ff7be000007，`rgbtGreen` 存在 0x7ff7be000008 ~ 0x7ff7be00000f，`rgbtRed` 存在 0x7ff7be000010 ~ 0x7ff7be000017
+
+### Q7: `optind` & `getopt()`
+
+- `optind`
+
+  - `option index` 的縮寫
+  - 不是 `getopt()` 的產物，是原本就存在的全域變數
+  - 指向目前正在解析的命令行參數 (初始為 `1`)
+
+- `getopt()`
+  - 每調用一次`getopt()` --> optind++
+  - 若回傳 -1 不加
+  - 若該 filter 有冒號(:)：代表該 flag 後有一個專用參數，並且再次 optind++ (EX. "b:grs"，則使用 -b 時，後面需再加一個 opt)
+  - 回傳值：
+    - `-1`：表示 optind 所指並非 flag （EX. 並非下列形式： -a, -g, -d..）
+    - `?`：表示所得 flag 並未符合指定選項
+    - flag：若符合指定選項，則回傳該 flag

@@ -9,7 +9,6 @@ int main(int argc, char *argv[])
     // Define allowable filters
     char *filters = "bgrs";
 
-    // TODO:查查 getopt 是不是沒在 filters 中的，就會回傳 '?'
     // Get filter flag and check validity
     char filter = getopt(argc, argv, filters);
     if (filter == '?')
@@ -18,7 +17,6 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    // TODO:查查 getopt 何時會回傳 -1
     // Ensure only one filter
     if (getopt(argc, argv, filters) != -1)
     {
@@ -26,10 +24,8 @@ int main(int argc, char *argv[])
         return 2;
     }
 
-    // TODO:查查 optind 代表什麼意思？
     // optind 會指向第一個未處理的參數位置
     // Ensure proper usage
-    printf("argc: %i, optind: %i \n",argc ,optind);
     if (argc != optind + 2)
     {
         printf("Usage: ./filter [flag] infile outfile\n");
