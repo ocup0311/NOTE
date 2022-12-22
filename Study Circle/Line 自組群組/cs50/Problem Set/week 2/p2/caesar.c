@@ -25,7 +25,7 @@ int main(int n, string p[])
 
     if(!isNumKey(p[1]))
     {
-        printf("Usage: ./caesar\n");
+        printf("Usage: ./caesar <KEY>\n");
         return 1;
     }
 
