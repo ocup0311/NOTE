@@ -129,10 +129,14 @@
   - 指向目前正在解析的命令行參數 (初始為 `1`)
 
 - `getopt()`
+
   - 每調用一次`getopt()` --> optind++
   - 若回傳 -1 不加
-  - 若該 filter 有冒號(:)：代表該 flag 後有一個專用參數，並且再次 optind++ (EX. "b:grs"，則使用 -b 時，後面需再加一個 opt)
+  - 若該 filter 有冒號(:)：代表該 opt 後有一個專用參數，並且再次 optind++ (EX. "b:grs"，則使用 -b 時，後面需再加一個 arg)
   - 回傳值：
-    - `-1`：表示 optind 所指並非 flag （EX. 並非下列形式： -a, -g, -d..）
-    - `?`：表示所得 flag 並未符合指定選項
-    - flag：若符合指定選項，則回傳該 flag
+
+    - `-1`：表示 optind 所指並非 opt （EX. 並非下列形式： -a, -g, -d..）
+    - `?`：表示所得 opt 並未符合指定選項
+    - opt：若符合指定選項，則回傳該 opt
+
+    ![](https://i.imgur.com/0hkVauD.png)
