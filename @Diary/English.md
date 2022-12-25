@@ -7,6 +7,7 @@
 
 ###### <!-- 片語 -->
 
+[get the hang of]: https://elt.rti.org.tw/todays-phrase/get-the-hang-of-something/
 [seismic shift]: #片語
 [from scratch]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/from-scratch
 [nowhere near]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/near?q=nowhere+near#:~:text=not%20close%20in%20distance%2C%20time%2C%20amount%2C%20or%20quality
@@ -78,6 +79,21 @@
 # Useful English
 
 ## 片語
+
+###### <!-- get the hang of -->
+
+<details close>
+<summary><b>get the hang of</b>
+
+> 學會做（尤指不那麽簡單明瞭的事）； 掌握竅門
+
+</summary>
+
+> Try some different random seeds (-s) or add more actions (-a) to [get the hang of] it.
+
+> "I've never used this program before." "Don't worry - you'll soon [get the hang of] it."
+
+</details>
 
 ###### <!-- seismic shift -->
 
