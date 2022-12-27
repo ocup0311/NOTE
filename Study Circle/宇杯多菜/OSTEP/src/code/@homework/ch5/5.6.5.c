@@ -19,20 +19,20 @@ int main()
 
 
 	int rc2 = fork();
-	printf("fork2: %i\n",  getpid());
+	printf("fork2: %i, rc1: %i, rc2: %i\n",  getpid(), rc1, rc2);
 
   
 	if (rc2 < 0) {
 		fprintf(stderr, "fork failed");
 		exit(1);
 	} else if (rc2 == 0) {
-		sleep(1);
+		sleep(3);
 		printf("[END] child2: %i  rc1: %i rc2: %i\n",  getpid(), rc1, rc2);
 	} else {
 		// int wc = waitpid(rc2, NULL, 0);
-		// int wc = wait(NULL);
+		int wc = wait(NULL);
 		// int wc = waitpid(rc1, NULL, 0);
-		int wc = waitpid(-1, NULL, 0);
+		// int wc = waitpid(-1, NULL, 0);
 		printf("[END] parent2: %i  wc: %i  rc1: %i rc2: %i\n",  getpid(),wc, rc1, rc2);
 	}
 
