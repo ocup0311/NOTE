@@ -7,6 +7,7 @@
 
 ###### <!-- 片語 -->
 
+[it is also worth noting that]: #片語
 [get the hang of]: https://elt.rti.org.tw/todays-phrase/get-the-hang-of-something/
 [seismic shift]: #片語
 [from scratch]: https://dictionary.cambridge.org/zht/%E8%A9%9E%E5%85%B8/%E8%8B%B1%E8%AA%9E-%E6%BC%A2%E8%AA%9E-%E7%B9%81%E9%AB%94/from-scratch
@@ -79,6 +80,21 @@
 # Useful English
 
 ## 片語
+
+###### <!-- It is also worth noting that -->
+
+<details close>
+<summary><b>It is also worth noting that</b>
+
+> 值得一提的是
+
+</summary>
+
+> [It is also worth noting that] some Key-Value stores like Oracle Coherence gradually move towards Document databases via addition of indexes and in-database entry processors.
+
+> 別把 noting 看成 nothing
+
+</details>
 
 ###### <!-- get the hang of -->
 
