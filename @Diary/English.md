@@ -487,6 +487,19 @@
 
 ## 名詞
 
+###### <!-- overhead -->
+
+<details close>
+<summary><b>overhead</b>
+
+> （公司的）經常性開支，營運費用，經費
+
+</summary>
+
+> The first is performance: how can we implement virtualization without adding excessive [overhead] to the system?
+
+</details>
+
 ###### <!-- tug of war -->
 
 <details close>
