@@ -2,6 +2,9 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <unistd.h>
+#include <stdlib.h>
+
 
 void swap(int *a, int *b)
 {
@@ -103,6 +106,23 @@ void fn4()
   printf("t3: %s: %p\n", t3, t3);     // t3: dfg: 0x10caa6f70
 }
 
+void fn5()
+{
+
+  typedef struct node {
+    int data;
+    struct node *next;
+  } Node;
+
+  Node *n1 = malloc(sizeof(Node));
+  n1->data = 5;
+  printf("%i\n", n1->data);
+
+}
+
+
+
+
 int main(void)
 {
   // // swap
@@ -114,8 +134,11 @@ int main(void)
   // // int *
   // fn3();
 
-  // string
-  fn4();
+  // // string
+  // fn4();
+
+  // struct
+  fn5();
 
   return 0;
 }
