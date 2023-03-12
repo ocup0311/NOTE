@@ -16,10 +16,11 @@
 [manjaro]: https://manjaro.org
 [linux newbie: running manjaro on macbookpro]: https://medium.com/@pswoo/linux-newbie-running-manjaro-on-macbookpro-5db4672351c9
 [classic sysadmin: how to securely transfer files between servers with scp]: https://www.linuxfoundation.org/blog/blog/classic-sysadmin-how-to-securely-transfer-files-between-servers-with-scp
+[linux directory structure]: https://www.thegeekstuff.com/2010/09/linux-file-system-structure/
 
  <!-- ref -->
 
-# Functional Programming (FP)
+# Linux
 
 > DATE: 3 (2023)
 > REF: [零基礎七天入門 Linux]
@@ -53,6 +54,48 @@
     - <mark>TODO:</mark> md5 檢查 ISO
     - manjaro 安裝： `rsync 失敗 錯誤碼：11`
       --> 空間不夠，約需要 9.5G 硬碟
+
+---
+
+## <mark>TODO:待整理筆記</mark>
+
+- 查當前使用的 shell
+
+  ```shell
+  $ echo $SHELL
+  /bin/zsh
+  ```
+
+- Ubuntua 的 terminal 打不開 （同機器設定上，manjaro 可以正常開啟 terminal）
+
+  ```txt
+  On modern-day computers, we usually use the word terminal
+  to refer to software programs known as terminal emulators.
+  ```
+
+  - 未知原因，無法在桌面打開 terminal emulator
+  - 須注意是否有 focus 在 VM
+  - 改成直接切換 tty 來使用
+    - mac 須以 `command+shift+Fx` 分別切換到 F1 ~ F12 設定的內容
+    - 組合快捷鍵也可以使用 Fn 方式來使用 F1 ~ F12
+    - 我的機器上：`F1` 登入頁、`F2` 桌面、`F3 ~ F6` 為 tty3 ~ tty6、`F7 ~ F12` 沒反應
+
+- 延伸`tty`
+
+  - <mark>TODO: 《再研究》</mark> 不同 tty 是不同 process 層級
+    ![](https://i.imgur.com/Ak3I3kg.png)
+
+  - <mark>TODO: 《再研究》</mark> 桌面 terminal 與 tty 差異？
+    ![](https://i.imgur.com/uykC2JL.png)
+
+  - <mark>TODO: 《再研究》</mark> 是否可將桌面 terminal 分頁，模擬成不同 tty？
+    ![](https://i.imgur.com/m48FrIq.png)
+
+- [Linux Directory Structure]
+
+  - 參考大方向，不同發行版，都可能會有不同資料夾結構的使用方式
+
+  ![](https://i.imgur.com/kFT4xj7.png)
 
 ---
 
