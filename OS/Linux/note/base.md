@@ -17,6 +17,7 @@
 [linux newbie: running manjaro on macbookpro]: https://medium.com/@pswoo/linux-newbie-running-manjaro-on-macbookpro-5db4672351c9
 [classic sysadmin: how to securely transfer files between servers with scp]: https://www.linuxfoundation.org/blog/blog/classic-sysadmin-how-to-securely-transfer-files-between-servers-with-scp
 [linux directory structure]: https://www.thegeekstuff.com/2010/09/linux-file-system-structure/
+[vi/vim]: https://vim.rtorr.com/
 
  <!-- ref -->
 
@@ -96,6 +97,91 @@
   - 參考大方向，不同發行版，都可能會有不同資料夾結構的使用方式
 
   ![](https://i.imgur.com/kFT4xj7.png)
+
+- `cat text1.txt text2.txt >> text3.txt`
+
+  - 將 text1.txt text2.txt 合併產生 text3.txt
+
+  ```sh
+  # 輸出 text1.txt 到 stdout
+  $ cat text1.txt
+
+  # 輸出 text1.txt ＆ text2.txt 到 stdout
+  $ cat text1.txt text2.txt
+
+  # 輸出 text1.txt ＆ text2.txt 從 stdout redirect 到 text3.txt
+  # 等於將 text1.txt text2.txt 合併到 text3.txt
+  $ cat text1.txt text2.txt >> text3.txt
+  ```
+
+- `cat`、`more`、`less`、`head`、`tail`
+
+  - `cat`：一次輸出全部
+  - `more`：可分次輸出
+  - `less`：進階版`more`
+  - `head`：頭十行
+    - `head -13`：頭十三行
+  - `tail`：末十行
+    - `tail -f`：可以追蹤變化更新末端 (follow)
+
+- [vi/vim]
+
+  - Command Mode
+
+    ![](https://i.imgur.com/1EGKwZY.png)
+    ![](https://i.imgur.com/sapOcEN.png)
+    ![](https://i.imgur.com/LLclnbn.png)
+    ![](https://i.imgur.com/Nf6y8Dl.png)
+
+  - Insert Mode
+  - Visual Mode
+
+- user
+
+  - 可以多個 user 同時登入，同時執行自己的任務
+
+  - 兩大類 user
+
+    - system user
+
+      - 系統內部自動建立
+      - 不能用於登入？
+        ![](https://i.imgur.com/ksdbKaU.png)
+        ![](https://i.imgur.com/V2DzeLP.png)
+
+    - regular users
+
+      -
+      - `sudo`、superuser、root
+
+        - ChatGPT 開示：
+
+          ![](https://i.imgur.com/se0tfl7.png)
+          ![](https://i.imgur.com/xpxsj19.png)
+          ![](https://i.imgur.com/dXBAHpD.png)
+
+        - 總結：
+
+          - root user 的權限即為 superuser 權限
+          - 其他 user 透過 sudo，借用 superuser 權限
+          - root user 設定：
+            - 其他 user 透過 sudo 可使用的 superuser 權限
+            - 使用 sudo 時所需的密碼（預設 user 密碼、root 密碼、無密碼）
+          - 使用 sudo，輸入當前使用者自己的密碼的用意是，確保是本人正在使用
+
+  - /etc/passwd
+
+    - 可以查看系統中所有 user
+
+    ![](https://i.imgur.com/LVJXYrD.png)
+    ![](https://i.imgur.com/Rf1T6D8.png)
+    ![](https://i.imgur.com/NI5HpAP.png)
+
+  - /etc/group
+
+    - 紀錄所有 group 的資訊，包含其所涵括的 user
+
+    ![](https://i.imgur.com/v2jbiAD.png)
 
 ---
 
