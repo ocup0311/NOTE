@@ -183,6 +183,64 @@
 
     ![](https://i.imgur.com/v2jbiAD.png)
 
+- root user
+
+  - 一般在系統安裝時自動創建，且沒有設定密碼
+  - 一般不建議登入使用，而是需要時使用`sudo`來暫時取得 root 權限
+  - 必要時，可使用指令來設定 root 密碼，以進行登入
+
+- terminal head：`$`為普通使用者，`#`為 root 使用者
+
+  - 可使用`su`進行切換使用者
+
+  ```js (因為要讓 # 不是註解顯色，隨便用一個 js)
+  // EX.
+  // 在 user1 的 terminal 輸入 su root 後，輸入密碼切換到 root
+  $ su root
+  Password:
+  #
+  // 也可直接輸入 su，輸入密碼切換到 root
+  $ su
+  Password:
+  #
+
+  // 輸入 exit 回到當前使用者
+  # exit
+  exit
+  $
+  ```
+
+- 創建新使用者
+
+  - `useradd <name>`：只創建最基本的 user（一般 user 即可）
+  - `adduser <name>`：同時自動建立許多預設內容（需要 sudo）
+
+- 為 user 打開使用 sudo 的權限
+
+  - 在`/etc/sudoers`中新增權限 (`sudo visudo`)
+  - 也可以將該 user 加入 sudo group (`usermod -G sudo <username>`)
+
+  ![](https://i.imgur.com/67lnAF8.png)
+  ![](https://i.imgur.com/oG2yK6I.png)
+  ![](https://i.imgur.com/4NiWj9v.png)
+  ![](https://i.imgur.com/ovTX2Km.png)
+
+- 以 sudo 做操作視同為 root，如`sudo touch`的檔案，為 root 所有
+
+- file 資訊釋讀
+
+  - `rwx`：讀取 -- 寫入 -- 執行
+  - `rw-r--r--`：檔案擁有者 -- 群組(group) -- 其他使用者
+
+    ![](https://i.imgur.com/VNVXKky.png)
+
+  ![](https://i.imgur.com/K656CyL.png)
+
+- `chmod [options] [mode] <file_name>`
+  - EX1. `chmod g+rw test.md` 將該檔案加上 group 的 rw 權限
+  - user(u), group(g), others(o), all(a)
+  - EX2. `chmod 734` --> rwx-wxr-- ( r:1, w:2, x:4 )
+
 ---
 
 ## 2. 其他補充
