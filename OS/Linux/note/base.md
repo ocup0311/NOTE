@@ -237,9 +237,41 @@
   ![](https://i.imgur.com/K656CyL.png)
 
 - `chmod [options] [mode] <file_name>`
+
   - EX1. `chmod g+rw test.md` 將該檔案加上 group 的 rw 權限
   - user(u), group(g), others(o), all(a)
   - EX2. `chmod 734` --> rwx-wxr-- ( r:1, w:2, x:4 )
+
+---
+
+- 簡易網路
+
+  - DNS
+
+    - Domain Name System
+    - 解析網址成 IP
+
+  - Gateway
+
+    - 網路中用於連接不同網路或子網路的設備或系統。它是數據流傳輸的接口，能夠將數據包從一個網路傳到另一個網路。
+
+  - DHCP
+
+    - Dynamic Host Configuration Protocol
+    - 自動分配動態 IP 的協議
+
+  - NAT
+
+    - Network Address Translation
+    - 將私有 IP 轉換成公共 IP，從而允許本地網路內的設備連接到互聯網
+    - <mark>TODO:Q</mark> 浮動 ip 機制
+
+  - BGP
+
+    - Border Gateway Protocol
+    - 處理分析 IP 再轉去正確路線的協議
+
+- 可以用 ping 檢查是否可以正常連接，但有時候結果不準確，因為對方可以設定不讓別人去 ping
 
 ---
 
