@@ -264,12 +264,15 @@
 
     - Network Address Translation
     - 將私有 IP 轉換成公共 IP，從而允許本地網路內的設備連接到互聯網
-    - <mark>TODO:Q</mark> 浮動 ip 機制
 
   - BGP
 
     - Border Gateway Protocol
     - 處理分析 IP 再轉去正確路線的協議
+
+  - <mark>TODO:Q</mark> 浮動 ip 機制
+  - <mark>TODO:Q</mark> 研究 mDNS：使用 ssh 時可以不用設定固定 IP
+    - Avahi serveice
 
 - 可以用 ping 檢查是否可以正常連接，但有時候結果不準確，因為對方可以設定不讓別人去 ping
 
