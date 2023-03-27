@@ -52,6 +52,16 @@
 - 整理 folder、code、note、等等
 - `ex. '[CLEAN] folder: note'`
 
+### REF
+
+- 新增補充文章、來源
+- `ex. '[REF][MONGODB] NOSQL DATA MODELING TECHNIQUES'`
+
+### DOC
+
+- CRUD @doc
+- `ex. '[DOC][GIT] 新增 REF、DOC'`
+
 ### MODULE
 
 - add、delete、update、等等 module
