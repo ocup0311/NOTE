@@ -39,6 +39,7 @@
 
 ###### <!-- 單集小整理 -->
 
+[旅日 likecoin 驗證者 leafwind (35:00)]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000543552324
 [gitcoin 民意代表 suji]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000540557261
 [幣圈創投]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000533922690
 [likecoin]: https://podcasts.apple.com/tw/podcast/%E5%8D%80%E5%A1%8A%E5%8B%A2/id1441274280?i=1000529520896
@@ -139,6 +140,7 @@
 
     - [LikeCoin]
     - [LikeCoin 驗證者]
+    - [旅日 LikeCoin 驗證者 Leafwind (35:00)]
 
   - GitCoin
     - [Gitcoin 民意代表 Suji]
