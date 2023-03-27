@@ -12,6 +12,7 @@
 
 ###### <!-- ref -->
 
+[nosql data modeling techniques]: https://highlyscalable.wordpress.com/2012/03/01/nosql-data-modeling-techniques/
 [text indexes]: https://www.mongodb.com/docs/manual/core/index-text/#text-indexes
 [mongodb 基本原理：索引（indexes）]: https://blog.csdn.net/guangyacyb/article/details/104339183
 [full text search engines]: https://www.mongodb.com/basics/full-text-search
@@ -402,7 +403,7 @@
 ### # 延伸閱讀
 
 - [Everything You Know About MongoDB is Wrong!]
-- [NOSQL 數據建模技術]
+- [NOSQL 數據建模技術]([NOSQL DATA MODELING TECHNIQUES])
   - `Document database` group indexes by field `names`, as opposed to [Full Text Search Engines] that group indexes by field `values`.
 
 ### # 待解決問題集中區
