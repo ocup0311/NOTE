@@ -30,7 +30,15 @@
 - [ChatGPT-CodeReview](https://github.com/anc95/ChatGPT-CodeReview)
 
 - [Visual ChatGPT](https://github.com/microsoft/visual-chatgpt)
+
   - 上傳圖片跟 ChatGPT 互動
+
+- [pandagpt](https://www.pandagpt.io/)
+
+  - 閱讀器，顯示資料來源
+  - [YT 介紹](https://youtu.be/1BUGRySJwnI)
+
+- [Chat with any PDF](https://www.chatpdf.com/?fbclid=IwAR3X8XPGuQGHS7dOWMj-oN1q52z-q-ECLIhieGYTQPCiMeFg02r62kIBmM8)
 
 ## # 其他工具
 
@@ -39,6 +47,17 @@
   - 可以作互動動畫，大小很小，而且他的動畫可以合併，輕易整合到每個平台
 
 - [Open Policy Agent](https://engineering.linecorp.com/zh-hant/blog/open-policy-agent-authz-in-microservice/)
+
+## # 網頁效能分析工具
+
+- [Performance Insights - builder.io](https://www.builder.io/c/performance-insights?url=https%3A%2F%2Fskowt.io%2F)
+
+  - 針對將 image, css, html, js 等進行優化後，網頁效能能再提高的比重進行分析
+
+- [Lighthouse - chrome](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk/related?hl=zh-tw)
+
+  - chrome 外掛，針對網頁渲染過程的每個步驟進行分析效能
+  - 三大指標：FCP(First Contentful Paint) TBT(Total Blocking Time) TTI(Time to Interactive)，主要是 JS 造成的
 
 ## # Linux (or macOS)
 
