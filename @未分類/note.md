@@ -67,3 +67,43 @@
 ## # 其他可玩項目
 
 - [Learning Computer Engineering With Minecraft](https://betterprogramming.pub/learning-computer-engineering-with-minecraft-20b10fa285c4)
+
+- [Partytown : 將前端資源密集型的第三方 script 從主執行緒中轉移到 web worker 中](https://softnshare.com/partytown/?fbclid=IwAR3oDNp9hFq4Dn7srd7UGbLcu8nU58Q4isMsA3MNJdoJ4YGMZxOduTLVsO0)
+
+## # 計概暫存
+
+- 計算到一半的東西才放 register，大部分時候還是會去 memory 取資料來進行計算 (但還是會在準備使用前，放入 register)
+
+- [主要過程](https://www.coursera.org/learn/jisuanji-zucheng/lecture/8Xyeu/105-ji-suan-ji-zhi-xing-zhi-ling-de-guo-cheng)
+
+- CPU
+
+  - CU (Control Unit)：用來控制其他部件(ex. RAM)的動作
+    (EX. 會負責發訊號給 RAM，告知要做 "READ")
+  - PC (Program Counter)：用來存下一條指令的 RAM 位址
+    (EX. 而位址是由 PC 傳給 MAR，再通過 Address Bus 傳給 RAM 的 MAR)
+
+- BIOS (Basic Input/Output System)
+
+  - 通常是「唯讀」，存放開機訊息
+
+- 南北橋演變
+
+  > 紅箭頭：擁塞
+  > 綠箭頭：輕鬆
+
+  - CPU 與外界溝通都需要通過「北橋」
+
+    ![](https://i.imgur.com/CvQYWKk.jpg)
+
+  - CPU 直接與記憶體溝通
+    ![](https://i.imgur.com/aLeuswP.jpg)
+
+  - 將北橋主要功能合併進 CPU，CPU 內部傳輸速度比外部主機板快
+
+    ![](https://i.imgur.com/K6wyaML.jpg)
+
+  - 將主要功能變成單一芯片
+
+    ![](https://i.imgur.com/IZSYlAj.jpg)
+    ![](https://i.imgur.com/Lr9Pik0.jpg)
