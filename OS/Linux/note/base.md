@@ -259,6 +259,7 @@
 
     - Dynamic Host Configuration Protocol
     - 自動分配動態 IP 的協議
+    - 現在許多 AP 或網路分享器都有內建 DHCP 伺服器
 
   - NAT
 
@@ -270,11 +271,23 @@
     - Border Gateway Protocol
     - 處理分析 IP 再轉去正確路線的協議
 
+  - MAC address
+
+    - Media Access Control address
+    - Data link layer
+    - 「理論上」這個 MAC address 必須是全球唯一的編號
+    - 有時候也會稱為 LAN Address (區域網路位址)、Ethernet Address (乙太網路位址)、burned-in address (燒寫位址) 或 Hardware address (硬體位址)、Physical Address (實體位址)..
+
+  - ARP
+
+    - Address Resolution Protocol (位址解析協定)
+    - Data link layer
+
   - <mark>TODO:Q</mark> 浮動 ip 機制
   - <mark>TODO:Q</mark> 研究 mDNS：使用 ssh 時可以不用設定固定 IP
     - Avahi serveice
 
-- 可以用 ping 檢查是否可以正常連接，但有時候結果不準確，因為對方可以設定不讓別人去 ping
+- 可以用 ping 檢查是否可以正常連接 (但有時候結果不準確，因為對方可以設定不讓別人去 ping)
 
 ---
 
