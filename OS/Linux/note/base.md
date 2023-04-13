@@ -242,6 +242,18 @@
   - user(u), group(g), others(o), all(a)
   - EX2. `chmod 734` --> rwx-wxr-- ( r:1, w:2, x:4 )
 
+- script.sh 中，在頂端加上 `#!/bin/fish` 的作用：
+
+  - 以 `./script.sh` 方式執行時：
+
+    - 電腦會選擇用 fish shell 來執行，與電腦中 terminal 預設的 shell 無關
+    - 若電腦中未安裝 fish shell，則無法執行
+    - (記得先設定可執行權限)
+
+  - 也可以 `bash ./script.sh` 方式執行，則會使用 bash shell 來執行
+
+- file 的製作日期＆修改日期，都可以隨意修改。
+
 ---
 
 - 簡易網路
