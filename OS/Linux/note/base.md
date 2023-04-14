@@ -254,6 +254,30 @@
 
 - file 的製作日期＆修改日期，都可以隨意修改。
 
+- 管理套件
+
+  - Debian
+
+    - `apt-get`
+    - `.deb`(Debian)
+    - Ubuntu..
+
+  - Red Hat
+
+    - `yum`
+    - `.rpm`(Red Hat Package Manager)
+    - Centos..
+
+  - Arch
+
+    - `pacman`
+    - `.pkg`(package file) `.tar`(tarball, tape archive) `.xz`
+    - Manjaro..
+
+  - Mac
+
+    - `brew`
+
 ---
 
 - 簡易網路
