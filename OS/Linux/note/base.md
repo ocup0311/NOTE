@@ -373,6 +373,15 @@
 
 - VM 需要在啟動狀態，才能連結
 
+---
+
+- 使用 ssh key 登入
+
+  - 主機生成 ssh key (rsa, ed25519..)，將公鑰傳給 VM
+  - 若有使用 SSH 代理，則需要`ssh-add`將私鑰加進去
+
+![](https://i.imgur.com/HquSaPC.png)
+
 ## 2. 其他補充
 
 - 注意事項：
