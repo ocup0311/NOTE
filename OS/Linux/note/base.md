@@ -254,6 +254,8 @@
 
 - file 的製作日期＆修改日期，都可以隨意修改。
 
+---
+
 - 管理套件
 
   - Debian
@@ -327,6 +329,50 @@
 
 ---
 
+### # Host 以 ssh 連結 VM
+
+- Host-only Network
+
+  - 欲讓 VM (EX. Ubuntua) 透過 Host-only Network 與主機連接，需先在 VirtualBox 的 tool 中建立一個 Host-only Network，讓 VM 可以跟他連接
+
+    ![](https://i.imgur.com/AlopueU.png)
+
+  - Host-only Network VS Host-only Adapter
+
+    - 都只能與主機相連
+    - Host-only Adapter：模擬一個網卡給 VM 用
+    - Host-only Network：模擬一個網路當成主機，給 VM 連
+
+    ![](https://i.imgur.com/nNYwZxX.png)
+
+![](https://i.imgur.com/LKJ0dDB.png)
+
+---
+
+- 查詢網卡
+
+  - `ip addr`
+
+    - `enp0s3`是 NAT 那張網卡、`enp0s8`是 Host-only Network 那張網卡
+    - `link/ether 08:00:27:75:29:67`是`enp0s8`的 Mac Address
+    - `inet 192.168.56.2`是`enp0s8`的 ip
+
+  ![](https://i.imgur.com/LYn5l7K.png)
+
+---
+
+- `ssh ocup@192.168.100.5`
+
+  - 代表用 ssh 連結 192.168.100.5 VM，並且以 ocup user 登入
+
+- VM 需要安裝並啟動 ssh-server
+
+  ![](https://i.imgur.com/MeyLTmP.png)
+  ![](https://i.imgur.com/ZVFSwit.png)
+  ![](https://i.imgur.com/274P6af.png)
+
+- VM 需要在啟動狀態，才能連結
+
 ## 2. 其他補充
 
 - 注意事項：
@@ -353,3 +399,10 @@
     - 只要知道 Ubuntu 的用戶名、密碼、ip，就可以 scp 複製文件進去 Ubuntu
 
     </details>
+
+## 3. 踩雷實錄
+
+- 無法設定多個 Network Adapter
+
+  - REF: [Virtualbox -> Can't add 2nd adapter to network for VM](https://superuser.com/questions/732999/virtualbox-cant-add-2nd-adapter-to-network-for-vm)
+  - 需將 Linux 關機才能設定（即便只有將 VM 關閉儲存狀態也不能）
