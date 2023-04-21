@@ -382,6 +382,14 @@
 
 ![](https://i.imgur.com/HquSaPC.png)
 
+- <mark>TODO:</mark> 研究更改 key 名稱
+
+- <mark>TODO:</mark> 研究 ssh -v 細節
+
+- <mark>TODO:</mark> `$((a + b))` vs `$(($a + $b))`
+
+- <mark>TODO:</mark>
+
 ## 2. 其他補充
 
 - 注意事項：
