@@ -17,6 +17,7 @@
 [docker 容器技术从入门到精通]: https://www.udemy.com/course/docker-china/learn/lecture/27213604#overview
 [課堂筆記]: https://dockertips.readthedocs.io/en/latest/
 [setup docker on manjaro linux]: https://credibledev.com/setup-docker-on-manjaro-linux/
+[host pid of a process running in a docker container]: https://www.baeldung.com/linux/docker-container-process-host-pid
 
 <!------------ ref end ------------>
 
@@ -41,6 +42,10 @@
 
   - `docker run -it -u $(id -u):$(id -g) --name container_name image_name`
   - `-u $(id -u):$(id -g)`以設定使用 builder user 在 docker 中執行，未指定則為 root
+  - container 裡的 root 是另外建立可用來使用 container 內部的權限的 user。跟主機 root 為不同的 user
+
+    ![](https://i.imgur.com/tOtQyfr.png)
+    ![](https://i.imgur.com/x9fx0kd.png)
 
 - 踩雷
 
@@ -70,6 +75,9 @@
 ### # 注意默認值
 
 ### # 延伸閱讀
+
+- [Host PID of a Process Running in a Docker Container]
+  解釋 host process VS container process
 
 ### # 問題集中區
 
