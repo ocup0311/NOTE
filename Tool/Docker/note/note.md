@@ -31,8 +31,16 @@
 
 ### # 安裝與設定
 
-- manjaro: [Setup Docker on Manjaro Linux]
-- ubuntua: 可以使用 `get-docker.sh`
+- 不同 OS
+
+  - mac: 用 desktop 方便，也可用 OrbStack 替代
+  - manjaro: [Setup Docker on Manjaro Linux]
+  - ubuntua: 可以使用 `get-docker.sh`
+
+- 啟動 container
+
+  - `docker run -it -u $(id -u):$(id -g) --name container_name image_name`
+  - `-u $(id -u):$(id -g)`以設定使用 builder user 在 docker 中執行，未指定則為 root
 
 - 踩雷
 
@@ -44,6 +52,20 @@
     ```
 
     ![](https://i.imgur.com/iRHUQmp.jpg)
+
+  - 執行 `sudo docker run -it manjarolinux/base`
+
+    - 出現錯誤：
+
+      ```sh
+      ERRO[0131] error waiting for container:
+
+      docker: Post "http://%2Fvar%2Frun%2Fdocker.sock/v1.42/containers/6e0067bf32173e5e55907b38eaa071632453d45700ed46e8fffb121dcabd6242/start": dial unix /var/run/docker.sock: i/o timeout.
+      ```
+
+    - manjaro 的 terminal 卡住了，VM 整個黑頻無法排解
+    - 目前只能以「還原」來解決
+    - 後來將記憶體從 4GB 改為 8GB，就正常了（但不確定是否只是剛好，還是真的需要這麼高配置）
 
 ### # 注意默認值
 
