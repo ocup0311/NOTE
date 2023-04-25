@@ -40,7 +40,7 @@
 
 - 啟動 container
 
-  - `docker run -it -u $(id -u):$(id -g) --name container_name image_name`
+  - `docker container run -it -u $(id -u):$(id -g) --name container_name image_name`
   - `-u $(id -u):$(id -g)`以設定使用 builder user 在 docker 中執行，未指定則為 root
   - container 裡的 root 是另外建立可用來使用 container 內部的權限的 user。跟主機 root 為不同的 user
 
@@ -58,7 +58,7 @@
 
     ![](https://i.imgur.com/iRHUQmp.jpg)
 
-  - 執行 `sudo docker run -it manjarolinux/base`
+  - 執行 `sudo docker container run -it manjarolinux/base`
 
     - 出現錯誤：
 
@@ -74,8 +74,6 @@
 
 ### # 注意默認值
 
-### # 延伸閱讀
-
 - [Host PID of a Process Running in a Docker Container]
   解釋 host process VS container process
 
@@ -83,4 +81,87 @@
 
 ### <mark># TODO: 待整理</mark>
 
+- container 與 image 關係
+
+  - container 可視為執行中的 image，其在 image layer 上加上`read-write`，形成 container layer
+
+    ![](https://i.imgur.com/W85FYbx.png)
+
+  - 執行中的 container 可以再輸出為 image，保留當下的狀態
+
 -
+
+## # 其他補充
+
+- 注意事項：
+
+  <!-- 盡量練習新的指令 -->
+
+  - <details close>
+    <summary>盡量練習新的指令</summary>
+
+    - 以後版本若要完全捨棄舊版指令時，才不用改一堆腳本
+    - EX.`docker container run`取代`docker run`
+    - EX.`docker container rm`取代`docker rm`
+    - EX.`docker container stop`取代`docker stop`
+    - EX.`docker container ls`取代`docker ps`
+
+    </details>
+
+  <!-- 盡量不要用 attach 模式 -->
+
+  - <details close>
+    <summary>盡量不要用 attach 模式</summary>
+
+    - 使用`-d`detach 模式、`logs`輸出、`exec`輸入取代
+
+      ```shell
+      # EX.
+      $ docker container run -d image_name
+      $ docker container logs container_name
+      $ docker container exec -it container_name shell_name
+      ```
+
+    - attach 很難關掉：有些情況`ctr+p ctr+q`沒作用，`ctr+c`之後又會把 container stop
+
+    </details>
+
+- 小技巧：
+
+  - <details close>
+    <summary></summary>
+
+    </details>
+
+- 小工具：
+
+  - <details close>
+    <summary></summary>
+
+    </details>
+
+---
+
+## # 踩雷實錄
+
+- <details close>
+  <summary></summary>
+
+  </details>
+
+---
+
+## # 延伸討論
+
+<!-- docker.socket 跟 docker.service 的關係 -->
+
+- <details close>
+  <summary>docker.socket VS docker.service</summary>
+
+  - <mark>TODO:</mark> 研究 docker.socket 跟 docker.service 的關係
+
+  ![](https://i.imgur.com/aaOKVwD.png)
+
+  </details>
+
+---
