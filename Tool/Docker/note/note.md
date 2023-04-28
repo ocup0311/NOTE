@@ -89,7 +89,29 @@
 
   - 執行中的 container 可以再輸出為 image，保留當下的狀態
 
--
+- 「container 即 process」
+
+  - 範例：
+
+    - 啟動一個 ngmix container 的步驟如下：
+    - 由 containerd-shim 先產生一個 process，也就是建立一個 container (PID 18728)
+    - 再從 18728 fork 出 ngnix
+    - `docker container exec -it` 出一個 shell，也是從 18728 fork 出來
+
+    ![](https://i.imgur.com/Mxb7YGA.png)
+
+  ![](https://i.imgur.com/w4w1YE2.png)
+
+- 建立 image 的各種方法
+
+  ![](https://i.imgur.com/qDaMoxv.png)
+
+  - Registry：Docker Hub, Quay, Harbor..等等
+
+    - `docker search <搜尋關鍵字>`：預設從 Docker Hub 上搜尋
+    - `docker search quay.io/<搜尋關鍵字>`：指定 Registry
+
+    ![](https://i.imgur.com/RkO4NVE.png)
 
 ## # 其他補充
 
