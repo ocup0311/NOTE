@@ -113,6 +113,44 @@
 
     ![](https://i.imgur.com/RkO4NVE.png)
 
+- dockerfile 探討
+
+  - 延伸問題：
+
+    - Ｑ：dockerfile 裡面寫的某些 apt-get 是在什麼階段下載？包成 image 時、pull image 時、container run 時?
+
+      - 在 build image 時，會將 apt-get 的東西存在 image 中
+
+    - Ｑ：在 image build 時，會使用 cache，那麼其是以哪些內容來進行 hash？
+
+      ![](https://i.imgur.com/Iedr5qv.png)
+
+    - Ｑ：若環境一樣，dockerfile & 使用到的任何 file 都一樣，是否最後 build 出來的 image ID 也會一樣？
+
+      - 測試：即便在同台機器，將前一次的 image、cache 全刪除後，再 build 一次，image ID 已經改變為不相同
+
+      - 探討過程：
+
+        ![](https://i.imgur.com/XE5fVgl.png)
+
+        - 但我會疑惑的點是，因為我用 `docker container ls -a` 並沒查到 intermediate container ，所以我才以為他已經關掉了（當我 apt-get 失敗時，我是可以查到那個 intermediate container 的）
+
+      - 結論：因為 intermediate container 的 container ID 也有 cache
+
+  - 範例研究：
+
+    - `FROM ubuntu:20.04 RUN apt-get update..`，會啟動一個 ubuntu:20.04 的 container，在 container 中 run `apt-get`
+    - 若沒有 ubuntu:20.04 的 image 則會自動 pull
+
+    ```dockerfile
+    # EX.
+    FROM ubuntu:20.04
+    RUN apt-get update && \
+        DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y python3.9 python3-pip python3.9-dev
+    ADD hello.py /
+    CMD ["python3", "/hello.py"]
+    ```
+
 ## # 其他補充
 
 - 注意事項：
