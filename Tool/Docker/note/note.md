@@ -18,6 +18,9 @@
 [課堂筆記]: https://dockertips.readthedocs.io/en/latest/
 [setup docker on manjaro linux]: https://credibledev.com/setup-docker-on-manjaro-linux/
 [host pid of a process running in a docker container]: https://www.baeldung.com/linux/docker-container-process-host-pid
+[OrbStack (課推)]: https://orbstack.dev/
+[minikube (宇推)]: https://dhwaneetbhatt.com/blog/run-docker-without-docker-desktop-on-macos
+[掛載 docker.sock 的用意？]: https://ephrain.net/docker-%E6%8E%9B%E8%BC%89-var-run-docker-sock-%E7%9A%84%E7%94%A8%E6%84%8F%EF%BC%9F/
 
 <!------------ ref end ------------>
 
@@ -34,7 +37,7 @@
 
 - 不同 OS
 
-  - mac: 用 desktop 方便，也可用 OrbStack 替代
+  - mac: Docker Desktop (不推)、[OrbStack (課推)]、[minikube (宇推)]
   - manjaro: [Setup Docker on Manjaro Linux]
   - ubuntua: 可以使用 `get-docker.sh`
 
@@ -102,54 +105,66 @@
 
   ![](https://i.imgur.com/w4w1YE2.png)
 
-- 建立 image 的各種方法
+- image
 
-  ![](https://i.imgur.com/qDaMoxv.png)
+  - 建立 image 的各種方法
 
-  - Registry：Docker Hub, Quay, Harbor..等等
+    ![](https://i.imgur.com/qDaMoxv.png)
 
-    - `docker search <搜尋關鍵字>`：預設從 Docker Hub 上搜尋
-    - `docker search quay.io/<搜尋關鍵字>`：指定 Registry
+    - Registry：Docker Hub, Quay, Harbor..等等
 
-    ![](https://i.imgur.com/RkO4NVE.png)
+      - `docker search <搜尋關鍵字>`：預設從 Docker Hub 上搜尋
+      - `docker search quay.io/<搜尋關鍵字>`：指定 Registry
 
-- dockerfile 探討
+      ![](https://i.imgur.com/RkO4NVE.png)
 
-  - 延伸問題：
+  - `docker image build` 探討
 
-    - Ｑ：dockerfile 裡面寫的某些 apt-get 是在什麼階段下載？包成 image 時、pull image 時、container run 時?
+    - 延伸問題：
 
-      - 在 build image 時，會將 apt-get 的東西存在 image 中
+      - Ｑ：dockerfile 裡面寫的某些 apt-get 是在什麼階段下載？包成 image 時、pull image 時、container run 時?
 
-    - Ｑ：在 image build 時，會使用 cache，那麼其是以哪些內容來進行 hash？
+        - 在 build image 時，會將 apt-get 的東西存在 image 中
 
-      ![](https://i.imgur.com/Iedr5qv.png)
+      - Ｑ：在 image build 時，會使用 cache，那麼其是以哪些內容來進行 hash？
 
-    - Ｑ：若環境一樣，dockerfile & 使用到的任何 file 都一樣，是否最後 build 出來的 image ID 也會一樣？
+        ![](https://i.imgur.com/Iedr5qv.png)
 
-      - 測試：即便在同台機器，將前一次的 image、cache 全刪除後，再 build 一次，image ID 已經改變為不相同
+      - Ｑ：若環境一樣，dockerfile & 使用到的任何 file 都一樣，是否最後 build 出來的 image ID 也會一樣？
 
-      - 探討過程：
+        - 測試：即便在同台機器，將前一次的 image、cache 全刪除後，再 build 一次，image ID 已經改變為不相同
 
-        ![](https://i.imgur.com/XE5fVgl.png)
+        - 研究過程：
 
-        - 但我會疑惑的點是，因為我用 `docker container ls -a` 並沒查到 intermediate container ，所以我才以為他已經關掉了（當我 apt-get 失敗時，我是可以查到那個 intermediate container 的）
+          ![](https://i.imgur.com/XE5fVgl.png)
 
-      - 結論：因為 intermediate container 的 container ID 也有 cache
+          - 但我會疑惑的點是，因為我用 `docker container ls -a` 並沒查到 intermediate container ，所以我才以為他已經關掉了（當我 apt-get 失敗時，我是可以查到那個 intermediate container 的）
 
-  - 範例研究：
+        - 結論：因為 intermediate container 的 container ID 也有 cache
 
-    - `FROM ubuntu:20.04 RUN apt-get update..`，會啟動一個 ubuntu:20.04 的 container，在 container 中 run `apt-get`
-    - 若沒有 ubuntu:20.04 的 image 則會自動 pull
+    - 範例研究：
 
-    ```dockerfile
-    # EX.
-    FROM ubuntu:20.04
-    RUN apt-get update && \
-        DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y python3.9 python3-pip python3.9-dev
-    ADD hello.py /
-    CMD ["python3", "/hello.py"]
-    ```
+      - `FROM ubuntu:20.04 RUN apt-get update..`，會啟動一個 ubuntu:20.04 的 container，在 container 中 run `apt-get`
+      - 若沒有 ubuntu:20.04 的 image 則會自動 pull
+
+      ```dockerfile
+      # EX.
+      FROM ubuntu:20.04
+      RUN apt-get update && \
+          DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y python3.9 python3-pip python3.9-dev
+      ADD hello.py /
+      CMD ["python3", "/hello.py"]
+      ```
+
+  - `docker image push` 時，並不會自動將最新一次 push 更新到 latest。而是得另外 push 成 latest
+
+  - `docker container commit` 的方式，每次產生的 image ID 都不同
+
+    - <mark>TODO:Q</mark> 此方法在開發中不常使用?
+
+- scratch：空的 image
+
+- <mark>TODO:</mark> 範例研究： `--restart unless-stopped`
 
 ## # 其他補充
 
@@ -212,6 +227,18 @@
 ---
 
 ## # 延伸討論
+
+<!-- docker.sock -->
+
+- <details close>
+  <summary>docker.sock</summary>
+
+  > [掛載 docker.sock 的用意？]
+
+  - <mark>TODO:</mark> 研究哪些情況該用與不用 `docker.sock`
+  - <mark>TODO:</mark> 更深入研究 `docker.sock` ＆ `Docker daemon`
+
+  </details>
 
 <!-- docker.socket 跟 docker.service 的關係 -->
 
