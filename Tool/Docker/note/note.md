@@ -21,6 +21,7 @@
 [OrbStack (課推)]: https://orbstack.dev/
 [minikube (宇推)]: https://dhwaneetbhatt.com/blog/run-docker-without-docker-desktop-on-macos
 [掛載 docker.sock 的用意？]: https://ephrain.net/docker-%E6%8E%9B%E8%BC%89-var-run-docker-sock-%E7%9A%84%E7%94%A8%E6%84%8F%EF%BC%9F/
+[Buildx]: https://docs.docker.com/go/buildx/
 
 <!------------ ref end ------------>
 
@@ -165,6 +166,25 @@
 - scratch：空的 image
 
 - <mark>TODO:</mark> 範例研究： `--restart unless-stopped`
+
+- image build 的架構已更新 (改用 Buildx/BuildKit)
+
+  <br>
+
+  ![](https://i.imgur.com/ynEztD3.png)
+
+  <br>
+
+  - `Buildx` (client) + `BuildKit` (server)
+  - `builders`: BuildKit 的 instance
+  - [Buildx]
+
+    - 包含 創建 ＆ 管理 builders 的公共建設(utilities)
+    - manjaro 需再自行下載 `sudo pacman -Sy docker-buildx`
+
+  <br>
+
+  ![](https://i.imgur.com/TMYoF5C.png)
 
 ## # 其他補充
 
