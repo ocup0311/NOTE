@@ -22,6 +22,7 @@
 [minikube (宇推)]: https://dhwaneetbhatt.com/blog/run-docker-without-docker-desktop-on-macos
 [掛載 docker.sock 的用意？]: https://ephrain.net/docker-%E6%8E%9B%E8%BC%89-var-run-docker-sock-%E7%9A%84%E7%94%A8%E6%84%8F%EF%BC%9F/
 [Buildx]: https://docs.docker.com/go/buildx/
+[How to remove intermediate images from a build after the build?]: https://stackoverflow.com/questions/50126741/how-to-remove-intermediate-images-from-a-build-after-the-build
 
 <!------------ ref end ------------>
 
@@ -186,6 +187,30 @@
 
   ![](https://i.imgur.com/TMYoF5C.png)
 
+  - vs 舊版 build
+
+    - cache
+
+      - 舊：當下完全無使用，即刻刪除
+      - 新：Least Recently Used（LRU），一段時間未使用才刪除
+
+      ![](https://i.imgur.com/Jwg8EFU.png)
+
+    - build context
+
+      - 舊：會將整個 folder 打包
+      - 新：只當需要時，buildkit 才向 buildx 請求
+
+    - builder
+      ![](https://i.imgur.com/xwlp8qf.png)
+
+    - <mark>TODO:</mark> 已知手動刪除 cache、builder。手動刪除 intermediate image/container 待研究
+
+      - [How to remove intermediate images from a build after the build?] 可事先以 LABEL 方式標註，來做刪除。但不知未標註時該如何刪除。
+
+    - <mark>TODO:Q</mark> 是否還需要 `.dockerignore` ？
+      (因為其作法改為當有需求時，buildkit 才會向 buildx 發送請求。而不像舊的方式會直接打包整個資料夾過去。)
+
 - Dockerfile
 
   - `FROM` 挑選原則：
@@ -200,10 +225,34 @@
     - 我認為應該只在以功能性或刻意分層時，才寫在不同 RUN（不知實作時是否會有這種需求？）
     - 一些中間過渡所需的軟體，可在使用完後刪除以節省空間（但須寫在同一 RUN 才有用）
 
-  - `ADD` 會自動解壓縮，`COPY` 不會
+  - `ADD` vs `COPY`
 
-  - `CMD` 只有最後一個 CMD 會執行
-    （若 container run 時有指定，則其為最後一個）
+    - `ADD` 會自動解壓縮，`COPY` 不會
+    - `ADD` 可以從 URL 加過來，`COPY` 只能複製本地檔案
+    - `COPY` 會複製檔案權限， `ADD` 不會
+
+  - `ENTRYPOINT`＋`CMD`
+
+    - 兩者都只有最後一個生效
+    - `ENTRYPOINT` 為該指令的進入點，`CMD` 為 container run 的默認指令
+
+    - 兩種格式：Shell & Exec
+
+      - Shell:
+
+        ```dockerfile
+        CMD echo "hello world"
+        ```
+
+      - Exec:
+
+        ```dockerfile
+        CMD ["echo", "hello world"]
+        ```
+
+  - `LABEL`
+
+    - EX. Name & Version 。只會標註在 metadata 中，而不會直接顯示在 image 上，因此 build 的時候依然需要指定
 
 ## # 其他補充
 
