@@ -19,7 +19,7 @@
 - <details close>
   <summary>1. </summary>
 
-  > DATE: 4.2023
+  > DATE: 4 (2023)
 
   > REF:
   >

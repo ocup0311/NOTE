@@ -23,12 +23,13 @@
 [掛載 docker.sock 的用意？]: https://ephrain.net/docker-%E6%8E%9B%E8%BC%89-var-run-docker-sock-%E7%9A%84%E7%94%A8%E6%84%8F%EF%BC%9F/
 [Buildx]: https://docs.docker.com/go/buildx/
 [How to remove intermediate images from a build after the build?]: https://stackoverflow.com/questions/50126741/how-to-remove-intermediate-images-from-a-build-after-the-build
+[Dockerfile reference]: https://docs.docker.com/engine/reference/builder/
 
 <!------------ ref end ------------>
 
 # Docker
 
-> DATE: 4.2023
+> DATE: 4, 5 (2023)
 > REF: [Docker 容器技术从入门到精通] | [課堂筆記]
 
 ### # 簡介
@@ -76,11 +77,6 @@
     - manjaro 的 terminal 卡住了，VM 整個黑頻無法排解
     - 目前只能以「還原」來解決
     - 後來將記憶體從 4GB 改為 8GB，就正常了（但不確定是否只是剛好，還是真的需要這麼高配置）
-
-### # 注意默認值
-
-- [Host PID of a Process Running in a Docker Container]
-  解釋 host process VS container process
 
 ### # 問題集中區
 
@@ -206,6 +202,7 @@
 
     - <mark>TODO:</mark> 已知手動刪除 cache、builder。手動刪除 intermediate image/container 待研究
 
+      - 手動刪除 cache、builder 請查 `docker buildx` & `docker builder`
       - [How to remove intermediate images from a build after the build?] 可事先以 LABEL 方式標註，來做刪除。但不知未標註時該如何刪除。
 
     - <mark>TODO:Q</mark> 是否還需要 `.dockerignore` ？
@@ -254,6 +251,14 @@
 
     - EX. Name & Version 。只會標註在 metadata 中，而不會直接顯示在 image 上，因此 build 的時候依然需要指定
 
+  - `USER`
+
+    - 須先有 user 才能指定
+
+- Multi-stage builds
+
+  - 前面的過渡層不會保存在 image 中，可以大大降低 image 空間
+
 ## # 其他補充
 
 - 注意事項：
@@ -289,10 +294,22 @@
 
     </details>
 
-- 小技巧：
+  <!-- 盡量不要設定為 root user -->
 
   - <details close>
-    <summary></summary>
+    <summary>盡量不要設定為 root user</summary>
+
+    - 可在 dockerfile、container run 中設定
+    - <mark>TODO:</mark> 再找機會研究 container 中 root 可造成的風險
+
+    </details>
+
+- 小技巧：
+
+  <!-- docker image rm $(docker images -q) -->
+
+  - <details close>
+    <summary><code>docker image rm $(docker images -q)</code></summary>
 
     </details>
 
@@ -302,6 +319,10 @@
     <summary></summary>
 
     </details>
+
+- 文件補讀：
+
+  - [Dockerfile reference]
 
 ---
 
@@ -315,6 +336,17 @@
 ---
 
 ## # 延伸討論
+
+<!-- host process VS container process -->
+
+- <details close>
+  <summary>host process VS container process</summary>
+
+  - [Host PID of a Process Running in a Docker Container]
+    解釋 host process VS container process
+  - <mark>TODO:</mark> 照著範例走一次
+
+  </details>
 
 <!-- docker.sock -->
 
