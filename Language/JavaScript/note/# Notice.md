@@ -16,7 +16,7 @@
 
 # [特殊運算](https://ithelp.ithome.com.tw/articles/10191180)
 
-> DATE: 3.2022
+> DATE: 3 (2022)
 
 - X
 

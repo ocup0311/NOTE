@@ -1,6 +1,6 @@
 # Git by ssh
 
-> DATE: 10.2020
+> DATE: 10 (2020)
 > REF: [多 Git 帳號 1](https://medium.com/@hyWang/%E5%A6%82%E4%BD%95%E5%9C%A8%E4%B8%80%E5%8F%B0%E9%9B%BB%E8%85%A6%E4%BD%BF%E7%94%A8%E5%A4%9A%E5%80%8Bgit%E5%B8%B3%E8%99%9F-907c8eadbabf) | [多 Git 帳號 2](https://www.itread01.com/content/1549692930.html) | [SSH](https://jennycodes.me/posts/security-ssh)
 
 - 步驟：

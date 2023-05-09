@@ -12,7 +12,7 @@
 
 # [When to use new Array](https://coderwall.com/p/h4xm0w/why-never-use-new-array-in-javascript)
 
-> DATE: 2.2022
+> DATE: 2 (2022)
 
 **[ 改變 ]** 此篇討論串改變我的想法：
 

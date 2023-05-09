@@ -8,20 +8,20 @@
 
 # [for await...of vs Promise.all](https://stackoverflow.com/questions/59694309/for-await-of-vs-promise-all)
 
-> DATE: 2.2022
+> DATE: 2 (2022)
 > MORE: [ref](https://coderwall.com/p/kvzbpa/don-t-use-array-foreach-use-for-instead)
 
 > Using for loops is easy enough sure, in most cases.. but your overlooking the entire point of map, forEach, filter, reduce, find, findIndex, etc... These make use of functional paradigms, and these paradigms exist for a reason. Functional programming is all about focusing not on how to solve problems and instead, shifts your focus to what to solve. Beyond that, anyone who is worried about performance at this level can go back after they've built their app and measure the app's performance and decide where to optimize (and I will bet you will find most of your optimizations will not be refactoring map, filter, or reduce). Using for loops is like going backwards, not to mention that forEach is slow because it is modifying/mutating the original array, whereas .map() returns a new array, is much faster, and without the side effect of mutating the original array. There are fewer and fewer cases where a for loop is viable. Currently, the best use case would be for something like iterating an async generator function using the new for-await-of syntax. Which is super cool. My point is that javascript gives us first class functions and in combination with it's (sorta) functional paradigms can produce: more readable code, better tooling, composition and patterns like higher order functions and currying, beautiful immutability, and many other wins such as referential transparency with pure functions - which reduce side effects and can increase run time, especially if memoized etc... Although I say "sorta" as obviously you're going to need functions with side effects to make API calls, or logs, or write i/o (any function that has I/O).
 
 # [How to Build a Node.js Error-handling System](https://www.toptal.com/nodejs/node-js-error-handling)
 
-> DATE: 2.2022
+> DATE: 2 (2022)
 
 - [Error Handling](https://expressjs.com/en/guide/error-handling.html)
 
 # [JavaScript Runtime](https://github.com/Fandix/Fandix.github.io-/blob/main/source/_posts/NodeJS/how-dose-javascript-work.md)
 
-> DATE: 2.2022
+> DATE: 2 (2022)
 
 > TurboFan 是一個 優化編譯器 (optimization compiler) ，可以在應用程式運行時在後台 (單獨的線程)中不斷優化 bytecode 或 machine code，這些被非常優化的 bytecode 或 machine code 會把 Ignition 產生的未優化的程式替換掉。
 
@@ -31,7 +31,7 @@
 
 # [Why RxJS? RxJS vs Promises](https://javascript.plainenglish.io/why-rxjs-rxjs-vs-promises-b28962771d68)
 
-> DATE: 2.2022
+> DATE: 2 (2022)
 
 > While Promises execute on creation, Observables won’t start to execute until we want them to start.
 
@@ -46,7 +46,7 @@
 
 # [LHS vs RHS](https://ithelp.ithome.com.tw/articles/10202146)
 
-> DATE: 3.2022 REF: [Hoisting]
+> DATE: 3 (2022) REF: [Hoisting]
 
 - 查找 (look up)
 

@@ -43,7 +43,7 @@
 
 # Web
 
-> DATE: 3.2022
+> DATE: 3 (2022)
 > REF: [MDN] | [Web Demystified] | [Web 預算] | [Environment]
 
 <!-- 工具 -->
@@ -57,7 +57,7 @@
 
 ### [Populating the page: how browsers work]
 
-> DATE: 3.2022
+> DATE: 3 (2022)
 > REF: [Reflow & Repaint] | [browsers]
 
 <div class="imgBox" >
@@ -284,7 +284,7 @@
 - <details close>
   <summary>SEE MORE</summary>
 
-  > DATE: 3.2022
+  > DATE: 3 (2022)
   > REF:
 
   <!-- 定義 -->

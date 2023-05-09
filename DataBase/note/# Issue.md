@@ -31,7 +31,7 @@
 - <details close>
   <summary>1. Why Token-based Pagination Performs Better Than Offset Based?</summary>
 
-  > DATE: 9.2022
+  > DATE: 9 (2022)
 
   > REF:
   >

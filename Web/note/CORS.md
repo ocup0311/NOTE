@@ -29,7 +29,7 @@
 
 # CORS
 
-> DATE: 3.2022
+> DATE: 3 (2022)
 > REF: [CORS 完全手冊] | [MDN] | [CORS spec] | [API Gateway CORS]
 
 ### AJAX & CORS

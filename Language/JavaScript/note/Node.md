@@ -15,7 +15,7 @@
 
 # Learn and Understand NodeJS
 
-> DATE: 3.2022
+> DATE: 3 (2022)
 > REF: [Udemy]
 
 ## V8 Javascript Engine
