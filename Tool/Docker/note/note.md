@@ -259,6 +259,35 @@
 
   - 前面的過渡層不會保存在 image 中，可以大大降低 image 空間
 
+- 資料保存
+
+  - 默認：
+
+    - container stop，資料還在
+    - container rm，資料不在
+
+  - 永久保存：
+
+    - Data Volume：由 Docker 管理 (/var/lib/docker/volumes/)
+    - Bind Mount：自訂位置
+
+  <br>
+
+  ![](https://i.imgur.com/DUZqsCY.png)
+
+  - mac 存在 Docker Desktop VM
+
+    ![](https://i.imgur.com/3hxwRmf.png)
+
+  - 連結後，檔案並非 host & container 兩個檔案同步，而是直接操作一個檔案
+    (也可以直接在 container 刪除 host 的檔案)
+
+  - 推薦使用 volume 來儲存資料
+
+  - bind mount 可以用來搭建特殊環境，以操作 host 的檔案
+    (EX. 搭建 gcc 編譯環境，用來編譯 host 上的檔案)
+    (EX. 用 vscode 的 Dev Containers 套件，搭建專案開發環境，以 container 開啟 host 上的專案 folder)
+
 ## # 其他補充
 
 - 注意事項：
