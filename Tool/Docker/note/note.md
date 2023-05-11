@@ -288,6 +288,27 @@
     (EX. 搭建 gcc 編譯環境，用來編譯 host 上的檔案)
     (EX. 用 vscode 的 Dev Containers 套件，搭建專案開發環境，以 container 開啟 host 上的專案 folder)
 
+- Network
+
+  - bride
+
+    - Docker Daemon 自動創建一個 `bridge`(也就是 `docker0`)
+    - 每開一個 container，docker0 就產生一個 `veth` 跟 container 對接
+    - 往外部連接時，透過 `Nat` 轉成 host 的 ip
+
+    ![](https://i.imgur.com/SpRh5lQ.png)
+
+    - 手動建立的 bridge 有 DNS 功能，內建 (docker0) 的沒有
+
+      - EX. `docker container exec -it box1 ping box2` 可用 box2 取代他的 ip
+
+  - host：直接建立在 host 上
+  - none：沒有與外部網路連接
+
+  - 其他：
+
+    - 端口轉發（port forwarding），是靠 `iptables` 完成的
+
 ## # 其他補充
 
 - 注意事項：
