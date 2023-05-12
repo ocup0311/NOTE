@@ -288,6 +288,8 @@
     (EX. 搭建 gcc 編譯環境，用來編譯 host 上的檔案)
     (EX. 用 vscode 的 Dev Containers 套件，搭建專案開發環境，以 container 開啟 host 上的專案 folder)
 
+  - <mark>TODO:</mark> volume 的所有方法，都只有掛載？也就是只有在掛載的位置上有儲存資料？目前簡單測試 `sshfs` 方式也是只有設定為 volume 端有資料，若將那台 host 斷開連線，則其他 host 無法讀寫資料，且會卡住。
+
 - Network
 
   - bride
@@ -305,9 +307,11 @@
   - host：直接建立在 host 上
   - none：沒有與外部網路連接
 
-  - 其他：
+  - Docker 所使用的 network 技術：
 
     - 端口轉發（port forwarding），是靠 `iptables` 完成的
+    - 不同的容器通過 `Network namespace` 進行了隔離
+      （<mark>TODO:</mark> 沒模擬成功，尚未找出原因）
 
 ## # 其他補充
 
