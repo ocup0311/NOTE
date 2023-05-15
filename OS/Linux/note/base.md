@@ -510,8 +510,30 @@
 
 - 小技巧：
 
+  <!-- /etc/resolv.conf -->
+
   - <details close>
-    <summary></summary>
+    <summary><code>/etc/resolv.conf</code></summary>
+
+    - DNS 解析
+
+    </details>
+
+  <!-- /etc/sudoers -->
+
+  - <details close>
+    <summary><code>/etc/sudoers</code></summary>
+
+    - sudo 權限
+
+    </details>
+
+  <!-- /etc/passwd   -->
+
+  - <details close>
+    <summary><code>/etc/passwd</code></summary>
+
+    - user
 
     </details>
 
