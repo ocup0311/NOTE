@@ -1,0 +1,21 @@
+services:
+  flask-demo:
+    build: ./flask
+    # build:
+    #   context: ./flask
+    #   dockerfile: Dockerfile
+    image: flask:latest
+    environment:
+      - REDIS_HOST=redis-server
+    networks:
+      - demo-network
+    ports:
+      - 8080:5000
+
+  redis-server:
+    image: redis:latest
+    networks:
+      - demo-network
+
+networks:
+  demo-network:

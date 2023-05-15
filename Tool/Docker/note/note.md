@@ -24,6 +24,7 @@
 [Buildx]: https://docs.docker.com/go/buildx/
 [How to remove intermediate images from a build after the build?]: https://stackoverflow.com/questions/50126741/how-to-remove-intermediate-images-from-a-build-after-the-build
 [Dockerfile reference]: https://docs.docker.com/engine/reference/builder/
+[Migrate to Compose V2]: https://docs.docker.com/compose/migrate/
 
 <!------------ ref end ------------>
 
@@ -78,7 +79,20 @@
     - 目前只能以「還原」來解決
     - 後來將記憶體從 4GB 改為 8GB，就正常了（但不確定是否只是剛好，還是真的需要這麼高配置）
 
+  - docker-buildx
+
+    - manjaro 需再自行下載 `sudo pacman -Sy docker-buildx`
+
+  - [Migrate to Compose V2]
+
+    - ubuntu 下載最新 docker 時，已下載 V2
+    - `sudo apt-get install docker-compose-plugin`
+    - Compose V1 已經不維護了
+    - 指令更改`docker-compose`-->`docker compose`
+
 ### # 問題集中區
+
+- <mark>TODO:Q</mark> container 中下載的軟體是由什麼方式放在 host？當 host 已有需下載的軟體時，怎麼做？當 host 沒有時，怎麼做？還是不管 host 有沒有，在 host 中都是只有分配一個空間給 docker 使用，而 host 不知道是哪些軟體？
 
 ### <mark># TODO: 待整理</mark>
 
@@ -312,6 +326,56 @@
     - 端口轉發（port forwarding），是靠 `iptables` 完成的
     - 不同的容器通過 `Network namespace` 進行了隔離
       （<mark>TODO:</mark> 沒模擬成功，尚未找出原因）
+
+- compose
+
+  - compose file 跟 docker compose 的 version 是指兩件事
+  - 新版的 compose file 已經合併版本，所以不用再定義版本
+
+  - 指令規則：
+
+    - 先 Options 後 Commands
+
+      ```sh
+      # EX. 先 -f 後 ps
+      $ docker compose -f /folder/docker-compose.yml ps
+      ```
+
+    - 進行背景執行 `-d`
+
+      ```sh
+      # 需注意 -d 是 up 的 Options，所以須加在 up 之後
+      $ docker compose -f /folder/docker-compose.yml up -d
+      ```
+
+    - 將 `up` 前面的所有 Options 整個想像成一包 compose name，接下來的所有操作，都需要先輸入那整串之後，再使用 Commands
+
+      ```sh
+      # EX. 以此 up 的 compose
+      $ docker compose -f /folder/docker-compose.yml up -d
+      # 使用 stop 時，需如下指令
+      $ docker compose -f /folder/docker-compose.yml stop
+      ```
+
+  - 更新 compose
+
+    - 修改已經 up 的 compose，可以不先停止，直接再下一次 `up` 指令更新。但一些特需變化需再加上 Options 來處理
+      (`docker compose up --help`查看 Options)
+
+      ```sh
+      # EX. 有需要重新 build，則需加上 --build，會自動檢查是否有需要更新 build 的需求
+      $ docker compose up -d --build
+      ```
+
+    - 常用更新指令：
+      - `--remove-orphans`：有移除 service 時
+      - `--build`：有更改 dockerfile 時
+      - `restart`：有更改 volume 時
+
+  - network
+
+    - 如果沒有設定 network，會自動建立一個 network 把所有 service 連起來
+    - docker compose 會將 service name 也寫進 DNS
 
 ## # 其他補充
 
