@@ -25,6 +25,7 @@
 [How to remove intermediate images from a build after the build?]: https://stackoverflow.com/questions/50126741/how-to-remove-intermediate-images-from-a-build-after-the-build
 [Dockerfile reference]: https://docs.docker.com/engine/reference/builder/
 [Migrate to Compose V2]: https://docs.docker.com/compose/migrate/
+[學習範本]: https://github.com/stars/ocup0311/lists/docker-%E7%AF%84%E4%BE%8B%E5%AD%B8%E7%BF%92
 
 <!------------ ref end ------------>
 
@@ -331,6 +332,7 @@
 
   - compose file 跟 docker compose 的 version 是指兩件事
   - 新版的 compose file 已經合併版本，所以不用再定義版本
+  - 環境變數默認使用`.env`檔案，並在`.yml`中以 `${ENV_NAME}` 方式來使用
 
   - 指令規則：
 
@@ -376,6 +378,32 @@
 
     - 如果沒有設定 network，會自動建立一個 network 把所有 service 連起來
     - docker compose 會將 service name 也寫進 DNS
+
+  - scale
+
+    - `--scale flask=3` 是指總共 3 個，而不是再增加 3 個
+    - 自動做了 load balance
+
+  - yml：
+
+    - `depends_on`
+
+      - 等待以下 service 啟動，才進行啟動此 service
+      - 也可設定依賴在該 service 的 condition
+        (EX. 處在 healthy)
+      - 不會追蹤狀態，只在 run 時做依賴
+        (EX. 若啟動後，被依賴的 service 轉為 unhealthy，依賴的 service 並不會動態調整)
+
+  - <mark>TODO:問題：</mark>
+
+    - docker-compose.yml 可以分多個檔案嗎？
+
+- healthcheck
+
+  - <mark>TODO:Q</mark> 會偏好寫在 dockerfile、run、docker-compose.yml？
+
+    - 我認為更喜歡寫在 dockerfile，但現成 image 大部分沒寫 healthcheck
+    - 也可能當要組成更健全的架構時，都會再另外寫一層 dockerfile？
 
 ## # 其他補充
 
@@ -438,9 +466,10 @@
 
     </details>
 
-- 文件補讀：
+- 補充學習：
 
   - [Dockerfile reference]
+  - [學習範本]
 
 ---
 
