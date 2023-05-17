@@ -26,6 +26,8 @@
 [Dockerfile reference]: https://docs.docker.com/engine/reference/builder/
 [Migrate to Compose V2]: https://docs.docker.com/compose/migrate/
 [學習範本]: https://github.com/stars/ocup0311/lists/docker-%E7%AF%84%E4%BE%8B%E5%AD%B8%E7%BF%92
+[RAFT]: http://thesecretlivesofdata.com/raft/
+[Play with Docker]: https://labs.play-with-docker.com/
 
 <!------------ ref end ------------>
 
@@ -405,6 +407,33 @@
     - 我認為更喜歡寫在 dockerfile，但現成 image 大部分沒寫 healthcheck
     - 也可能當要組成更健全的架構時，都會再另外寫一層 dockerfile？
 
+- swarm
+
+  ![](https://i.imgur.com/E1HMtwk.png)
+
+  - ref
+
+    - [RAFT] (<mark>TODO:補看</mark>)
+
+  - node
+
+    -
+
+  - service
+
+    - `docker service create` 來建立 service
+    - 一個 service 可包括多個 replica (container)
+    - 某個 replica 的 container exit，會自動補開 container
+    - 各種 ID 關係
+
+      - `docker service ls` 中，service id
+      - `docker service ps` 中，task id
+        ![](https://i.imgur.com/twe5WkU.png)
+      - `docker container ls`中，container id
+        ![](https://i.imgur.com/p6gGjcO.png)
+
+    -
+
 ## # 其他補充
 
 - 注意事項：
@@ -461,8 +490,12 @@
 
 - 小工具：
 
+  <!-- 學習小工具 -->
+
   - <details close>
-    <summary></summary>
+    <summary>學習小工具</summary>
+
+    - [Play with Docker]：UI 操作，快速模擬 docker
 
     </details>
 
