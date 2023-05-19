@@ -38,6 +38,9 @@
 [type vs interface]: https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces
 ["void return" in interface doesn't trigger error in "implementation"]: https://stackoverflow.com/questions/70546619/why-typescript-return-type-void-in-interface-doesnt-trigger-error-in-implementa
 [C# Enum]: https://msdn.microsoft.com/zh-cn/library/sbbt4032.aspx
+[In TypeScript an interface can extend a class, what for?]: https://stackoverflow.com/questions/39124915/in-typescript-an-interface-can-extend-a-class-what-for
+[An Extended Class with All Members]: https://learn.microsoft.com/en-us/archive/msdn-magazine/2015/january/typescript-understanding-typescript#:~:text=Figure%206%20An%20Extended%20Class%20with%20All%20Members
+[A Practical Guide to Use Extends in TypeScript]: https://www.becomebetterprogrammer.com/typescript-extends/
 
  <!-- ref -->
 
@@ -1600,6 +1603,12 @@
 
   - <details close>
     <summary>interface 繼承 class 的用途</summary>
+
+    > REF:
+    >
+    > 1. [In TypeScript an interface can extend a class, what for?]
+    > 2. [An Extended Class with All Members]
+    > 3. [A Practical Guide to Use Extends in TypeScript]
 
     ![](https://i.imgur.com/76K8qnL.png)
 
