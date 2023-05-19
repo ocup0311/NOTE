@@ -37,6 +37,7 @@
 [top 50 typescript interview questions explained]: https://betterprogramming.pub/top-50-typescript-interview-questions-explained-5e69b73eeab1
 [type vs interface]: https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces
 ["void return" in interface doesn't trigger error in "implementation"]: https://stackoverflow.com/questions/70546619/why-typescript-return-type-void-in-interface-doesnt-trigger-error-in-implementa
+[C# Enum]: https://msdn.microsoft.com/zh-cn/library/sbbt4032.aspx
 
  <!-- ref -->
 
@@ -567,6 +568,8 @@
   - <details close>
     <summary>Enum</summary>
 
+    - TypeScript Enum 的概念來源於 [C# Enum]
+
     <!-- 型別 -->
 
     - <details close>
@@ -617,10 +620,10 @@
 
       </details>
 
-    <!-- 唯獨：建立 enum 之後，就不能再對他做更改 -->
+    <!-- 唯讀：建立 enum 之後，就不能再對他做更改 -->
 
     - <details close>
-      <summary>唯獨：建立 enum 之後，就不能再對他做更改</summary>
+      <summary>唯讀：建立 enum 之後，就不能再對他做更改</summary>
 
       ```typescript
       enum WeekDay {
@@ -695,6 +698,45 @@
       <div class="imgBox" >
         <img src="../src/image/base/enum_initializer.png" alt="enum_initializer.png" />
       </div>
+
+      </details>
+
+    <!-- const enum -->
+
+    - <details close>
+      <summary><code>const enum</code></summary>
+
+      - `const enum`編譯後只留下常數
+      - 賦值也只能給固定的 number 或 string
+
+      ```ts
+      // EX.
+      const enum E1 {
+        X,
+        Y,
+        Z = 'zz',
+      }
+      enum E2 {
+        X,
+        Y,
+        Z = 'zz',
+      }
+
+      const arr1 = [E1.X, E1.Y, E1.Z]
+      const arr2 = [E2.X, E2.Y, E2.Z]
+      ```
+
+      ```js
+      // EX.編譯結果：
+      let E2
+      ;(function (E2) {
+        E2[(E2['X'] = 0)] = 'X'
+        E2[(E2['Y'] = 1)] = 'Y'
+        E2['Z'] = 'zz'
+      })(E2 || (E2 = {}))
+      const arr1 = [0 /* E1.X */, 1 /* E1.Y */, 'zz' /* E1.Z */]
+      const arr2 = [E2.X, E2.Y, E2.Z]
+      ```
 
       </details>
 
@@ -1554,6 +1596,54 @@
 
     </details>
 
+  <!-- 介面繼承類別的用途 -->
+
+  - <details close>
+    <summary>interface 繼承 class 的用途</summary>
+
+    ![](https://i.imgur.com/76K8qnL.png)
+
+    - EX. 工廠模式：
+
+    ```ts
+    abstract class Animal {
+      abstract makeSound(): void
+    }
+
+    interface AnimalFactory extends Animal {
+      createAnimal(): Animal
+    }
+
+    class Dog extends Animal {
+      makeSound(): void {
+        console.log('Woof!')
+      }
+    }
+
+    class Cat extends Animal {
+      makeSound(): void {
+        console.log('Meow!')
+      }
+    }
+
+    class AnimalFactoryImpl implements AnimalFactory {
+      createAnimal(): Animal {
+        // 根據某些邏輯返回不同的動物實例
+        return new Dog()
+      }
+
+      makeSound(): void {
+        console.log('Factory making sound...')
+      }
+    }
+
+    const factory: AnimalFactory = new AnimalFactoryImpl()
+    const animal: Animal = factory.createAnimal()
+    animal.makeSound() // 輸出 "Woof!"
+    ```
+
+    </details>
+
   </details>
 
 <!-- Optional Property Annotation -->
@@ -1605,24 +1695,69 @@
 
   </details>
 
-## ## Namespace
+<!-- Namespace(old) -->
 
-- 用來隔離命名空間。
-- 在同 namespace 中，等於沒有用 namespace 隔離開 export 的內容
-- 舊時代產物，被 import/export 取代
+- <details close>
+  <summary>Namespace (old)</summary>
 
-  ![](https://i.imgur.com/WfEZgXl.png)
+  - 用來隔離命名空間。
+  - 在同 namespace 中，等於沒有用 namespace 隔離開 export 的內容
+  - 舊時代產物，被 import/export 取代
 
-- 同一個 namespace，可以通用
+    ![](https://i.imgur.com/WfEZgXl.png)
 
-  - 順序無差
-  - 需要 export
+  - 同一個 namespace，可以通用
 
-  ![](https://i.imgur.com/2hXdpHt.png)
+    - 順序無差
+    - 需要 export
 
-- 同一個 namespace，必須在 export / local 二選一
+    ![](https://i.imgur.com/2hXdpHt.png)
 
-  ![](https://i.imgur.com/Miey6R2.png)
+  - 同一個 namespace，必須在 export / local 二選一
+
+    ![](https://i.imgur.com/Miey6R2.png)
+
+  - Triple Slash Directive 引用：`/// <reference path="" />`
+
+  </details>
+
+<!-- Declaration Files（宣告檔案） -->
+
+- <details close>
+  <summary>Declaration Files（宣告檔案）</summary>
+
+  - 幫套件建立宣告檔案
+
+    - 可以幫第三方 JS 套件加上 Declaration Files，使其成為有 type 的套件
+
+    - 步驟：
+
+      - 1. 先確認是否已有 Declaration Files，可以檢查：
+
+        - (1) `package.json` 是否有 `types` 屬性
+        - (2) 是否有 `index.d.ts` 檔案
+
+      - 2. 檢查：
+
+        - (1) 是否有 `@types` 資料夾，是否有 Declaration Files
+
+        - (2) 是否有現成的 Declaration Files：[現成 1](https://www.npmjs.com/~types)、[現成 2](https://github.com/DefinitelyTyped/DefinitelyTyped)。
+
+        - (3) 可以透過 npm 下載 `@types`
+
+          ```sh
+          # EX. 下載 jquery 的 @types
+          npm install @types/jquery --save-dev
+          ```
+
+      - 3. 如果都沒有，就要自己建立，建議：
+
+        - 建立一個資料夾為 `types` 或 `@types`
+        - 並在 `tsconfig.json` 中設定 `typeRoots` 或 `paths ＋ baseUrl` 。
+
+  - ![](https://i.imgur.com/WMlJbNr.png)
+
+  </details>
 
 ---
 
@@ -1850,13 +1985,22 @@
 
 - 注意事項：
 
-  - `"strictNullChecks": true` 的優劣？
+  <!-- `"strictNullChecks": true` 的優劣？ -->
+
+  - <details close>
+    <summary><code>"strictNullChecks": true</code> 的優劣？</summary>
 
     - [鐵人賽 2] 建議 `true`
     - default `true`
-    - `tru` 有什麼好處、什麼必要？
+    - `true` 有什麼好處、什麼必要？
+
+    </details>
+
+  <!-- TS 變數 name -->
 
   - [TS 變數 name]
+
+  <!-- 編譯成 JS 後，都不再具有功效 -->
 
   - 基本上 TS 的部分都是在 compile 階段使用，編譯成 JS 後，都不再具有功效
 
