@@ -12,6 +12,7 @@
 
 ###### <!-- ref -->
 
+[TS playground]: (https://www.typescriptlang.org/play)
 [difference between typescript class and interface]: https://www.javatpoint.com/typescript-class-vs-interface
 [what's the difference between 'extends' and 'implements' in typescript]: https://stackoverflow.com/questions/38834625/whats-the-difference-between-extends-and-implements-in-typescript
 [鐵人賽片段 1]: https://ithelp.ithome.com.tw/articles/10218770#:~:text=%E5%96%AE%E4%BE%8B%E9%A1%9E%E5%88%A5%E7%9A%84%E7%B9%BC%E6%89%BF%20Singleton%20Class%20Inheritance
@@ -28,8 +29,8 @@
 [function signature]: https://developer.mozilla.org/en-US/docs/Glossary/Signature/Function
 [function 誤區注意]: https://ithelp.ithome.com.tw/articles/10215270
 [never & unknown]: https://blog.logrocket.com/when-to-use-never-and-unknown-in-typescript-5e4d6c5799ad/
-[typescript 新手指南]: https://willh.gitbook.io/typescript-tutorial/
-[深入理解typescript]: https://jkchao.github.io/typescript-book-chinese/
+[typescript 新手指南 (舊版 TS)]: https://willh.gitbook.io/typescript-tutorial/
+[深入理解 typescript]: https://jkchao.github.io/typescript-book-chinese/
 [methods for typescript runtime type checking]: https://blog.logrocket.com/methods-for-typescript-runtime-type-checking/
 [type guard1]: https://medium.com/onedegree-tech-blog/typescript-%E4%B8%80%E4%BA%9B%E4%BB%A4%E4%BA%BA%E5%8F%88%E6%84%9B%E5%8F%88%E6%81%A8%E7%9A%84%E5%85%A7%E5%AE%B9-type-guard-narrowing-1655a9ae2a4d
 [type guard2]: https://blog.logrocket.com/how-to-use-type-guards-typescript/
@@ -42,7 +43,7 @@
 # TS 基礎
 
 > DATE: 7 ~ 10 (2022)
-> REF: [TS Docs] | [google TS style guide] | [鐵人賽 1] | [typescript 新手指南] | [深入理解 TypeScript]
+> REF: [TS Docs] | [google TS style guide] | [鐵人賽 1] | [typescript 新手指南 (舊版 TS)] | [深入理解 TypeScript]
 
  <!-- 工具 -->
 
@@ -51,6 +52,7 @@
 
   - [ECMAScript 相容表]
   - [zod]：可協助檢查 API 回傳的 type
+  - [TS playground]
 
   </details>
 
@@ -1602,6 +1604,25 @@
   ```
 
   </details>
+
+## ## Namespace
+
+- 用來隔離命名空間。
+- 在同 namespace 中，等於沒有用 namespace 隔離開 export 的內容
+- 舊時代產物，被 import/export 取代
+
+  ![](https://i.imgur.com/WfEZgXl.png)
+
+- 同一個 namespace，可以通用
+
+  - 順序無差
+  - 需要 export
+
+  ![](https://i.imgur.com/2hXdpHt.png)
+
+- 同一個 namespace，必須在 export / local 二選一
+
+  ![](https://i.imgur.com/Miey6R2.png)
 
 ---
 
