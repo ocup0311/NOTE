@@ -1741,7 +1741,7 @@
 
     - 步驟：
 
-      - 1. 先確認是否已有 Declaration Files，可以檢查：
+      - 1. 先確認是否已有 Declaration Files (不需要額外安裝其他包)，可以檢查：
 
         - (1) `package.json` 是否有 `types` 屬性
         - (2) 是否有 `index.d.ts` 檔案
@@ -1750,21 +1750,29 @@
 
         - (1) 是否有 `@types` 資料夾，是否有 Declaration Files
 
+          - 可以透過 npm 下載 `@types`
+
+            ```sh
+            # EX. 下載 jquery 的 @types
+            npm install @types/jquery --save-dev
+            ```
+
         - (2) 是否有現成的 Declaration Files：[現成 1](https://www.npmjs.com/~types)、[現成 2](https://github.com/DefinitelyTyped/DefinitelyTyped)。
-
-        - (3) 可以透過 npm 下載 `@types`
-
-          ```sh
-          # EX. 下載 jquery 的 @types
-          npm install @types/jquery --save-dev
-          ```
 
       - 3. 如果都沒有，就要自己建立，建議：
 
         - 建立一個資料夾為 `types` 或 `@types`
         - 並在 `tsconfig.json` 中設定 `typeRoots` 或 `paths ＋ baseUrl` 。
 
-  - ![](https://i.imgur.com/WMlJbNr.png)
+          - 範例：
+
+            ![](https://i.imgur.com/RSMtPQa.png)
+
+        - (1) 直接發 PR 回第三方套件跟程式碼放在一起 (2) 提交到 @types
+
+  - <mark>TODO:</mark> typeroot
+
+  ![](https://i.imgur.com/WMlJbNr.png)
 
   </details>
 
