@@ -417,7 +417,10 @@
 
   - node
 
-    -
+    - 預設 manager 本身也可當作一個 worker 使用
+    - init 之後，會得到加入該 swarm 的 token
+    - 可透過 `docker swarm join-token <manager/worker>` 來查詢加入新 manager/worker 的 token
+    - <mark>TODO:Q</mark> 使用 `docker swarm join --token <TOKEN> <IP>:<PORT>` 在新主機加入成為 swarm 的新 node 時，背後的網路如何通訊？使用廣播？
 
   - service
 
@@ -432,7 +435,22 @@
       - `docker container ls`中，container id
         ![](https://i.imgur.com/p6gGjcO.png)
 
-    -
+    - network
+
+      ![](https://i.imgur.com/P8DiltT.jpg)
+
+      - 當加入新 node 後，會同步在該 node 上建立所有的 overlay network
+      - overlay
+
+        - 稱為「東西走向」
+        - 用在 node 之間的網路連接
+        - 使用 VXLAN + UDP 來實現
+
+      - ingress
+
+      - 測試用：
+        - `sudo tcpdump -i enp0s8 port 4789`
+          - 用以捕抓 VXLAN 封包，port 4789 為 VXLAN
 
 ## # 其他補充
 
