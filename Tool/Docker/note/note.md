@@ -414,9 +414,13 @@
 
   ![](https://i.imgur.com/E1HMtwk.png)
 
+  <!-- ref -->
+
   - ref
 
     - [RAFT] (<mark>TODO:補看</mark>)
+
+  <!-- node -->
 
   - node
 
@@ -424,6 +428,8 @@
     - init 之後，會得到加入該 swarm 的 token
     - 可透過 `docker swarm join-token <manager/worker>` 來查詢加入新 manager/worker 的 token
     - <mark>TODO:Q</mark> 使用 `docker swarm join --token <TOKEN> <IP>:<PORT>` 在新主機加入成為 swarm 的新 node 時，背後的網路如何通訊？使用廣播？
+
+  <!-- service -->
 
   - service
 
@@ -438,74 +444,122 @@
       - `docker container ls`中，container id
         ![](https://i.imgur.com/p6gGjcO.png)
 
-    - network
+  <!-- network -->
 
-      ![](https://i.imgur.com/P8DiltT.jpg)
+  - network
 
-      - 當加入新 node 後，會同步在該 node 上建立所有的 overlay network
+    ![](https://i.imgur.com/P8DiltT.jpg)
 
-      <!-- overlay -->
+    - 當加入新 node 後，會同步在該 node 上建立所有的 overlay network
 
-      - `overlay`
+    <!-- overlay -->
 
-        - 稱為「東西走向」
+    - `overlay`
 
-        - 用在 node 之間的內部網路連接
+      - 稱為「東西走向」
 
-        - 使用 VXLAN + UDP 來實現
+      - 用在 node 之間的內部網路連接
 
-        - 研究方法：
+      - 使用 VXLAN + UDP 來實現
 
-          - 可用 `sudo tcpdump -i enp0s8 port 4789` 捕抓 VXLAN 封包，以進行測試 (port 4789 為 VXLAN)
+      - 使用 VIP (virtual ip) 進行 service 內部 load balance
 
-      <!-- docker_gwbridge -->
+        - 當有 service 的 container 使用到 overlay 時，會自動建立一個用來 load balance 的空間，在其中建立 VIP
+        - 用來在 service 的 replica 間進行 load balance
+        - 一個 service 對應一個 VIP，每個 VIP 透過 iptables + ipvs 轉發給多個 replica
+        - EX. 圖中 lb-mylay
 
-      - `docker_gwbridge` (gate way bridge)
+          ![](https://i.imgur.com/aDeJkna.png)
 
-        - 稱為「南北走向」
+      - 研究方法：
 
-        - 對外部的網路連接
+        - 可用 `sudo tcpdump -i enp0s8 port 4789` 捕抓 VXLAN 封包，以進行測試 (port 4789 為 VXLAN)
 
-      <!-- ingress -->
+    <!-- docker_gwbridge -->
 
-      - `ingress`
+    - `docker_gwbridge` (gate way bridge)
 
-        ![](https://i.imgur.com/b9uL3ua.png)
+      - 稱為「南北走向」
 
-        - 也屬於 overlay，提供給「外部訪問內部」使用
+      - 對外部的網路連接
 
-        - 步驟：
+    <!-- ingress -->
 
-          - 使用 -p 5566:80 轉 port，iptables 中的 `DOCKER-INGRESS` chain 會將 local 的 port 5566 轉發到 `docker_gwbridge` 的 port 5566
-          - 透過 `ingress-sbox` 連接 `ingress overlay` & `docker_gwbridge`
-          - 從`docker_gwbridge` port 5566 進來的會被做一個 MARK
-          - 被 MARK 的內容會被 ipvs 進行隨機 load blance 通過 ingress overlay 傳到各個 replica
+    - `ingress`
 
-        - 研究方法：
+      ![](https://i.imgur.com/b9uL3ua.png)
 
-          - `sudo iptables -vnL -t nat`
+      - 也屬於 overlay，提供給「外部訪問內部」使用
+      - 從外部進來的封包會透過 `ingress overlay` 進行轉發
 
-            - 用於列出 NAT 表格中的規則，並提供詳細的封包和字節計數信息。這對於了解網絡地址轉換規則的配置和效果非常有用。
+      - 步驟：
 
-          - iptables
+        - 使用 -p 5566:80 轉 port，iptables 中的 `DOCKER-INGRESS` chain 會將 local 的 port 5566 轉發到 `docker_gwbridge` 的 port 5566
+        - 透過 `ingress-sbox` 連接 `ingress overlay` & `docker_gwbridge`
+        - 從`docker_gwbridge` port 5566 進來的會被做一個 MARK
+        - 被 MARK 的內容會被 ipvs 進行隨機 load blance 通過 ingress overlay 傳到各個 replica
 
-            - [Docker - iptables 小知識]
+      - 研究方法：
 
-            - 可以看到有一條 Chain `DOCKER-INGRESS` 做了 `tcp dpt:8080 to:172.27.0.2:8080`，也就是將 local 的 8080 轉到 `docker_gwbridge` 的 8080
+        - `sudo iptables -vnL -t nat`
 
-          - `docker run -it --rm -v /var/run/docker/netns:/netns --privileged=true nicolaka/netshoot nsenter --net=/netns/ingress_sbox `
+          - 用於列出 NAT 表格中的規則，並提供詳細的封包和字節計數信息。這對於了解網絡地址轉換規則的配置和效果非常有用。
 
-            - 利用 volume 方式，開一個 container 來查看 ingress-sbox 內部
-            - `iptables -vnL -t mangle` 查到從`docker_gwbridge`該 port 進來的會被做一個 MARK：`tcp dpt:8080 MARK set 0x102`
+        - iptables
 
-            - 使用 `ipvsadm` 可以看到 `MARK set 0x102` 的內容會被進行隨機 load blance 到各個 replica
+          - [Docker - iptables 小知識]
 
-          - ipvs
+          - 可以看到有一條 Chain `DOCKER-INGRESS` 做了 `tcp dpt:8080 to:172.27.0.2:8080`，也就是將 local 的 8080 轉到 `docker_gwbridge` 的 8080
 
-            ![](https://i.imgur.com/PJmPUy4.png)
+        - `docker run -it --rm -v /var/run/docker/netns:/netns --privileged=true nicolaka/netshoot nsenter --net=/netns/ingress_sbox `
 
-            - 用來實現 load blance (stateless 分配)
-            - `ipvsadm`
+          - 利用 volume 方式，開一個 container 來查看 ingress-sbox 內部
+          - `iptables -vnL -t mangle` 查到從`docker_gwbridge`該 port 進來的會被做一個 MARK：`tcp dpt:8080 MARK set 0x102`
+
+          - 使用 `ipvsadm` 可以看到 `MARK set 0x102` 的內容會被進行隨機 load blance 到各個 replica
+
+        - ipvs
+
+          ![](https://i.imgur.com/PJmPUy4.png)
+
+          - 用來實現 load blance (stateless 分配)
+          - `ipvsadm`
+
+  <!-- stack -->
+
+  - stack
+
+    - swarm 的 compose
+    - 一樣需下載 docker compose，使用 .yml
+    - 需使用已經 build 好的 image
+
+  <!-- secret -->
+
+  - secret
+
+    - 建立方式：
+
+      - 明文寫入
+
+        - EX. `echo 123 | docker secret create my_pass -`
+        - 末端的 `-` 代表 stdin
+
+      - 使用檔案
+
+        - EX. `docker secret create my_pass my_pass.txt`
+
+      - 在 compose 中設定
+
+        ```yml
+        secrets:
+          my_pass:
+            file: my_pass.txt
+        ```
+
+    - `docker secret inspect`只會看到其資訊，不會顯示 secret 本身
+    - container 中，存在 `/run/secrets/`
+    - 約定俗成以 env 存 secret 的 filename，如：
+      `-e MY_PASSWORD_FILE=/run/secrets/my_pass`
 
 ## # 其他補充
 
