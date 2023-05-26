@@ -14,6 +14,10 @@
 
 <!----------- ref start ----------->
 
+[Kubernetes 停止支持 Docker 了？]: https://youtu.be/VTFjIfOLP8c
+[Don't Panic: Kubernetes and Docker]: https://kubernetes.io/blog/2020/12/02/dont-panic-kubernetes-and-docker/
+[OCI]: https://opencontainers.org/
+[Docker rootless mode]: https://docs.docker.com/engine/security/rootless/
 [docker 容器技术从入门到精通]: https://www.udemy.com/course/docker-china/learn/lecture/27213604#overview
 [課堂筆記]: https://dockertips.readthedocs.io/en/latest/
 [setup docker on manjaro linux]: https://credibledev.com/setup-docker-on-manjaro-linux/
@@ -42,6 +46,20 @@
 ### # 簡介
 
 ![](https://i.imgur.com/NQOoI0m.png)
+
+- [OCI]（Open Container Initiative）
+
+  - 由 Google、Docker、Red Hat 等聯合發起
+
+  - 致力於容器技術的標準化
+
+    - runtime spec
+
+      - 規定容器的基本操作：下載鏡像，創建容器，啟動容器等
+
+    - image spec
+
+      - 主要定義鏡像的基本格式
 
 ### # 安裝與設定
 
@@ -669,6 +687,16 @@
 
     </details>
 
+  <!-- rootless mode -->
+
+  - <details close>
+    <summary>rootless mode</summary>
+
+    - [Docker rootless mode]
+    - version 20.10 以上
+
+    </details>
+
 ---
 
 ## # 踩雷實錄
@@ -713,6 +741,39 @@
   - <mark>TODO:</mark> 研究 docker.socket 跟 docker.service 的關係
 
   ![](https://i.imgur.com/aaOKVwD.png)
+
+  </details>
+
+<!-- Docker or Podman -->
+
+- <details close>
+  <summary>Docker or Podman</summary>
+
+  - REF：
+
+    - [Don't Panic: Kubernetes and Docker]
+    - [Kubernetes 停止支持 Docker 了？]
+
+  - 總結：
+
+    - CRI (container runtime interface)
+
+      - (2020) 支持 CRI 的 container runtime 只有 `containerd` 跟 `cri-o`
+      - <mark>TODO:Q</mark> 但 docker 使用 containerd，是否可以把接口方式調整一下，就可以繼續跟 k8s 對接了？
+
+    - k8s 不維護 `dockershim`，dockershim 是 kubelet 與 docker 的 CRI 接口
+
+  </details>
+
+<!-- containerd -->
+
+- <details close>
+  <summary>containerd</summary>
+
+  - 一個開源的 container runtime
+  - docker 即是使用 containerd
+
+  ![](../src/image/GPT_containerd.png)
 
   </details>
 
