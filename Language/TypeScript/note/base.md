@@ -712,7 +712,7 @@
       - `const enum`編譯後只留下常數
       - 賦值也只能給固定的 number 或 string
 
-      ```ts
+      ```typescript
       // EX.
       const enum E1 {
         X,
@@ -1606,7 +1606,7 @@
 
     - EX. Generics (泛型)
 
-      ```ts
+      ```typescript
       class Map<T> {
         private _items: { [key: string]: T }
 
@@ -1628,7 +1628,7 @@
 
     - EX. Factory (工廠模式) (GPT 所給，但我覺得這個舉例怪怪的)
 
-      ```ts
+      ```typescript
       abstract class Animal {
         abstract makeSound(): void
       }
@@ -1787,6 +1787,94 @@
   - <mark>TODO:</mark> typeroot
 
   ![](https://i.imgur.com/WMlJbNr.png)
+
+  </details>
+
+<!-- Generics (泛型) -->
+
+- <details close>
+  <summary>Generics (泛型)</summary>
+
+  <!-- Generics Constraints (泛型約束) -->
+
+  - <details close>
+    <summary>Generics Constraints (泛型約束)</summary>
+
+    - 使用 `extends`
+
+    - 使用場景
+
+      - EX.1 使用 Lengthwise 限制傳入參數一定要有 `<number>length` 屬性
+
+        ```typescript
+        interface Lengthwise {
+          length: number
+        }
+
+        function loggingIdentity<T extends Lengthwise>(arg: T): T {
+          console.log(arg.length)
+          return arg
+        }
+        ```
+
+      - EX.2 讓兩個參數型別有依賴限制，T 一定要包含 U 的屬性
+
+        ```typescript
+        function copyFields<T extends U, U>(target: T, source: U): T {
+          for (const id in source) {
+            target[id] = (source as T)[id]
+          }
+
+          return target
+        }
+
+        const objX = { a: 1, b: 2, c: 3 }
+        const objY = { b: 20, c: 30 }
+
+        copyFields(objX, objY)
+        ```
+
+    </details>
+
+  <!-- Generics & Interface -->
+
+  - <details close>
+    <summary>Generics & Interface</summary>
+
+    - bad
+
+      - 我認為不好的寫法
+      - EX. 會生成 `any[]`
+
+      ![](../src/image/generics/generics_bad_interface.png)
+
+    - good
+
+      - 我認為較好的寫法
+
+      - 1. 將 generics 定義在 interface 的 function 上：
+
+      ![](../src/image/generics/generics_on_function.png)
+
+      - 2. 將 generics 定義在 interface 上，兩種做法：
+           (1) 每個 function 是獨立的，只是共用 interface 的模樣 (沒寫範例)
+           (2) function 可以只寫一次，但不同 type 則須分開定義，變成數個 function (如範例)
+
+      ![](../src/image/generics/generics_on_interface.png)
+
+    </details>
+
+  <!-- Constraints -->
+
+  - <details close>
+    <summary>Constraints</summary>
+
+    - 看起來即便 `T extends U`，TS 也無法理解 T 一定會有 U 的所有屬性
+    - 因為 `const id in source` 在執行階段才進行 (但是 `typeof` 有被列入靜態辨認，此處是否也應該可以列入？)
+
+    ![](../src/image/generics/generics_constraints.png)
+
+    </details>
 
   </details>
 
