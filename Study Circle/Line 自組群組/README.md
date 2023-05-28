@@ -36,6 +36,14 @@
 
 [cs50 共筆]: https://hackmd.io/3HX_gF4JQOSY6W7W7tnQ6A
 
+###### <!-- IV. TypeScript -->
+
+[TypeScript 共筆]: https://hackmd.io/@e_Me9JgsS1y8VahM1nF7wg/ByxXL3fmh
+
+###### <!-- V. SQL/MySQL -->
+
+[SQL/MySQL 共筆]: https://hackmd.io/@e_Me9JgsS1y8VahM1nF7wg/B1pAfebU3
+
 ## I. 資訊架構學
 
 - PPT：
@@ -71,3 +79,11 @@
 ## III. CS50
 
 - [CS50 共筆]
+
+## IV. TypeScript
+
+- [TypeScript 共筆]
+
+## IV. SQL/MySQL
+
+- [SQL/MySQL 共筆]
