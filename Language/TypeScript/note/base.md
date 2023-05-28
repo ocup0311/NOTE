@@ -46,7 +46,7 @@
 
 # TS 基礎
 
-> DATE: 7 ~ 10 (2022)
+> DATE: 7 ~ 10 (2022) 、 5 (2023)
 > REF: [TS Docs] | [google TS style guide] | [鐵人賽 1] | [typescript 新手指南 (舊版 TS)] | [深入理解 TypeScript]
 
  <!-- 工具 -->
@@ -1604,52 +1604,66 @@
   - <details close>
     <summary>interface 繼承 class 的用途</summary>
 
-    > REF:
-    >
-    > 1. [In TypeScript an interface can extend a class, what for?]
-    > 2. [An Extended Class with All Members]
-    > 3. [A Practical Guide to Use Extends in TypeScript]
+    - EX. Generics (泛型)
 
-    ![](https://i.imgur.com/76K8qnL.png)
+      ```ts
+      class Map<T> {
+        private _items: { [key: string]: T }
 
-    - EX. 工廠模式：
+        set(key: string, value: T) {}
 
-    ```ts
-    abstract class Animal {
-      abstract makeSound(): void
-    }
+        has(key: string): boolean {}
 
-    interface AnimalFactory extends Animal {
-      createAnimal(): Animal
-    }
+        get(key: string): T {}
 
-    class Dog extends Animal {
-      makeSound(): void {
-        console.log('Woof!')
-      }
-    }
-
-    class Cat extends Animal {
-      makeSound(): void {
-        console.log('Meow!')
-      }
-    }
-
-    class AnimalFactoryImpl implements AnimalFactory {
-      createAnimal(): Animal {
-        // 根據某些邏輯返回不同的動物實例
-        return new Dog()
+        remove(key: string): T {}
       }
 
-      makeSound(): void {
-        console.log('Factory making sound...')
-      }
-    }
+      interface NumberMap extends Map<number> {}
+      interface StringMap extends Map<string> {}
+      interface BooleanMap extends Map<boolean> {}
 
-    const factory: AnimalFactory = new AnimalFactoryImpl()
-    const animal: Animal = factory.createAnimal()
-    animal.makeSound() // 輸出 "Woof!"
-    ```
+      function stringsHandler(map: StringMap) {}
+      ```
+
+    - EX. Factory (工廠模式) (GPT 所給，但我覺得這個舉例怪怪的)
+
+      ```ts
+      abstract class Animal {
+        abstract makeSound(): void
+      }
+
+      interface AnimalFactory extends Animal {
+        createAnimal(): Animal
+      }
+
+      class Dog extends Animal {
+        makeSound(): void {
+          console.log('Woof!')
+        }
+      }
+
+      class Cat extends Animal {
+        makeSound(): void {
+          console.log('Meow!')
+        }
+      }
+
+      class AnimalFactoryImpl implements AnimalFactory {
+        createAnimal(): Animal {
+          // 根據某些邏輯返回不同的動物實例
+          return new Dog()
+        }
+
+        makeSound(): void {
+          console.log('Factory making sound...')
+        }
+      }
+
+      const factory: AnimalFactory = new AnimalFactoryImpl()
+      const animal: Animal = factory.createAnimal()
+      animal.makeSound() // 輸出 "Woof!"
+      ```
 
     </details>
 
@@ -2034,3 +2048,26 @@
 - 延伸閱讀：
 
   - [Top 50 TypeScript Interview Questions Explained]
+
+## 5. 延伸討論
+
+<!-- interface 繼承 class 的用途 -->
+
+- <details close>
+  <summary>interface 繼承 class 的用途</summary>
+
+  > REF:
+  >
+  > 1. [In TypeScript an interface can extend a class, what for?]
+  > 2. [An Extended Class with All Members]
+  > 3. [A Practical Guide to Use Extends in TypeScript]
+
+  - 有時不需要再多出一個中間 class (不需要藉由他 new instance)，因此可用 interface extend。<mark>TODO:Q</mark> 為何不用 abstract 代替？
+
+  - java 不能： interface extend class。<mark>TODO:Q</mark> java 是以什麼方式達到 TS 這波操作一樣的效果？是否為較麻煩的不必要？還是更好的做法？
+
+  - GPT (<mark>TODO:Q</mark> 舉例部分，合理性？)
+
+    ![](https://i.imgur.com/76K8qnL.png)
+
+  </details>
