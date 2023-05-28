@@ -184,6 +184,23 @@
 
   </details>
 
+<!-- 程式碼檢查 -->
+
+- <details close>
+  <summary>程式碼檢查工具</summary>
+
+  - 因為程式碼檢查是專案的重要組成部分，所以我們一般會將 ESLint 安裝在當前專案中 (`--save-dev`)
+
+  - TSC vs TSLint vs ESLint
+
+  ![](../src/image/lint/TSC_TSLint_ESLint.png)
+
+  - TSLint & ESLint 的選擇
+
+  ![](../src/image/lint/TSLint_or_ESLint.png)
+
+  </details>
+
 ---
 
 ## 1. 基本介紹
@@ -2136,6 +2153,8 @@
 - 延伸閱讀：
 
   - [Top 50 TypeScript Interview Questions Explained]
+
+    - What are decorators, and what can they be applied to?
 
 ## 5. 延伸討論
 
