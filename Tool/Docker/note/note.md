@@ -14,6 +14,7 @@
 
 <!----------- ref start ----------->
 
+[docker manifest]: https://docs.docker.com/engine/reference/commandline/manifest/
 [Kubernetes 停止支持 Docker 了？]: https://youtu.be/VTFjIfOLP8c
 [Don't Panic: Kubernetes and Docker]: https://kubernetes.io/blog/2020/12/02/dont-panic-kubernetes-and-docker/
 [OCI]: https://opencontainers.org/
@@ -25,7 +26,7 @@
 [OrbStack (課推)]: https://orbstack.dev/
 [minikube (宇推)]: https://dhwaneetbhatt.com/blog/run-docker-without-docker-desktop-on-macos
 [掛載 docker.sock 的用意？]: https://ephrain.net/docker-%E6%8E%9B%E8%BC%89-var-run-docker-sock-%E7%9A%84%E7%94%A8%E6%84%8F%EF%BC%9F/
-[Buildx]: https://docs.docker.com/go/buildx/
+[Buildx]: https://docs.docker.com/build/architecture/
 [How to remove intermediate images from a build after the build?]: https://stackoverflow.com/questions/50126741/how-to-remove-intermediate-images-from-a-build-after-the-build
 [Dockerfile reference]: https://docs.docker.com/engine/reference/builder/
 [Migrate to Compose V2]: https://docs.docker.com/compose/migrate/
@@ -35,6 +36,7 @@
 [鳥哥 iptables]: https://linux.vbird.org/linux_server/centos6/0250simple_firewall.php#netfilter
 [初探 IPTABLES 流動之路 - 以 Docker 為範例]: https://www.hwchiu.com/iptables-1.html
 [Docker - iptables 小知識]: https://www.gss.com.tw/blog/%E6%AF%8F%E6%97%A5%E5%B0%8F%E7%9F%A5%E8%AD%98-19-docker-%E7%B6%B2%E8%B7%AF%E7%AF%87-3-iptables
+[Multi-platform 文件]: https://docs.docker.com/build/building/multi-platform/
 
 <!------------ ref end ------------>
 
@@ -42,6 +44,12 @@
 
 > DATE: 4, 5 (2023)
 > REF: [Docker 容器技术从入门到精通] | [課堂筆記]
+
+### # 測試環境
+
+- Ubuntu & Manjaro VM @Intel Core i5 macOS v13.0.1
+
+  ![](../src/image/docker_version.png)
 
 ### # 簡介
 
@@ -192,7 +200,10 @@
       CMD ["python3", "/hello.py"]
       ```
 
-  - `docker image push` 時，並不會自動將最新一次 push 更新到 latest。而是得另外 push 成 latest
+  - `docker image push`
+
+    - 預設不會自動將最新一次 push 同步更新到 latest，得另外 push 一個 latest 版本
+    - 預設會直接用新的覆蓋掉 Registry 上舊的 image
 
   - `docker container commit` 的方式，每次產生的 image ID 都不同
 
@@ -245,6 +256,27 @@
 
     - <mark>TODO:Q</mark> 是否還需要 `.dockerignore` ？
       (因為其作法改為當有需求時，buildkit 才會向 buildx 發送請求。而不像舊的方式會直接打包整個資料夾過去。)
+
+  - Multi-platform images
+
+    - 可以在一台電腦上，直接 build 各種硬體架構的 image
+      (EX. 在 amd64 的主機上也可以 build 給 arm64 使用的 image)
+
+    - 須先用 container 開一個 `docker-container` driver 的 builder
+
+      - REF：[Multi-platform 文件]
+
+      - 快速使用：`docker buildx create --use`
+
+    - build 完後，並不會出現在 image ls 中，可加 `--push` 直接上傳
+
+    ```sh
+    # 建立 docker-container driver 的 builder 並切換過去使用
+    $ docker buildx create --use
+
+    # EX. build 出 linux/arm/v7,linux/arm64/v8,linux/amd64 三種架構的 image
+    $ docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t <image_name> <folder_name>
+    ```
 
 - Dockerfile
 
@@ -697,12 +729,28 @@
 
     </details>
 
+  <!-- 實驗新功能 -->
+
+  - <details close>
+    <summary>實驗新功能</summary>
+
+    - [docker manifest]
+
+    </details>
+
 ---
 
 ## # 踩雷實錄
 
+<!-- 並非可以完全使用 docker build -->
+
 - <details close>
-  <summary></summary>
+  <summary>並非可以完全使用 <code>docker build</code></summary>
+
+  - [Buildx] 文件中提到，新版本中 `docker build` 會默認使用 `Buildx`
+  - 事實上使用 `docker build` 確實是使用 `Buildx` 來進行 biuld 的行為
+  - 但是並非可以完全使用 `docker build` 來代替 `docker buildx build` ！！
+  - 例如使用 `--platform` 時，只能以 `docker buildx build` 來執行
 
   </details>
 
