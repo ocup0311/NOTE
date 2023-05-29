@@ -12,6 +12,7 @@
 
 ###### <!-- ref -->
 
+[Ts Config Helper]: https://tsconfiger.netlify.app/
 [TS playground]: (https://www.typescriptlang.org/play)
 [difference between typescript class and interface]: https://www.javatpoint.com/typescript-class-vs-interface
 [what's the difference between 'extends' and 'implements' in typescript]: https://stackoverflow.com/questions/38834625/whats-the-difference-between-extends-and-implements-in-typescript
@@ -57,6 +58,7 @@
   - [ECMAScript 相容表]
   - [zod]：可協助檢查 API 回傳的 type
   - [TS playground]
+  - [Ts Config Helper]
 
   </details>
 
