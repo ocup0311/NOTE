@@ -491,9 +491,10 @@
 
   ![](https://i.imgur.com/HquSaPC.png)
 
-  - <mark>TODO:</mark> 研究更改 ssh key 名稱
+  - ssh key 名稱可以輕易改，記得把 `~/.ssh/config` 設定檔也改即可
 
   - <mark>TODO:</mark> 研究 ssh -v 細節
+    - Verbose mode: debugging messages
 
   </details>
 
