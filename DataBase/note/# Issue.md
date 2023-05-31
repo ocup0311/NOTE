@@ -12,6 +12,13 @@
 
 ###### <!-- ref -->
 
+[筆記：從零開始學架構]: https://hackmd.io/@Rance/r1suwS-4H
+[書籍：從零開始學架構：照著做，你也能成為架構師]: https://www.books.com.tw/products/CN11583557
+[課程：從 0 開始學架構]: https://time.geekbang.org/column/intro/81
+[筆記：高性能 DB 架構設計(RDBMS / NoSQL / Cache)]: https://godleon.github.io/blog/Architecture_Design/Architecture-Design-High-Performance-db-nosql-cache/
+[Unlocking the Power of JunoDB: PayPal’s Key-Value Store Goes Open-Source]: https://medium.com/paypal-tech/unlocking-the-power-of-junodb-paypals-key-value-store-goes-open-source-ee85f935bdc1
+[How PayPal Built a Database that serves 350 Billion Requests Per Day]: https://blog.quastor.org/p/paypal-built-database-serves-350-billion-requests-per-day
+[Github-junodb]: https://github.com/paypal/junodb
 [implementing api pagination with nodejs, mongoose]: https://cloudnweb.dev/2021/04/pagination-nodejs-mongoose/
 [fast and efficient pagination in mongodb]: https://www.codementor.io/@arpitbhayani/fast-and-efficient-pagination-in-mongodb-9095flbqr
 [mongoose - what does the exec function do?]: https://stackoverflow.com/questions/31549857/mongoose-what-does-the-exec-function-do
@@ -158,5 +165,30 @@
     - mongodb auto index
 
     </details>
+
+  </details>
+
+<!-- 2. 高性能 DB 架構設計(RDBMS / NoSQL / Cache) -->
+
+- <details close>
+  <summary>2. 高性能 DB 架構設計(RDBMS / NoSQL / Cache)</summary>
+
+  - [課程：從 0 開始學架構]
+  - [書籍：從零開始學架構：照著做，你也能成為架構師]
+  - [筆記：高性能 DB 架構設計(RDBMS / NoSQL / Cache)]
+  - [筆記：從零開始學架構]
+
+  </details>
+
+# News
+
+<!-- 1. How PayPal Built a Database that serves 350 Billion Requests Per Day -->
+
+- <details close>
+  <summary>1. How PayPal Built a Database that serves 350 Billion Requests Per Day</summary>
+
+  - [How PayPal Built a Database that serves 350 Billion Requests Per Day]
+  - [Unlocking the Power of JunoDB: PayPal’s Key-Value Store Goes Open-Source]
+  - [Github-junodb]
 
   </details>
