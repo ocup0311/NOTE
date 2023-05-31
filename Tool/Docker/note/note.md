@@ -472,12 +472,6 @@
 
   ![](https://i.imgur.com/E1HMtwk.png)
 
-  <!-- ref -->
-
-  - ref
-
-    - [RAFT] (<mark>TODO:補看</mark>)
-
   <!-- node -->
 
   - node
@@ -619,16 +613,51 @@
     - 約定俗成以 env 存 secret 的 filename，如：
       `-e MY_PASSWORD_FILE=/run/secrets/my_pass`
 
+  <!-- RAFT -->
+
+  - [RAFT] 共識算法，用於分佈式系統中的一致性協議
+
+    - 三個角色：Leader、Candidate、Follower
+
+    - 總結兩個關鍵
+
+      - timeout 為隨機 150 ~ 300 ms，可以形成時間差
+      - 有 term 大小之分，可以確定誰才是最新的 Leader
+
+    - 簡述過程
+      - Log Replication
+        - 透過心跳傳遞同步
+        - Leader 先將更新內容放進 log，收到多數 Follower 也存好 log，才會正式更新資料，並回傳 client
+      - Leader Election
+        - 隨機 150~300 ms 沒收到心跳，就會成為 Candidate，投給自己並叫別人投你，該 term 中還沒投票的就會投給你
+        - 收到多數票就成為 Leader，開始收發心跳
+      - 遇到 Partition (網路被分開)
+        - 當 Partition 被修復，看到更高的 term 的 Leader，較小的 term Leader 會自己下台
+        - small term node 都會 roll back 到最後一次 commit，再跟新 Leader 同步
+
 - 安全性檢查
 
   - 檢查執行環境
 
     - [Docker Bench Security]：本地
 
+      - 範例畫面
+
+      ![](../src/image/SAMPLE_docker_bench_security.png)
+
   - 檢查程式碼 [CVE]
 
     - [Snyk]：線上
+
+      - 範例畫面
+
+      ![](../src/image/SAMPLE_Snyk.png)
+
     - [Trivy]：本地
+
+      - 範例畫面
+
+      ![](../src/image/SAMPLE_Trivy.png)
 
   - 執行時的動態監控
 
