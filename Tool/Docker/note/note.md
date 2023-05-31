@@ -14,6 +14,12 @@
 
 <!----------- ref start ----------->
 
+[sysdig]: https://sysdig.com/
+[CVE]: https://cve.mitre.org/
+[Snyk]: https://snyk.io/
+[Trivy]: https://github.com/aquasecurity/trivy#how-to-pronounce-the-name-trivy
+[Remote Development]: https://code.visualstudio.com/docs/remote/remote-overview
+[Docker Bench Security]: https://github.com/docker/docker-bench-security
 [docker manifest]: https://docs.docker.com/engine/reference/commandline/manifest/
 [Kubernetes 停止支持 Docker 了？]: https://youtu.be/VTFjIfOLP8c
 [Don't Panic: Kubernetes and Docker]: https://kubernetes.io/blog/2020/12/02/dont-panic-kubernetes-and-docker/
@@ -358,7 +364,9 @@
     (EX. 搭建 gcc 編譯環境，用來編譯 host 上的檔案)
     (EX. 用 vscode 的 Dev Containers 套件，搭建專案開發環境，以 container 開啟 host 上的專案 folder)
 
-  - <mark>TODO:</mark> volume 的所有方法，都只有掛載？也就是只有在掛載的位置上有儲存資料？目前簡單測試 `sshfs` 方式也是只有設定為 volume 端有資料，若將那台 host 斷開連線，則其他 host 無法讀寫資料，且會卡住。
+  - <mark>TODO:</mark> volume 的所有方法，都只有掛載？也就是只有在掛載的位置上有儲存資料？
+
+    - 目前簡單測試 `sshfs` 方式也是只有設定為 volume 端有資料，若將那台 host 斷開連線，則其他 host 無法讀寫資料，且會卡住。
 
 - Network
 
@@ -611,6 +619,21 @@
     - 約定俗成以 env 存 secret 的 filename，如：
       `-e MY_PASSWORD_FILE=/run/secrets/my_pass`
 
+- 安全性檢查
+
+  - 檢查執行環境
+
+    - [Docker Bench Security]：本地
+
+  - 檢查程式碼 [CVE]
+
+    - [Snyk]：線上
+    - [Trivy]：本地
+
+  - 執行時的動態監控
+
+    - [sysdig]：付費
+
 ## # 其他補充
 
 <!-- 注意事項 -->
@@ -673,12 +696,33 @@
 
 - 小工具：
 
-  <!-- 學習小工具 -->
+  <!-- 學習工具 -->
 
   - <details close>
-    <summary>學習小工具</summary>
+    <summary>學習工具</summary>
 
     - [Play with Docker]：UI 操作，快速模擬 docker
+
+    </details>
+
+  <!-- 開發工具 -->
+
+  - <details close>
+    <summary>開發工具</summary>
+
+    - [Remote Development]
+
+      - <mark>TODO:</mark> 找時間將此 vscode 套件融入開發使用
+      - 使用 docker 建立開發環境，來開發遠端的檔案
+
+    - [Docker Bench Security]
+
+      - 安全性檢查
+      - 藉由訪問整個主機中的 docker 的相關檔案，來協助檢查使用 docker 執行環境
+      - 須先啟動 container 再進行檢查
+      - 並非只檢查個別專案的檔案
+
+      ![](../src/image/GPT_docker_bench_security.png)
 
     </details>
 
