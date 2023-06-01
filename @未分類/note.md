@@ -59,16 +59,9 @@
   - chrome 外掛，針對網頁渲染過程的每個步驟進行分析效能
   - 三大指標：FCP(First Contentful Paint) TBT(Total Blocking Time) TTI(Time to Interactive)，主要是 JS 造成的
 
-## # Linux (or macOS)
-
-- `printenv`：查 shell 環境變數
-- `/etc/paths.d`：系統 path 設定位置
-
 ## # 其他可玩項目
 
 - [Learning Computer Engineering With Minecraft](https://betterprogramming.pub/learning-computer-engineering-with-minecraft-20b10fa285c4)
-
-- [Partytown : 將前端資源密集型的第三方 script 從主執行緒中轉移到 web worker 中](https://softnshare.com/partytown/?fbclid=IwAR3oDNp9hFq4Dn7srd7UGbLcu8nU58Q4isMsA3MNJdoJ4YGMZxOduTLVsO0)
 
 ## # 計概暫存
 

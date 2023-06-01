@@ -55,3 +55,14 @@
   - 參考 React 18 [useDeferredValue]
 
   </details>
+
+<!-- Web worker -->
+
+- <details close>
+  <summary>Web worker</summary>
+
+  - MDN: Web worker 或是跨來源網域（cross-origin）的 iframe 都會有各自的堆疊、堆積及訊息佇列。
+
+  - [Partytown : 將前端資源密集型的第三方 script 從主執行緒中轉移到 web worker 中](https://softnshare.com/partytown/?fbclid=IwAR3oDNp9hFq4Dn7srd7UGbLcu8nU58Q4isMsA3MNJdoJ4YGMZxOduTLVsO0)
+
+  </details>

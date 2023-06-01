@@ -512,30 +512,62 @@
 
 - 小技巧：
 
-  <!-- /etc/resolv.conf -->
+  <!-- 資料夾 -->
 
   - <details close>
-    <summary><code>/etc/resolv.conf</code></summary>
+    <summary>資料夾</summary>
 
-    - DNS 解析
+    <!-- /etc/resolv.conf -->
+
+    - <details close>
+      <summary><code>/etc/resolv.conf</code></summary>
+
+      - DNS 解析
+
+      </details>
+
+    <!-- /etc/sudoers -->
+
+    - <details close>
+      <summary><code>/etc/sudoers</code></summary>
+
+      - sudo 權限
+
+      </details>
+
+    <!-- /etc/passwd   -->
+
+    - <details close>
+      <summary><code>/etc/passwd</code></summary>
+
+      - user
+
+      </details>
+
+    <!-- /etc/paths.d -->
+
+    - <details close>
+      <summary><code>/etc/paths.d</code></summary>
+
+      - 系統 path 設定位置
+
+      </details>
 
     </details>
 
-  <!-- /etc/sudoers -->
+  <!-- 指令 -->
 
   - <details close>
-    <summary><code>/etc/sudoers</code></summary>
+    <summary>指令</summary>
 
-    - sudo 權限
+    <!-- printenv -->
 
-    </details>
+    - <details close>
+      <summary><code>printenv</code></summary>
 
-  <!-- /etc/passwd   -->
+      - 查 shell 環境變數
 
-  - <details close>
-    <summary><code>/etc/passwd</code></summary>
-
-    - user
+      </details>
 
     </details>
 
