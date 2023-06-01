@@ -10,6 +10,7 @@
 [tracking issue: process.binding to internalbinding]: https://github.com/nodejs/node/issues/22160
 [node 内部工作原理解析]: https://www.jianshu.com/p/a8f5a8cdc6ab
 [ref1]: https://www.udemy.com/course/understand-nodejs/learn/lecture/3453110
+[完整圖解Node.js的Event Loop(事件迴圈)]: https://notes.andywu.tw/2020/%E5%AE%8C%E6%95%B4%E5%9C%96%E8%A7%A3node-js%E7%9A%84event-loop%E4%BA%8B%E4%BB%B6%E8%BF%B4%E5%9C%88/
 
 <!-- ref -->
 
@@ -89,8 +90,19 @@
 ## 延伸閱讀
 
 - [Node 内部工作原理解析]
+
 - [深入理解 Node.js Worker Threads]
+
   - Worker Threads 簡單說是，透過 [worker.cc]，再開一個 nodejs runtime 給他用
+
+- [完整圖解 Node.js 的 Event Loop(事件迴圈)]
+
+  - 需注意，v10.0.0 左右有改版，優先度略有不同
+    - 小結：
+      - 非同步丟去 Queue，同步先執行完全部後，再依下述優先度查看執行，直到 Queue 清空
+      - Sync --> microTask Queue --> nextTick Queue --> macrotask queue(Check --> Timers)
+
+  ![](../src/image/Node/Nodejs_Event_Loop.png)
 
 ## NPM
 
