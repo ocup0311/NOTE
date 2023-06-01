@@ -14,6 +14,7 @@
 
  <!-- ref -->
 
+[TTY 到底是什麼？]: https://www.kawabangga.com/posts/4515
 [零基礎七天入門linux]: https://www.udemy.com/course/linux-zh/learn/lecture/8531918#content
 [manjaro]: https://manjaro.org
 [linux newbie: running manjaro on macbookpro]: https://medium.com/@pswoo/linux-newbie-running-manjaro-on-macbookpro-5db4672351c9
@@ -25,7 +26,7 @@
 
 # Linux
 
-> DATE: 3, 4 (2023)
+> DATE: 3, 4, 5 (2023)
 > REF: [零基礎七天入門 Linux]
 
 ## 0. 環境設定
@@ -571,6 +572,8 @@
 
 - <details close>
   <summary>延伸<code>tty</code></summary>
+
+  - REF: [TTY 到底是什麼？]
 
   - <mark>TODO: 《再研究》</mark> 不同 tty 是不同 process 層級
     ![](https://i.imgur.com/Ak3I3kg.png)
