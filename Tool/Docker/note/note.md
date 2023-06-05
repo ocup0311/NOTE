@@ -14,6 +14,8 @@
 
 <!----------- ref start ----------->
 
+[Docker Hub Automated builds]: https://docs.docker.com/docker-hub/builds/how-builds-work/
+[Github Actions]: https://docs.github.com/en/actions
 [compose file version]: https://docs.docker.com/compose/history/
 [sysdig]: https://sysdig.com/
 [CVE]: https://cve.mitre.org/
@@ -915,6 +917,32 @@
     </details>
 
   </details>
+
+### # CICD
+
+- [Docker Hub Automated builds]：已改為收費
+
+- [Github Actions]
+
+  ![](../src/image/github_action1.webp)
+  ![](../src/image/github_action2.webp)
+
+  - 默認慣例 `.yml` 會放在 `.github/workflows` 之中
+  - 以事件來驅動 action
+    (EX. 可設定在 `git push` 或 `pull request` ..等之後觸發 workflow)
+  - 名詞：
+
+    - `job`
+      - A set of steps in a workflow that execute on the same runner
+      - 數個 job 可以並行，也可設定成依賴
+    - `runner`
+      - A server that runs your workflows when triggered
+      - 可設定要在什麼虛擬環境中執行
+    - `step`
+      - execute shell script 或 run action
+      - 必須一步接著一步來
+
+    ![](../src/image/GPT_Github_Actions.png)
 
 ### # 問題集中區
 
