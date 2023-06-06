@@ -12,6 +12,9 @@
 
 ###### <!-- ref -->
 
+[Vagrant]: https://youtu.be/4nK_S-mU6_o?list=PLfQqWeOCIH4B6YAEXMr6cx4AfnKNBLbZO
+[Ansible]: https://youtu.be/K0e7tjh3NFk?list=PLfQqWeOCIH4BDoRx8lpXXl4hqSD4GSDU5
+[Prometheus]: https://prometheus.io/
 [LibreNMS]: https://www.librenms.org/
 [Zabbix]: https://www.zabbix.com/
 [sysdig]: https://sysdig.com/
@@ -83,8 +86,23 @@
 
     ![](./src/image/GPT_Monitor_Zabbix.png)
 
+  - [Prometheus]
+
+    ![](./src/image/GPT_Monitor_Prometheus.png)
+
   - [Sysdig]
 
     ![](./src/image/GPT_Monitor_Sysdig.png)
+
+  </details>
+
+<!-- 系統管理 -->
+
+- <details close>
+  <summary>系統管理</summary>
+
+  - [Vagrant]
+
+  - [Ansible]
 
   </details>
