@@ -927,7 +927,7 @@
   ![](../src/image/github_action1.webp)
   ![](../src/image/github_action2.webp)
 
-  - 默認慣例 `.yml` 會放在 `.github/workflows` 之中
+  - 默認慣例 `.yml` 會放在 `.github/workflows/`
   - 以事件來驅動 action
     (EX. 可設定在 `git push` 或 `pull request` ..等之後觸發 workflow)
   - 名詞：
@@ -939,10 +939,36 @@
       - A server that runs your workflows when triggered
       - 可設定要在什麼虛擬環境中執行
     - `step`
-      - execute shell script 或 run action
+      - `run:` shell script 或 `uses:` action
       - 必須一步接著一步來
 
     ![](../src/image/GPT_Github_Actions.png)
+
+  - 其他：
+
+    - 修改 workflow name 之後，所有包括已結束的 action，其 workflow name 的顯示都會改變
+
+    - `.yml` 裡的 shell script 會自動將換行接起來，不需 `\`，也可以使用 `run: |`
+
+      ```yml
+      # 第一種
+      run:
+        echo "1" &&
+        echo "2"
+
+      # 第二種
+      run: |
+        echo "1"
+        echo "2"
+      ```
+
+    - Github 的 Marketplace 中，有提供開源的 Action，可直接以 `uses:` 來使用
+
+    - muti-platform build 可以無需額外使用 QEMU，但是 QEMU 支援的 platform 還是比較多的。(但其中三個有 Error：linux/mips64,linux/mips64le,linux/riscv64)
+
+    - 可以設定 step id，就可以用 `${{ steps.<step_id>.outputs.<property> }}` 來取得該 step 中的輸出
+
+    - <mark>TODO:Q</mark> 不知為何 .yml 中只設定 build & push，但是 docker hub 上的下載數也有增加
 
 ### # 問題集中區
 
