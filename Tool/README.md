@@ -12,10 +12,15 @@
 
 ###### <!-- ref -->
 
+[LibreNMS]: https://www.librenms.org/
+[Zabbix]: https://www.zabbix.com/
+[sysdig]: https://sysdig.com/
 [cURL]: https://www.ruanyifeng.com/blog/2011/09/curl.html
 [CVE]: https://cve.mitre.org/
 [Snyk]: https://snyk.io/
 [Trivy]: https://github.com/aquasecurity/trivy#how-to-pronounce-the-name-trivy
+[Mixmax (多推)]: https://www.mixmax.com/demo
+[Mixmax-介紹]: https://youtu.be/NXEDqzqnmRo
 
  <!-- ref -->
 
@@ -49,5 +54,37 @@
     - [Trivy]
 
       - 安裝在電腦，用指令針對不同檔案進行檢查，也可檢查 image
+
+  </details>
+
+<!-- 管理與溝通 -->
+
+- <details close>
+  <summary>管理與溝通</summary>
+
+  - [Mixmax (多推)]
+
+    - 約時間系統
+    - [Mixmax-介紹]
+    - EX. 可以把時間表嵌入在 email，對方點時間就會確定
+
+  </details>
+
+<!-- 環境監控 -->
+
+- <details close>
+  <summary>環境監控</summary>
+
+  - [LibreNMS]
+
+    ![](./src/image/GPT_Monitor_LibreNMS.png)
+
+  - [Zabbix]
+
+    ![](./src/image/GPT_Monitor_Zabbix.png)
+
+  - [Sysdig]
+
+    ![](./src/image/GPT_Monitor_Sysdig.png)
 
   </details>
