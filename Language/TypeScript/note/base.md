@@ -12,6 +12,7 @@
 
 ###### <!-- ref -->
 
+[generics best practice1]: https://javascript.plainenglish.io/mentor-typescript-is-a-virus-a8ed076f1de9
 [Ts Config Helper]: https://tsconfiger.netlify.app/
 [TS playground]: (https://www.typescriptlang.org/play)
 [difference between typescript class and interface]: https://www.javatpoint.com/typescript-class-vs-interface
@@ -1813,6 +1814,10 @@
 
 - <details close>
   <summary>Generics (泛型)</summary>
+
+  - REF: [generics best practice1]
+
+    - It’s important to note that complex generics typically reside in utility code rather than throughout the entire project.
 
   <!-- Generics Constraints (泛型約束) -->
 
