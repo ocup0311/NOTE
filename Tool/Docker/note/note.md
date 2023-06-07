@@ -14,6 +14,7 @@
 
 <!----------- ref start ----------->
 
+[Github Actions Triggering by other repository]: https://github.com/orgs/community/discussions/26323#discussioncomment-3343871
 [Docker Hub Automated builds]: https://docs.docker.com/docker-hub/builds/how-builds-work/
 [Github Actions]: https://docs.github.com/en/actions
 [compose file version]: https://docs.docker.com/compose/history/
@@ -935,6 +936,7 @@
   <summary>Github Actions</summary>
 
   - [Github Actions]
+  - [Github Actions Triggering by other repository]
 
   <!-- default -->
 
