@@ -920,31 +920,83 @@
 
 ### # CICD
 
-- [Docker Hub Automated builds]：已改為收費
+<!-- Docker Hub Automated builds -->
 
-- [Github Actions]
+- <details close>
+  <summary>Docker Hub Automated builds</summary>
 
-  ![](../src/image/github_action1.webp)
-  ![](../src/image/github_action2.webp)
+  - [Docker Hub Automated builds]：已改為收費
 
-  - 默認慣例 `.yml` 會放在 `.github/workflows/`
-  - 以事件來驅動 action
-    (EX. 可設定在 `git push` 或 `pull request` ..等之後觸發 workflow)
-  - 名詞：
+  </details>
 
-    - `job`
+<!-- Github Actions -->
+
+- <details close>
+  <summary>Github Actions</summary>
+
+  - [Github Actions]
+
+  <!-- default -->
+
+  - <details close>
+    <summary>default</summary>
+
+    - 默認慣例 `.yml` 會放在 `.github/workflows/`
+
+    </details>
+
+  <!-- 以事件來驅動 action -->
+
+  - <details close>
+    <summary>以事件來驅動 action</summary>
+
+    - EX. 可設定在 `git push` 或 `pull request` ..等之後觸發 workflow
+
+    </details>
+
+  <!-- 名詞 -->
+
+  - <details close>
+    <summary>名詞</summary>
+
+    <!-- job -->
+
+    - <details close>
+      <summary><code>job</code></summary>
+
       - A set of steps in a workflow that execute on the same runner
       - 數個 job 可以並行，也可設定成依賴
-    - `runner`
+
+      </details>
+
+    <!-- runner -->
+
+    - <details close>
+      <summary><code>runner</code></summary>
+
       - A server that runs your workflows when triggered
       - 可設定要在什麼虛擬環境中執行
-    - `step`
+
+      </details>
+
+    <!-- step -->
+
+    - <details close>
+      <summary><code>step</code></summary>
+
       - `run:` shell script 或 `uses:` action
       - 必須一步接著一步來
 
+      </details>
+
     ![](../src/image/GPT_Github_Actions.png)
 
-  - 其他：
+    </details>
+
+  <!-- 其他 -->
+
+  - <details close>
+    <summary>其他</summary>
 
     - 修改 workflow name 之後，所有包括已結束的 action，其 workflow name 的顯示都會改變
 
@@ -969,6 +1021,13 @@
     - 可以設定 step id，就可以用 `${{ steps.<step_id>.outputs.<property> }}` 來取得該 step 中的輸出
 
     - <mark>TODO:Q</mark> 不知為何 .yml 中只設定 build & push，但是 docker hub 上的下載數也有增加
+
+    </details>
+
+  ![](../src/image/github_action1.webp)
+  ![](../src/image/github_action2.webp)
+
+  </details>
 
 ### # 問題集中區
 
