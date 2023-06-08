@@ -12,6 +12,8 @@
 
 ###### <!-- ref -->
 
+[MongoDB 零基礎從入門到精通]: https://www.udemy.com/course/best-mongodb/
+[MongoDB 官方課程]: https://learn.mongodb.com/catalog
 [nosql data modeling techniques]: https://highlyscalable.wordpress.com/2012/03/01/nosql-data-modeling-techniques/
 [text indexes]: https://www.mongodb.com/docs/manual/core/index-text/#text-indexes
 [mongodb 基本原理：索引（indexes）]: https://blog.csdn.net/guangyacyb/article/details/104339183
@@ -25,6 +27,9 @@
  <!-- ref -->
 
 # MongoDB
+
+> DATE: 12 (2022)
+> REF: [MongoDB 官方課程] | [MongoDB 零基礎從入門到精通]
 
 ### # 簡介
 
