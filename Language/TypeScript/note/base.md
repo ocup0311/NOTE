@@ -12,6 +12,7 @@
 
 ###### <!-- ref -->
 
+[No BS TS]: https://youtu.be/LKVHFHJsiO0?list=PLNqp92_EXZBJYFrpEzdO2EapvU0GOJ09n
 [generics best practice1]: https://javascript.plainenglish.io/mentor-typescript-is-a-virus-a8ed076f1de9
 [Ts Config Helper]: https://tsconfiger.netlify.app/
 [TS playground]: (https://www.typescriptlang.org/play)
@@ -49,7 +50,7 @@
 # TS 基礎
 
 > DATE: 7 ~ 10 (2022) 、 5 (2023)
-> REF: [TS Docs] | [google TS style guide] | [鐵人賽 1] | [typescript 新手指南 (舊版 TS)] | [深入理解 TypeScript]
+> REF: [TS Docs] | [google TS style guide] | [鐵人賽 1] | [typescript 新手指南 (舊版 TS)] | [深入理解 TypeScript] | [No BS TS]
 
  <!-- 工具 -->
 
