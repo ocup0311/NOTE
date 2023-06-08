@@ -259,7 +259,6 @@
 
     - regular users
 
-      -
       - `sudo`、superuser、root
 
         - ChatGPT 開示：
@@ -350,6 +349,21 @@
   - super user do
 
   - 以 sudo 做操作視同為 root，如`sudo touch`的檔案，為 root 所有
+
+  - 以 sudo 執行 shell script 時，內部的指令也是在 sudo 權限下執行，大部分不需再添加 sudo
+
+    ```sh
+    # EX 1. 直接用指令執行 apt
+    $ sudo apt install tldr
+
+    # EX 2. 使用 sudo 執行 instal.sh
+    $ sudo sh instal.sh
+
+    # cat instal.sh
+    apt install tldr
+    ```
+
+    ![](../src/image/GPT_sudo_script.png)
 
   <!-- 為 user 打開使用 sudo 的權限 -->
 
@@ -553,6 +567,34 @@
 
       </details>
 
+    <!-- /etc/modules-load.d/ -->
+
+    - <details close>
+      <summary><code>/etc/modules-load.d/</code></summary>
+
+      - 設定作業系統啟動時，所需載入的 Kernel modules
+      - 將載入該 folder 中所有 `.conf` 設定的 modules
+      - 可自訂 `.conf`，用以檔案分類管理
+
+      ![](../src/image/GPT_etc_modules.png)
+
+      </details>
+
+    <!-- /etc/sysctl.d/ -->
+
+    - <details close>
+      <summary><code>/etc/sysctl.d/</code></summary>
+
+      - 設定 Kernel 參數
+      - 可自訂 `.conf`，用以檔案分類管理
+      - 順序為 `/etc/sysctl.conf` --> `/etc/sysctl.d/`
+      - <mark>雷</mark> 將該 folder 中所有 `.conf` 的參數，<b>依照 filename 排序順序，進行設定</b>
+        - EX. 在 a.conf 與 b.conf 中設定同一個參數，b.conf 會覆蓋掉 a.conf 對該參數的設定
+      - 以 `sudo sysctl -a` 進行查詢當下的設定
+      - 以 `sysctl --system` 重新載入設定檔
+
+      </details>
+
     </details>
 
   <!-- 指令 -->
@@ -566,6 +608,23 @@
       <summary><code>printenv</code></summary>
 
       - 查 shell 環境變數
+
+      </details>
+
+    <!-- >/dev/null 2>&1 -->
+
+    - <details close>
+      <summary><code>>/dev/null 2>&1</code></summary>
+
+      - 捨棄掉所有輸出
+
+        - `>/dev/null`：將輸出導向 null，也就沒輸出了
+        - `2>&1`：將 stderr 導向 stdin，所以 stderr 也一同被導向 null
+
+          ```sh
+          # EX. 將 sysctl --system 的輸出
+          $ sysctl --system >/dev/null 2>&1
+          ```
 
       </details>
 
