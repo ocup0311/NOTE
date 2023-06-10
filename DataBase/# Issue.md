@@ -180,6 +180,20 @@
 
   </details>
 
+<!-- 3. 實作 shard 時，一致性問題 -->
+
+- <details close>
+  <summary>3. 實作 shard 時，JOIN 問題</summary>
+
+  - 可參考 microservices 的 API gateway ，by domain 區分的 data 間整合不會有 JOIN 這件事
+
+  - 若不能 by domain 區分，可往兩個方向探討為什麼要 JOIN (aggregation) ：
+
+    - OLTP? 那可以去尋求 `trino`, `clickhouse` 這種方案
+    - API or any client...的像是 `pinterest` 就是用 `hbase` 丟了一大多東西做 cache 之類
+
+  </details>
+
 # News
 
 <!-- 1. How PayPal Built a Database that serves 350 Billion Requests Per Day -->
