@@ -469,11 +469,18 @@
 
   - 推薦使用 volume 來儲存資料
 
-  - bind mount 可以用來搭建特殊環境，以操作 host 的檔案
-    (EX. 搭建 gcc 編譯環境，用來編譯 host 上的檔案)
-    (EX. 用 vscode 的 Dev Containers 套件，搭建專案開發環境，以 container 開啟 host 上的專案 folder)
+  - `bind mount` 可以用來搭建特殊環境，以操作 host 的檔案
 
-  - <mark>TODO:</mark> volume 的所有方法，都只有掛載？也就是只有在掛載的位置上有儲存資料？
+    - 如果 target (container 上) 不是空資料夾，則 container 中，該資料夾中原有的內容會被屏蔽
+    - EX. 搭建 gcc 編譯環境，用來編譯 host 上的檔案
+    - EX. 用 vscode 的 Dev Containers 套件，搭建專案開發環境，以 container 開啟 host 上的專案 folder
+
+  - `--mount` VS `--volume`
+
+    - 幾乎是一樣的，但 `--mount` 是較新的語法，有針對某些部分做改變
+    - 推薦使用 `--mount`，較易於理解
+
+  - <mark>TODO:Q</mark> volume 的所有方法，都只有掛載？也就是只有在掛載的位置上有儲存資料？
 
     - 目前簡單測試 `sshfs` 方式也是只有設定為 volume 端有資料，若將那台 host 斷開連線，則其他 host 無法讀寫資料，且會卡住。
 
