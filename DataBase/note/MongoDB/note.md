@@ -31,7 +31,7 @@
 > DATE: 12 (2022)
 > REF: [MongoDB 官方課程] | [MongoDB 零基礎從入門到精通]
 
-### # 簡介
+## # 簡介
 
 - Build for Speed
 - Rich Document based queries
@@ -40,7 +40,7 @@
 - Replication and Failover
 - Auto Sharding
 
-### # BSON
+## # BSON
 
 > REF: [BSON1] | [BSON2]
 
@@ -124,7 +124,7 @@
     // [full size]  [num]  [key:ab]   [value:1]    [end]
     ```
 
-### # 慣用方法
+## # 慣用方法
 
 | O                         | X            | 原因               |
 | ------------------------- | ------------ | ------------------ |
@@ -132,11 +132,11 @@
 | `replaceOne`              | ~~`update`~~ | Ｏ一次覆蓋一筆 doc |
 | `insertMany`, `insertOne` | ~~`insert`~~ | Ｏ返回 insertID    |
 
-### # 注意默認值
+## # 注意默認值
 
 - `insertMany`(`{ordered:true}`)：照順序 insert，遇到 err 則後半段停止
 
-### # Index
+## # Index
 
 > REF: [mongodb 基本原理：索引（Indexes）]
 
@@ -271,7 +271,7 @@
   }
   ```
 
-### # 其他
+## # 其他
 
 - Within a single `mongod` instance, `timestamp` values are always unique.
 - 新增時，若 `_id` 已存在該 `collection`，則新增失敗
@@ -405,13 +405,13 @@
 }
 ```
 
-### # 延伸閱讀
+## # 延伸閱讀
 
 - [Everything You Know About MongoDB is Wrong!]
 - [NOSQL 數據建模技術]([NOSQL DATA MODELING TECHNIQUES])
   - `Document database` group indexes by field `names`, as opposed to [Full Text Search Engines] that group indexes by field `values`.
 
-### # 待解決問題集中區
+## # 待解決問題集中區
 
 - <mark>Q: 如何查詢某個更新，需要維護幾個 index?</mark>
 - <mark>Q: 為何當回傳資料數量太多筆時，使用 index 反而變慢？因為分頁的關係，導致去找 index 的次數變多？因為 index 並非複製一份 doc，所以每筆都需再回 collection 撈？</mark>

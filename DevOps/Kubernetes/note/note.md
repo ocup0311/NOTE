@@ -7,6 +7,7 @@
 [kubeadm 官方]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
 [Kubernetes Best practices (官方)]: https://kubernetes.io/docs/setup/best-practices/
 [apt-key is deprecated]: https://itsfoss.com/apt-key-deprecated/
+[Ubuntu Server 如何永久儲存 iptables 的設定？]: https://magiclen.org/ubuntu-server-iptables-save-permanently/
 
 <!------------ ref end ------------>
 
@@ -15,7 +16,9 @@
 > DATE: 6 (2023)
 > REF: [CKA 考試完全指南（2022 版）] | [Kubernetes Best practices (官方)]
 
-### # 測試環境
+## # <mark>待整理筆記</mark>
+
+## # 測試環境
 
 - <details close>
   <summary></summary>
@@ -24,7 +27,7 @@
 
 ---
 
-### # 簡介
+## # 簡介
 
 - Container Orchestration：管理編排多個 container 的工具
 - Google 在 2015 開源釋出
@@ -62,7 +65,7 @@
 
 ---
 
-### # 安裝與設定
+## # 安裝與設定
 
 - kubeadm
 
@@ -95,6 +98,8 @@
       ![](../src/image/GPT_K8s_SWAP_off.png)
 
     - 設定 Ports
+
+      - REF: [Ubuntu Server 如何永久儲存 iptables 的設定？]
 
       - 所有默認端口都可以重新配置
 
@@ -140,11 +145,11 @@
 
 ---
 
-### # 基本操作
+## # 基本操作
 
 ---
 
-### # 問題集中區
+## # 問題集中區
 
 - <details close>
   <summary></summary>
