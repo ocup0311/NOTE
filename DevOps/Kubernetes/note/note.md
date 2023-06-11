@@ -67,7 +67,7 @@
 
 ## # 安裝與設定
 
-- kubeadm
+- 安裝 kubeadm
 
   - [kubeadm 官方]
 
@@ -90,6 +90,10 @@
     - 安裝 `CRI- container runtime`、`kubeadm`、`kubelet`、`kubectl`
 
       - 注意版本相容
+
+    - CGroup Driver
+
+      - `container runtime` 和 `kubelet` 需使用相同的 CGroup Driver
 
   - `install.sh` 步驟
 
@@ -137,11 +141,46 @@
 
     - 安裝 apt repo
 
-      - 有兩種方式設定 apt key，但 [apt-key is deprecated]，建議都改成自己管理
+      - 有兩種方式設定 apt key，但 [apt-key is deprecated]，建議都改成用 `gpg` 自己管理
 
     - 安裝 containerd
 
     - 安裝 kubeadm、kubelet、kubectl
+
+  - 安裝後啟動前，此時 kubelet 每隔幾秒就會重啟，因為它陷入一個等待 kubeadm 指令的死循環
+
+  - 踩雷
+
+    - `install.sh` 最後步驟安裝 kubelet, kubeadm, kubectl，無法一次成功
+
+      ```sh
+      # 錯誤訊息如下
+      E: Unable to locate package kubelet
+      E: Unable to locate package kubeadm
+      E: Unable to locate package kubectl
+      E: No packages found
+      ```
+
+      - 未知原因，目前為止都需要第二次執行 script 才成功
+
+      - 猜測：可能在安裝完 container runtime 後，apt update 才會出現 K8s 相關的套件，所以在該步驟前還得再做一次 apt update
+
+- 初始化
+
+  - 步驟
+
+    - 快速範例：`sudo kubeadm init --apiserver-advertise-address=192.168.56.10  --pod-network-cidr=10.244.0.0/16`
+    -
+
+  - 初始化時，會自動偵測硬體有沒有符合最低標準，太低則會報錯不做初始化
+  - 發生初始化錯誤時，可使用 `sudo kubeadm init --v=5` 來看更詳細錯誤
+  - 主要動作：使用 `/etc/kubernetes/manifests` 中的 .yml 來建立 control plane (以一個 static Pods 的形式)
+
+  - <mark>雷</mark> 初始化失敗後，需要手動做許多方面的清理，才能再次 init
+
+    - 此次我主要清了 GPT 所提步驟 1 2 3 5
+
+    ![](../src/image/GPT_kubeadm_init_clean.png)
 
 ---
 
@@ -214,8 +253,13 @@
 
 ## # 延伸討論
 
+<!-- CGroup Driver -->
+
 - <details close>
-  <summary></summary>
+  <summary>CGroup Driver</summary>
+
+  - container runtime 和 kubelet 需使用相同的 CGroup Driver
+  - 回頭詳細研究
 
   </details>
 
