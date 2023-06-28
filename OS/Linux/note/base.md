@@ -595,6 +595,15 @@
 
       </details>
 
+    <!-- /var/log/syslog -->
+
+    - <details close>
+      <summary><code>/var/log/syslog</code></summary>
+
+      - 系統 log 位置
+
+      </details>
+
     </details>
 
   <!-- 指令 -->
