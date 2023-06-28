@@ -45,3 +45,10 @@
     ```
 
     </details>
+
+## # FSMonitor
+
+> REF: [Improve Git monorepo performance with a file system monitor](https://github.blog/2022-06-29-improve-git-monorepo-performance-with-a-file-system-monitor/)
+
+- FSMonitor is a long-running daemon or service process
+- 用一個 daemon 來監控 worktree，當需要做 git 操作時，就不用再重新去比對整個 worktree，而是可以直接由 FSMonitor 提供最近有更動的部分。
