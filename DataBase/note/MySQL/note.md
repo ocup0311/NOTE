@@ -2,6 +2,14 @@
 
 <!----------- ref start ----------->
 
+[MySQL 覆蓋索引詳解]: https://juejin.cn/post/6844903967365791752
+[MySQL 面試：談談你對聚簇索引的理解]: https://blog.csdn.net/zhizhengguan/article/details/120834883?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168785250216800182784361%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=168785250216800182784361&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-2-120834883-null-null.142^v88^koosearch_v1,239^v2^insert_chatgpt&utm_term=%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95&spm=1018.2226.3001.4187
+[詳解聚簇索引]: https://blog.csdn.net/crazzy_lp/article/details/84650621?ops_request_misc=&request_id=&biz_id=102&utm_term=%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-1-84650621.142^v88^koosearch_v1,239^v2^insert_chatgpt&spm=1018.2226.3001.4187
+[MySQL 底層為什麼要選用 B+樹作為索引的數據結構呢？]: https://blog.csdn.net/cckevincyh/article/details/119003282?spm=1001.2014.3001.5501
+[平衡二叉樹、B 樹、B+樹、B*樹理解其中一種你就都明白了]: https://zhuanlan.zhihu.com/p/27700617
+[資料庫層的核心 - 索引結構演化論 B+樹]: https://mark-lin.com/posts/20190911/
+[聚簇索引]: https://blog.csdn.net/taoqilin/article/details/121230649?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168785250216800182784361%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=168785250216800182784361&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-121230649-null-null.142^v88^koosearch_v1,239^v2^insert_chatgpt&utm_term=%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95&spm=1018.2226.3001.4187
+[MySQL 開發規範參考]: https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247484130&idx=1&sn=4bae9fdac414a5ee3157b2f9d94f5592&scene=21#wechat_redirect
 [Should You Run Your Database in Docker?]: https://vsupalov.com/database-in-docker/
 
 <!------------ ref end ------------>
@@ -230,8 +238,34 @@
 
   </details>
 
+<!-- MySQL 開發規範研究 -->
+
 - <details close>
-  <summary></summary>
+  <summary>MySQL 開發規範研究</summary>
+
+  - [MySQL 開發規範參考]
+
+    - B+ Tree
+
+      - [資料庫層的核心 - 索引結構演化論 B+樹]
+      - [平衡二叉樹、B 樹、B+樹、B*樹理解其中一種你就都明白了]
+      - [MySQL 底層為什麼要選用 B+樹作為索引的數據結構呢？]
+
+    - Clustered Index
+
+      - 一個 table 只能有一個 Clustered Index，所以應該慎選要給哪個 key 用，以發揮最大效能利益
+      - REF
+
+        - [聚簇索引]
+        - [詳解聚簇索引]
+        - [MySQL 面試：談談你對聚簇索引的理解]
+
+    - Covering Index
+
+      - 前提要是 Clustered Index
+      - REF
+
+        - [MySQL 覆蓋索引詳解]
 
   </details>
 
