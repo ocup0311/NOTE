@@ -2,6 +2,8 @@
 
 <!----------- ref start ----------->
 
+[圖解｜索引覆蓋、索引下推以及如何避免索引失效]: https://zhuanlan.zhihu.com/p/481750465
+[資料庫索引深入淺出(二)]: https://isdaniel.github.io/dbindex-2/
 [MySQL 覆蓋索引詳解]: https://juejin.cn/post/6844903967365791752
 [MySQL 面試：談談你對聚簇索引的理解]: https://blog.csdn.net/zhizhengguan/article/details/120834883?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168785250216800182784361%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=168785250216800182784361&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-2-120834883-null-null.142^v88^koosearch_v1,239^v2^insert_chatgpt&utm_term=%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95&spm=1018.2226.3001.4187
 [詳解聚簇索引]: https://blog.csdn.net/crazzy_lp/article/details/84650621?ops_request_misc=&request_id=&biz_id=102&utm_term=%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-1-84650621.142^v88^koosearch_v1,239^v2^insert_chatgpt&spm=1018.2226.3001.4187
@@ -185,6 +187,15 @@
 
     </details>
 
+  <!-- 查看一些優化的條件設定 -->
+
+  - <details close>
+    <summary><code>SHOW VARIABLES LIKE 'optimizer_switch';</code></summary>
+
+    - 查看一下當前一些優化的條件設定，如： ICP 的狀態
+
+    </details>
+
 <!-- 小工具 -->
 
 - 小工具：
@@ -247,25 +258,61 @@
 
     - B+ Tree
 
-      - [資料庫層的核心 - 索引結構演化論 B+樹]
-      - [平衡二叉樹、B 樹、B+樹、B*樹理解其中一種你就都明白了]
-      - [MySQL 底層為什麼要選用 B+樹作為索引的數據結構呢？]
+      - 因為資料庫存在 disk，選擇的重點在減少 I/O
 
-    - Clustered Index
+        - 減少階數，減少 I/O
+        - 盡量將每個 node 大小調整在 disk 的一個 block (EX. 4KB, 16KB..etc)，以減少 I/O
+        - 盡量整理整齊，能放在同一個 block 以減少 I/O
 
-      - 一個 table 只能有一個 Clustered Index，所以應該慎選要給哪個 key 用，以發揮最大效能利益
+      - 按順序連結，使順序遍歷更快
+
       - REF
 
-        - [聚簇索引]
-        - [詳解聚簇索引]
-        - [MySQL 面試：談談你對聚簇索引的理解]
+        - [資料庫層的核心 - 索引結構演化論 B+樹]
+        - [平衡二叉樹、B 樹、B+樹、B*樹理解其中一種你就都明白了]
+        - [MySQL 底層為什麼要選用 B+樹作為索引的數據結構呢？]
 
-    - Covering Index
+    - Index
 
-      - 前提要是 Clustered Index
-      - REF
+      - Clustered Index
 
-        - [MySQL 覆蓋索引詳解]
+        - 一個 table 只能有一個 Clustered Index，所以應該慎選要給哪個 key 用，以發揮最大效能利益
+        - key 選擇要點：不會改、常查詢、容量小、插入順序為遞增、重複率低
+
+        - REF
+
+          - [聚簇索引]
+          - [詳解聚簇索引]
+          - [MySQL 面試：談談你對聚簇索引的理解]
+
+      - Covering Index
+
+        - 前提要是 Clustered Index
+        - REF
+
+          - [MySQL 覆蓋索引詳解]
+
+      - Filter Index
+
+        - 特化的 Covering Index，可以設定在 index 中存入的 Col，只符合特定條件的 value 才存入（並非所有的 Row 都存）
+        - REF
+
+          - [資料庫索引深入淺出(二)]
+
+      - ICP
+
+        - 索引條件下推（Index Condition Pushdown，ICP）
+        - 過濾的動作由下層的存儲引擎層通過使用索引來完成，而不需要上推到 Server 層進行處理
+        - 預設開啟
+
+      - [圖解｜索引覆蓋、索引下推以及如何避免索引失效]
+
+      - 其他
+
+        - 需了解優化器自動選擇 index 的規則，自動選擇的並非一定就是最高效的，而是選擇 Cost Base Optimizer 最小的
+        - 有時需把多餘的 index 刪除，才能讓其選中更高效的那一個 index
+        - 優化器會將 possible_keys 都試一遍，因此一個查詢若有太多 possible_keys，也會變慢
+        - 若在條件式中對 key 做運算，則會讓 index 失效。雖然新增了「函數索引」，但也是多建立一個 index
 
   </details>
 
