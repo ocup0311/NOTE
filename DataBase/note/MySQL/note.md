@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[Optimize Table 整理 MySQL 表空間]: https://www.796t.com/content/1545213008.html
 [圖解｜索引覆蓋、索引下推以及如何避免索引失效]: https://zhuanlan.zhihu.com/p/481750465
 [資料庫索引深入淺出(二)]: https://isdaniel.github.io/dbindex-2/
 [MySQL 覆蓋索引詳解]: https://juejin.cn/post/6844903967365791752
@@ -193,6 +194,16 @@
     <summary><code>SHOW VARIABLES LIKE 'optimizer_switch';</code></summary>
 
     - 查看一下當前一些優化的條件設定，如： ICP 的狀態
+
+    </details>
+
+  <!-- OPTIMIZE TABLE -->
+
+  - <details close>
+    <summary><code>OPTIMIZE TABLE</code></summary>
+
+    - [Optimize Table 整理 MySQL 表空間]
+    - 可安排在離峰時段進行 OPTIMIZE TABLE，以整理 table，使減少查詢時 I/O 次數
 
     </details>
 
