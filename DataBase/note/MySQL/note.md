@@ -2,6 +2,14 @@
 
 <!----------- ref start ----------->
 
+[Optimizing SELECT Statements]: https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html
+[Aggregate Function]: https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions-and-modifiers.html
+[String Functions]: https://dev.mysql.com/doc/refman/8.0/en/string-functions.html
+[MySQL DOC: Character Sets, Collations, Unicode]: https://dev.mysql.com/doc/refman/8.0/en/charset.html
+[What is the sorting algorithm behind ORDER BY query in MySQL?]: https://www.pankajtanwar.in/blog/what-is-the-sorting-algorithm-behind-order-by-query-in-mysql
+[MySQL：排序（filesort）詳細解析]: https://zhuanlan.zhihu.com/p/101921329
+[MySQL DOC: SELECT Statement]: https://dev.mysql.com/doc/refman/8.0/en/select.html
+[MySQL DOC: ORDER BY Optimization]: https://dev.mysql.com/doc/refman/8.0/en/order-by-optimization.html
 [Optimize Table 整理 MySQL 表空間]: https://www.796t.com/content/1545213008.html
 [圖解｜索引覆蓋、索引下推以及如何避免索引失效]: https://zhuanlan.zhihu.com/p/481750465
 [資料庫索引深入淺出(二)]: https://isdaniel.github.io/dbindex-2/
@@ -21,7 +29,7 @@
 
 ## # <mark>待整理筆記區</mark>
 
-- 快速回憶
+- ch1 ~ 4 快速回憶
 
   - 指令
 
@@ -74,6 +82,118 @@
       - 允許多筆資料都是 NULL
 
   ![](./src/image/SQL_cheat_sheet.jpeg)
+
+- ch5 ~ 7 快速回憶
+
+  - 指令
+
+    - [String Functions]
+
+      - `CONCAT`、`CONCAT_WS`、`SUBSTR`、`REPLACE`、`REVERSE`、`CHAR_LENGTH`、`LOWER`、`UPPER`
+
+    - [Optimizing SELECT Statements]
+
+      - `ORDER BY`
+
+        - `DESC` 降冪 (預設為升冪)
+
+          - 排序方式從 升冪 改為 降冪
+          - EX. `SELECT * FROM employees ORDER BY salary DESC;`
+
+        - `ORDER BY 1`
+
+          - 依照 SELECT 的第一項 (EX. name) 來排序
+          - EX. `SELECT name, salary FROM employees ORDER BY 1;`
+
+      - `LIMIT`
+
+        - 可用 `18446744073709551615` 確保列出 LIMIT 後全部內容
+        - EX. `SELECT * FROM tbl LIMIT 95,18446744073709551615;`
+        - REF: [MySQL DOC: SELECT Statement]
+
+      - `LIKE`
+
+        - `%` 省略
+
+          - EX. `SELECT * FROM users LIKE "%A";`
+
+        - `_` 省略數量，有幾個 `_` 就代表幾個 char
+
+          - EX. `SELECT * FROM users LIKE "__A";`
+
+        - `BINARY`
+
+          - 可以區分大小寫
+          - EX. `SELECT * FROM users WHERE name LIKE BINARY 'J%';`
+
+    - [Aggregate Function]
+
+      - `COUNT`、`DISTINCT`、`SUM`、`MAX`、`MIN`、`AVG`
+
+      - `GROUP BY`
+
+        - `HAVING`：類似於 `GROUP BY` 的 `WHERE`
+
+  - 常識
+
+    - 使用 SQL Function (EX. REPLACE 等)，並不會更新資料
+
+  - 注意
+
+    - 環境不同，可能導致對`大小寫敏感`有不同的結果
+    - ORDER BY 需注意 Collation 的選擇，不同環境可能有不同的預設設定
+      - [MySQL DOC: Character Sets, Collations, Unicode]
+
+  - 效能
+
+    - 使用 sql function 查詢，對 index 的影響 ( EX. CONCAT )
+
+      - 用 `SELECT CONCAT(a, b)`，不影響是否使用 index
+      - 用 `WHERE CONCAT(a, b)=""`，則無法直接使用 index 快速查詢
+      - 也可以另外建一個 `CONCAT(a, b)` 的 index
+
+      ![Index_vs_CONCAT.png](./src/image/Index_vs_CONCAT.png)
+
+      - 數據解析：
+        - type index 會進行 whole index 掃描
+        - type ref 直接二分法搜尋該 index
+
+    - 使用 order by 查詢，是否選擇 index
+
+      - REF: [MySQL DOC: ORDER BY Optimization]
+
+      - 如果需要再去查全表，則不會使用 index，而是重新對資料做排序
+
+      ![Index_VS_OrderBy1.png](./src/image/Index_VS_OrderBy1.png)
+
+      - 若加上 WHERE 只取得某個區間，會依照區間大小選用 index。區間需要多小？
+
+      ![Index_VS_OrderBy2.png](./src/image/Index_VS_OrderBy2.png)
+
+    - `GROUP BY` 沒有 index 可以用時，會 `Using temporary`，創建一個臨時表
+
+  - 討論
+
+    - 「使用 SQL Function」 VS 「在 server 處理」
+
+      - 網路傳輸量
+      - 資料庫記憶體消耗
+      - 可能有些系統並不需要多建立一個 server？
+
+    - Stored Procedure
+
+      - 在資料庫 server 上保存的預編譯的程式，像是開客製化的 API，讓外部可以串接使用
+
+    - 避免 `COUNT(*)` 的原因是因為 `*` 無法使用 covering index，而會導致全表掃描
+
+    - Filesort 屬於 Unstable Sort？
+
+      - [MySQL：排序（filesort）詳細解析]
+      - [What is the sorting algorithm behind ORDER BY query in MySQL?]
+
+      - GPT：早期為 Quicksort，5.0 改為 Batched Key Access Filesort，此兩種皆為 unstable
+
+      ![GPT_MySQL_filesort.png](./src/image/GPT_MySQL_filesort.png)
 
 -
 
