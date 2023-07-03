@@ -12,9 +12,6 @@
 
 ###### <!-- ref -->
 
-[追踪是否被 GC]: https://zhuanlan.zhihu.com/p/551005752
-[記憶體管理鐵人]: https://ithelp.ithome.com.tw/articles/10287533
-[記憶體管理MDN]: https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Memory_management
 [primitive wrapper]: https://www.javascripttutorial.net/javascript-primitive-wrapper-types/
 [mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
 [`__proto__`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/proto
@@ -511,23 +508,6 @@
 ## 3. 延伸閱讀
 
 - <details close>
-  <summary>記憶體管理</summary>
-
-  - REF: [記憶體管理 MDN] | [記憶體管理鐵人] | [追踪是否被 GC]
-
-  - 垃圾回收器只是「儘量」做到自動釋放記憶體空間，因為判斷記憶體空間是否要繼續使用，這件事是「不可判定(undecidable)」的
-  - 問題已被限縮到很小，幾乎可以忽略
-
-    - 演算法改為「標記和清理演算法」：將「這個物件再也不會被使用」的定義縮減到「這個物件不可到達」。
-
-  - 相關指令
-
-    - `node --max-old-space-size=6000 index.js`
-
-      - 設定可用的 heap memory
-
-    - `node --expose-gc --inspect index.js`
-      - 展示 garbage collector
-      - 程式碼中呼叫 `gc()` 可以手動設定啟動垃圾回收時機 (待確認?)
+  <summary></summary>
 
   </details>

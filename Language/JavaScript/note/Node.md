@@ -1,5 +1,10 @@
 ###### <!-- ref -->
 
+[V8: Oilpan library]: https://v8.dev/blog/oilpan-library
+[追踪是否被 GC]: https://zhuanlan.zhihu.com/p/551005752
+[記憶體管理鐵人]: https://ithelp.ithome.com.tw/articles/10287533
+[記憶體管理 MDN]: https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Memory_management
+[快速複習 JS Memory 影片]: https://youtu.be/95_CAUC9nvE
 [Visualizing memory management in V8 Engine]: https://deepu.tech/memory-management-in-v8/
 [A tour of V8: Garbage Collection]: https://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection
 [C 語言記憶體]: https://blog.gtwang.org/programming/memory-layout-of-c-program/
@@ -256,6 +261,10 @@
 - <details close>
   <summary>Memory</summary>
 
+  - [快速複習 JS Memory 影片]
+  - Heap：global variables 且 reference types
+  - 內建查看：`process.memoryUsage()`
+
   - REF
 
     - [Visualizing memory management in V8 Engine]
@@ -271,7 +280,59 @@
 - <details close>
   <summary>Garbage Collection</summary>
 
-  - REF: [A tour of V8: Garbage Collection]
+  <!-- Mark & Sweep GC -->
+
+  - <details close>
+    <summary>Mark & Sweep GC</summary>
+
+    - Mark 可到達的 ＋ Sweep 沒標記的
+    - 使用 `Mark & Sweep GC`，並以 `Reference counting GC` 補充
+    - <mark>TODO:Q</mark> 會再重新整理 Heap 嗎？
+
+    </details>
+
+  <!-- GC 只能盡力，但問題已經小到可以忽略 -->
+
+  - <details close>
+    <summary>GC 只能盡力，但問題已經小到可以忽略</summary>
+
+    - GC 只是「儘量」做到自動釋放記憶體空間，因為判斷記憶體空間是否要繼續使用，這件事是「不可判定的(undecidable)」
+    - 問題已被限縮到很小，幾乎可以忽略
+
+      - 演算法改為「標記和清理演算法」
+      - 將「這個物件再也不會被使用」的定義縮減到「這個物件不可到達」
+
+    </details>
+
+  <!-- GC 也有時間成本 -->
+
+  - <details close>
+    <summary>GC 也有時間成本</summary>
+
+    - 通常會是額外的 process，以固定時間間隔執行，因此會小段暫停
+    - 有時間成本，應保有良好的 coding 習慣，減少 GC 負擔
+
+    </details>
+
+  <!-- 相關指令 -->
+
+  - <details close>
+    <summary>相關指令</summary>
+
+    - `node --max-old-space-size=6000 index.js`
+
+      - 設定可用的 heap memory
+
+    - `node --expose-gc --inspect index.js`
+      - 展示 Garbage Collector
+      - 程式碼中呼叫 `gc()` 可以手動設定啟動垃圾回收時機 (<mark>TODO:</mark> 待確認?)
+
+    </details>
+
+  - REF:
+    - [V8: Oilpan library]
+    - [A tour of V8: Garbage Collection]
+    - [記憶體管理 MDN] | [記憶體管理鐵人] | [追踪是否被 GC]
 
   </details>
 
