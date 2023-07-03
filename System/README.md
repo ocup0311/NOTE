@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[Actor 模型和 CSP 模型的區別]: https://www.jdon.com/concurrent/actor-csp.html
 [系統吞吐量（TPS）、使用者併發量、效能測試概念和公式]: https://www.796t.com/content/1542356104.html
 [服務器性能測試中有哪些常用的性能指標？]: https://www.zhihu.com/question/50176445/answer/119975361
 [常見性能測試指標]: https://zhuanlan.zhihu.com/p/38253500
@@ -55,6 +56,33 @@
   - 工具
 
     - Loadrunner
+
+---
+
+- 並行運算
+
+  - 前提條件
+
+    - 多個邏輯 CPU
+    - 任務需可拆分執行
+
+  - process VS thread
+
+    - process：「資源分配」的最小單位，並且是「操作單位」
+    - thread：最小的「操作單位」，且包含在 process 中
+
+  - thread 的共享資源，產生 Race condition
+
+    - lock
+    - 不共享模型：Do not communicate by sharing memory; instead, share memory by communicating.
+
+      - Actor：EX. Java/Scala 的 Akka 庫
+      - CSP （Communicating Sequential Processes）：EX. Golang
+      - REF: [Actor 模型和 CSP 模型的區別]
+
+---
+
+-
 
 ## # 書籍
 
