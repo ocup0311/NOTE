@@ -1,6 +1,8 @@
 ###### <!-- ref -->
 
-[深度解析！JavaScript 中變量存儲在堆中還是棧中？]: https://mp.weixin.qq.com/s?__biz=MzkxMjI3MTA1Mg%3D%3D&mid=2247508506&idx=1&sn=2a376ee6f6a5a6d0b874f826ca659bab&fbclid=IwAR2KtHfvfrJ9kg3liW_OB0S7H9OfLIyiaWM46-l689Oq8Nrqj-5IkKHCsoo
+[垃圾回收演算法系列文]: https://blog.csdn.net/mrliii/category_10772919.html
+[BFS + DFS]: https://blog.csdn.net/MrLiii/article/details/113523770
+[深度解析！JavaScript 中變量存儲在堆中還是棧中？]: https://mp.weixin.qq.com/s?__biz=MzkxMjI3MTA1Mg%3D%3D&mid=2247508506&idx=1&sn=2a376ee6f6a5a6d0b874f826ca659bab
 [Golang GC 的 write barrier]: https://www.zhihu.com/question/62000722
 [從硬件層面理解 memory barrier]: https://zhuanlan.zhihu.com/p/184912992
 [What and where are the stack and heap?]: https://stackoverflow.com/questions/79923/what-and-where-are-the-stack-and-heap
@@ -269,7 +271,11 @@
 - <details close>
   <summary>Memory</summary>
 
+  <!-- 快速複習 JS Memory 影片 -->
+
   - [快速複習 JS Memory 影片]
+
+  <!-- Resident Set -->
 
   - Resident Set
 
@@ -305,6 +311,8 @@
 
       </details>
 
+  <!-- 內建查看：`process.memoryUsage()` -->
+
   - 內建查看：`process.memoryUsage()`
 
   <!-- V8 基礎型別記憶體位置 -->
@@ -320,6 +328,8 @@
 
     </details>
 
+  <!-- REF -->
+
   - REF
 
     - [Visualizing memory management in V8 Engine]
@@ -334,24 +344,46 @@
 <!-- Garbage Collection -->
 
 - <details close>
-    <summary>Garbage Collection</summary>
+  <summary>Garbage Collection</summary>
 
-    <!-- Minor GC: Scavenger algorithm -->
+  <!-- Minor GC: Scavenger algorithm -->
 
   - <details close>
-        <summary>Minor GC: Scavenger algorithm</summary>
+    <summary>Minor GC: Scavenger algorithm</summary>
 
-        - 實現 Cheney's algorithm
-        - 適合小量資料 (new space 約 1 ~ 8 MB)
-        - behavior heuristics：from-space 滿了就觸發
-        - 以 write barriers 機制，使用 register 記錄所有 old space object 引用 new space object 的 pointer，可快速判斷誰被引用
+    <!-- 實現 [Cheney's algorithm] -->
 
-          - REF: [從硬件層面理解 memory barrier] | [Golang GC 的 write barrier]
+    - <details close>
+      <summary>實現 Cheney's algorithm</summary>
 
+      - 以 BFS 方式，將保留的資料，從 from-space 複製到 to-space
+      - 優點：用 BFS，所以可以不用 recursion，避免 stack 負擔 (但現代電腦已較能負荷)
+      - 缺點：引用的 object 可能無法在同一 page，以 [BFS + DFS] 改進
 
-        </details>
+      </details>
 
-    <!-- Major GC: Mark-Sweep-Compact algorithm -->
+    <!-- 適合小量資料 -->
+
+    - 適合小量資料 (new space 約 1 ~ 8 MB)
+
+    <!-- behavior heuristics -->
+
+    - behavior heuristics：from-space 滿了就觸發
+
+    <!-- write barriers -->
+
+    - <details close>
+      <summary>write barriers</summary>
+
+      - 以 write barriers 機制，使用 register 記錄所有 old space object 引用 new space object 的 pointer，可快速判斷誰被引用
+
+      - REF: [從硬件層面理解 memory barrier] | [Golang GC 的 write barrier]
+
+      </details>
+
+    </details>
+
+  <!-- Major GC: Mark-Sweep-Compact algorithm -->
 
   - <details close>
     <summary>Major GC: Mark-Sweep-Compact algorithm</summary>
@@ -363,7 +395,7 @@
 
     </details>
 
-    <!-- GC 只能盡力，但問題已經小到可以忽略 -->
+  <!-- GC 只能盡力，但問題已經小到可以忽略 -->
 
   - <details close>
     <summary>GC 只能盡力，但問題已經小到可以忽略</summary>
@@ -376,7 +408,7 @@
 
     </details>
 
-    <!-- GC 也有時間成本 -->
+  <!-- GC 也有時間成本 -->
 
   - <details close>
     <summary>GC 也有時間成本</summary>
@@ -386,7 +418,7 @@
 
     </details>
 
-    <!-- 相關指令 -->
+  <!-- 相關指令 -->
 
   - <details close>
     <summary>相關指令</summary>
@@ -401,11 +433,14 @@
 
     </details>
 
+  <!-- REF -->
+
   - REF:
 
     - [V8: Oilpan library]
     - [A tour of V8: Garbage Collection]
     - [記憶體管理 MDN] | [記憶體管理鐵人] | [追踪是否被 GC]
+    - [垃圾回收演算法系列文]
 
     </details>
 
