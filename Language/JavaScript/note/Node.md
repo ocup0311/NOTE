@@ -1,5 +1,13 @@
 ###### <!-- ref -->
 
+[深度解析！JavaScript 中變量存儲在堆中還是棧中？]: https://mp.weixin.qq.com/s?__biz=MzkxMjI3MTA1Mg%3D%3D&mid=2247508506&idx=1&sn=2a376ee6f6a5a6d0b874f826ca659bab&fbclid=IwAR2KtHfvfrJ9kg3liW_OB0S7H9OfLIyiaWM46-l689Oq8Nrqj-5IkKHCsoo
+[Golang GC 的 write barrier]: https://www.zhihu.com/question/62000722
+[從硬件層面理解 memory barrier]: https://zhuanlan.zhihu.com/p/184912992
+[What and where are the stack and heap?]: https://stackoverflow.com/questions/79923/what-and-where-are-the-stack-and-heap
+[源碼解讀：mmap 原理和實現]: https://www.cnblogs.com/theseventhson/p/15925083.html
+[認真分析 mmap]: https://www.cnblogs.com/huxiao-tee/p/4660352.html
+[一文讀懂 mmap 原理]: https://juejin.cn/post/6956031662916534279
+[Node DOC: Worker Threads]: https://nodejs.org/api/worker_threads.html
 [V8: Oilpan library]: https://v8.dev/blog/oilpan-library
 [追踪是否被 GC]: https://zhuanlan.zhihu.com/p/551005752
 [記憶體管理鐵人]: https://ithelp.ithome.com.tw/articles/10287533
@@ -28,7 +36,7 @@
 
 # Learn and Understand NodeJS
 
-> DATE: 3 (2022)
+> DATE: 3 (2022), 7 (2023)
 > REF: [Udemy]
 
 ## # V8 Javascript Engine
@@ -235,7 +243,7 @@
 - <details close>
   <summary>Worker Threads</summary>
 
-  - REF: [深入理解 Node.js Worker Threads]
+  - REF: [深入理解 Node.js Worker Threads] | [Node DOC: Worker Threads]
 
   - Worker Threads 簡單說是，透過 [worker.cc]，再開一個 nodejs runtime 給他用
 
@@ -262,14 +270,62 @@
   <summary>Memory</summary>
 
   - [快速複習 JS Memory 影片]
-  - Heap：global variables 且 reference types
+
+  - Resident Set
+
+    <!-- Heap：dynamic -->
+
+    - <details close>
+      <summary>Heap：dynamic</summary>
+
+      - `out of memory errors`
+
+      - mmap page
+
+        - 藉由 mmap 劃分成多個 page
+        - Large object space 中，每個 object 由一個 page 組成
+        - 其他 space 都是多個 1MB page 組成
+
+        - mmap
+
+          - REF: [一文讀懂 mmap 原理] | [認真分析 mmap] | [源碼解讀：mmap 原理和實現]
+
+      - flag: `--min_semi_space_size`, `--max_semi_space_size`, `--initial_old_space_size`, `--max_old_space_size`
+
+      </details>
+
+    <!-- Stack：static -->
+
+    - <details close>
+      <summary>Stack：static</summary>
+
+      - 每個 V8 process 有一個 stack
+      - `stack overflow errors`
+      - flag: `--stack_size`
+
+      </details>
+
   - 內建查看：`process.memoryUsage()`
+
+  <!-- V8 基礎型別記憶體位置 -->
+
+  - <details close>
+    <summary><mark>TODO:</mark> V8 基礎型別記憶體位置</summary>
+
+    - [深度解析！JavaScript 中變量存儲在堆中還是棧中？]
+
+    - 我覺得 V8 的 stack 上應該只有存 frame + pointer 而已，不然「弱型別」特性不易處理
+    - 也符合「call by sharing」特性
+    - 但待研究那些基礎型別是存放在 Heap 的哪個區塊，應該會有特別區塊處理。目前猜測是在 cell space 或 map space。
+
+    </details>
 
   - REF
 
     - [Visualizing memory management in V8 Engine]
     - [Guide: How To Inspect Memory Usage in Node.js]
     - 對照 [C 語言記憶體]
+    - [What and where are the stack and heap?]
 
   ![V8_memory.png](../src/image/Node/V8_memory.png)
 
@@ -278,20 +334,36 @@
 <!-- Garbage Collection -->
 
 - <details close>
-  <summary>Garbage Collection</summary>
+    <summary>Garbage Collection</summary>
 
-  <!-- Mark & Sweep GC -->
+    <!-- Minor GC: Scavenger algorithm -->
 
   - <details close>
-    <summary>Mark & Sweep GC</summary>
+        <summary>Minor GC: Scavenger algorithm</summary>
 
-    - Mark 可到達的 ＋ Sweep 沒標記的
-    - 使用 `Mark & Sweep GC`，並以 `Reference counting GC` 補充
-    - <mark>TODO:Q</mark> 會再重新整理 Heap 嗎？
+        - 實現 Cheney's algorithm
+        - 適合小量資料 (new space 約 1 ~ 8 MB)
+        - behavior heuristics：from-space 滿了就觸發
+        - 以 write barriers 機制，使用 register 記錄所有 old space object 引用 new space object 的 pointer，可快速判斷誰被引用
+
+          - REF: [從硬件層面理解 memory barrier] | [Golang GC 的 write barrier]
+
+
+        </details>
+
+    <!-- Major GC: Mark-Sweep-Compact algorithm -->
+
+  - <details close>
+    <summary>Major GC: Mark-Sweep-Compact algorithm</summary>
+
+    - Mark 將可到達的標記 ＋ Sweep 將沒標記的設為可用 ＋ Compact 整理空間
+    - Compact 為 fragmentation heuristic：太過零碎時，才觸發 Compact
+    - Mark & Sweep 可以與 Main 並行，但 Compact 時，需要暫停 Main
+    - 可從是否集中在同 page，來判斷零碎程度
 
     </details>
 
-  <!-- GC 只能盡力，但問題已經小到可以忽略 -->
+    <!-- GC 只能盡力，但問題已經小到可以忽略 -->
 
   - <details close>
     <summary>GC 只能盡力，但問題已經小到可以忽略</summary>
@@ -304,7 +376,7 @@
 
     </details>
 
-  <!-- GC 也有時間成本 -->
+    <!-- GC 也有時間成本 -->
 
   - <details close>
     <summary>GC 也有時間成本</summary>
@@ -314,7 +386,7 @@
 
     </details>
 
-  <!-- 相關指令 -->
+    <!-- 相關指令 -->
 
   - <details close>
     <summary>相關指令</summary>
@@ -330,11 +402,12 @@
     </details>
 
   - REF:
+
     - [V8: Oilpan library]
     - [A tour of V8: Garbage Collection]
     - [記憶體管理 MDN] | [記憶體管理鐵人] | [追踪是否被 GC]
 
-  </details>
+    </details>
 
 ---
 
