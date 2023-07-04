@@ -12,6 +12,7 @@
 
 ###### <!-- ref -->
 
+[EmptyObject Issue]: https://github.com/typescript-eslint/typescript-eslint/issues/2063#issuecomment-675156492
 [No BS TS]: https://youtu.be/LKVHFHJsiO0?list=PLNqp92_EXZBJYFrpEzdO2EapvU0GOJ09n
 [generics best practice1]: https://javascript.plainenglish.io/mentor-typescript-is-a-virus-a8ed076f1de9
 [Ts Config Helper]: https://tsconfiger.netlify.app/
@@ -44,13 +45,14 @@
 [In TypeScript an interface can extend a class, what for?]: https://stackoverflow.com/questions/39124915/in-typescript-an-interface-can-extend-a-class-what-for
 [An Extended Class with All Members]: https://learn.microsoft.com/en-us/archive/msdn-magazine/2015/january/typescript-understanding-typescript#:~:text=Figure%206%20An%20Extended%20Class%20with%20All%20Members
 [A Practical Guide to Use Extends in TypeScript]: https://www.becomebetterprogrammer.com/typescript-extends/
+[FP with TS]: https://youtu.be/Z3PLwD3iebg?list=PLuPevXgCPUIMbCxBEnc1dNwboH6e2ImQo
 
  <!-- ref -->
 
 # TS 基礎
 
 > DATE: 7 ~ 10 (2022) 、 5 (2023)
-> REF: [TS Docs] | [google TS style guide] | [鐵人賽 1] | [typescript 新手指南 (舊版 TS)] | [深入理解 TypeScript] | [No BS TS]
+> REF: [TS Docs] | [google TS style guide] | [鐵人賽 1] | [typescript 新手指南 (舊版 TS)] | [深入理解 TypeScript] | [No BS TS] | [FP with TS]
 
  <!-- 工具 -->
 
@@ -399,6 +401,8 @@
 
       </details>
 
+    <!-- type {} 等同 type object -->
+
     - <details close>
       <summary><code>type {}</code> 等同 <code>type object</code></summary>
 
@@ -408,358 +412,22 @@
 
       </details>
 
-    </details>
-
-  <!-- Function -->
-
-  - <details close>
-    <summary>Function</summary>
-
-    <!-- 提醒 Implicit Any -->
+    <!-- 實作 EmptyObject -->
 
     - <details close>
-      <summary>提醒 <code>Implicit Any</code></summary>
+      <summary>實作 EmptyObject</summary>
 
-      - 如圖 1，參數未指定 type ，則會報錯 `Implicit Any`。
-      - 例如於圖 2 中，將參數指定為 any 後，雖可以正常編譯，但是可能就會產生 bug ，如 str2 會得到 number ，而不是其指定的 string。
-      - 因此 `Implicit Any` 警告，可以協助預防此問題。
-
-        <div class="imgBox" >
-          <img src="../src/image/base/function_Implicit_Any.png" alt="function_Implicit_Any.png" />
-        </div>
-
-      </details>
-
-    <!-- Function type 檢查 -->
-
-    - <details close>
-      <summary>Function type 檢查</summary>
-
-      - 會報錯：
-
-        - 1. 變數的 type 改變
-        - 2. 變數一樣是 function 但 回傳 type 改變
-        - 3. 變數一樣是 function 但 參數 type 改變
-
-      - 不會報錯：
-
-        - 4. 參數消失了，被 TS 忽略，不會報錯
-        - 5. 變數一樣是 function，參數、回傳的 type 都正確
-
-      <div class="imgBox" >
-        <img src="../src/image/base/function_type_檢查.png" alt="function_type_檢查.png" />
-      </div>
-
-      </details>
-
-    <!-- Function signature -->
-
-    - <details close>
-      <summary><a href="https://developer.mozilla.org/en-US/docs/Glossary/Signature/Function">Function signature</a></summary>
-
-      - 函式簽章，定義 function 的 input & output 的 type
-      - 只包含 type，而不包含 命名（object 的 key 才會包含命名）
-      - 但 vscode 的顯示，會包含命名的部分（而實際上不包含）
-      - 所以命名順序亂了，但 type 順序不亂 --> 檢查不報錯
-
-      <div class="imgBox" >
-        <img src="../src/image/base/Function_signature.png" alt="Function_signature.png" />
-      </div>
-
-      </details>
-
-    - <mark>杯論：</mark>
-
-      - 是否必要維持所有的 function `output` 都做 Type Annotation？
-
-        - 正論（所有都明寫）：
-
-          - 可確保其型別沒被誤改
-          - 可清楚從 code 中閱讀
-
-        - 反論（只特殊情況寫）：
-
-          - 通常 Type Inference 都能正確給出其型別
-          - vscode 的提示，也可以閱讀
-          - 因 Type Inference 正確，則 TS 也會列入檢查。
-
-    </details>
-
-  <!-- Array -->
-
-  - <details close>
-    <summary>Array</summary>
-
-    <!-- Homogeneous Type Array (同質性陣列) -->
-
-    - <details close>
-      <summary>Homogeneous Type Array (同質性陣列)</summary>
-
-      - Array 中只有一種 type
-      - vs `Heterogenous Type Array`: Array 中不只一種 type
+      - REF: [EmptyObject Issue]
 
       ```typescript
-      // 全數字: number[]
-      const numbers = [1, 2, 3, 4, 5]
-
-      // 全字串: string[]
-      const strings = ['hi', 'go', 'to']
-
-      // 數字混字串: (string | number)[]
-      const numbers_strings = [1, '21', 123, 'asdf']
-      ```
-
-      </details>
-
-    <!-- Mix Nested Arrary Type Inference -->
-
-    - <details close>
-      <summary>Mix Nested Arrary Type Inference</summary>
-
-      - Type Inference 為個別型別，而不是自動融合
-      - 例如下圖情況不會變成：`(string | number | boolean | null | undefined)[][]`
-
-      <div class="imgBox" >
-        <img src="../src/image/base/Mix_Nested_Arrary_Type_Inference.png" alt="Mix_Nested_Arrary_Type_Inference.png" />
-      </div>
-
-      </details>
-
-    </details>
-
-  <!-- Tuple -->
-
-  - <details close>
-    <summary>Tuple</summary>
-
-    - 對 Array 的每個項目定義固定的 type
-
-    ```typescript
-    // Type Inference  -->  Array: (number | boolean)[]
-    const array = [1, 2, 3, false]
-
-    // Tuple: [number, number, number, boolean]
-    const tuple: [number, number, number, boolean] = [1, 2, 3, false]
-    ```
-
-    - 常見用法：
-
-      <!-- 1. input 與 output 保持一致 -->
-
-      - <details close>
-        <summary>1. input 與 output 保持一致</summary>
-
-        - 優：Tuple 比 object 便宜
-
-        ```typescript
-        type Vector = [number, number]
-
-        const move = (v1: Vector, v2: Vector): Vector => {
-          const [x1, y1] = v1
-          const [x2, y2] = v2
-          return [x1 + x2, y1 + y2]
-        }
-
-        console.log(move([0, 0], [5, 10]))
-        console.log(move([10, 0], [3, 7]))
-        ```
-
-        </details>
-
-      <!-- 2. 模仿 Python 的 Tuple -->
-
-      - <details close>
-        <summary>2. 模仿 Python 的 Tuple</summary>
-
-        - 使用 `Readonly` 讓內容物不得更改
-
-        ```typescript
-        type Tuple = Readonly<[number, string]>
-
-        const x: Tuple = [1, 'yes']
-
-        // 以下會發生錯誤
-        x[0] = 10
-        x[1] = 'No'
-        ```
-
-        </details>
-
-    </details>
-
-  <!-- Enum -->
-
-  - <details close>
-    <summary>Enum</summary>
-
-    - TypeScript Enum 的概念來源於 [C# Enum]
-
-    <!-- 型別 -->
-
-    - <details close>
-      <summary>型別</summary>
-
-      ```typescript
-      enum WeekDay {
-        Sun,
-        Mon,
-      }
-
-      const day = WeekDay[0] // type: string --> Sun
-      const nthDay = WeekDay.Sun // type: WeekDay --> 0
-      ```
-
-      </details>
-
-    <!-- 反射性 -->
-
-    - <details close>
-      <summary>反射性</summary>
-
-      ```typescript
-      enum WeekDay {
-        Sun,
-        Mon,
-      }
-
-      // WeekDay[0] === "Sun"
-      // WeekDay["Sun"] === 0
-      ```
-
-      </details>
-
-    <!-- 元素不重複 -->
-
-    - <details close>
-      <summary>元素不重複</summary>
-
-      ```typescript
-      // 以下會發生錯誤：不能有兩個 Sun
-      enum WeekDay {
-        Sun,
-        Mon,
-        Sun,
-      }
-      ```
-
-      </details>
-
-    <!-- 唯讀：建立 enum 之後，就不能再對他做更改 -->
-
-    - <details close>
-      <summary>唯讀：建立 enum 之後，就不能再對他做更改</summary>
-
-      ```typescript
-      enum WeekDay {
-        Sun,
-        Mon,
-      }
-
-      // 以下都會發生錯誤：
-      WeekDay = { XXXX }
-      WeekDay[5] = 'XXX'
-      WeekDay.Sun = 2
-      WeekDay.XXX = 3
-      ```
-
-      </details>
-
-    <!-- 取值 ＆ 賦值 -->
-
-    - <details close>
-      <summary>取值 ＆ 賦值</summary>
-
-      ```typescript
-      enum WeekDay {
-        Sun,
-        Mon,
-      }
-
-      let day: string = WeekDay[0]
-      console.log(WeekDay[day]) // 會發生錯誤，不可用 day 來當 key 取值
-      day = 'lalala'
-
-      let n: WeekDay = WeekDay.Fri
-      console.log(WeekDay[n])
-      n = 9
-      ```
-
-      </details>
-
-    <!-- 用於參數 -->
-
-    - <details close>
-      <summary>用於參數</summary>
-
-      ```typescript
-      enum WeekDay {
-        Sun,
-        Mon,
-      }
-
-      const fn = (x: WeekDay) => {
-        if (x !== WeekDay.Sun) fn(WeekDay.Sun)
-        return
-      }
-
-      fn(WeekDay.Sun)
-      fn(WeekDay.Mon)
-
-      // 以下會發生錯誤： 只能傳 type 為 WeekDay 的參數
-      fn(WeekDay.La)
-      fn('s')
-      ```
-
-      </details>
-
-    <!-- Enum 初始化 -->
-
-    - <details close>
-      <summary>Enum 初始化</summary>
-
-      - 好習慣：要馬全部初始化，要馬全部沒有
-
-      <div class="imgBox" >
-        <img src="../src/image/base/enum_initializer.png" alt="enum_initializer.png" />
-      </div>
-
-      </details>
-
-    <!-- const enum -->
-
-    - <details close>
-      <summary><code>const enum</code></summary>
-
-      - `const enum`編譯後只留下常數
-      - 賦值也只能給固定的 number 或 string
-
-      ```typescript
-      // EX.
-      const enum E1 {
-        X,
-        Y,
-        Z = 'zz',
-      }
-      enum E2 {
-        X,
-        Y,
-        Z = 'zz',
-      }
-
-      const arr1 = [E1.X, E1.Y, E1.Z]
-      const arr2 = [E2.X, E2.Y, E2.Z]
-      ```
-
-      ```js
-      // EX.編譯結果：
-      let E2
-      ;(function (E2) {
-        E2[(E2['X'] = 0)] = 'X'
-        E2[(E2['Y'] = 1)] = 'Y'
-        E2['Z'] = 'zz'
-      })(E2 || (E2 = {}))
-      const arr1 = [0 /* E1.X */, 1 /* E1.Y */, 'zz' /* E1.Z */]
-      const arr2 = [E2.X, E2.Y, E2.Z]
+      type EmptyObject = Record<string, never> // or {[k: string]: never}
+
+      const a: EmptyObject = { a: 1 } // expect error
+      const b: EmptyObject = 1 // expect error
+      const c: EmptyObject = () => {} // expect error
+      const d: EmptyObject = null // expect error
+      const e: EmptyObject = undefined // expect error
+      const f: EmptyObject = {} // NO ERROR - as expected
       ```
 
       </details>
