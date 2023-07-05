@@ -1,5 +1,9 @@
 ###### <!-- ref -->
 
+[Bitmap algorithm]: https://www.gushiciku.cn/pl/pPW9/zh-tw
+[How to request the Garbage Collector in node.js to run?]: https://stackoverflow.com/q/27321997
+[expose gc]: https://stackoverflow.com/a/75007985
+[Node.js v20.4.0 DOC]: https://nodejs.org/api/cli.html
 [垃圾回收演算法系列文]: https://blog.csdn.net/mrliii/category_10772919.html
 [BFS + DFS]: https://blog.csdn.net/MrLiii/article/details/113523770
 [深度解析！JavaScript 中變量存儲在堆中還是棧中？]: https://mp.weixin.qq.com/s?__biz=MzkxMjI3MTA1Mg%3D%3D&mid=2247508506&idx=1&sn=2a376ee6f6a5a6d0b874f826ca659bab
@@ -39,7 +43,7 @@
 # Learn and Understand NodeJS
 
 > DATE: 3 (2022), 7 (2023)
-> REF: [Udemy]
+> REF: [Udemy] | [Node.js v20.4.0 DOC]
 
 ## # V8 Javascript Engine
 
@@ -296,7 +300,7 @@
 
           - REF: [一文讀懂 mmap 原理] | [認真分析 mmap] | [源碼解讀：mmap 原理和實現]
 
-      - flag: `--min_semi_space_size`, `--max_semi_space_size`, `--initial_old_space_size`, `--max_old_space_size`
+      - flag: `--min-semi-space-size`, `--max-semi-space-size`, `--initial-old-space-size`, `--max-old-space-size`
 
       </details>
 
@@ -307,7 +311,7 @@
 
       - 每個 V8 process 有一個 stack
       - `stack overflow errors`
-      - flag: `--stack_size`
+      - flag: `--stack-size`
 
       </details>
 
@@ -357,7 +361,7 @@
       <summary>實現 Cheney's algorithm</summary>
 
       - 以 BFS 方式，將保留的資料，從 from-space 複製到 to-space
-      - 優點：用 BFS，所以可以不用 recursion，避免 stack 負擔 (但現代電腦已較能負荷)
+      - 優點：用 BFS，所以可以不用 recursion，避免 stack 負擔 (但現代電腦已較能負荷) (<mark>TODO:Q </mark> DFS 不是也能不要用 recursion 來實現？)
       - 缺點：引用的 object 可能無法在同一 page，以 [BFS + DFS] 改進
 
       </details>
@@ -388,10 +392,90 @@
   - <details close>
     <summary>Major GC: Mark-Sweep-Compact algorithm</summary>
 
+    - 分為兩部分：Mark-Sweep ＆ Mark-Compact
     - Mark 將可到達的標記 ＋ Sweep 將沒標記的設為可用 ＋ Compact 整理空間
     - Compact 為 fragmentation heuristic：太過零碎時，才觸發 Compact
-    - Mark & Sweep 可以與 Main 並行，但 Compact 時，需要暫停 Main
     - 可從是否集中在同 page，來判斷零碎程度
+
+    <!-- Mark -->
+
+    - <details close>
+      <summary>Mark</summary>
+
+      <!-- Bitmap algorithm -->
+
+      - <details close>
+        <summary>Bitmap algorithm</summary>
+
+        - [Bitmap algorithm]
+
+        - 32 位元以 4 byte 為一個單位，64 位元以 8 byte 為一個單位
+        - 記憶體的使用都是以「整數個」單位來使用，所以 pointer 一定在每個單位的開頭
+        - 每個單位需要對應 1 bit 到 Bitmap 上，所以 32 位元會消耗約 3.1%，64 位元會消耗約 1.6%
+
+        </details>
+
+      - DFS
+
+      <!-- tri-color marking system (白灰黑) -->
+
+      - <details close>
+        <summary>tri-color marking system (白灰黑)</summary>
+
+        - 一開始都是`白`的
+        - parent 會將 child 都變`灰`，之後 parent 自己就會變`黑`
+        - 再取出一個`灰`來執行上述動作，直到完全沒有`灰`
+
+        </details>
+
+      </details>
+
+    <!-- 改善 stop-the-world 造成的影響< -->
+
+    - <details close>
+      <summary>改善 stop-the-world 造成的影響</summary>
+
+      <!-- Incremental GC -->
+
+      - <details close>
+        <summary>Incremental GC</summary>
+
+        - 將 Mark 切成小份，分次做
+        - 使用 write barriers 紀錄 `黑 -> 白` pointer，用來將黑重新變灰，防止漏掉時間差造成新的白
+
+        </details>
+
+      <!-- Lazy sweeping -->
+
+      - <details close>
+        <summary>Lazy sweeping</summary>
+
+        - 將 Sweep 切成小份，分次做
+        - 過程中也可能有引用變化，也須使用 write barriers 紀錄
+
+        </details>
+
+      <!-- Concurrent -->
+
+      - <details close>
+        <summary>Concurrent</summary>
+
+        - Mark & Sweep 可以與 Main 並行，但 Compact 時，需要暫停 Main
+        - 一樣會使用 write barriers 紀錄應付變化
+
+        </details>
+
+      </details>
+
+    <!-- Accurate GC -->
+
+    - <details close>
+      <summary>Accurate GC</summary>
+
+      - 將每個單位的最後一個 bit 用來記錄是否為 pointer，可以快速準確判斷
+      - 相對來說，「保守 GC」就可能會誤判成是 pointer 而浪費 memory (因為其先將全部預設為 pointer)
+
+      </details>
 
     </details>
 
@@ -428,8 +512,10 @@
       - 設定可用的 heap memory
 
     - `node --expose-gc --inspect index.js`
+
       - 展示 Garbage Collector
-      - 程式碼中呼叫 `gc()` 可以手動設定啟動垃圾回收時機 (<mark>TODO:</mark> 待確認?)
+      - 使用 `--expose-gc` 後，程式碼中呼叫 `global.gc()` 可以強制執行 GC
+      - REF: [How to request the Garbage Collector in node.js to run?]
 
     </details>
 
@@ -442,7 +528,7 @@
     - [記憶體管理 MDN] | [記憶體管理鐵人] | [追踪是否被 GC]
     - [垃圾回收演算法系列文]
 
-    </details>
+  </details>
 
 ---
 
@@ -454,6 +540,79 @@
   - [從 Node.js 專案裡找出 Memory leak]
 
   </details>
+
+---
+
+## # 其他補充
+
+- 注意事項：
+
+  <!-- 一些參數在「指令」與「程式碼」中略有差異 -->
+
+  - <details close>
+    <summary>一些參數在「指令」與「程式碼」中略有差異</summary>
+
+    - EX. [expose gc]
+    - 指令中以減號 `-` 連接
+
+      ```sh
+      $ node --expose-gc
+      ```
+
+    - 程式碼中以底線 `_` 連接
+
+      ```js
+      import { setFlagsFromString } from 'v8'
+      import { runInNewContext } from 'vm'
+
+      setFlagsFromString('--expose_gc')
+      const gc = runInNewContext('gc') // nocommit
+      gc()
+      ```
+
+    </details>
+
+<!-- 小技巧 -->
+
+- 小技巧：
+
+  <!-- node --v8-options -->
+
+  - <details close>
+    <summary><code>node --v8-options</code></summary>
+
+    - 可查詢 v8 相關的 flag，如 --stack-size
+
+    </details>
+
+<!-- 小工具 -->
+
+- 小工具：
+
+  <!-- 學習工具 -->
+
+  - <details close>
+    <summary>學習工具</summary>
+
+    </details>
+
+  <!-- 開發工具 -->
+
+  - <details close>
+    <summary>開發工具</summary>
+
+    </details>
+
+<!-- 補充學習 -->
+
+- 補充學習：
+
+  <!-- 文件 -->
+
+  - <details close>
+    <summary>文件</summary>
+
+    </details>
 
 ---
 
