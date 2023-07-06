@@ -1,5 +1,7 @@
 ###### <!-- ref -->
 
+[JVM 底層原理：垃圾回收算法是如何設計的？]: https://developer.aliyun.com/article/777750
+[超詳細的 node 垃圾回收機制]: https://blog.csdn.net/weixin_34409741/article/details/91393265
 [Bitmap algorithm]: https://www.gushiciku.cn/pl/pPW9/zh-tw
 [How to request the Garbage Collector in node.js to run?]: https://stackoverflow.com/q/27321997
 [expose gc]: https://stackoverflow.com/a/75007985
@@ -394,8 +396,16 @@
 
     - 分為兩部分：Mark-Sweep ＆ Mark-Compact
     - Mark 將可到達的標記 ＋ Sweep 將沒標記的設為可用 ＋ Compact 整理空間
-    - Compact 為 fragmentation heuristic：太過零碎時，才觸發 Compact
-    - 可從是否集中在同 page，來判斷零碎程度
+
+    <!-- Accurate GC -->
+
+    - <details close>
+      <summary>Accurate GC</summary>
+
+      - 將每個單位的最後一個 bit 用來記錄是否為 pointer，可以快速準確判斷
+      - 相對來說，「保守 GC」就可能會誤判成是 pointer 而浪費 memory (因為其先將全部預設為 pointer)
+
+      </details>
 
     <!-- Mark -->
 
@@ -423,6 +433,7 @@
         <summary>tri-color marking system (白灰黑)</summary>
 
         - 一開始都是`白`的
+        - 從 GC Roots 開始
         - parent 會將 child 都變`灰`，之後 parent 自己就會變`黑`
         - 再取出一個`灰`來執行上述動作，直到完全沒有`灰`
 
@@ -430,10 +441,36 @@
 
       </details>
 
-    <!-- 改善 stop-the-world 造成的影響< -->
+    <!-- Sweep -->
 
     - <details close>
-      <summary>改善 stop-the-world 造成的影響</summary>
+      <summary>Sweep</summary>
+
+      - Sweep 在進行遍歷時，順路將上一輪的 Mark 還原
+      - 將沒有 Mark 的放進 Free_List，新的要存進來時可在 Free_List 尋找適合大小的空間使用
+
+        - First-Fit：遍歷到第一個適合的就使用
+        - Best-Fit：遍歷整個 Free_List，選用最小的合適空間
+        - Worst-Fit：遍歷整個 Free_List，選用最大的空間
+
+      - Free_List 先依照空間大小分類成數個 list，以雙層 list 方式存，更效率
+
+      </details>
+
+    <!-- Compact -->
+
+    - <details close>
+      <summary>Compact</summary>
+
+      - fragmentation heuristic：太過零碎時，才觸發 Compact
+      - 可從是否集中在同 page，來判斷零碎程度
+
+      </details>
+
+    <!-- 改善 stop-the-world< -->
+
+    - <details close>
+      <summary>改善 stop-the-world</summary>
 
       <!-- Incremental GC -->
 
@@ -450,8 +487,8 @@
       - <details close>
         <summary>Lazy sweeping</summary>
 
-        - 將 Sweep 切成小份，分次做
-        - 過程中也可能有引用變化，也須使用 write barriers 紀錄
+        - 將 sweep 動作延遲，當新成員要加入 old space 時，同時進行 sweep ＆尋找合適空間，找到後就暫停 sweep
+        - 因為有延遲，所以可能已經有新的可釋放，所以第一輪沒找到時，會再 Mark 一次後進行第二輪，第二輪也沒有才是真的沒有空間
 
         </details>
 
@@ -464,16 +501,6 @@
         - 一樣會使用 write barriers 紀錄應付變化
 
         </details>
-
-      </details>
-
-    <!-- Accurate GC -->
-
-    - <details close>
-      <summary>Accurate GC</summary>
-
-      - 將每個單位的最後一個 bit 用來記錄是否為 pointer，可以快速準確判斷
-      - 相對來說，「保守 GC」就可能會誤判成是 pointer 而浪費 memory (因為其先將全部預設為 pointer)
 
       </details>
 
@@ -527,6 +554,7 @@
     - [A tour of V8: Garbage Collection]
     - [記憶體管理 MDN] | [記憶體管理鐵人] | [追踪是否被 GC]
     - [垃圾回收演算法系列文]
+    - [超詳細的 node 垃圾回收機制] | [JVM 底層原理：垃圾回收算法是如何設計的？]
 
   </details>
 
