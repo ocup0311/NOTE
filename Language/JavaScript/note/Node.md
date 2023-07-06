@@ -403,7 +403,7 @@
       <summary>Accurate GC</summary>
 
       - 將每個單位的最後一個 bit 用來記錄是否為 pointer，可以快速準確判斷
-      - 相對來說，「保守 GC」就可能會誤判成是 pointer 而浪費 memory (因為其先將全部預設為 pointer)
+      - 相對來說，「保守 GC」就可能會誤判成是 pointer，而浪費 memory (因為其先將全部預設為 pointer)
 
       </details>
 
