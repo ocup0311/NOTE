@@ -2,6 +2,9 @@
 
 <!----------- ref start ----------->
 
+[xid]: https://github.com/rs/xid
+[UUID Versions Explained]: https://www.uuidtools.com/uuid-versions-explained
+[UUID 原理與實作分析]: https://yuanchieh.page/posts/2020/2020-12-01-uuid-%E5%8E%9F%E7%90%86%E8%88%87%E5%AF%A6%E4%BD%9C%E5%88%86%E6%9E%90-%E8%A9%B2%E5%A6%82%E4%BD%95%E6%8C%91%E9%81%B8%E9%81%A9%E5%90%88%E7%9A%84-uuid-%E7%89%88%E6%9C%AC/
 [Actor 模型和 CSP 模型的區別]: https://www.jdon.com/concurrent/actor-csp.html
 [系統吞吐量（TPS）、使用者併發量、效能測試概念和公式]: https://www.796t.com/content/1542356104.html
 [服務器性能測試中有哪些常用的性能指標？]: https://www.zhihu.com/question/50176445/answer/119975361
@@ -82,7 +85,53 @@
 
 ---
 
--
+- DISTRIBUTED UNIQUE ID
+
+  - UUID v1 ~ v5
+
+    - [UUID 原理與實作分析]、[UUID Versions Explained]
+
+    - UUID 中，v1 ~ v5 都保留一段記錄 version
+
+    - version 介紹
+
+      - 1. v4: 完全隨機
+      - 2. v1: timestamp + clock sequence + NodeID(IEEE 802 MAC address)
+
+        - 當 timestamp 比之前的小，則產生新的 clock sequence 來使用，以減少碰撞
+
+      - 3. v5: 加入 Namespace (16 byte) + Name 再以 SHA1 做 Hash
+      - 4. v3: 加入 Namespace (16 byte) + Name 再以 MD5 做 Hash
+      - 5. v2: 不被採用 (X) (只有 64 個 / 7 mins)
+
+  - MongoDB ID (12 byte)
+
+    - 4 btye，Unix 紀元以來的秒數
+    - 3 btye 的 Machine ID
+    - 2 btye 的 Process ID
+    - 3 btye 的計數器，以隨機值開始
+
+  - [xid] (12 byte)
+
+    - 將 MongoID 再以 base32hex 編碼 (24 char -> 20 char)
+    - 生成一個 ID 的效率很快
+
+  - snowflake
+
+    - Sequence number 的部分，會以 AtomicInteger 或 lock 來防止 process 競爭
+
+    - UTC 時間
+
+    - NTP (Network Time Protocol)
+
+      - 解決「分散式時間同步」問題
+      - Marzullo's algorithm
+      - 階層的上限為 15
+
+  - 用在 PK 的話，用 int 會比 string 好
+
+    - 空間小
+    - 有排序
 
 ## # 書籍
 
