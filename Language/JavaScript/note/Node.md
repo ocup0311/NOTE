@@ -1,5 +1,8 @@
 ###### <!-- ref -->
 
+[各種 Memory Barrier]: https://preshing.com/20120710/memory-barriers-are-like-source-control-operations/
+[Memory barrier: a Hardware View for Software Hackers]: http://www.puppetmastertrading.com/images/hwViewForSwHackers.pdf
+[memory barrier 底層原理詳解]: https://mikechen.cc/15475.html
 [JVM 底層原理：垃圾回收算法是如何設計的？]: https://developer.aliyun.com/article/777750
 [超詳細的 node 垃圾回收機制]: https://blog.csdn.net/weixin_34409741/article/details/91393265
 [Bitmap algorithm]: https://www.gushiciku.cn/pl/pPW9/zh-tw
@@ -376,14 +379,60 @@
 
     - behavior heuristics：from-space 滿了就觸發
 
-    <!-- write barriers -->
+    <!-- 記錄 old space 引用 new space 的 pointer -->
 
     - <details close>
-      <summary>write barriers</summary>
+      <summary>記錄 old space 引用 new space 的 pointer</summary>
 
-      - 以 write barriers 機制，使用 register 記錄所有 old space object 引用 new space object 的 pointer，可快速判斷誰被引用
+      - 使用 register (store buffer) 記錄所有 old space object 引用 new space object 的 pointer，可快速判斷誰被引用
+      - 此過程需使用 write barrier 確保 register 已記錄完成
 
-      - REF: [從硬件層面理解 memory barrier] | [Golang GC 的 write barrier]
+      <!-- write barrier -->
+
+      - <details close>
+        <summary>write barrier</summary>
+
+        <!-- Cache-Memory 層級，因改善效率造成的「無序」，藉由 Memory barrier 進行等待，使特定點恢復成「有序」 -->
+
+        - <details close>
+          <summary>Cache-Memory 層級，因改善效率造成的「亂序」，藉由 Memory barrier 進行等待，使特定點恢復成「有序」</summary>
+
+          - Write barrier 作用：CPU 執行 `smp_wmb()` 時，必須等待現存的 store buffer 刷到 cache 中，後續的 store 才能存儲到 cache 中
+          - Read barrier 作用：CPU 執行 `smp_rmb()` 時，必須等待該 CPU 現存的 invalidate queue 完成，後續的 load 才能進行
+
+          </details>
+
+        <!-- 演進順序 -->
+
+        - <details close>
+          <summary>演進順序</summary>
+
+          - `multi-megabyte caches` 解決「CPU 比 memory 快」問題
+          - `Cache-coherency protocols (EX. MESI)` 解決「caches-caches 溝通 ＆ caches-memory 溝通」問題
+          - `store buffer` 解決「首次 read 並寫入 cache line 效率」問題
+          - `store forwarding` 解決「單一 CPU 中 cache 與 store buffer 時間差」問題
+          - `Write barrier` 解決「store 卡在 store buffer」問題
+
+            - 有可能發生從 `smp_wmp()` 斷開，「前半段在 CPU0 執行，後半段在 CPU1 執行」嗎？
+            - `smp_wmp()` 是將所有 CPU 的 store buffer 標記，還是只有執行他的那個 CPU？(應該是全部)
+
+          - `invalidate queue` 解決「store 效率」問題
+          - `Read barrier` 解決「invalidate 卡在 invalidate queue」問題
+          - `smp_wmp() & smp_rmp()` 解決「smp_mp() 同時需要處理 store buffer ＆ invalidate queue」問題
+
+          </details>
+
+        <!-- REF -->
+
+        - <details close>
+          <summary>REF</summary>
+
+          - [Memory barrier: a Hardware View for Software Hackers] | [各種 Memory Barrier]
+          - 中譯：[從硬件層面理解 memory barrier] | [memory barrier 底層原理詳解]
+
+          </details>
+
+        </details>
 
       </details>
 
@@ -478,7 +527,8 @@
         <summary>Incremental GC</summary>
 
         - 將 Mark 切成小份，分次做
-        - 使用 write barriers 紀錄 `黑 -> 白` pointer，用來將黑重新變灰，防止漏掉時間差造成新的白
+        - 紀錄 `黑 -> 白` pointer，用來將`黑`重新變`灰`，防止漏掉時間差造成新的`白` (同樣需要 write barrier)
+        - 上述採用 Steele 的做法，與 _直接將 child 變成`灰`做法相比_，可避免：當處理到之前，子引用的 object 又換過好幾次，造成沒用的 child 變成`灰`
 
         </details>
 
@@ -498,7 +548,7 @@
         <summary>Concurrent</summary>
 
         - Mark & Sweep 可以與 Main 並行，但 Compact 時，需要暫停 Main
-        - 一樣會使用 write barriers 紀錄應付變化
+        - 並行下，狀態比 Incremental GC 更加隨時在改變，所以一樣會需要紀錄 `黑 -> 白` pointer (同樣需要 write barrier)
 
         </details>
 
