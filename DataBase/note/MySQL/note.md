@@ -2,6 +2,8 @@
 
 <!----------- ref start ----------->
 
+[MySQL issue answer]: https://bugs.mysql.com/bug.php?id=79808
+[MySQL EXPLAIN Extra 解析]: https://www.modb.pro/db/409873
 [MySQL doc: COUNT()]: https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html#function_count
 [MySQL 中 IS NULL、IS NOT NULL、!= 不能用索引？]: https://juejin.cn/post/6844903921450745863
 [分析 COUNT(*)]: https://mp.weixin.qq.com/s/eh7G_J3a0JudZRR-wrElag
@@ -238,7 +240,21 @@
   - <details close>
     <summary><code>GROUP BY</code></summary>
 
-    - `HAVING`：類似於 `GROUP BY` 的 `WHERE`
+    - `HAVING`：類似於 `GROUP BY` 的 `WHERE`，但本質上不同
+
+    </details>
+
+  <!-- HAVING VS WHERE -->
+
+  - <details close>
+    <summary><code>HAVING</code> VS <code>WHERE</code></summary>
+
+    - `WHERE`：查表時進行篩選
+    - `HAVING`：對查詢結果進行篩選
+
+    - 當在一般情形，直接以 `HAVING` 替代 `WHERE`，則會先返回結果才進行篩選，導致其掃表的範圍變大、返回的內容變多
+
+      ![HAVING_vs_WHERE.png](./src/image/HAVING_vs_WHERE.png)
 
     </details>
 
@@ -357,6 +373,8 @@
 
 ## # 效能研究
 
+- REF: [MySQL EXPLAIN Extra 解析]
+
 <!-- 使用 sql function 查詢，對 index 的影響 ( EX. CONCAT ) -->
 
 - <details close>
@@ -395,7 +413,13 @@
 - <details close>
   <summary><code>GROUP BY</code> 與 index</summary>
 
-  - `GROUP BY` 沒有 index 可以用時，會 `Using temporary`，創建一個臨時表
+  - 沒有 index，會 `Using temporary`，創建一個臨時表
+
+    ![Index_VS_GroupBy1.png](./src/image/Index_VS_GroupBy1.png)
+
+  - 有 index，會 `Using index`，使用 covering index
+
+    ![Index_VS_GroupBy2.png](./src/image/Index_VS_GroupBy2.png)
 
   </details>
 
@@ -452,6 +476,25 @@
     </details>
 
   - REF: [分析 COUNT(*)] | [MySQL doc: COUNT()]
+
+  </details>
+
+<!-- MAX, MIN 與 index -->
+
+- <details close>
+  <summary><code>MAX</code>, <code>MIN</code> 與 index</summary>
+
+  - 沒有 index，會掃全表
+
+    ![Index_VS_MAX1.png](./src/image/Index_VS_MAX1.png)
+
+  - 有 index
+
+    - `Select tables optimized away`，可以直接 O(1) 回傳
+    - 因為 B+ Tree 會串成 linked list，還有 head & tail
+    - REF: [MySQL issue answer]
+
+    ![Index_VS_MAX2.png](./src/image/Index_VS_MAX2.png)
 
   </details>
 
