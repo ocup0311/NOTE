@@ -29,174 +29,6 @@
 
 ## # <mark>待整理筆記區</mark>
 
-- ch1 ~ 4 快速回憶
-
-  - 指令
-
-    - `SELECT DATABASE();`：查詢目前正在 use 的 DB
-
-    - `DELIMITER symbol`：更改結尾的符號
-
-      - 當前環境生效，若 exit 再回來則回覆成 `;`
-
-      ```sql
-      # EX. 原本用 ; 結尾
-      > SELECT * FROM users;
-
-      # 改成用 # 結尾
-      > DELIMITER #
-      > SELECT * FROM users#
-
-      # exit 後恢復 ;
-      > exit
-      $ mysql -r root -p
-      > SELECT * FROM users;
-      ```
-
-    - `DESCRIBE table;`：秀出該 table 的樣貌
-
-    - `SHOW WARNINGS;`：列出上一個操作所造成的 Error 或 Warning
-
-    -
-
-  - 常識
-
-    - **Column** 欄位、**Row** 資料
-    - Type 三大類：**Numeric**、**String**、**Date**
-
-  - 注意
-
-    - `INSERT INTO`
-
-      - `INSERT INTO table(col1, col2) VALUES(col1, col2);`，是按照順序來進行配對 column
-      - 可一次 INSERT 多筆
-
-    - `AUTO_INCREMENT` & `PRIMARY KEY`
-
-      - 只能有一個 column 設置 `AUTO_INCREMENT`，並且一定要設置為 KEY (PRIMARY 或 UNIQUE)
-      - 若沒有其他 column 被設置為 PK，則此 column 就會直接成為 PK
-      - 可以使用 `PRIMARY KEY(col1, col2)`，跟其他 column 一起成為 Composite Primary Keys
-
-    - `UNIQUE`
-
-      - 允許多筆資料都是 NULL
-
-  ![](./src/image/SQL_cheat_sheet.jpeg)
-
-- ch5 ~ 7 快速回憶
-
-  - 指令
-
-    - [String Functions]
-
-      - `CONCAT`、`CONCAT_WS`、`SUBSTR`、`REPLACE`、`REVERSE`、`CHAR_LENGTH`、`LOWER`、`UPPER`
-
-    - [Optimizing SELECT Statements]
-
-      - `ORDER BY`
-
-        - `DESC` 降冪 (預設為升冪)
-
-          - 排序方式從 升冪 改為 降冪
-          - EX. `SELECT * FROM employees ORDER BY salary DESC;`
-
-        - `ORDER BY 1`
-
-          - 依照 SELECT 的第一項 (EX. name) 來排序
-          - EX. `SELECT name, salary FROM employees ORDER BY 1;`
-
-      - `LIMIT`
-
-        - 可用 `18446744073709551615` 確保列出 LIMIT 後全部內容
-        - EX. `SELECT * FROM tbl LIMIT 95,18446744073709551615;`
-        - REF: [MySQL DOC: SELECT Statement]
-
-      - `LIKE`
-
-        - `%` 省略
-
-          - EX. `SELECT * FROM users LIKE "%A";`
-
-        - `_` 省略數量，有幾個 `_` 就代表幾個 char
-
-          - EX. `SELECT * FROM users LIKE "__A";`
-
-        - `BINARY`
-
-          - 可以區分大小寫
-          - EX. `SELECT * FROM users WHERE name LIKE BINARY 'J%';`
-
-    - [Aggregate Function]
-
-      - `COUNT`、`DISTINCT`、`SUM`、`MAX`、`MIN`、`AVG`
-
-      - `GROUP BY`
-
-        - `HAVING`：類似於 `GROUP BY` 的 `WHERE`
-
-  - 常識
-
-    - 使用 SQL Function (EX. REPLACE 等)，並不會更新資料
-
-  - 注意
-
-    - 環境不同，可能導致對`大小寫敏感`有不同的結果
-    - ORDER BY 需注意 Collation 的選擇，不同環境可能有不同的預設設定
-      - [MySQL DOC: Character Sets, Collations, Unicode]
-
-  - 效能
-
-    - 使用 sql function 查詢，對 index 的影響 ( EX. CONCAT )
-
-      - 用 `SELECT CONCAT(a, b)`，不影響是否使用 index
-      - 用 `WHERE CONCAT(a, b)=""`，則無法直接使用 index 快速查詢
-      - 也可以另外建一個 `CONCAT(a, b)` 的 index
-
-      ![Index_vs_CONCAT.png](./src/image/Index_vs_CONCAT.png)
-
-      - 數據解析：
-        - type index 會進行 whole index 掃描
-        - type ref 直接二分法搜尋該 index
-
-    - 使用 order by 查詢，是否選擇 index
-
-      - REF: [MySQL DOC: ORDER BY Optimization]
-
-      - 如果需要再去查全表，則不會使用 index，而是重新對資料做排序
-
-      ![Index_VS_OrderBy1.png](./src/image/Index_VS_OrderBy1.png)
-
-      - 若加上 WHERE 只取得某個區間，會依照區間大小選用 index。區間需要多小？
-
-      ![Index_VS_OrderBy2.png](./src/image/Index_VS_OrderBy2.png)
-
-    - `GROUP BY` 沒有 index 可以用時，會 `Using temporary`，創建一個臨時表
-
-  - 討論
-
-    - 「使用 SQL Function」 VS 「在 server 處理」
-
-      - 網路傳輸量
-      - 資料庫記憶體消耗
-      - 可能有些系統並不需要多建立一個 server？
-
-    - Stored Procedure
-
-      - 在資料庫 server 上保存的預編譯的程式，像是開客製化的 API，讓外部可以串接使用
-
-    - 避免 `COUNT(*)` 的原因是因為 `*` 無法使用 covering index，而會導致全表掃描
-
-    - Filesort 屬於 Unstable Sort？
-
-      - [MySQL：排序（filesort）詳細解析]
-      - [What is the sorting algorithm behind ORDER BY query in MySQL?]
-
-      - GPT：早期為 Quicksort，5.0 改為 Batched Key Access Filesort，此兩種皆為 unstable
-
-      ![GPT_MySQL_filesort.png](./src/image/GPT_MySQL_filesort.png)
-
--
-
 ## # 簡介
 
 - 定義：一般會把 `DBMS + Database` 這兩部分合稱 Database
@@ -212,6 +44,7 @@
   <br>
 
   ![](https://i.imgur.com/KydSI1d.png)
+  ![](./src/image/SQL_cheat_sheet.jpeg)
 
 ## # 安裝
 
@@ -235,12 +68,304 @@
   ![](https://i.imgur.com/58eyRt2.png)
   ![](https://i.imgur.com/vmIzzV0.png) -->
 
-## # 慣用方法
+## # 基礎指令
 
-| O   | X   | 原因 |
-| --- | --- | ---- |
+<!-- SELECT DATABASE(); -->
 
-## # 注意默認值
+- <details close>
+  <summary><code>SELECT DATABASE();</code></summary>
+
+  - 查詢目前正在 use 的 DB
+
+  </details>
+
+<!-- DELIMITER symbol -->
+
+- <details close>
+  <summary><code>DELIMITER symbol</code></summary>
+
+  - 更改結尾的符號
+  - 當前環境生效，若 exit 再回來則回覆成 `;`
+
+  ```sql
+  # EX. 原本用 ; 結尾
+  > SELECT * FROM users;
+
+  # 改成用 # 結尾
+  > DELIMITER #
+  > SELECT * FROM users#
+
+  # exit 後恢復 ;
+  > exit
+  $ mysql -r root -p
+  > SELECT * FROM users;
+  ```
+
+  </details>
+
+<!-- DESCRIBE table; -->
+
+- <details close>
+  <summary><code>DESCRIBE table;</code></summary>
+
+  - 秀出該 table 的樣貌
+
+  </details>
+
+<!-- SHOW WARNINGS; -->
+
+- <details close>
+  <summary><code>SHOW WARNINGS;</code></summary>
+
+  - 列出上一個操作所造成的 Error 或 Warning
+
+  </details>
+
+<!-- INSERT INTO -->
+
+- <details close>
+  <summary><code>INSERT INTO</code></summary>
+
+  - `INSERT INTO table(col1, col2) VALUES(col1, col2);`，是按照順序來進行配對 column
+
+  </details>
+
+<!-- String Functions -->
+
+- <details close>
+  <summary>String Functions</summary>
+
+  - [String Functions]
+
+  - `CONCAT`、`CONCAT_WS`、`SUBSTR`、`REPLACE`、`REVERSE`、`CHAR_LENGTH`、`LOWER`、`UPPER`
+
+  </details>
+
+<!-- Optimizing SELECT Statements -->
+
+- <details close>
+  <summary>Optimizing SELECT Statements</summary>
+
+  - [Optimizing SELECT Statements]
+
+  <!-- ORDER BY -->
+
+  - <details close>
+    <summary><code>ORDER BY</code></summary>
+
+    - `DESC` 降冪 (預設為升冪)
+
+      - 排序方式從 升冪 改為 降冪
+      - EX. `SELECT * FROM employees ORDER BY salary DESC;`
+
+    - `ORDER BY 1`
+
+      - 依照 SELECT 的第一項 (EX. name) 來排序
+      - EX. `SELECT name, salary FROM employees ORDER BY 1;`
+
+    </details>
+
+  <!-- LIMIT -->
+
+  - <details close>
+    <summary><code>LIMIT</code></summary>
+
+    - 可用 `18446744073709551615` 確保列出 LIMIT 後全部內容
+    - EX. `SELECT * FROM tbl LIMIT 95,18446744073709551615;`
+    - REF: [MySQL DOC: SELECT Statement]
+
+    </details>
+
+  <!-- LIKE -->
+
+  - <details close>
+    <summary><code>LIKE</code></summary>
+
+    - `%` 省略
+
+      - EX. `SELECT * FROM users LIKE "%A";`
+
+    - `_` 省略數量，有幾個 `_` 就代表幾個 char
+
+      - EX. `SELECT * FROM users LIKE "__A";`
+
+    - `BINARY`
+
+      - 可以區分大小寫
+      - EX. `SELECT * FROM users WHERE name LIKE BINARY 'J%';`
+
+    </details>
+
+  </details>
+
+<!-- Aggregate Function -->
+
+- <details close>
+  <summary>Aggregate Function</summary>
+
+  - [Aggregate Function]
+
+  - `COUNT`、`DISTINCT`、`SUM`、`MAX`、`MIN`、`AVG`
+
+  <!-- GROUP BY -->
+
+  - <details close>
+    <summary><code>GROUP BY</code></summary>
+
+    - `HAVING`：類似於 `GROUP BY` 的 `WHERE`
+
+    </details>
+
+  </details>
+
+## # 底層研究
+
+<!-- B+ Tree -->
+
+- <details close>
+  <summary>B+ Tree</summary>
+
+  - 因為資料庫存在 disk，選擇的重點在減少 I/O
+
+    - 減少階數，減少 I/O
+    - 盡量將每個 node 大小調整在 disk 的一個 block (EX. 4KB, 16KB..etc)，以減少 I/O
+    - 盡量整理整齊，能放在同一個 block 以減少 I/O
+
+  - 按順序連結，使順序遍歷更快
+
+  - REF
+
+    - [資料庫層的核心 - 索引結構演化論 B+樹]
+    - [平衡二叉樹、B 樹、B+樹、B*樹理解其中一種你就都明白了]
+    - [MySQL 底層為什麼要選用 B+樹作為索引的數據結構呢？]
+
+  </details>
+
+<!-- Index -->
+
+- <details close>
+  <summary>Index</summary>
+
+  <!-- Clustered Index -->
+
+  - <details close>
+    <summary>Clustered Index</summary>
+
+    - 一個 table 只能有一個 Clustered Index，所以應該慎選要給哪個 key 用，以發揮最大效能利益
+    - key 選擇要點：不會改、常查詢、容量小、插入順序為遞增、重複率低
+
+    - REF
+
+      - [聚簇索引]
+      - [詳解聚簇索引]
+      - [MySQL 面試：談談你對聚簇索引的理解]
+
+    </details>
+
+  <!-- Covering Index -->
+
+  - <details close>
+    <summary>Covering Index</summary>
+
+    - 前提要是 Clustered Index
+    - 讓 index 中包含一些資料，使得查詢時可以直接從 index 取得資料
+    - REF
+
+      - [MySQL 覆蓋索引詳解]
+
+    </details>
+
+  <!-- Filter Index -->
+
+  - <details close>
+    <summary>Filter Index</summary>
+
+    - 特化的 Covering Index，可以設定在 index 中存入的 Col，只符合特定條件的 value 才存入（並非所有的 Row 都存）
+    - REF
+
+      - [資料庫索引深入淺出(二)]
+
+    </details>
+
+  <!-- ICP (Index Condition Pushdown) -->
+
+  - <details close>
+    <summary>ICP (Index Condition Pushdown)</summary>
+
+    - 索引條件下推（Index Condition Pushdown，ICP）
+    - 過濾的動作由下層的存儲引擎層通過使用索引來完成，而不需要上推到 Server 層進行處理
+    - 預設開啟
+
+    </details>
+
+  <!-- 其他 -->
+
+  - <details close>
+    <summary>其他</summary>
+
+    - 需了解優化器自動選擇 index 的規則，自動選擇的並非一定就是最高效的，而是選擇 Cost Base Optimizer 最小的
+    - 有時需把多餘的 index 刪除，才能讓其選中更高效的那一個 index
+    - 優化器會將 possible_keys 都試一遍，因此一個查詢若有太多 possible_keys，也會變慢
+    - 若在條件式中對 key 做運算，則會讓 index 失效。雖然新增了「函數索引」，但也是多建立一個 index
+
+    </details>
+
+  - REF: [圖解｜索引覆蓋、索引下推以及如何避免索引失效]
+
+  </details>
+
+## # 效能研究
+
+<!-- 使用 sql function 查詢，對 index 的影響 ( EX. CONCAT ) -->
+
+- <details close>
+  <summary>使用 sql function 查詢，對 index 的影響 ( EX. CONCAT )</summary>
+
+  - 用 `SELECT CONCAT(a, b)`，不影響是否使用 index
+  - 用 `WHERE CONCAT(a, b)=""`，則無法直接使用 index 快速查詢
+  - 也可以另外建一個 `CONCAT(a, b)` 的 index
+
+  ![Index_vs_CONCAT.png](./src/image/Index_vs_CONCAT.png)
+
+  - 數據解析：
+    - type index 會進行 whole index 掃描
+    - type ref 直接二分法搜尋該 index
+
+  </details>
+
+<!-- 使用 `ORDER BY` 查詢，是否選擇 index -->
+
+- <details close><summary>使用 <code>ORDER BY</code> 查詢，是否選擇 index</summary>
+
+  - REF: [MySQL DOC: ORDER BY Optimization]
+
+  - 如果需要再去查全表，則不會使用 index，而是重新對資料做排序
+
+  ![Index_VS_OrderBy1.png](./src/image/Index_VS_OrderBy1.png)
+
+  - 若加上 WHERE 只取得某個區間，會依照區間大小選用 index。區間需要多小？
+
+  ![Index_VS_OrderBy2.png](./src/image/Index_VS_OrderBy2.png)
+
+  </details>
+
+<!-- GROUP BY 與 index -->
+
+- <details close>
+  <summary><code>GROUP BY</code> 與 index</summary>
+
+  - `GROUP BY` 沒有 index 可以用時，會 `Using temporary`，創建一個臨時表
+
+  </details>
+
+<!-- COUNT(*) 與 index -->
+
+- <details close>
+  <summary><code>COUNT(*)</code> 與 index</summary>
+
+  - 避免 `COUNT(*)` 的原因是因為 `*` 無法使用 covering index，而會導致全表掃描
+
+  </details>
 
 ## # 問題集中區
 
@@ -294,6 +419,37 @@
 <!-- 注意事項 -->
 
 - 注意事項：
+
+  <!-- `AUTO_INCREMENT` & `PRIMARY KEY` & `UNIQUE` -->
+
+  - <details close>
+    <summary><code>AUTO_INCREMENT</code> & <code>PRIMARY KEY</code> & <code>UNIQUE</code></summary>
+
+    - 只能有一個 column 設置 `AUTO_INCREMENT`，並且一定要設置為 KEY (PRIMARY 或 UNIQUE)
+    - 若沒有其他 column 被設置為 PK，則此 column 就會直接成為 PK
+    - 可以使用 `PRIMARY KEY(col1, col2)`，跟其他 column 一起成為 Composite Primary Keys
+    - 即便使用 `UNIQUE`，也允許多筆資料都是 NULL
+
+    </details>
+
+  <!-- 大小寫敏感問題 -->
+
+  - <details close>
+    <summary>大小寫敏感問題</summary>
+
+    - 環境不同，可能導致對大小寫敏感，有不同的結果
+
+    </details>
+
+  <!-- ORDER BY 的 Collation 的選擇 -->
+
+  - <details close>
+    <summary>ORDER BY 的 Collation 的選擇</summary>
+
+    - 不同環境可能有不同的預設設定，需統一設定
+    - [MySQL DOC: Character Sets, Collations, Unicode]
+
+    </details>
 
 <!-- 小技巧 -->
 
@@ -387,64 +543,46 @@
 
   - [MySQL 開發規範參考]
 
-    - B+ Tree
+  </details>
 
-      - 因為資料庫存在 disk，選擇的重點在減少 I/O
+<!-- Stored Procedure -->
 
-        - 減少階數，減少 I/O
-        - 盡量將每個 node 大小調整在 disk 的一個 block (EX. 4KB, 16KB..etc)，以減少 I/O
-        - 盡量整理整齊，能放在同一個 block 以減少 I/O
+- <details close>
+  <summary>Stored Procedure</summary>
 
-      - 按順序連結，使順序遍歷更快
+  - 在資料庫 server 上保存的預編譯的程式，像是開客製化的 API，讓外部可以串接使用
 
-      - REF
+  </details>
 
-        - [資料庫層的核心 - 索引結構演化論 B+樹]
-        - [平衡二叉樹、B 樹、B+樹、B*樹理解其中一種你就都明白了]
-        - [MySQL 底層為什麼要選用 B+樹作為索引的數據結構呢？]
+<!-- Filesort 屬於 Unstable Sort？ -->
 
-    - Index
+- <details close>
+  <summary>Filesort 屬於 Unstable Sort？</summary>
 
-      - Clustered Index
+  - [MySQL：排序（filesort）詳細解析]
+  - [What is the sorting algorithm behind ORDER BY query in MySQL?]
+  - GPT：早期為 Quicksort，5.0 改為 Batched Key Access Filesort，此兩種皆為 unstable
 
-        - 一個 table 只能有一個 Clustered Index，所以應該慎選要給哪個 key 用，以發揮最大效能利益
-        - key 選擇要點：不會改、常查詢、容量小、插入順序為遞增、重複率低
+  ![GPT_MySQL_filesort.png](./src/image/GPT_MySQL_filesort.png)
 
-        - REF
+  </details>
 
-          - [聚簇索引]
-          - [詳解聚簇索引]
-          - [MySQL 面試：談談你對聚簇索引的理解]
+<!-- 「使用 SQL Function」 VS 「在 server 處理」 -->
 
-      - Covering Index
+- <details close>
+  <summary>「使用 SQL Function」 VS 「在 server 處理」</summary>
 
-        - 前提要是 Clustered Index
-        - REF
-
-          - [MySQL 覆蓋索引詳解]
-
-      - Filter Index
-
-        - 特化的 Covering Index，可以設定在 index 中存入的 Col，只符合特定條件的 value 才存入（並非所有的 Row 都存）
-        - REF
-
-          - [資料庫索引深入淺出(二)]
-
-      - ICP
-
-        - 索引條件下推（Index Condition Pushdown，ICP）
-        - 過濾的動作由下層的存儲引擎層通過使用索引來完成，而不需要上推到 Server 層進行處理
-        - 預設開啟
-
-      - [圖解｜索引覆蓋、索引下推以及如何避免索引失效]
-
-      - 其他
-
-        - 需了解優化器自動選擇 index 的規則，自動選擇的並非一定就是最高效的，而是選擇 Cost Base Optimizer 最小的
-        - 有時需把多餘的 index 刪除，才能讓其選中更高效的那一個 index
-        - 優化器會將 possible_keys 都試一遍，因此一個查詢若有太多 possible_keys，也會變慢
-        - 若在條件式中對 key 做運算，則會讓 index 失效。雖然新增了「函數索引」，但也是多建立一個 index
+  - 網路傳輸量？
+  - 資料庫記憶體消耗？
+  - 可能有些系統並不需要多建立一個 server？
 
   </details>
 
 ---
+
+# XX
+
+- <details close>
+  <summary></summary>
+
+  </details>
