@@ -2,6 +2,9 @@
 
 <!----------- ref start ----------->
 
+[MySQL doc: COUNT()]: https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html#function_count
+[MySQL 中 IS NULL、IS NOT NULL、!= 不能用索引？]: https://juejin.cn/post/6844903921450745863
+[分析 COUNT(*)]: https://mp.weixin.qq.com/s/eh7G_J3a0JudZRR-wrElag
 [Optimizing SELECT Statements]: https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html
 [Aggregate Function]: https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions-and-modifiers.html
 [String Functions]: https://dev.mysql.com/doc/refman/8.0/en/string-functions.html
@@ -70,63 +73,86 @@
 
 ## # 基礎指令
 
-<!-- SELECT DATABASE(); -->
+<!-- 基本設定查詢 -->
 
 - <details close>
-  <summary><code>SELECT DATABASE();</code></summary>
+  <summary>基本設定查詢</summary>
 
-  - 查詢目前正在 use 的 DB
+  <!-- SELECT VERSION(); -->
+
+  - <details close>
+    <summary><code>SELECT VERSION();</code></summary>
+
+    - 查看 MySQL 版本
+
+    </details>
+
+  <!-- SELECT DATABASE(); -->
+
+  - <details close>
+    <summary><code>SELECT DATABASE();</code></summary>
+
+    - 查詢目前正在 use 的 DB
+
+    </details>
+
+  <!-- DELIMITER symbol -->
+
+  - <details close>
+    <summary><code>DELIMITER symbol</code></summary>
+
+    - 更改結尾的符號
+    - 當前環境生效，若 exit 再回來則回覆成 `;`
+
+    ```sql
+    # EX. 原本用 ; 結尾
+    > SELECT * FROM users;
+
+    # 改成用 # 結尾
+    > DELIMITER #
+    > SELECT * FROM users#
+
+    # exit 後恢復 ;
+    > exit
+    $ mysql -r root -p
+    > SELECT * FROM users;
+    ```
+
+    </details>
+
+  <!-- DESCRIBE table; -->
+
+  - <details close>
+    <summary><code>DESCRIBE table;</code></summary>
+
+    - 秀出該 table 的樣貌
+
+    </details>
+
+  <!-- SHOW WARNINGS; -->
+
+  - <details close>
+    <summary><code>SHOW WARNINGS;</code></summary>
+
+    - 列出上一個操作所造成的 Error 或 Warning
+
+    </details>
 
   </details>
 
-<!-- DELIMITER symbol -->
+<!-- CRUD -->
 
 - <details close>
-  <summary><code>DELIMITER symbol</code></summary>
+  <summary>CRUD</summary>
 
-  - 更改結尾的符號
-  - 當前環境生效，若 exit 再回來則回覆成 `;`
+  <!-- INSERT INTO -->
 
-  ```sql
-  # EX. 原本用 ; 結尾
-  > SELECT * FROM users;
+  - <details close>
+    <summary><code>INSERT INTO</code></summary>
 
-  # 改成用 # 結尾
-  > DELIMITER #
-  > SELECT * FROM users#
+    - `INSERT INTO table(col1, col2) VALUES(col1, col2);`，是按照順序來進行配對 column
 
-  # exit 後恢復 ;
-  > exit
-  $ mysql -r root -p
-  > SELECT * FROM users;
-  ```
-
-  </details>
-
-<!-- DESCRIBE table; -->
-
-- <details close>
-  <summary><code>DESCRIBE table;</code></summary>
-
-  - 秀出該 table 的樣貌
-
-  </details>
-
-<!-- SHOW WARNINGS; -->
-
-- <details close>
-  <summary><code>SHOW WARNINGS;</code></summary>
-
-  - 列出上一個操作所造成的 Error 或 Warning
-
-  </details>
-
-<!-- INSERT INTO -->
-
-- <details close>
-  <summary><code>INSERT INTO</code></summary>
-
-  - `INSERT INTO table(col1, col2) VALUES(col1, col2);`，是按照順序來進行配對 column
+    </details>
 
   </details>
 
@@ -215,6 +241,21 @@
     - `HAVING`：類似於 `GROUP BY` 的 `WHERE`
 
     </details>
+
+  </details>
+
+<!-- Index -->
+
+- <details close>
+  <summary>Index</summary>
+
+  <!-- CREATE INDEX index_name ON table_name(title); -->
+
+  - `CREATE INDEX index_name ON table_name(title);`
+
+  <!-- SHOW INDEXES FROM table_name; -->
+
+  - `SHOW INDEXES FROM table_name;`
 
   </details>
 
@@ -358,12 +399,59 @@
 
   </details>
 
-<!-- COUNT(*) 與 index -->
+<!-- COUNT(*) -->
 
 - <details close>
-  <summary><code>COUNT(*)</code> 與 index</summary>
+  <summary><code>COUNT(*)</code></summary>
 
-  - 避免 `COUNT(*)` 的原因是因為 `*` 無法使用 covering index，而會導致全表掃描
+  - InnoDB 需要每次重新算，會掃描全表(or index)
+
+  <!-- COUNT(col) -->
+
+  - `COUNT(col)` 用來全掃描的表(or index)，COUNT() 的 col 是否包含 NULL，會影響是否每次都需做判斷，影響效能
+
+  <!-- 簡介 COUNT() -->
+
+  - <details close>
+    <summary>簡介 COUNT()</summary>
+
+    - `COUNT(*)`：所有 row，不論是不是 NULL
+    - `COUNT(col)`：只計算該 col 不是 NULL 的 row 數量
+
+    </details>
+
+  <!-- MyISAM VS InnoDB -->
+
+  - <details close>
+    <summary>MyISAM VS InnoDB</summary>
+
+    - MyISAM 有記錄 count 結果，InnoDB 需要每次重新算
+    - 最大原因是： MyISAM 不支持 Transaction， InnoDB 支持 Transaction
+
+      - 因此 InnoDB 若記錄 count 結果，沒意義。因為在不同 Transaction 中可能會改變，不精準。
+      - 即便每次重新算，也只是得到在該計算次中的數量
+      - MySQL InnoDB 可使用 `SHOW TABLE STATUS` 直接取得估算
+
+    </details>
+
+  <!-- InnoDB 解決方案 -->
+
+  - <details close>
+    <summary>InnoDB 解決方案</summary>
+
+    - 可另開 table 存 conut，依照需求分兩種做法
+
+      - `OLTP` (Online Transactional Processing)
+
+        - 注重一致性，所以安排把 update count 包含在每次 Transaction 中
+
+      - `OLAP` (Online Analytical Processing)
+
+        - 只需用來分析，因此可以設定一個時間 update count 一次
+
+    </details>
+
+  - REF: [分析 COUNT(*)] | [MySQL doc: COUNT()]
 
   </details>
 
@@ -575,6 +663,16 @@
   - 網路傳輸量？
   - 資料庫記憶體消耗？
   - 可能有些系統並不需要多建立一個 server？
+
+  </details>
+
+<!-- WHER 中使用 "!=" 可否使用 index -->
+
+- <details close>
+  <summary>WHER 中使用 "!=" 可否使用 index</summary>
+
+  - 舊版不行，新版可以
+  - REF: [MySQL 中 IS NULL、IS NOT NULL、!= 不能用索引？]
 
   </details>
 
