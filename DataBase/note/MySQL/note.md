@@ -2,6 +2,8 @@
 
 <!----------- ref start ----------->
 
+[MySQL Doc: Precision Math]: https://dev.mysql.com/doc/refman/8.0/en/precision-math.html
+[MySQL Doc: DataType]: https://dev.mysql.com/doc/refman/8.0/en/data-types.html
 [MySQL issue answer]: https://bugs.mysql.com/bug.php?id=79808
 [MySQL EXPLAIN Extra 解析]: https://www.modb.pro/db/409873
 [MySQL doc: COUNT()]: https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html#function_count
@@ -49,7 +51,6 @@
   <br>
 
   ![](https://i.imgur.com/KydSI1d.png)
-  ![](./src/image/SQL_cheat_sheet.jpeg)
 
 ## # 安裝
 
@@ -74,6 +75,8 @@
   ![](https://i.imgur.com/vmIzzV0.png) -->
 
 ## # 基礎指令
+
+![](./src/image/SQL_cheat_sheet.jpeg)
 
 <!-- 基本設定查詢 -->
 
@@ -274,6 +277,65 @@
   - `SHOW INDEXES FROM table_name;`
 
   </details>
+
+## # Data Type
+
+- REF: [MySQL Doc: DataType]
+
+- Numeric Type
+
+  - Interger Types
+
+    - `TINYINT`、`SMALLINT`、`MEDIUMINT`、`INT`、`BIGINT`
+    - 可以使用 `UNSIGNED`
+      - EX. `INT UNSIGNED`
+
+  - Fixed-Point Types
+
+    - `DECIMAL`、`NUMERIC`
+
+    - 範例
+
+      - EX. `DECIMAL(5,2)`
+      - precision 為 5 位數字 (digits)，scale 為 2 位小數 (decimals)
+      - 範圍：-999.99 ~ 999.99
+      - <mark>TODO: 此資料有點問題，待研究</mark> size：`DECIMAL(M,D)` 中 `M > D ? M + 2 : D + 2` byte
+
+    - 簡寫
+
+      - `DECIMAL(M)` 等於 `DECIMAL(M,0)`
+      - `DECIMAL` 等於 `DECIMAL(10)`
+
+    - `DECIMAL` 最多 65 digits
+
+    - [MySQL Doc: Precision Math]
+
+  - Floating-Point Types (不準確)
+
+    - `FLOAT`、`DOUBLE`
+    - `FLOAT` 4 byte，`DOUBLE` 8 byte
+    - 格式同 `DECIMAL`，但儲存方式不同，精準度也就不同
+
+  - Bit-Value Type
+
+    - `BIT`
+    - `BIT(M)`: M 可以 1 ~ 64
+    - 輸入範例
+
+      - `INSERT INTO table_name VALUE(b'11111111');`
+      - `INSERT INTO table_name VALUE(0b11111111);`
+      - `INSERT INTO table_name VALUE(x'FF');`
+      - `INSERT INTO table_name VALUE(0xFF);`
+      - `INSERT INTO table_name VALUE(255);`
+
+    - 輸出範例
+
+      - `SELECT x, x+0, BIN(x), OCT(x), HEX(x) FROM table_name;`
+
+        ![BIT_present.png](./src/image/BIT_present.png)
+
+- Date Type
+- String Type
 
 ## # 底層研究
 
@@ -542,6 +604,10 @@
   - 是，MongoDB 還會自動幫你改成複數
 
   </details>
+
+- <mark>TODO:Q</mark> 中途更改某 col 的 Data type 有哪些問題？有哪些限制？DB 會做哪些動作？
+
+  - 更改方式：`ALTER TABLE table_name CHANGE old_col_name new_col_name new_type;`
 
 ---
 
