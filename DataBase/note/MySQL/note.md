@@ -2,6 +2,9 @@
 
 <!----------- ref start ----------->
 
+[MySQL Doc: Date]: https://dev.mysql.com/doc/refman/8.0/en/datetime.html
+[DataType (from ntct)]: http://ftp.ntct.edu.tw/%E7%A0%94%E7%BF%92%E6%95%99%E6%9D%90/95%E5%B9%B4%E6%9A%91%E6%9C%9F%E7%A0%94%E7%BF%92/php&mysql+xoops/0710%E4%B8%8A%E8%AA%B2/%E6%AC%84%E4%BD%8D%E5%9E%8B%E6%85%8B.htm
+[MySQL Doc: Server SQL Modes]: https://dev.mysql.com/doc/refman/8.0/en/sql-mode.html
 [MySQL Doc: Precision Math]: https://dev.mysql.com/doc/refman/8.0/en/precision-math.html
 [MySQL Doc: DataType]: https://dev.mysql.com/doc/refman/8.0/en/data-types.html
 [MySQL issue answer]: https://bugs.mysql.com/bug.php?id=79808
@@ -140,6 +143,17 @@
     <summary><code>SHOW WARNINGS;</code></summary>
 
     - 列出上一個操作所造成的 Error 或 Warning
+    - 只要做新的 SQL 動作，前面的 warning 就消失了
+
+    </details>
+
+  <!-- SHOW VARIABLES; -->
+
+  - <details close>
+    <summary><code>SHOW VARIABLES;</code></summary>
+
+    - 列出所有 DB server 中的變數設定
+    - 設定方式：`SET var_name="var_value"`
 
     </details>
 
@@ -280,7 +294,7 @@
 
 ## # Data Type
 
-- REF: [MySQL Doc: DataType]
+- REF: [MySQL Doc: DataType] | [DataType (from ntct)]
 
 - Numeric Type
 
@@ -335,6 +349,80 @@
         ![BIT_present.png](./src/image/BIT_present.png)
 
 - Date Type
+
+  - REF: [MySQL Doc: Date]
+
+  - `DATE`、`TIME`、`YEAR`、`DATETIME`、`TIMESTAMP`
+  - 盡量都按照完整格式書寫。若需使用簡寫，需再仔細研究地雷區
+  - 有些可以超出一點 support 的範圍，但不建議也不保證
+
+  - `DATE`
+
+    - `YYYY-MM-DD`
+    - `1000-01-01` ~ `9999-12-31`
+    - 3 byte
+
+  - `TIME`
+
+    - `HH:MM:SS`
+    - `-838:59:59` ~ `838:59:59`
+    - 3 byte
+    - <mark>TODO:Q</mark> 為啥是 838 ？
+
+  - `YEAR`
+
+    - `1901` ~ `2155`
+    - 1 byte
+
+  - `DATETIME`
+
+    - `DATE` + `TIME` + microseconds
+    - `YYYY-MM-DD HH:MM:SS`
+    - `1000-01-01 00:00:00` ~ `9999-12-31 23:59:59`
+    - 8 byte
+
+  - `TIMESTAMP`
+
+    - `1970-01-01 00:00:01 UTC` ~ `2038-01-19 03:14:07 UTC`
+    - 4 byte (INT SIGNED)
+    - 時區問題
+
+      - 以當下 SQL server 內設定的時區 (可改設定)，計算出 timestamp
+      - version 8.0.22 後，可在 SQL 用 `CAST()` 直接轉
+
+        - EX. `CAST(timestamp AT TIME ZONE INTERVAL '+00:00' AS datetime)`
+
+    - 實用範例
+
+      - 兩種寫法都可以使得每次 update 該 row 時，自動更新 update_at
+      - `TIMESTAMP` 有時候會預設直接做此設定
+
+      ```sql
+      mysql> CREATE TABLE table_name(
+                col_name1 INT,
+                update_at TIMESTAMP
+                  NOT NULL DEFAULT CURRENT_TIMESTAMP
+                  ON UPDATE CURRENT_TIMESTAMP
+              );
+
+      mysql> CREATE TABLE table_name(
+                col_name1 INT,
+                update_at TIMESTAMP
+                  NOT NULL DEFAULT NOW()
+                  ON UPDATE NOW()
+                );
+      ```
+
+      ![TIMESTAMP_ON_UPDATE.png](./src/image/TIMESTAMP_ON_UPDATE.png)
+
+  - Datetime vs Timestamp
+
+    - Datetime (1000 ～ 9999 年)，Timestamp (1970 ～ 2038 年)
+    - For index, Timestamp 比 Datetime 快
+    - 面臨的時區問題不同 (詳見注意事項)
+
+  - `SELECT NOW();`
+
 - String Type
 
 ## # 底層研究
@@ -645,6 +733,37 @@
 
     - 不同環境可能有不同的預設設定，需統一設定
     - [MySQL DOC: Character Sets, Collations, Unicode]
+
+    </details>
+
+  <!-- 一些淺規則可以透過 Server SQL Modes 調整 -->
+
+  - <details close>
+    <summary>一些淺規則可以透過 Server SQL Modes 調整</summary>
+
+    - [MySQL Doc: Server SQL Modes]
+
+    </details>
+
+  <!-- TIMESTAMP 需注意時區問題 -->
+
+  - <details close>
+    <summary><code>TIMESTAMP</code> vs <code>DATETIME</code> - 時區問題</summary>
+
+    - REF: [MySQL Doc: Date]
+
+    - DATETIME 在儲存時，並不會儲存時區資訊，但是會以 DB server 所設定的時區所得到的時間來儲存
+
+      - 儲存時很容易出錯
+
+    - TIMESTAMP 在呈現時，會自動轉換成 DB server 所設定的時區
+
+      - 舊版解法：
+        - 需查看 DB server 所設定的時區，也可自己設定 `SET time_zone="+00:00"`
+        - 每次都要檢查很麻煩
+      - version 8.0.22 解法：
+        - `CAST(timestamp AT TIME ZONE INTERVAL "+00:00" AS datetime)`
+        - 直接寫在 SQL，不用管不同 server 不同設定
 
     </details>
 
