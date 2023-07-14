@@ -2,6 +2,14 @@
 
 <!----------- ref start ----------->
 
+[論文：Cuckoo Filter: Practically Better Than Bloom]: https://www.cs.cmu.edu/~dga/papers/cuckoo-conext2014.pdf
+[Cuckoo Hash]: https://zhuanlan.zhihu.com/p/543702080
+[驚群問題 (Thundering herd problem)]: https://zhuanlan.zhihu.com/p/385410196
+[CUCKOO FILTER]: https://coolshell.cn/articles/17225.html
+[CAP 理論十二年回顧："規則"變了]: http://myblog-maurice.blogspot.com/2012/08/cap_21.html
+[採用抖動的逾時、重試和退避]: https://aws.amazon.com/tw/builders-library/timeouts-retries-and-backoff-with-jitter/
+[Exponential Backoff And Jitter]: https://aws.amazon.com/tw/blogs/architecture/exponential-backoff-and-jitter/
+[How to caculate k, m, n and p for bloom filter]: https://hur.st/bloomfilter/
 [論文解讀：深入討論 Bloom Filter]: https://www.evanlin.com/BloomFilter/
 [SSTable (Sorted String Table)]: https://www.igvita.com/2012/02/06/sstable-and-log-structured-storage-leveldb/
 [Architecture of Cassandra]: https://cassandra.apache.org/doc/latest/cassandra/architecture/
@@ -148,6 +156,7 @@
 
   - 分散式系統 CAP theorem
 
+    - [CAP 理論十二年回顧："規則"變了]
     - Consistency, Availability, Partition Tolerance
     - 目前為止，CAP 只能取其二
     - 目前為止，網路故障無法完全避免，所以一定無法捨棄 P，因此需在 C & A 上斟酌
@@ -259,6 +268,7 @@
 
   - Write/Read path
 
+    - 先寫 commit log -> 存在 memory -> 集中達閾值再一次存 disk
     - [Bloom filter]
 
       - 可以快速判斷是否「不存在」某個 SSTable，快速找到所在的 SSTable
@@ -276,9 +286,14 @@
           - 改用計數器
           - 但是存 int，所用空間大很多，進而影響到查詢速度
 
-        - cuckoo filter
+      - REF: [論文解讀：深入討論 Bloom Filter] | [How to caculate k, m, n and p for bloom filter]
 
-      - REF: [論文解讀：深入討論 Bloom Filter]
+    - Cuckoo filter
+
+      - REF
+
+        - [論文：Cuckoo Filter: Practically Better Than Bloom]
+        - [Cuckoo Hash] | [CUCKOO FILTER]
 
     - REF
       - [Architecture of Cassandra] 有提供建議的 Write/Read path 設計
@@ -304,6 +319,16 @@
     - 主動傳給所有機器，還是每台機器自己去輪詢？
 
   - 永久失聯使用 Anti-Entropy protocol 時，有沒有可能再拆成好幾棵 Merkle tree 傳遞？還是只會直接全部包成一棵？
+
+---
+
+- Backoff
+
+  - 可用 指數成長
+  - 可加入 Jitter，抖動使大家不會同時 retry (類似 [驚群問題 (Thundering herd problem)])
+  - REF: [Exponential Backoff And Jitter] | [採用抖動的逾時、重試和退避]
+
+---
 
 ## # 書籍
 
