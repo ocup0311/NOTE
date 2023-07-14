@@ -296,59 +296,114 @@
 
 - REF: [MySQL Doc: DataType] | [DataType (from ntct)]
 
-- Numeric Type
+<!-- Numeric Type -->
 
-  - Interger Types
+- <details close>
+  <summary>Numeric Type</summary>
+
+  <!-- Interger Types -->
+
+  - <details close>
+    <summary>Interger Types</summary>
 
     - `TINYINT`、`SMALLINT`、`MEDIUMINT`、`INT`、`BIGINT`
+    - 1、2、3、4、8 byte
     - 可以使用 `UNSIGNED`
       - EX. `INT UNSIGNED`
 
-  - Fixed-Point Types
+    </details>
+
+  <!-- Fixed-Point Types -->
+
+  - <details close>
+    <summary>Fixed-Point Types</summary>
 
     - `DECIMAL`、`NUMERIC`
 
-    - 範例
+    <!-- size (`DECIMAL(M,D)`) -->
+
+    - <details close>
+      <summary>size (<code>DECIMAL(M,D)</code>)</summary>
+
+      - M 最多 65 digits
+      - <mark>TODO: 此資料有點問題，待研究</mark> size：`M > D ? M + 2 : D + 2` byte
+      - 應該是 M+2 byte，且 D <= M+2 ？
+      </details>
+
+    <!-- 範例 -->
+
+    - <details close>
+      <summary>範例</summary>
 
       - EX. `DECIMAL(5,2)`
       - precision 為 5 位數字 (digits)，scale 為 2 位小數 (decimals)
       - 範圍：-999.99 ~ 999.99
-      - <mark>TODO: 此資料有點問題，待研究</mark> size：`DECIMAL(M,D)` 中 `M > D ? M + 2 : D + 2` byte
+      </details>
 
-    - 簡寫
+    <!-- 簡寫 -->
+
+    - <details close>
+      <summary>簡寫</summary>
 
       - `DECIMAL(M)` 等於 `DECIMAL(M,0)`
       - `DECIMAL` 等於 `DECIMAL(10)`
 
-    - `DECIMAL` 最多 65 digits
+      </details>
 
-    - [MySQL Doc: Precision Math]
+    - REF: [MySQL Doc: Precision Math]
 
-  - Floating-Point Types (不準確)
+    </details>
+
+  <!-- Floating-Point Types (不準確) -->
+
+  - <details close>
+    <summary>Floating-Point Types (不準確)</summary>
 
     - `FLOAT`、`DOUBLE`
     - `FLOAT` 4 byte，`DOUBLE` 8 byte
     - 格式同 `DECIMAL`，但儲存方式不同，精準度也就不同
 
-  - Bit-Value Type
+    </details>
+
+  <!-- Bit-Value Type -->
+
+  - <details close>
+    <summary>Bit-Value Type</summary>
 
     - `BIT`
     - `BIT(M)`: M 可以 1 ~ 64
-    - 輸入範例
+
+    <!-- 輸入範例 -->
+
+    - <details close>
+      <summary>輸入範例</summary>
 
       - `INSERT INTO table_name VALUE(b'11111111');`
       - `INSERT INTO table_name VALUE(0b11111111);`
       - `INSERT INTO table_name VALUE(x'FF');`
       - `INSERT INTO table_name VALUE(0xFF);`
       - `INSERT INTO table_name VALUE(255);`
+      </details>
 
-    - 輸出範例
+    <!-- 輸出範例 -->
+
+    - <details close>
+      <summary>輸出範例</summary>
 
       - `SELECT x, x+0, BIN(x), OCT(x), HEX(x) FROM table_name;`
 
         ![BIT_present.png](./src/image/BIT_present.png)
 
-- Date Type
+      </details>
+
+    </details>
+
+  </details>
+
+<!-- Date Type -->
+
+- <details close>
+  <summary>Date Type</summary>
 
   - REF: [MySQL Doc: Date]
 
@@ -356,32 +411,55 @@
   - 盡量都按照完整格式書寫。若需使用簡寫，需再仔細研究地雷區
   - 有些可以超出一點 support 的範圍，但不建議也不保證
 
-  - `DATE`
+  <!-- DATE -->
+
+  - <details close>
+    <summary><code>DATE</code></summary>
 
     - `YYYY-MM-DD`
     - `1000-01-01` ~ `9999-12-31`
     - 3 byte
 
-  - `TIME`
+    </details>
+
+  <!-- TIME -->
+
+  - <details close>
+    <summary><code>TIME</code></summary>
 
     - `HH:MM:SS`
     - `-838:59:59` ~ `838:59:59`
     - 3 byte
     - <mark>TODO:Q</mark> 為啥是 838 ？
 
-  - `YEAR`
+    </details>
+
+  <!-- YEAR -->
+
+  - <details close>
+    <summary><code>YEAR</code></summary>
 
     - `1901` ~ `2155`
     - 1 byte
 
-  - `DATETIME`
+    </details>
+
+  <!-- DATETIME -->
+
+  - <details close>
+    <summary><code>DATETIME</code></summary>
 
     - `DATE` + `TIME` + microseconds
     - `YYYY-MM-DD HH:MM:SS`
     - `1000-01-01 00:00:00` ~ `9999-12-31 23:59:59`
     - 8 byte
 
-  - `TIMESTAMP`
+    </details>
+
+  <!-- TIMESTAMP -->
+
+  - <details close>
+    <summary><code>TIMESTAMP</code></summary>
 
     - `1970-01-01 00:00:01 UTC` ~ `2038-01-19 03:14:07 UTC`
     - 4 byte (INT SIGNED)
@@ -415,15 +493,29 @@
 
       ![TIMESTAMP_ON_UPDATE.png](./src/image/TIMESTAMP_ON_UPDATE.png)
 
-  - Datetime vs Timestamp
+    </details>
+
+  <!-- DATETIME vs TIMESTAMP -->
+
+  - <details close>
+    <summary><code>DATETIME</code> vs <code>TIMESTAMP</code></summary>
 
     - Datetime (1000 ～ 9999 年)，Timestamp (1970 ～ 2038 年)
     - For index, Timestamp 比 Datetime 快
     - 面臨的時區問題不同 (詳見注意事項)
 
+    </details>
+
   - `SELECT NOW();`
 
-- String Type
+  </details>
+
+<!-- String Type -->
+
+- <details close>
+  <summary>String Type</summary>
+
+  </details>
 
 ## # 底層研究
 
@@ -693,9 +785,14 @@
 
   </details>
 
-- <mark>TODO:Q</mark> 中途更改某 col 的 Data type 有哪些問題？有哪些限制？DB 會做哪些動作？
+<!-- 中途更改某 col 的 Data type 有哪些問題？有哪些限制？DB 會做哪些動作？ -->
+
+- <details close>
+  <summary><mark>TODO:Q</mark> 中途更改某 col 的 Data type 有哪些問題？有哪些限制？DB 會做哪些動作？</summary>
 
   - 更改方式：`ALTER TABLE table_name CHANGE old_col_name new_col_name new_type;`
+
+  </details>
 
 ---
 
@@ -745,25 +842,48 @@
 
     </details>
 
-  <!-- TIMESTAMP 需注意時區問題 -->
+  <!-- TIMESTAMP vs DATETIME - 時區問題 -->
 
   - <details close>
     <summary><code>TIMESTAMP</code> vs <code>DATETIME</code> - 時區問題</summary>
 
     - REF: [MySQL Doc: Date]
 
-    - DATETIME 在儲存時，並不會儲存時區資訊，但是會以 DB server 所設定的時區所得到的時間來儲存
+    - <details close>
+      <summary>DATETIME 在儲存時，並不會儲存時區資訊，但是會以 DB server 所設定的時區所得到的時間來儲存</summary>
 
       - 儲存時很容易出錯
 
-    - TIMESTAMP 在呈現時，會自動轉換成 DB server 所設定的時區
+      </details>
 
-      - 舊版解法：
-        - 需查看 DB server 所設定的時區，也可自己設定 `SET time_zone="+00:00"`
-        - 每次都要檢查很麻煩
-      - version 8.0.22 解法：
+    - <details close>
+      <summary>TIMESTAMP 在呈現時，會自動轉換成 DB server 所設定的時區</summary>
+
+      <!-- 舊版解法： -->
+
+      - <details close>
+        <summary>舊版解法：</summary>
+
+        - 需查看 DB server 所設定的時區，也可自己設定
+
+          - `SET time_zone = "+08:00";`
+          - `SET time_zone = 'Asia/Taipei';`
+
+        - 每次都要檢查或設定很麻煩
+        - 為了呈現改設定，可能會影響到其他地方
+
+        </details>
+
+      <!-- version 8.0.22 解法： -->
+
+      - <details close>
+        <summary>version 8.0.22 解法：</summary>
+
         - `CAST(timestamp AT TIME ZONE INTERVAL "+00:00" AS datetime)`
         - 直接寫在 SQL，不用管不同 server 不同設定
+        </details>
+
+      </details>
 
     </details>
 
