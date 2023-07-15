@@ -2,6 +2,8 @@
 
 <!----------- ref start ----------->
 
+[分佈式系統理論：Quorum 算法]: https://blog.csdn.net/NYfor2017/article/details/105558211
+[DynamoDB 的 Consistency 與 Availability 的爭奪 - Quorum System]: https://ithelp.ithome.com.tw/articles/10218182
 [論文：Cuckoo Filter: Practically Better Than Bloom]: https://www.cs.cmu.edu/~dga/papers/cuckoo-conext2014.pdf
 [Cuckoo Hash]: https://zhuanlan.zhihu.com/p/543702080
 [驚群問題 (Thundering herd problem)]: https://zhuanlan.zhihu.com/p/385410196
@@ -191,11 +193,19 @@
 
   - Consistency
 
-    - Quorum consensus
+    - 名詞簡介
 
-      - 鴿巢理論
       - W/R 代表 coordinator 至少需要收到幾個 W/R 的回應後，認定已完成 W/R
       - 幾種分類：`R = 1 & W = N`, `W = 1 & R = N`, `W + R > N`, `W + R <= N`
+
+    - Quorum consensus
+
+      - 源自鴿巢理論
+      - 可確保 W/R 的一致性
+      - 定義
+        - `W + R > N`：確保有同一筆資料，不會同時被 W/R
+        - `W + W > N`：確保同一筆資料，不會同時進行兩種 W
+      - REF: [分佈式系統理論：Quorum 算法]
 
     - Consistency models：Strong、Weak、Eventual
 
@@ -248,7 +258,19 @@
 
       - 暫時失聯
 
-        - Hinted handoff：當 down server 恢復後，再將 new server 新增的資料，同步回 down server
+        - Sloppy Quorum + Hinted handoff
+
+        - Sloppy Quorum
+
+          - 忽略 Offline servers，
+          - 因為用 Strict Quorum 可能在有 Offline servers 時，導致無法達到限制
+          - 因此 DynamoDB 文件中提到，只保證單一 Region 的 Replica 有 Strong Consistency。跨 Region 則是 Eventual Consistency
+
+        - Hinted handoff
+
+          - 當 down server 恢復後，再將 new server 新增的資料，同步回 down server
+
+        - REF: [DynamoDB 的 Consistency 與 Availability 的爭奪 - Quorum System]
 
       - 永久失聯
 
@@ -308,7 +330,7 @@
     - Consistent hashing 要怎麼讓 replica 可以按照不同資料區且高速網路連接？
     - 如果插入的資料的 hash 在 N 台 replica 的 hash 中間，怎麼辦？
 
-  - Quorum consensus 中，`W + R <= N` 方案，通常會用多少比例的 W/R？
+  - 處理一致性是否有 `W + R <= N` 方案？通常會用多少比例的 W/R？
 
   - Vector clocks 呈現衝突後，怎麼解衝突？呈現給 client 後，就是業務問題了？
 
