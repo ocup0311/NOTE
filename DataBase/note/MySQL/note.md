@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[MySQL Doc: Date and Time Functions]: https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html
 [MySQL Doc: Date]: https://dev.mysql.com/doc/refman/8.0/en/datetime.html
 [DataType (from ntct)]: http://ftp.ntct.edu.tw/%E7%A0%94%E7%BF%92%E6%95%99%E6%9D%90/95%E5%B9%B4%E6%9A%91%E6%9C%9F%E7%A0%94%E7%BF%92/php&mysql+xoops/0710%E4%B8%8A%E8%AA%B2/%E6%AC%84%E4%BD%8D%E5%9E%8B%E6%85%8B.htm
 [MySQL Doc: Server SQL Modes]: https://dev.mysql.com/doc/refman/8.0/en/sql-mode.html
@@ -506,7 +507,26 @@
 
     </details>
 
-  - `SELECT NOW();`
+  <!-- 相關 Function -->
+
+  - <details close>
+    <summary>相關 Function</summary>
+
+    - `NOW()`、`CURRENT_TIMESTAMP()`、`CURRENT_TIMESTAMP`
+
+      - MySQL 中，都是回傳當下時區的時間
+      - 需注意就算以數字格式呈現，也不是 TIMESTAMP，而是 DATETIME
+
+    - `NOW()` vs `SYSDATE()`
+
+      - `NOW()`、`CURRENT_TIMESTAMP()` 是執行準備開始的時間
+      - `SYSDATE()` 是真正執行時的時間
+
+      ![NOW_vs_SYSDATE.png](./src/image/NOW_vs_SYSDATE.png)
+
+    - [MySQL Doc: Date and Time Functions]
+
+    </details>
 
   </details>
 
