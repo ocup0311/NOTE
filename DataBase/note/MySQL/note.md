@@ -535,6 +535,59 @@
 - <details close>
   <summary>String Type</summary>
 
+  - `CHAR`、`VARCHAR`
+
+    - 定義要使用幾個 char
+    - type：1 byte
+    - 英文字母：1 byte
+
+    - `CHAR`
+
+      - 0 ~ 255 char
+      - 固定空間
+
+    - `VARCHAR`
+
+      - 0 ~ 65535 char
+      - 固定最大可使用空間
+      - 改變長度時，會需要重新分配空間
+
+    - function
+
+      - `CHAR_LENGTH()` 計算 char 長度
+      - `LENGTH()` 計算 char 所使用空間 (但如果 CHAR(4) 存 'ab'，會回傳 2)
+
+  - `BINARY`、`VARBINARY`
+
+    - 定義要使用幾個 byte
+    - `BINARY` 會補滿 0x00，所以用 `LENGTH()` 會回傳固定的
+
+  - `BLOB`、`TEXT`
+
+    - 儲存空間更大的 `VARBINARY`、`VARCHAR`
+    - 2^8, 2^16, 2^24, 2^32 byte
+    - 可以設定 `max_sort_length`，排序時，最多只會依照前面 max_sort_length 個去排序
+
+  - `ENUM`
+
+    - 實際上是儲存一個 index，可節省空間
+    - 也可以在 insert 時，使用 index 編號
+
+      ```sql
+      ## EX. S, M, L = 1, 2, 3
+
+      mysql> CREATE TABLE table1(title VARCHAR(5), size ENUM('S', 'M', 'L'));
+      mysql> INSERT INTO table1(title, size) VALUE('hat', 1);
+      ```
+
+  - `SET`
+
+    - 0 ~ 64 member
+    - 同 `ENUM`，也是儲存 index
+    - index 換算成二進位，剛好對應到有哪些 member
+
+      ![SET_type_limit.png](./src/image/SET_type_limit.png)
+
   </details>
 
 ## # 底層研究
