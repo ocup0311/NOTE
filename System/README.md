@@ -2,12 +2,16 @@
 
 <!----------- ref start ----------->
 
+[論文解讀： Cuckoo Filter]: https://blog.51cto.com/u_15060511/4014458
+[比 Bloom filter 與 Cuckoo filter 再更進一步的 Xor filter]: https://blog.gslin.org/archives/2019/12/21/9348/%E6%AF%94-bloom-filter-%E8%88%87-cuckoo-filter-%E5%86%8D%E6%9B%B4%E9%80%B2%E4%B8%80%E6%AD%A5%E7%9A%84-xor-filter/
+[Consule 系列:Consul 實現詳解]: https://www.jianshu.com/p/19e7e4420d79
+[區塊鏈前哨戰 2：組織內共識機制首選 — Raft]: https://medium.com/bsos-taiwan/raft-the-best-choice-of-consensus-within-the-organization-1cc555d54d6d
 [分佈式系統理論：Quorum 算法]: https://blog.csdn.net/NYfor2017/article/details/105558211
 [DynamoDB 的 Consistency 與 Availability 的爭奪 - Quorum System]: https://ithelp.ithome.com.tw/articles/10218182
 [論文：Cuckoo Filter: Practically Better Than Bloom]: https://www.cs.cmu.edu/~dga/papers/cuckoo-conext2014.pdf
 [Cuckoo Hash]: https://zhuanlan.zhihu.com/p/543702080
 [驚群問題 (Thundering herd problem)]: https://zhuanlan.zhihu.com/p/385410196
-[CUCKOO FILTER]: https://coolshell.cn/articles/17225.html
+[CUCKOO FILTER - 酷殼]: https://coolshell.cn/articles/17225.html
 [CAP 理論十二年回顧："規則"變了]: http://myblog-maurice.blogspot.com/2012/08/cap_21.html
 [採用抖動的逾時、重試和退避]: https://aws.amazon.com/tw/builders-library/timeouts-retries-and-backoff-with-jitter/
 [Exponential Backoff And Jitter]: https://aws.amazon.com/tw/blogs/architecture/exponential-backoff-and-jitter/
@@ -15,7 +19,7 @@
 [論文解讀：深入討論 Bloom Filter]: https://www.evanlin.com/BloomFilter/
 [SSTable (Sorted String Table)]: https://www.igvita.com/2012/02/06/sstable-and-log-structured-storage-leveldb/
 [Architecture of Cassandra]: https://cassandra.apache.org/doc/latest/cassandra/architecture/
-[Anti-Entropy 步驟]: https://blog.csdn.net/zhangxinrun/article/details/9347263
+[Anti-Entropy 步驟]: http://www.360doc.com/content/12/0614/14/7936054_218097481.shtml
 [Database Papers: Anti-Entropy without Merkle Trees, Deletes without Tombstones]: https://medium.com/@ifesdjeen/database-papers-anti-entropy-without-merkle-trees-deletes-without-tombstones-a47d2b1608f3
 [向量時鐘]: https://zhuanlan.zhihu.com/p/56886156
 [xid]: https://github.com/rs/xid
@@ -312,10 +316,51 @@
 
     - Cuckoo filter
 
-      - REF
+      - 使用的 Cuckoo Hash 改進 Bloom Filter
+      - Cuckoo Hash
 
-        - [論文：Cuckoo Filter: Practically Better Than Bloom]
-        - [Cuckoo Hash] | [CUCKOO FILTER]
+        - 用 N 個 hash function
+        - 將 key (or fingerprint) 存入對應的 hash bucket 中
+        - 當插入新的 key 時，對應的 hash bucket 已滿，則踢出舊的
+        - 舊的再用下一個 hash function，存入對應的 hash bucket 中
+        - 不斷重複，直到某個規定的上限次數，則認定進入循環，表示空間不夠
+        - 空間不夠，則進行重新分配空間後 rehash
+
+      - [論文：Cuckoo Filter: Practically Better Than Bloom]
+
+        - 基本 Cuckoo Filter 的 Cuckoo Hash 配置
+
+          - 使用 2 個有關聯的 hash function
+
+            - `h1(x) = hash(x)`
+            - `h2(x) = h1(x) OXR hash(x's fingerprint)`
+
+          - 每個 bucket 有 4 entry
+          - 每個 entry 為 8 bit
+          - 每個 entry 放 1 個 fingerprint
+
+        - `h2(x) = h1(x) OXR hash(x's fingerprint)`
+
+          - 透過公式，可使 i1 & i2 互轉
+          - i2 = i1 OXR hash(f)
+          - i1 = i2 OXR hash(f)
+
+        - 只存 fingerprint 無法 rehash，所以遇到循環後，就會有「偽陽」問題
+
+        - 假設剛好有兩筆資料的 fingerprint 相同，且在同一個 bucket，則該 bucket 中會存在兩個一樣的 fingerprint。所以在刪除後不會有「偽陰」問題。
+
+        ![Cuckoo_Filter_Insert.png](./src/image/Cuckoo_Filter_Insert.png)
+        ![Cuckoo_Filter_LookUp.png](./src/image/Cuckoo_Filter_LookUp.png)
+        ![Cuckoo_Filter_Delete.png](./src/image/Cuckoo_Filter_Delete.png)
+
+      - REF
+        - [Cuckoo Hash]
+        - [CUCKOO FILTER - 酷殼]
+        - [論文解讀： Cuckoo Filter]
+
+    - Xor filter
+
+      - REF: [比 Bloom filter 與 Cuckoo filter 再更進一步的 Xor filter]
 
     - REF
       - [Architecture of Cassandra] 有提供建議的 Write/Read path 設計
@@ -351,6 +396,11 @@
   - REF: [Exponential Backoff And Jitter] | [採用抖動的逾時、重試和退避]
 
 ---
+
+- RAFT
+
+  - [區塊鏈前哨戰 2：組織內共識機制首選 — Raft]
+  - [Consule 系列:Consul 實現詳解]
 
 ## # 書籍
 
