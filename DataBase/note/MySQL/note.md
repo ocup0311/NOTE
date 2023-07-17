@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[MySQL shell]: https://github.com/dbcli/mycli
 [MySQL Doc: BINARY]: https://dev.mysql.com/doc/refman/8.0/en/cast-functions.html#operator_binary
 [MySQL 函數 ｜鐵人]: https://ithelp.ithome.com.tw/articles/10034496
 [MySQL Doc: Operator]: https://dev.mysql.com/doc/refman/8.0/en/non-typed-operators.html
@@ -314,7 +315,7 @@
 
   - [MySQL Doc: Operator]
 
-  - `NOT`、`!=`、`LIKE`、`BINARY`
+  - `NOT`、`!=`、`LIKE`、`BINARY`、`AND`、`OR`、`BETWEEN`、`IN`、`CASE`
 
   - `BINARY`
 
@@ -340,6 +341,27 @@
       ```
 
     - REF: [MySQL Doc: BINARY] | [MySQL 函數 ｜鐵人]
+
+  - `BETWEEN`
+
+    - 包含前後兩個
+    - EX. `SELECT * FROM table_name WHERE col_name BETWEEN 1 AND 5;` 中，回傳資料包含 1 & 5
+
+  - `CASE`
+
+    ```sql
+    ## EX. 依照分數分類為 1 ~ 5 顆星，並在查詢結果增加一個 col 為 stars
+
+    SELECT *,
+      CASE
+        WHEN score>=8 THEN "*****"
+        WHEN score>=7 AND score<8 THEN "****"
+        WHEN score>=6 AND score<7 THEN "***"
+        WHEN score>=5 AND score<6 THEN "**"
+        ELSE "*"
+      END AS stars
+    FROM movie
+    ```
 
   </details>
 
@@ -915,6 +937,19 @@
 
   </details>
 
+<!-- IN vs OR -->
+
+- <details close>
+  <summary><code>IN</code> vs <code>OR</code></summary>
+
+  - `IN` & `OR` 在效能上看起來是一樣的，只差別在閱讀性
+
+    ![IN_vs_OR.png](./src/image/IN_vs_OR.png)
+
+    - 其中 `rows` 解讀：4 個條件 ＋ 5 筆資料 － 2 種重複
+
+  </details>
+
 ## # 問題集中區
 
 <!-- Composite Primary Keys -->
@@ -1125,6 +1160,10 @@
 
   - <details close>
     <summary>開發工具</summary>
+
+    - [MySQL shell]
+
+      - shell 中自動補全跟提示
 
     </details>
 
