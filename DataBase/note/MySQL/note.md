@@ -2,6 +2,9 @@
 
 <!----------- ref start ----------->
 
+[MySQL Doc: BINARY]: https://dev.mysql.com/doc/refman/8.0/en/cast-functions.html#operator_binary
+[MySQL 函數 ｜鐵人]: https://ithelp.ithome.com.tw/articles/10034496
+[MySQL Doc: Operator]: https://dev.mysql.com/doc/refman/8.0/en/non-typed-operators.html
 [MySQL Doc: Date and Time Functions]: https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html
 [MySQL Doc: Date]: https://dev.mysql.com/doc/refman/8.0/en/datetime.html
 [DataType (from ntct)]: http://ftp.ntct.edu.tw/%E7%A0%94%E7%BF%92%E6%95%99%E6%9D%90/95%E5%B9%B4%E6%9A%91%E6%9C%9F%E7%A0%94%E7%BF%92/php&mysql+xoops/0710%E4%B8%8A%E8%AA%B2/%E6%AC%84%E4%BD%8D%E5%9E%8B%E6%85%8B.htm
@@ -227,18 +230,44 @@
   - <details close>
     <summary><code>LIKE</code></summary>
 
-    - `%` 省略
+    <!-- `%` 省略 -->
 
-      - EX. `SELECT * FROM users LIKE "%A";`
+    - <details close>
+      <summary><code>%</code> 省略</summary>
 
-    - `_` 省略數量，有幾個 `_` 就代表幾個 char
+      - EX. `SELECT * FROM table_name LIKE "%A";`
+      - EX. `SELECT * FROM table_name LIKE "A%";`
+      - EX. `SELECT * FROM table_name LIKE "%A%";`
+      </details>
 
-      - EX. `SELECT * FROM users LIKE "__A";`
+    <!-- `_` 省略數量 -->
 
-    - `BINARY`
+    - <details close>
+      <summary><code>_</code> 省略數量</summary>
 
-      - 可以區分大小寫
-      - EX. `SELECT * FROM users WHERE name LIKE BINARY 'J%';`
+      - 有幾個 `_` 就代表幾個 char
+      - EX. `SELECT * FROM table_name LIKE "__A";`
+      - EX. `SELECT * FROM table_name LIKE "A___";`
+      </details>
+
+    <!-- 預設不會區分大小寫 -->
+
+    - <details close>
+      <summary>預設不會區分大小寫</summary>
+
+      - 可用 `BINARY` 區分大小寫
+      - EX. `SELECT * FROM table_name WHERE col_name LIKE BINARY 'J%';`
+
+      </details>
+
+    <!-- 效能注意 -->
+
+    - <details close>
+      <summary>效能注意</summary>
+
+      - 使用 `%`, `_` 等開頭，會無法使用 index
+
+      </details>
 
     </details>
 
@@ -278,6 +307,42 @@
 
   </details>
 
+<!-- Operator -->
+
+- <details close>
+  <summary>Operator</summary>
+
+  - [MySQL Doc: Operator]
+
+  - `NOT`、`!=`、`LIKE`、`BINARY`
+
+  - `BINARY`
+
+    - 轉成 binary string，可以進行 byte by byte 的比較 (沒轉之前為 char by char，所以才無法區分大小寫)
+
+    - 範例
+
+      - 在查詢時才指定 COLLATE
+
+        - EX. `SELECT * FROM table_name WHERE col_name LIKE BINARY 'J%';`
+
+      - 在定義欄位時，同時定義預設的 COLLATE
+
+        - EX. `CREATE TABLE table_name(col_name VARCHAR(5) BINARY);`
+
+      ```sql
+      ## 預設為 utf8mb4 時，以下兩兩同義：
+      CHAR(10) BINARY
+      CHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin
+
+      CHAR(10) CHARACTER SET binary
+      BINARY(10)
+      ```
+
+    - REF: [MySQL Doc: BINARY] | [MySQL 函數 ｜鐵人]
+
+  </details>
+
 <!-- Index -->
 
 - <details close>
@@ -290,6 +355,18 @@
   <!-- SHOW INDEXES FROM table_name; -->
 
   - `SHOW INDEXES FROM table_name;`
+
+  </details>
+
+<!-- ALTER -->
+
+- <details close>
+  <summary><code>ALTER</code></summary>
+
+  - `ALTER TABLE table_name MODIFY col_name TYPE_NAME;`
+
+    - 更改 col 的 type
+    - 需相容所有已存在的資料，才能改變
 
   </details>
 
@@ -535,6 +612,23 @@
 - <details close>
   <summary>String Type</summary>
 
+  <!-- `Binary strings` vs `Nonbinary strings` -->
+
+  - <details close>
+    <summary><code>Binary strings</code> vs <code>Nonbinary strings</code></summary>
+
+    - Binary strings
+
+      - `BINARY`、`VARBINARY`、`BLOB`、
+
+    - Nonbinary strings
+
+      - `CHAR`、`VARCHAR`、`TEXT`
+
+    </details>
+
+  <!-- `CHAR`、`VARCHAR` -->
+
   - `CHAR`、`VARCHAR`
 
     - 定義要使用幾個 char
@@ -557,10 +651,14 @@
       - `CHAR_LENGTH()` 計算 char 長度
       - `LENGTH()` 計算 char 所使用空間 (但如果 CHAR(4) 存 'ab'，會回傳 2)
 
+  <!-- `BINARY`、`VARBINARY` -->
+
   - `BINARY`、`VARBINARY`
 
     - 定義要使用幾個 byte
     - `BINARY` 會補滿 0x00，所以用 `LENGTH()` 會回傳固定的
+
+  <!-- `BLOB`、`TEXT` -->
 
   - `BLOB`、`TEXT`
 
@@ -568,19 +666,23 @@
     - 2^8, 2^16, 2^24, 2^32 byte
     - 可以設定 `max_sort_length`，排序時，最多只會依照前面 max_sort_length 個去排序
 
-  - `ENUM`
+  <!-- `ENUM`、`SET` -->
 
-    - 實際上是儲存一個 index，可節省空間
-    - 也可以在 insert 時，使用 index 編號
+  - `ENUM`、`SET`
 
-      ```sql
-      ## EX. S, M, L = 1, 2, 3
+    - `ENUM`
 
-      mysql> CREATE TABLE table1(title VARCHAR(5), size ENUM('S', 'M', 'L'));
-      mysql> INSERT INTO table1(title, size) VALUE('hat', 1);
-      ```
+      - 實際上是儲存一個 index，可節省空間
+      - 也可以在 insert 時，使用 index 編號
 
-  - `SET`
+        ```sql
+        ## EX. S, M, L = 1, 2, 3
+
+        mysql> CREATE TABLE table1(title VARCHAR(5), size ENUM('S', 'M', 'L'));
+        mysql> INSERT INTO table1(title, size) VALUE('hat', 1);
+        ```
+
+    - `SET`
 
     - 0 ~ 64 member
     - 同 `ENUM`，也是儲存 index
@@ -864,6 +966,22 @@
   <summary><mark>TODO:Q</mark> 中途更改某 col 的 Data type 有哪些問題？有哪些限制？DB 會做哪些動作？</summary>
 
   - 更改方式：`ALTER TABLE table_name CHANGE old_col_name new_col_name new_type;`
+
+  </details>
+
+<!-- COLLATE 是在哪個步驟上起作用？ -->
+
+- <details close>
+  <summary><mark>TODO:Q</mark> COLLATE 是在哪個步驟上起作用？</summary>
+
+  </details>
+
+<!-- Nonbinary strings 跟 binary strings 在儲存上，本質上有什麼差異？ -->
+
+- <details close>
+  <summary><mark>TODO:Q</mark> Nonbinary strings 跟 binary strings 在儲存上，本質上有什麼差異？</summary>
+
+  - binary strings 是否只能輸入 ASCII 的內容？如果輸入中文，是否會自動轉成數個 byte？
 
   </details>
 
