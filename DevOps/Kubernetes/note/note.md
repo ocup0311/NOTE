@@ -8,6 +8,7 @@
 [Kubernetes Best practices (官方)]: https://kubernetes.io/docs/setup/best-practices/
 [apt-key is deprecated]: https://itsfoss.com/apt-key-deprecated/
 [Ubuntu Server 如何永久儲存 iptables 的設定？]: https://magiclen.org/ubuntu-server-iptables-save-permanently/
+[K8sGPT]: https://k8sgpt.ai/
 
 <!------------ ref end ------------>
 
@@ -224,6 +225,8 @@
 
   - <details close>
     <summary>開發工具</summary>
+
+    - [K8sGPT]
 
     </details>
 
