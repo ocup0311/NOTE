@@ -2,6 +2,8 @@
 
 <!----------- ref start ----------->
 
+[MySQL Doc: SHOW Statements]: https://dev.mysql.com/doc/refman/8.0/en/show.html
+[validate_password]: https://dev.mysql.com/doc/refman/8.0/en/validate-password.html
 [MySQL shell]: https://github.com/dbcli/mycli
 [MySQL Doc: BINARY]: https://dev.mysql.com/doc/refman/8.0/en/cast-functions.html#operator_binary
 [MySQL 函數 ｜鐵人]: https://ithelp.ithome.com.tw/articles/10034496
@@ -84,7 +86,15 @@
 
 ## # 基礎指令
 
-![](./src/image/SQL_cheat_sheet.jpeg)
+<!-- 速記小抄 (Cheat Sheet) -->
+
+- <details close>
+  <summary>速記小抄 (Cheat Sheet)</summary>
+
+  ![](./src/image/SQL_cheat_sheet1.jpeg)
+  ![](./src/image/SQL_cheat_sheet2.png)
+
+  </details>
 
 <!-- 基本設定查詢 -->
 
@@ -162,6 +172,17 @@
 
     </details>
 
+  <!-- SHOW CREATE DATABASE db_name; -->
+
+  - <details close>
+    <summary><code>SHOW CREATE DATABASE db_name;</code></summary>
+
+    - [MySQL Doc: SHOW Statements]
+    - 可以查詢該 database 的資訊 (CHARACTER SET, COLLATE, ENCRYPTION)
+    - 同理可查 `SCHEMA`
+
+    </details>
+
   </details>
 
 <!-- CRUD -->
@@ -177,17 +198,6 @@
     - `INSERT INTO table(col1, col2) VALUES(col1, col2);`，是按照順序來進行配對 column
 
     </details>
-
-  </details>
-
-<!-- String Functions -->
-
-- <details close>
-  <summary>String Functions</summary>
-
-  - [String Functions]
-
-  - `CONCAT`、`CONCAT_WS`、`SUBSTR`、`REPLACE`、`REVERSE`、`CHAR_LENGTH`、`LOWER`、`UPPER`
 
   </details>
 
@@ -274,35 +284,103 @@
 
   </details>
 
-<!-- Aggregate Function -->
+<!-- Function -->
 
 - <details close>
-  <summary>Aggregate Function</summary>
+  <summary>Function</summary>
 
-  - [Aggregate Function]
-
-  - `COUNT`、`DISTINCT`、`SUM`、`MAX`、`MIN`、`AVG`
-
-  <!-- GROUP BY -->
+  <!-- String Function -->
 
   - <details close>
-    <summary><code>GROUP BY</code></summary>
+    <summary>String Function</summary>
 
-    - `HAVING`：類似於 `GROUP BY` 的 `WHERE`，但本質上不同
+    - [String Functions]
+
+    - `CONCAT`、`CONCAT_WS`、`SUBSTR`、`REPLACE`、`REVERSE`、`CHAR_LENGTH`、`LOWER`、`UPPER`、`TRIM`、``
 
     </details>
 
-  <!-- HAVING VS WHERE -->
+  <!-- DateTime Function -->
 
   - <details close>
-    <summary><code>HAVING</code> VS <code>WHERE</code></summary>
+    <summary>DateTime Function</summary>
 
-    - `WHERE`：查表時進行篩選
-    - `HAVING`：對查詢結果進行篩選
+    - `NOW()`、`CURRENT_TIMESTAMP()`、`CURRENT_TIMESTAMP`
 
-    - 當在一般情形，直接以 `HAVING` 替代 `WHERE`，則會先返回結果才進行篩選，導致其掃表的範圍變大、返回的內容變多
+      - MySQL 中，都是回傳當下時區的時間
+      - 需注意就算以數字格式呈現，也不是 TIMESTAMP，而是 DATETIME
 
-      ![HAVING_vs_WHERE.png](./src/image/HAVING_vs_WHERE.png)
+    - `NOW()` vs `SYSDATE()`
+
+      - `NOW()`、`CURRENT_TIMESTAMP()` 是執行準備開始的時間
+      - `SYSDATE()` 是真正執行時的時間
+
+      ![NOW_vs_SYSDATE.png](./src/image/NOW_vs_SYSDATE.png)
+
+    - `DATEDIFF()`、`TIMESTAMPDIFF()`
+
+      - `DATEDIFF()` 回傳「天數」
+      - `TIMESTAMPDIFF()` 自己指定
+
+    - [MySQL Doc: Date and Time Functions]
+
+    </details>
+
+  <!-- Information Function -->
+
+  - <details close>
+    <summary>Information Function</summary>
+
+    - `CONNECTION_ID()`、`DATABASE()`、`LAST_INSERT_ID()`、`USER()`、`VERSION()`
+
+    </details>
+
+  <!-- Aggregate Function -->
+
+  - <details close>
+    <summary>Aggregate Function</summary>
+
+    - [Aggregate Function]
+
+    - `COUNT`、`DISTINCT`、`SUM`、`MAX`、`MIN`、`AVG`
+
+    <!-- GROUP BY -->
+
+    - <details close>
+      <summary><code>GROUP BY</code></summary>
+
+      - `HAVING`：類似於 `GROUP BY` 的 `WHERE`，但本質上不同
+
+      </details>
+
+    <!-- HAVING VS WHERE -->
+
+    - <details close>
+      <summary><code>HAVING</code> VS <code>WHERE</code></summary>
+
+      - `WHERE`：查表時進行篩選
+      - `HAVING`：對查詢結果進行篩選
+
+      - 當在一般情形，直接以 `HAVING` 替代 `WHERE`，則會先返回結果才進行篩選，導致其掃表的範圍變大、返回的內容變多
+
+        ![HAVING_vs_WHERE.png](./src/image/HAVING_vs_WHERE.png)
+
+      </details>
+
+    </details>
+
+  <!-- Encryption and Compression Functions -->
+
+  - <details close>
+    <summary>Encryption and Compression Function</summary>
+
+    - `MD5()`、`SHA1()`、`SHA2()`
+
+    - `VALIDATE_PASSWORD_STRENGTH()`
+
+      - 需先安裝 [validate_password]
+      - 回傳密碼強度
+      - 不會記錄在 shell 的 history
 
     </details>
 
@@ -603,27 +681,6 @@
     - Datetime (1000 ～ 9999 年)，Timestamp (1970 ～ 2038 年)
     - For index, Timestamp 比 Datetime 快
     - 面臨的時區問題不同 (詳見注意事項)
-
-    </details>
-
-  <!-- 相關 Function -->
-
-  - <details close>
-    <summary>相關 Function</summary>
-
-    - `NOW()`、`CURRENT_TIMESTAMP()`、`CURRENT_TIMESTAMP`
-
-      - MySQL 中，都是回傳當下時區的時間
-      - 需注意就算以數字格式呈現，也不是 TIMESTAMP，而是 DATETIME
-
-    - `NOW()` vs `SYSDATE()`
-
-      - `NOW()`、`CURRENT_TIMESTAMP()` 是執行準備開始的時間
-      - `SYSDATE()` 是真正執行時的時間
-
-      ![NOW_vs_SYSDATE.png](./src/image/NOW_vs_SYSDATE.png)
-
-    - [MySQL Doc: Date and Time Functions]
 
     </details>
 
@@ -1017,6 +1074,13 @@
   <summary><mark>TODO:Q</mark> Nonbinary strings 跟 binary strings 在儲存上，本質上有什麼差異？</summary>
 
   - binary strings 是否只能輸入 ASCII 的內容？如果輸入中文，是否會自動轉成數個 byte？
+
+  </details>
+
+CHARACTER SET & COLLATE 一般會習慣設定整個 Database, Table, 還是針對個別 column 做設定？
+
+- <details close>
+  <summary><mark>TODO:Q</mark>CHARACTER SET & COLLATE 一般會習慣設定整個 Database, Table, 還是針對個別 column 做設定？</summary>
 
   </details>
 
