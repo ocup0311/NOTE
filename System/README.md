@@ -2,6 +2,10 @@
 
 <!----------- ref start ----------->
 
+[Github: SSTable]: https://github.com/WangTingZheng/SSTable
+[Bigtable: A Distributed Storage System for Structured Data]: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/68a74a85e1662fe02ff3967497f31fda7f32225c.pdf
+[筆記：SSTable 結構研討會]: https://juejin.cn/post/7118029530534527006
+[SSTable 結構研討會]: https://www.bilibili.com/video/BV18S4y187eH
 [論文解讀： Cuckoo Filter]: https://blog.51cto.com/u_15060511/4014458
 [比 Bloom filter 與 Cuckoo filter 再更進一步的 Xor filter]: https://blog.gslin.org/archives/2019/12/21/9348/%E6%AF%94-bloom-filter-%E8%88%87-cuckoo-filter-%E5%86%8D%E6%9B%B4%E9%80%B2%E4%B8%80%E6%AD%A5%E7%9A%84-xor-filter/
 [Consule 系列:Consul 實現詳解]: https://www.jianshu.com/p/19e7e4420d79
@@ -295,76 +299,116 @@
   - Write/Read path
 
     - 先寫 commit log -> 存在 memory -> 集中達閾值再一次存 disk
-    - [Bloom filter]
+
+    - Filter
 
       - 可以快速判斷是否「不存在」某個 SSTable，快速找到所在的 SSTable
       - 可能會偽陽
-      - 原理：
 
-        - 一般
+      - Bloom filter
 
-          - 存入時將一個 key 做數個 hash，每個 hash 對應到的地方改為 1
-          - 讀取時一樣做 hash，若其中一個是 0，則不存在
-          - 不能從 Bloom filter 中刪除，所以用越久，失誤率越高
+        - 原理：
 
-        - 改良版
+          - 一般
 
-          - 改用計數器
-          - 但是存 int，所用空間大很多，進而影響到查詢速度
+            - 存入時將一個 key 做數個 hash，每個 hash 對應到的地方改為 1
+            - 讀取時一樣做 hash，若其中一個是 0，則不存在
+            - 不能從 Bloom filter 中刪除，所以用越久，失誤率越高
 
-      - REF: [論文解讀：深入討論 Bloom Filter] | [How to caculate k, m, n and p for bloom filter]
+          - 改良版
 
-    - Cuckoo filter
+            - 改用計數器
+            - 但是存 int，所用空間大很多，進而影響到查詢速度
 
-      - 使用的 Cuckoo Hash 改進 Bloom Filter
-      - Cuckoo Hash
+        - REF: [論文解讀：深入討論 Bloom Filter] | [How to caculate k, m, n and p for bloom filter]
 
-        - 用 N 個 hash function
-        - 將 key (or fingerprint) 存入對應的 hash bucket 中
-        - 當插入新的 key 時，對應的 hash bucket 已滿，則踢出舊的
-        - 舊的再用下一個 hash function，存入對應的 hash bucket 中
-        - 不斷重複，直到某個規定的上限次數，則認定進入循環，表示空間不夠
-        - 空間不夠，則進行重新分配空間後 rehash
+      - Cuckoo filter
 
-      - [論文：Cuckoo Filter: Practically Better Than Bloom]
+        - 使用的 Cuckoo Hash 改進 Bloom Filter
+        - Cuckoo Hash
 
-        - 基本 Cuckoo Filter 的 Cuckoo Hash 配置
+          - 用 N 個 hash function
+          - 將 key (or fingerprint) 存入對應的 hash bucket 中
+          - 當插入新的 key 時，對應的 hash bucket 已滿，則踢出舊的
+          - 舊的再用下一個 hash function，存入對應的 hash bucket 中
+          - 不斷重複，直到某個規定的上限次數，則認定進入循環，表示空間不夠
+          - 空間不夠，則進行重新分配空間後 rehash
 
-          - 使用 2 個有關聯的 hash function
+        - [論文：Cuckoo Filter: Practically Better Than Bloom]
 
-            - `h1(x) = hash(x)`
-            - `h2(x) = h1(x) OXR hash(x's fingerprint)`
+          - 基本 Cuckoo Filter 的 Cuckoo Hash 配置
 
-          - 每個 bucket 有 4 entry
-          - 每個 entry 為 8 bit
-          - 每個 entry 放 1 個 fingerprint
+            - 使用 2 個有關聯的 hash function
 
-        - `h2(x) = h1(x) OXR hash(x's fingerprint)`
+              - `h1(x) = hash(x)`
+              - `h2(x) = h1(x) OXR hash(x's fingerprint)`
 
-          - 透過公式，可使 i1 & i2 互轉
-          - i2 = i1 OXR hash(f)
-          - i1 = i2 OXR hash(f)
+            - 每個 bucket 有 4 entry
+            - 每個 entry 為 8 bit
+            - 每個 entry 放 1 個 fingerprint
+            - 同一個 bucket 的 entry 放在連續的位址，增加 cache 使用效能
 
-        - 只存 fingerprint 無法 rehash，所以遇到循環後，就會有「偽陽」問題
+          - `h2(x) = h1(x) OXR hash(x's fingerprint)`
 
-        - 假設剛好有兩筆資料的 fingerprint 相同，且在同一個 bucket，則該 bucket 中會存在兩個一樣的 fingerprint。所以在刪除後不會有「偽陰」問題。
+            - 透過公式，可使 i1 & i2 互轉
+            - i2 = i1 OXR hash(f)
+            - i1 = i2 OXR hash(f)
 
-        ![Cuckoo_Filter_Insert.png](./src/image/Cuckoo_Filter_Insert.png)
-        ![Cuckoo_Filter_LookUp.png](./src/image/Cuckoo_Filter_LookUp.png)
-        ![Cuckoo_Filter_Delete.png](./src/image/Cuckoo_Filter_Delete.png)
+          - 只存 fingerprint 無法 rehash，所以遇到循環後，就會有「偽陽」問題
+
+          - 假設剛好有兩筆資料的 fingerprint 相同，且在同一個 bucket，則該 bucket 中會存在兩個一樣的 fingerprint。所以在刪除後不會有「偽陰」問題。
+
+          ![Cuckoo_Filter_Insert.png](./src/image/Cuckoo_Filter_Insert.png)
+          ![Cuckoo_Filter_LookUp.png](./src/image/Cuckoo_Filter_LookUp.png)
+          ![Cuckoo_Filter_Delete.png](./src/image/Cuckoo_Filter_Delete.png)
+
+        - REF
+          - [Cuckoo Hash]
+          - [CUCKOO FILTER - 酷殼]
+          - [論文解讀： Cuckoo Filter]
+
+      - Xor filter
+
+        - REF: [比 Bloom filter 與 Cuckoo filter 再更進一步的 Xor filter]
+
+    - SSTable
+
+      - 是 LSM Tree (Log Structured Merge Tree) 的一種實作
+
+      - Block 通常為 64KB
+
+      - Compaction
+
+        - 資料的新增＆更新都是在新的 Block 中，重複的 key 以最新一筆 value 為主
+        - 許多 DB 會以 tombstone 標記軟刪除，再透過 GC 處理
+        - 進行 Compaction 後，單一 key 保留最新的 value，形成新的 BLock
+        - Minor Compaction
+        - Major Compaction
+        - <mark>TODO:</mark> 關鍵字：Bentley and McIlroy's 算法、快速壓縮算法
+
+      - 優化
+
+        - 在 memory 記錄 block 的 `key_` & `value_` 分別為上一次在該 block 查詢的結果，可優化
+
+          - 可以縮小範圍，直接從 `key_` 開始查詢
+          - 可以從 `key_` 獲取 完整 key，可以減少往前查到 完整 key 的動作
+
+      - <mark>TODO: 問題</mark>
+
+        - 關鍵字：tablet、Compaction、MemTable、tombstone、LSM Tree
+        - 若不另外添加 secondary index，該如何依照 value 查詢？
+        - filter_offset 為什麼不跟 filter data 一對一對應？多出來的 offset 有什麼用？
+        - 當單一 key 有重複 value 時，查詢如何知道去哪裡抓最新 value？
+
+          - 是否在生成新的 Block 時，就會同時 Compaction 該 SSTable？
 
       - REF
-        - [Cuckoo Hash]
-        - [CUCKOO FILTER - 酷殼]
-        - [論文解讀： Cuckoo Filter]
 
-    - Xor filter
+        - [SSTable (Sorted String Table)]
+        - [筆記：SSTable 結構研討會] ([SSTable 結構研討會] | [Github: SSTable])
+        - [Bigtable: A Distributed Storage System for Structured Data]
 
-      - REF: [比 Bloom filter 與 Cuckoo filter 再更進一步的 Xor filter]
-
-    - REF
-      - [Architecture of Cassandra] 有提供建議的 Write/Read path 設計
-      - [SSTable (Sorted String Table)]
+    - REF: [Architecture of Cassandra] 提供建議的 Write/Read path 設計
 
 - 問題：
 
