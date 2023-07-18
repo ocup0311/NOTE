@@ -190,6 +190,15 @@
 
 ## # 基本操作
 
+<!-- 速記小抄 (Cheat Sheet) -->
+
+- <details close>
+  <summary>速記小抄 (Cheat Sheet)</summary>
+
+  ![docker_cheat_sheet.jpeg](../src/image/docker_cheat_sheet.jpeg)
+
+  </details>
+
 <!-- image -->
 
 - <details close>
