@@ -2,6 +2,9 @@
 
 <!----------- ref start ----------->
 
+[ON UPDATE/DELETE 作用]: https://blog.csdn.net/u013636377/article/details/51313669
+[MariaDB Error Codes]: https://mariadb.com/kb/en/mariadb-error-codes/
+[Prisma Doc: Data Proxy]: https://www.prisma.io/docs/data-platform/data-proxy
 [MySQL Doc: SHOW Statements]: https://dev.mysql.com/doc/refman/8.0/en/show.html
 [validate_password]: https://dev.mysql.com/doc/refman/8.0/en/validate-password.html
 [MySQL shell]: https://github.com/dbcli/mycli
@@ -45,6 +48,10 @@
 # MySQL
 
 ## # <mark>待整理筆記區</mark>
+
+- `IFNULL()`、`CONVERT()`
+
+---
 
 ## # 簡介
 
@@ -157,6 +164,7 @@
   - <details close>
     <summary><code>SHOW WARNINGS;</code></summary>
 
+    - REF: [MariaDB Error Codes]
     - 列出上一個操作所造成的 Error 或 Warning
     - 只要做新的 SQL 動作，前面的 warning 就消失了
 
@@ -333,6 +341,40 @@
 
     - `CONNECTION_ID()`、`DATABASE()`、`LAST_INSERT_ID()`、`USER()`、`VERSION()`
 
+    - `LAST_INSERT_ID()`
+
+      - 同時插入多筆資料，會回傳第一筆的 id
+
+      ```sql
+      ## EX. 一次 INSERT a,b,c，但 LAST_INSERT_ID() 會回傳 a 的 id
+
+      mysql> SELECT * FROM table1;
+      +----+------+
+      | id | col1 |
+      +----+------+
+      | 1  | x    |
+      +----+------+
+
+      mysql> INSERT INTO table1(col1) VALUES('a'),('b'),('c');
+
+      mysql> SELECT * FROM table1;
+      +----+------+
+      | id | col1 |
+      +----+------+
+      | 1  | x    |
+      | 2  | a    |
+      | 3  | b    |
+      | 4  | c    |
+      +----+------+
+
+      mysql> SELECT LAST_INSERT_ID();
+      +------------------+
+      | LAST_INSERT_ID() |
+      +------------------+
+      |                2 |
+      +------------------+
+      ```
+
     </details>
 
   <!-- Aggregate Function -->
@@ -467,6 +509,67 @@
 
     - 更改 col 的 type
     - 需相容所有已存在的資料，才能改變
+
+  </details>
+
+<!-- JOIN -->
+
+- <details close>
+  <summary><code>JOIN</code></summary>
+
+  <!-- 基本 -->
+
+  - <details close>
+    <summary>基本</summary>
+
+    - `join buffer` 預設：256KB
+    - `SHOW VARIABLES LIKE 'join_%';`
+
+    </details>
+
+  <!-- JOIN 的過程 -->
+
+  - <details close>
+    <summary>JOIN 的過程</summary>
+
+    </details>
+
+  <!-- `ON` vs `WHERE` -->
+
+  - <details close>
+    <summary><code>ON</code> vs <code>WHERE</code></summary>
+
+    </details>
+
+  <!-- FOREIGN KEY -->
+
+  - <details close>
+    <summary><code>FOREIGN KEY</code></summary>
+
+    - EX. `FOREIGN KEY(table_name_id) REFERENCES table_name(id)`
+
+    - 插入時，`table_name_id` 欄位會進行檢查，只能填入已存在的 `table_name.id`
+    - 一些規範，不建議使用 `FOREIGN KEY`，因為會降低效能 (可能都會在 server 端進行檢查)
+
+    </details>
+
+  <!-- ON DELETE CASCADE -->
+
+  - <details close>
+    <summary><code>ON DELETE CASCADE</code></summary>
+
+    - [ON UPDATE/DELETE 作用]
+
+    </details>
+
+  ![JOIN_3_type.png](./src/image/JOIN_3_type.png)
+
+  </details>
+
+<!-- COLLATE -->
+
+- <details close>
+  <summary><code>COLLATE</code></summary>
 
   </details>
 
@@ -708,7 +811,8 @@
 
   <!-- `CHAR`、`VARCHAR` -->
 
-  - `CHAR`、`VARCHAR`
+  - <details close>
+    <summary><code>CHAR</code>、<code>VARCHAR</code></summary>
 
     - 定義要使用幾個 char
     - type：1 byte
@@ -730,26 +834,38 @@
       - `CHAR_LENGTH()` 計算 char 長度
       - `LENGTH()` 計算 char 所使用空間 (但如果 CHAR(4) 存 'ab'，會回傳 2)
 
+    </details>
+
   <!-- `BINARY`、`VARBINARY` -->
 
-  - `BINARY`、`VARBINARY`
+  - <details close>
+    <summary><code>BINARY</code>、<code>VARBINARY</code></summary>
 
     - 定義要使用幾個 byte
     - `BINARY` 會補滿 0x00，所以用 `LENGTH()` 會回傳固定的
 
+    </details>
+
   <!-- `BLOB`、`TEXT` -->
 
-  - `BLOB`、`TEXT`
+  - <details close>
+    <summary><code>BLOB</code>、<code>TEXT</code></summary>
 
     - 儲存空間更大的 `VARBINARY`、`VARCHAR`
     - 2^8, 2^16, 2^24, 2^32 byte
     - 可以設定 `max_sort_length`，排序時，最多只會依照前面 max_sort_length 個去排序
 
+    </details>
+
   <!-- `ENUM`、`SET` -->
 
-  - `ENUM`、`SET`
+  - <details close>
+    <summary><code>ENUM</code>、<code>SET</code></summary>
 
-    - `ENUM`
+    <!-- ENUM -->
+
+    - <details close>
+      <summary><code>ENUM</code></summary>
 
       - 實際上是儲存一個 index，可節省空間
       - 也可以在 insert 時，使用 index 編號
@@ -761,13 +877,51 @@
         mysql> INSERT INTO table1(title, size) VALUE('hat', 1);
         ```
 
-    - `SET`
+      - <mark>TODO:Q</mark> `ENUM` 在 insert & select 會比 `CHAR` 快？
 
-    - 0 ~ 64 member
-    - 同 `ENUM`，也是儲存 index
-    - index 換算成二進位，剛好對應到有哪些 member
+      </details>
 
-      ![SET_type_limit.png](./src/image/SET_type_limit.png)
+    <!-- SET -->
+
+    - <details close>
+      <summary><code>SET</code></summary>
+
+      - 0 ~ 64 member
+
+        ![SET_type_limit.png](./src/image/SET_type_limit.png)
+
+      - 如同 `ENUM`，也是儲存 index
+
+      - 注意每個 member 之間，不能有空格
+
+        ```sql
+        ## EX. X
+        mysql> INSERT INTO set1 VALUE("enum1, enum2");
+
+        ## EX. O
+        mysql> INSERT INTO set1 VALUE("enum1,enum2");
+        ```
+
+      - index 換算成二進位，剛好對應到有哪些 member
+
+        - EX. 在 SET("L,M,S") 中，index 與 set 的關係
+
+        | index | L   | M   | S   | set   |
+        | ----- | --- | --- | --- | ----- |
+        | 0     | 0   | 0   | 0   |       |
+        | 1     | 0   | 0   | 1   | S     |
+        | 2     | 0   | 1   | 0   | M     |
+        | 3     | 0   | 1   | 1   | M,S   |
+        | 4     | 1   | 0   | 0   | L     |
+        | 5     | 1   | 0   | 1   | L,S   |
+        | 6     | 1   | 1   | 0   | L,M   |
+        | 7     | 1   | 1   | 1   | L,M,S |
+
+      - <mark>TODO:</mark> EXPLAIN 一下使用 index 跟 明文時，是否有效率差異
+
+      </details>
+
+    </details>
 
   </details>
 
@@ -1077,7 +1231,7 @@
 
   </details>
 
-CHARACTER SET & COLLATE 一般會習慣設定整個 Database, Table, 還是針對個別 column 做設定？
+<!-- CHARACTER SET & COLLATE 一般會習慣設定整個 Database, Table, 還是針對個別 column 做設定？ -->
 
 - <details close>
   <summary><mark>TODO:Q</mark>CHARACTER SET & COLLATE 一般會習慣設定整個 Database, Table, 還是針對個別 column 做設定？</summary>
@@ -1315,6 +1469,15 @@ CHARACTER SET & COLLATE 一般會習慣設定整個 Database, Table, 還是針�
 
   - 舊版不行，新版可以
   - REF: [MySQL 中 IS NULL、IS NOT NULL、!= 不能用索引？]
+
+  </details>
+
+<!-- Data Proxy -->
+
+- <details close>
+  <summary>Data Proxy</summary>
+
+  - [Prisma Doc: Data Proxy]
 
   </details>
 
