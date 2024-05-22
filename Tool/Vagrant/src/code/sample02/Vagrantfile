@@ -1,0 +1,12 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/trusty64"
+
+  config.vm.define "webServer" do |web|
+    web.vm.box_version = "20190403.0.0"
+    web.vm.hostname = "web"
+  end
+  
+  config.vm.define "database" do |db|
+    db.vm.hostname = "db"
+  end
+end
