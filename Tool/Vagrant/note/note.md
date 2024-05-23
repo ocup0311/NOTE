@@ -39,17 +39,76 @@
 - 細節觀察：
 
   - 使用 vagrant 管理 VirtualBox 啟動 VM 時，不需開啟 VirtualBox 應用程式
+
   - `vagrant destory` 後重開，才會換一台 VM
+
   - `vagrant ssh` 連線時不用輸入 VM 的使用者密碼，但以 `ssh` 連線則需要輸入密碼（此部分未知原因講師在 windows VirtualBox 用 `vagrant ssh` 也需要密碼）
+
   - `.vagrant/machines/` 中手動改掉 folder 名稱，vagrant 會找不到
+
+  - 創建多個 VM 的預設：
+
+    - 使用 "mac + VirtualBox" 會分配在固定 ip 127.0.0.1 但不同 port
+    - 使用 "windows + Hyper-V" 會分配在不同 ip 172.17.xx.xx 但都在 port 22
+
   -
 
 - Vagrantfile 語法為 `Ruby`
 
   - `do` 開頭必定會配對 `end` 結尾
-  -
+  - property 賦值寫法如 `config.vm.box = "box"`
+  - method 寫法如 `config.vm.synced_folder ".", "/vagrant", disabled: true"`
 
 - `vagrant up` 同時生成 private key ，並將 VM 的 ssh key 設定完成
+
+- 同步檔案
+
+  - provider 可能有各自的方法
+
+    - 沒設定則會使用 provider 當前的方法
+    - EX. VirtualBox 有 VirtualBox Guest Additiions (需安裝)，可以自動隨時同步 (並設定 `type: "virtualbox"`)
+
+  - vagrant 也有提供方法 `type: "rsync"`
+
+    - 由 `config.vm.synced_folder` 設定
+    - 每次 `vagrant up` 跟 `vagrant reload` 都會同步
+    - 在 shell 輸入 `vagrant rsync-auto`，啟動監聽自動隨時同步，退出後解除
+    - <mark>TODO:</mark> 使用 rsync 有些 box 創建的 VM 會有權限問題，可能每次都要輸入密碼，需做設定
+
+  - 注意
+
+    - vagrant reload 會有一些舊東西保留著
+
+      ```ruby
+      # EX.
+      # 一開始設定為要同步：
+      config.vm.synced_folder ".", "/vagrant", disabled: false
+
+      # 使用 vagrant up 啟動一次，此時 VM 中已經有該檔案
+      # 再將設定改成不要同步：
+      config.vm.synced_folder ".", "/vagrant", disabled: true
+
+      # 使用 vagrant reload 進行 reload 後
+      # 此時在 reload 之前已經同步進 VM 的檔案會繼續存在
+      # 因為他只是改成不要去同步而不是刪除原本已存在的檔案
+      ```
+
+    - 可以分別設定數個同步路徑，但目標資料夾不能重複，否則只會被最後一次覆蓋掉
+
+      ```ruby
+      # EX.
+      # 這樣最後 /vagrant 只會覆蓋成 test/
+      # 而不是同時擁有 src/、test/ 兩者的檔案
+
+      config.vm.synced_folder "src/", "/vagrant"
+      config.vm.synced_folder "test/", "/vagrant"
+      ```
+
+    - 預設會將 "." 同步 "/vagrant"，所以若想客製化同步的檔案，可以在最開頭先取消該預設
+
+      ```ruby
+      config.vm.synced_folder ".", "/vagrant", disabled: true
+      ```
 
 ## # 簡介
 
@@ -89,12 +148,31 @@
   > Gemini：
   > Vagrant ssh-config 檔案中的設定會套用到 Vagrant 虛擬機上的 SSH 伺服器。
 
+-
+
 ## # 其他補充
 
 - 注意事項：
 
+  <!-- box 的 vagrantfile -->
+
   - <details close>
-    <summary></summary>
+    <summary>box 的 vagrantfile</summary>
+
+    - box 的資料夾裡也會有他自己的 vagrantfile，需注意有哪些設定 (`~/.vagrant.d/`)
+    - 同一屬性，project 層的 vagrantfile 會蓋掉 box 的
+
+    </details>
+
+  <!-- vagrant plugin -->
+
+  - <details close>
+    <summary>vagrant plugin</summary>
+
+    - 可透過 `vagrant plugin list` 查看已安裝項目
+    - 一些功能推薦從 vagrant plugin 來安裝。
+
+      - EX. 當想要同步檔案到 VM 時，可能會說可以安裝 VirtualBox Guest Additiions，不建議直接安裝，而是從 vagrant plugin 來安裝 (`vagrant plugin install vagrant-vbguest`)
 
     </details>
 
