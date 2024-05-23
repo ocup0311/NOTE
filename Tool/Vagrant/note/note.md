@@ -27,10 +27,6 @@
 
 ## <mark># TODO: 待整理</mark>
 
-- providers VS provisioners
-
-- [Vagrant Cloud] 網頁中有提供 `Vagrant Box` 可使用
-
 - 講師習慣：
 
   - 稱 Vagrant Box 為 Vagrant 鏡像
@@ -42,8 +38,6 @@
 
   - `vagrant destory` 後重開，才會換一台 VM
 
-  - `vagrant ssh` 連線時不用輸入 VM 的使用者密碼，但以 `ssh` 連線則需要輸入密碼（此部分未知原因講師在 windows VirtualBox 用 `vagrant ssh` 也需要密碼）
-
   - `.vagrant/machines/` 中手動改掉 folder 名稱，vagrant 會找不到
 
   - 創建多個 VM 的預設：
@@ -51,33 +45,183 @@
     - 使用 "mac + VirtualBox" 會分配在固定 ip 127.0.0.1 但不同 port
     - 使用 "windows + Hyper-V" 會分配在不同 ip 172.17.xx.xx 但都在 port 22
 
-  -
+## # 簡介
 
-- Vagrantfile 語法為 `Ruby`
+<!-- 管理 VM 的工具 -->
 
-  - `do` 開頭必定會配對 `end` 結尾
-  - property 賦值寫法如 `config.vm.box = "box"`
-  - method 寫法如 `config.vm.synced_folder ".", "/vagrant", disabled: true"`
+- <details close>
+  <summary>管理 VM 的工具</summary>
 
-- `vagrant up` 同時生成 private key ，並將 VM 的 ssh key 設定完成
+  ![](https://i.imgur.com/cynfQpa.png)
+  ![](https://i.imgur.com/5HFlrYo.png)
 
-- 同步檔案
+  </details>
 
-  - provider 可能有各自的方法
+<!-- Hypervisor Type1 & Type2 -->
+
+- <details close>
+  <summary>Hypervisor Type1 & Type2</summary>
+
+  - 可否不需底層 OS ，直接裝在硬體上的差異
+
+  <br>
+
+  ![](https://i.imgur.com/GpugaSn.png)
+
+  <br>
+
+  ![](https://i.imgur.com/KnwFUf9.jpg)
+
+  </details>
+
+<!-- Vagrant vs Terraform -->
+
+- <details close>
+  <summary>Vagrant vs Terraform</summary>
+
+  - Vagrant 用在管理開發環境 (管理本機)
+  - Terraform 用在建立 infrastructure (管理雲端)
+
+  </details>
+
+<!-- providers VS provisioners -->
+
+- <details close>
+  <summary><mark>TODO: 待補充</mark>providers VS provisioners</summary>
+
+  </details>
+
+## # 安裝與設定
+
+<!-- mac 按習慣透過 Homebrew -->
+
+- <details close>
+  <summary>mac 按習慣透過 Homebrew</summary>
+
+  - `brew install --cask vagrant`
+
+  </details>
+
+<!-- 指令自動補全 -->
+
+- <details close>
+  <summary>指令自動補全</summary>
+
+  - 我查的時候已經棄用 homebrew，改為由 vagrant 直接管理，所以用下列方式安裝
+  - `vagrant autocomplete install --zsh`
+
+  </details>
+
+<!-- vagrant plugin -->
+
+- <details close>
+  <summary>vagrant plugin</summary>
+
+  - 可透過 `vagrant plugin list` 查看已安裝項目
+  - 一些功能推薦從 vagrant plugin 來安裝。
+
+    - EX. 當想要同步檔案到 VM 時，可能會說可以安裝 VirtualBox Guest Additiions，不建議直接安裝，而是從 vagrant plugin 來安裝 (`vagrant plugin install vagrant-vbguest`)
+
+  </details>
+
+## # 基礎
+
+<!-- Box -->
+
+- <details close>
+  <summary>Box</summary>
+
+  - [Vagrant Cloud] 網頁中有提供 Vagrant Box 可使用
+
+  </details>
+
+<!-- Vagrantfile -->
+
+- <details close>
+  <summary>Vagrantfile</summary>
+
+  <!-- Vagrantfile 語法為 `Ruby` -->
+
+  - <details close>
+    <summary>Vagrantfile 語法為 <code>Ruby</code></summary>
+
+    - `do` 開頭必定會配對 `end` 結尾
+    - property 賦值寫法如 `config.vm.box = "box"`
+    - method 寫法如 `config.vm.synced_folder ".", "/vagrant", disabled: true"`
+
+    </details>
+
+  <!-- box 的 vagrantfile -->
+
+  - <details close>
+    <summary>box 的 vagrantfile</summary>
+
+    - box 的資料夾裡也會有他自己的 vagrantfile，需注意有哪些設定 (`~/.vagrant.d/`)
+    - 同一屬性，project 層的 vagrantfile 會蓋掉 box 的
+
+    </details>
+
+  </details>
+
+<!-- 指令相關 -->
+
+- <details close>
+  <summary>指令相關</summary>
+
+  <!-- vagrant up -->
+
+  - <details close>
+    <summary><code>vagrant up</code></summary>
+
+    - 同時生成 private key ，並將 VM 的 ssh key 設定完成
+    - 按照設定完成 網路配置、資料同步、軟體安裝、腳本執行..等
+
+    </details>
+
+  </details>
+
+<!-- 同步資料夾 -->
+
+- <details close>
+  <summary>同步資料夾</summary>
+
+  <!-- provider 可能有各自的方法 -->
+
+  - <details close>
+    <summary>provider 可能有各自的方法</summary>
 
     - 沒設定則會使用 provider 當前的方法
-    - EX. VirtualBox 有 VirtualBox Guest Additiions (需安裝)，可以自動隨時同步 (並設定 `type: "virtualbox"`)
 
-  - vagrant 也有提供方法 `type: "rsync"`
+    - EX. VirtualBox 有 VirtualBox Guest Additiions
+
+      - 需安裝
+      - 可以自動隨時同步
+      - 設定 `type: "virtualbox"`
+
+    </details>
+
+  <!-- vagrant 也有提供方法 `type: "rsync"` -->
+
+  - <details close>
+    <summary>vagrant 也有提供方法 <code>type: "rsync"</code></summary>
 
     - 由 `config.vm.synced_folder` 設定
+
     - 每次 `vagrant up` 跟 `vagrant reload` 都會同步
+
     - 在 shell 輸入 `vagrant rsync-auto`，啟動監聽自動隨時同步，退出後解除
-    - <mark>TODO:</mark> 使用 rsync 有些 box 創建的 VM 會有權限問題，可能每次都要輸入密碼，需做設定
 
-  - 注意
+    </details>
 
-    - vagrant reload 會有一些舊東西保留著
+  <!-- 注意 -->
+
+  - <details close>
+    <summary>注意</summary>
+
+    <!-- vagrant reload 會有一些舊東西保留著 -->
+
+    - <details close>
+      <summary>vagrant reload 會有一些舊東西保留著</summary>
 
       ```ruby
       # EX.
@@ -93,7 +237,12 @@
       # 因為他只是改成不要去同步而不是刪除原本已存在的檔案
       ```
 
-    - 可以分別設定數個同步路徑，但目標資料夾不能重複，否則只會被最後一次覆蓋掉
+      </details>
+
+    <!-- 可以分別設定數個同步路徑，但目標資料夾不能重複，否則只會被最後一次覆蓋掉 -->
+
+    - <details close>
+      <summary>可以分別設定數個同步路徑，但目標資料夾不能重複，否則只會被最後一次覆蓋掉</summary>
 
       ```ruby
       # EX.
@@ -104,41 +253,43 @@
       config.vm.synced_folder "test/", "/vagrant"
       ```
 
-    - 預設會將 "." 同步 "/vagrant"，所以若想客製化同步的檔案，可以在最開頭先取消該預設
+      </details>
+
+    <!-- 預設會將 "." 同步 "/vagrant"，所以若想客製化同步的檔案，可以在最開頭先取消該預設 -->
+
+    - <details close>
+      <summary>預設會將 "." 同步 "/vagrant"，所以若想客製化同步的檔案，可以在最開頭先取消該預設</summary>
 
       ```ruby
       config.vm.synced_folder ".", "/vagrant", disabled: true
       ```
 
-## # 簡介
+      </details>
 
-- 管理 VM 的工具
+    </details>
 
-  ![](https://i.imgur.com/cynfQpa.png)
-  ![](https://i.imgur.com/5HFlrYo.png)
+  </details>
 
-- Hypervisor Type1 & Type2
+<!-- 網路配置 -->
 
-  - 可否不需底層 OS ，直接裝在硬體上的差異
+- <details close>
+  <summary>網路配置</summary>
 
-  <br>
+  </details>
 
-  ![](https://i.imgur.com/GpugaSn.png)
+<!-- Provisioning -->
 
-  <br>
+- <details close>
+  <summary>Provisioning</summary>
 
-  ![](https://i.imgur.com/KnwFUf9.jpg)
+  </details>
 
-- Vagrant vs Terraform
+## # 問題
 
-  - Vagrant 用在管理開發環境 (管理本機)
-  - Terraform 用在建立 infrastructure (管理雲端)
+<!-- 不知為何 `PasswordAuthentication` 在 vagrant ssh-config 是 no，但在 VM 的 /etc/ssh/sshd_config 中是 yes -->
 
-## # 安裝與設定
-
-## # 問題集中區
-
-- 不知為何 `PasswordAuthentication` 在 vagrant ssh-config 是 no，但在 VM 的 /etc/ssh/sshd_config 中是 yes
+- <details close>
+  <summary>不知為何 <code>PasswordAuthentication</code> 在 vagrant ssh-config 是 no，但在 VM 的 /etc/ssh/sshd_config 中是 yes</summary>
 
   > Ｑ： vagrant ssh-config 中的設定是設定我主機的內容，還是設定 VM 上的內容。結果 GPT 跟 Gemini 似乎答案相反。
   >
@@ -148,45 +299,31 @@
   > Gemini：
   > Vagrant ssh-config 檔案中的設定會套用到 Vagrant 虛擬機上的 SSH 伺服器。
 
--
+  </details>
+
+<!-- 需要輸入 VM 使用者密碼 -->
+
+- <details close>
+  <summary>需要輸入 VM 使用者密碼</summary>
+
+  - 待釐清原因在一些地方需要輸入 VM 使用者密碼
+
+    - `vagrant ssh` 連線時不用輸入 VM 的使用者密碼，但以 `ssh` 連線則需要輸入密碼
+    - 未知原因講師在 windows VirtualBox 用 `vagrant ssh` 也需要密碼
+    - 使用 rsync 有些 box 創建的 VM 會有權限問題，可能每次都要輸入密碼，需做設定
+
+  </details>
 
 ## # 其他補充
 
 - 注意事項：
 
-  <!-- box 的 vagrantfile -->
-
   - <details close>
-    <summary>box 的 vagrantfile</summary>
-
-    - box 的資料夾裡也會有他自己的 vagrantfile，需注意有哪些設定 (`~/.vagrant.d/`)
-    - 同一屬性，project 層的 vagrantfile 會蓋掉 box 的
-
-    </details>
-
-  <!-- vagrant plugin -->
-
-  - <details close>
-    <summary>vagrant plugin</summary>
-
-    - 可透過 `vagrant plugin list` 查看已安裝項目
-    - 一些功能推薦從 vagrant plugin 來安裝。
-
-      - EX. 當想要同步檔案到 VM 時，可能會說可以安裝 VirtualBox Guest Additiions，不建議直接安裝，而是從 vagrant plugin 來安裝 (`vagrant plugin install vagrant-vbguest`)
+    <summary></summary>
 
     </details>
 
 - 小技巧：
-
-  <!-- 指令自動補全 -->
-
-  - <details close>
-    <summary>指令自動補全</summary>
-
-    - 我查的時候已經棄用 homebrew，改為由 vagrant 直接管理，所以用下列方式安裝
-    - `vagrant autocomplete install --zsh`
-
-    </details>
 
   <!-- 方便使用 ssh 連線 -->
 
