@@ -40,14 +40,6 @@
 
 - [Chat with any PDF](https://www.chatpdf.com/?fbclid=IwAR3X8XPGuQGHS7dOWMj-oN1q52z-q-ECLIhieGYTQPCiMeFg02r62kIBmM8)
 
-## # 其他工具
-
-- [rive editor](https://editor.rive.app/file/loading2/292023)
-
-  - 可以作互動動畫，大小很小，而且他的動畫可以合併，輕易整合到每個平台
-
-- [Open Policy Agent](https://engineering.linecorp.com/zh-hant/blog/open-policy-agent-authz-in-microservice/)
-
 ## # 網頁效能分析工具
 
 - [Performance Insights - builder.io](https://www.builder.io/c/performance-insights?url=https%3A%2F%2Fskowt.io%2F)
@@ -100,3 +92,70 @@
 
     ![](https://i.imgur.com/IZSYlAj.jpg)
     ![](https://i.imgur.com/Lr9Pik0.jpg)
+
+## # 專案管理
+
+- Azure Boards
+- [Always sprinting?](https://cbh.bearblog.dev/always-sprinting/)
+
+## # Cloud
+
+- [S3 Is Showing Its Age](https://materializedview.io/p/s3-is-showing-its-age)
+-
+
+## # AI
+
+- 論文分享
+
+  - OpenAI 前首席科學家 Ilya Sutskever 精選論文
+
+    - [Ilya Sutskever 貼文](https://www.reddit.com/r/ArtificialInteligence/comments/1cpbh1s/ilya_sutskever_if_you_really_learn_all_of_these/)
+
+      - OpenAI 的前首席科學家 Ilya Sutskever 開出了一份論文清單，總共包含 30 篇論文。他說："如果你真正學會了所有這些，你就會知道當今 AI 的 90% 重要內容。"
+
+    - [論文列表](https://arc.net/folder/D0472A20-9C20-4D3F-B145-D2865C0A9FEE)
+
+## # Linux
+
+- `xargs`
+
+  - `echo` 的反函數
+  - [xargs is the inverse function of echo](https://dhashe.com/xargs-is-the-inverse-function-of-echo.html)
+
+## # 案例解析
+
+- 系統設計：
+
+  - [How Slack Built a Distributed Cron Execution System for Scale](https://blog.bytebytego.com/p/how-slack-built-a-distributed-cron)
+
+- SQL：
+
+  - [The beauty of OLAP SQL](https://taki-mekhalfa.github.io/misc/2024/04/14/beauty_of_olap_sql.html)
+
+## # 生活
+
+- 大腦晶片
+  - [Single brain implant restores bilingual communication to paralyzed man](https://arstechnica.com/science/2024/05/single-brain-implant-gives-paralyzed-man-bilingual-communication/)
+  - [EXCLUSIVE TECHNOLOGY Elon Musk’s Neuralink Gets FDA Green Light for Second Patient, as First Describes His Emotional Journey](https://www.wsj.com/tech/neuralink-gets-fda-green-light-for-second-patient-as-first-describes-his-emotional-journey-a2707584)
+
+## # 其他工具
+
+- 技術
+
+  - [rive editor](https://editor.rive.app/file/loading2/292023)
+
+    - 可以作互動動畫，大小很小，而且他的動畫可以合併，輕易整合到每個平台
+
+  - [Open Policy Agent](https://engineering.linecorp.com/zh-hant/blog/open-policy-agent-authz-in-microservice/)
+
+- 其他
+
+  - [PlayPharase]: https://www.playphrase.me/
+
+    - 以句子搜尋得到相關影片片段
+    - 收費
+    - 數種語言可選
+
+  - [Not By AI]: https://notbyai.fyi/tw/
+
+    - 用來標記創作作品為人類原創而非 AI
