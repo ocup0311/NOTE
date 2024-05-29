@@ -1,0 +1,41 @@
+node_list = [
+  {
+    :name => "host1",
+    :box => "ubuntu/trusty64"
+  },
+  {
+    :name => "host2",
+    :box => "ubuntu/xenial64"
+  },
+  {
+    :name => "host3",
+    :box => "generic/centos8"
+  },
+  {
+    :name => "host4",
+    :box => "centos/8"
+  },
+  {
+    :name => "host5",
+    :box => "ubuntu/ocup"
+  },
+]
+
+
+Vagrant.configure("2") do |config|
+  # config.vm.synced_folder ".", "/vagrant", disabled: false, type: "rsync"
+
+  # config.ssh.insert_key = false
+  config.vm.synced_folder ".", "/vagrant", disabled: true, type: "virtualbox"
+  config.vm.synced_folder "a/", "/vagrant/a", disabled: false, type: "virtualbox"
+  config.vm.synced_folder "b/", "/vagrant/b", disabled: false, type: "virtualbox"
+
+  node_list.each do |node|
+    config.vm.define node[:name] do |host|
+      host.vm.box = node[:box]
+    end
+  end
+
+end
+
+

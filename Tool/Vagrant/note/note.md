@@ -84,10 +84,10 @@
 
   </details>
 
-<!-- providers VS provisioners -->
+<!-- providers & provisioners -->
 
 - <details close>
-  <summary><mark>TODO: 待補充</mark>providers VS provisioners</summary>
+  <summary><mark>TODO: 待補充</mark>providers & provisioners</summary>
 
   </details>
 
@@ -132,6 +132,100 @@
   <summary>Box</summary>
 
   - [Vagrant Cloud] 網頁中有提供 Vagrant Box 可使用
+
+  - <details close>
+    <summary></summary>
+
+    </details>
+
+  <!-- 打包 box (以 virtualbox 為例，不同 provider 細節不同，指令也不同) -->
+
+  - <details close>
+    <summary>打包 box (以 virtualbox 為例，不同 provider 細節不同，指令也不同)</summary>
+
+    <!-- vagrant package --base [VM name or ID] -->
+
+    - <details close>
+      <summary><code>vagrant package --base [VM name or ID]</code></summary>
+
+      - `VBoxManage list vms` 查詢 VM ID
+
+      </details>
+
+    <!-- 注意事項 -->
+
+    - <details close>
+      <summary>注意事項</summary>
+
+      <!-- 關閉該 VM -->
+
+      - <details close>
+        <summary>關閉該 VM</summary>
+
+        - 因為得確保其處於一個不會變動的靜態狀態
+        - 不需手動操作，package 時，會自動關閉
+
+        </details>
+
+      <!-- 需安裝 VirtualBox Guest Additions -->
+
+      - <details close>
+        <summary>需安裝 VirtualBox Guest Additions</summary>
+
+        - 共用資料夾功能需能正常運作
+        - 可以進行一些最佳化提高效能
+
+        </details>
+
+      <!-- 需要有 insecure_public_key -->
+
+      - <details close>
+        <summary>需要有 insecure_public_key</summary>
+
+        - 因為初始化時是以 insecure_private_key 登入，之後再替換成新生成的 private_key
+
+        </details>
+
+      <!-- 清除不需要的檔案、敏感信息 -->
+
+      - <details close>
+        <summary>清除不需要的檔案、敏感信息</summary>
+
+        - 暫存文件、日誌文件等
+        - SSH 密鑰、密碼等
+
+        </details>
+
+      </details>
+
+    <!-- Box File Format -->
+
+    - <details close>
+      <summary>Box File Format</summary>
+
+      - package 後會在該資料夾中產生一個 package.box，為一個壓縮檔 tarball (tar, tar.gz, zip)
+
+      - `vagrant box add --name=ubuntu/ocup ./package.box` 加入本地端，會解壓縮到 `~/.vagrant.d/` 中的 box，包含
+
+        - VM artifacts (required) - 主要的 VM image，包含一個 `.ovf` 跟至少一個 `.vmdk`
+        - metadata.json (required) - 標註 provider 資訊
+        - info.json - 提供 `vagrant box list -i` 所顯示的內容
+        - Vagrantfile - 預設設定
+
+      </details>
+
+    <!-- 發布到 vagrant cloud 需要有 checksum 驗證 -->
+
+    - <details close>
+      <summary>發布到 vagrant cloud 需要有 checksum 驗證</summary>
+
+      - 可以簡單驗證檔案是否有損毀或遭到竄改
+      - 先生成所選類型的 checksum，再貼到 cloud 上的驗證欄位
+        - EX. 用 `sha1sum package.box` 生成 SHA1 值
+
+      </details>
+
+    </details>
 
   </details>
 
@@ -308,9 +402,12 @@
 
   - 待釐清原因在一些地方需要輸入 VM 使用者密碼
 
-    - `vagrant ssh` 連線時不用輸入 VM 的使用者密碼，但以 `ssh` 連線則需要輸入密碼
+    - 目前使用 box:"ubuntu/trusty64" 的設定，會遇到以下情形
+
+      - `vagrant ssh` 連線時不用輸入 VM 的使用者密碼，但以 `ssh` 連線則需要輸入密碼
+      - 使用 rsync 有些 box 創建的 VM 會有權限問題，每次都要輸入密碼
+
     - 未知原因講師在 windows VirtualBox 用 `vagrant ssh` 也需要密碼
-    - 使用 rsync 有些 box 創建的 VM 會有權限問題，可能每次都要輸入密碼，需做設定
 
   </details>
 

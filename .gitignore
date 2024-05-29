@@ -3,6 +3,7 @@
 
 # Logs
 
+*.log
 logs
 _.log
 npm-debug.log_
@@ -17,6 +18,7 @@ output/
 
 # vagrant
 .vagrant
+*.box
 
 # Runtime data
 
