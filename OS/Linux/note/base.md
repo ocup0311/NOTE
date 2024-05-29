@@ -14,6 +14,7 @@
 
  <!-- ref -->
 
+[透過 ip 切換的攻擊手法]: https://www.youtube.com/watch?v=it_V3ig1_4o&t=78s
 [TTY 到底是什麼？]: https://www.kawabangga.com/posts/4515
 [零基礎七天入門linux]: https://www.udemy.com/course/linux-zh/learn/lecture/8531918#content
 [manjaro]: https://manjaro.org
@@ -409,6 +410,17 @@
 
   </details>
 
+<!-- 速記小抄 (Cheat Sheet) -->
+
+- <details close>
+  <summary>速記小抄 (Cheat Sheet)</summary>
+
+  - 權限順序：`rwx` (讀 - 寫 - 執行)
+  - 使用者順序：`user-group-other` (檔案擁有者 -- 群組 -- 其他使用者)
+  - 數字轉換：`r:1` `w:2` `x:4`
+
+  </details>
+
 ## 6. Shell Script
 
 <!-- #!/bin/fish -->
@@ -731,6 +743,7 @@
   - <mark>TODO:Q</mark> 浮動 ip 機制
   - <mark>TODO:Q</mark> 研究 mDNS：使用 ssh 時可以不用設定固定 IP
     - Avahi serveice
+  - [透過 ip 切換的攻擊手法]
 
   </details>
 

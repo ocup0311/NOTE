@@ -136,7 +136,7 @@
 
 - 大腦晶片
   - [Single brain implant restores bilingual communication to paralyzed man](https://arstechnica.com/science/2024/05/single-brain-implant-gives-paralyzed-man-bilingual-communication/)
-  - [EXCLUSIVE TECHNOLOGY Elon Musk’s Neuralink Gets FDA Green Light for Second Patient, as First Describes His Emotional Journey](https://www.wsj.com/tech/neuralink-gets-fda-green-light-for-second-patient-as-first-describes-his-emotional-journey-a2707584)
+  - [EXCLUSIVE TECHNOLOGY Elon Musk’s Neuralink Gets FDA Green Light for Second Patient, as First Describes His Emotional Journey](https://www.wsj.com/tech/neuralink-gets-fda-green-light-for-second-patient-as-first-describes-his-emotional-journey-a2707584?st=iemfrvz8kj2kcw1)
 
 ## # 其他工具
 

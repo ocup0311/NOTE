@@ -339,12 +339,15 @@
 
   <!-- REF -->
 
-  - REF
+  - <details close>
+    <summary>REF</summary>
 
     - [Visualizing memory management in V8 Engine]
     - [Guide: How To Inspect Memory Usage in Node.js]
     - 對照 [C 語言記憶體]
     - [What and where are the stack and heap?]
+
+    </details>
 
   ![V8_memory.png](../src/image/Node/V8_memory.png)
 
@@ -598,13 +601,16 @@
 
   <!-- REF -->
 
-  - REF:
+  - <details close>
+    <summary>REF</summary>
 
     - [V8: Oilpan library]
     - [A tour of V8: Garbage Collection]
     - [記憶體管理 MDN] | [記憶體管理鐵人] | [追踪是否被 GC]
     - [垃圾回收演算法系列文]
     - [超詳細的 node 垃圾回收機制] | [JVM 底層原理：垃圾回收算法是如何設計的？]
+
+    </details>
 
   </details>
 

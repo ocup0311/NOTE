@@ -12,6 +12,9 @@
 
 ###### <!-- ref -->
 
+[Effect-TS]: https://github.com/Effect-TS/effect
+[Mostly Adequate Guide]: https://mostly-adequate.gitbook.io/mostly-adequate-guide/
+[FP with TS]: https://youtu.be/Z3PLwD3iebg?list=PLuPevXgCPUIMbCxBEnc1dNwboH6e2ImQo
 [monad]: https://medium.com/javascript-scene/javascript-Monads-made-simple-7856be57bfe8
 [immutable.js]: https://ithelp.ithome.com.tw/articles/10187571
 [eslint-plugin-immutable]: https://blog.jerry-hong.com/series/fp/think-in-fp-03/
@@ -23,7 +26,7 @@
 # Functional Programming (FP)
 
 > DATE: 4 (2022)
-> REF:
+> REF: [FP with TS] | [Effect-TS] | [Mostly Adequate Guide]
 
 ## 1. 基本介紹
 
@@ -80,9 +83,8 @@
 
     - currying 一次只接受一個參數
 
-    ```
-    EX.
-    fn(a, b, c)
+    ```js
+    EX.fn(a, b, c)
 
     // currying
     fn(a)(b)(c)
@@ -95,7 +97,7 @@
 
     - Compose also makes a lot of sense when using React components.
 
-    ```
+    ```js
     EX.
     const compose = (fn1, fn2, fn3) => x => fn1(fn2(fn3(x)))
     const pipe = (fn1, fn2, fn3) => x => fn3(fn2(fn1(x)))
@@ -103,7 +105,7 @@
 
     - 實作:
 
-    ```
+    ```js
     const compose =
       (...fnArr) =>
       (x) =>
@@ -117,7 +119,7 @@
 
     - 使用時機：
 
-    ```
+    ```js
     // 1. when only one line
     const result1 = R.compose(fn7, fn6, fn5, fn4, fn3, fn2, fn1)(arg)
 
@@ -205,3 +207,15 @@
     <summary></summary>
 
     </details>
+
+## 3. 延伸閱讀
+
+<!-- Effect-TS -->
+
+- <details close>
+  <summary>Effect-TS</summary>
+
+  - FP-TS 專案已經沒維護了，改成 [Effect-TS]
+  - [FP with TS]
+
+  </details>

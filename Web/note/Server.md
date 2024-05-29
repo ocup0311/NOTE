@@ -12,6 +12,7 @@
 
 ###### <!-- ref -->
 
+[DDoS 技術鑑賞]: https://youtu.be/7kB9-nQJR44
 [mdn]: https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps
 [徹底理解 xss]: https://iter01.com/577498.html
 [防禦 xss]: https://kknews.cc/zh-tw/tech/j8bx8p.html
@@ -422,6 +423,8 @@
         - 過濾所有 RFC1918 IP 位址
         - 產品 [AWS Shield]
         - Trick：偵測到攻擊，塞廣告給他，攻擊越多賺越多
+      - REF：
+        - [DDoS 技術鑑賞]
 
       </details>
 

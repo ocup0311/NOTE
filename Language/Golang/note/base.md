@@ -1,19 +1,9 @@
 ##### <!-- 收起 -->
 
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!------------  style  ------------>
-
 <!----------- ref start ----------->
 
+[GoPlantUML]: https://github.com/jfeliu007/goplantuml
+[Dumels]: https://www.dumels.com/diagram
 [go Web 框架選擇]: https://learnku.com/articles/46853?order_by=vote_count&
 
 <!------------ ref end ------------>
@@ -48,6 +38,18 @@
 - 注意事項：
 
 - 小工具：
+
+  <!-- 視覺化工具 -->
+
+  - <details close>
+    <summary>視覺化工具</summary>
+
+    - 將 GoLang 專案的 code 生成 UML class diagram
+
+      - [Dumels]
+      - [GoPlantUML]
+
+    </details>
 
 - 小技巧：
 

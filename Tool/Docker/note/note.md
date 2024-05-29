@@ -1,19 +1,9 @@
 ##### <!-- 收起 -->
 
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!------------  style  ------------>
-
 <!----------- ref start ----------->
 
+[Docker: What's Under the Hood?]: https://www.codementor.io/blog/docker-technology-5x1kilcbow
+[七天用 Go 寫個 docker]: https://zhuanlan.zhihu.com/p/113926966
 [Github Actions Triggering by other repository]: https://github.com/orgs/community/discussions/26323#discussioncomment-3343871
 [Docker Hub Automated builds]: https://docs.docker.com/docker-hub/builds/how-builds-work/
 [Github Actions]: https://docs.github.com/en/actions
@@ -1118,7 +1108,7 @@
   - <details close>
     <summary>盡量不要用 attach 模式</summary>
 
-    - 使用`-d`detach 模式、`logs`輸出、`exec`輸入取代
+    - 取代方式：使用`-d`detach 模式、`logs`輸出、`exec`開`shell`輸入
 
       ```shell
       # EX.
@@ -1128,6 +1118,8 @@
       ```
 
     - attach 很難關掉：有些情況`ctr+p ctr+q`沒作用，`ctr+c`之後又會把 container stop
+
+    - 使用 exec 開 shell 輸入，才不會影響到 container 原本的運作 (EX. 使用 exit 時，只是關閉該 shell)
 
     </details>
 
@@ -1347,3 +1339,31 @@
   </details>
 
 ---
+
+##
+
+- <mark>TODO:</mark>
+
+  - 再研究 docker version 跟 docker info 裡的資訊
+  - client-server 的分工
+  - 研究在 windows 中的 container 中的 ctr+c 不會傳給下一層的問題
+  - 在 container 的 terminal 中，ctr+c 無法退出 container
+
+    - 因為那個是在 shell 裡頭，ctr+c 無法退出 shell
+    - 而在 nginx 中，是用 ctr+c 結束他的 entrypoint
+
+  - process 的關係
+
+  - 設定不傳 signal 給 container
+
+    - `docker attach --sig-proxy=false 304f5db405ec`
+    - https://stackoverflow.com/questions/19688314/how-do-you-attach-and-detach-from-dockers-process
+
+  - [七天用 Go 寫個 docker]
+  - [docker 原始碼？](https://github.com/moby/moby)
+
+    - https://stackoverflow.com/questions/22272401/what-does-it-mean-to-attach-a-tty-std-in-out-to-dockers-or-lxc
+
+  - [Docker: What's Under the Hood?]
+
+  -
