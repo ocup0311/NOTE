@@ -649,6 +649,25 @@
 
       </details>
 
+    <!-- 方便查 ip 上色 -->
+
+    - <details close>
+      <summary>方便查 ip 上色</summary>
+
+      ```sh
+      $ ip addr | awk '
+      /inet/ { system("tput setaf 2"); print; system("tput sgr0"); next }
+      /eth0/ { system("tput setaf 3"); print; system("tput sgr0"); next }
+      { print }
+      '
+
+      $ ip addr | sed -r \
+      -e 's/(inet [0-9.]+)/\x1b[32m\1\x1b[0m/g' \
+      -e 's/(eth0)/\x1b[33m\1\x1b[0m/g'
+      ```
+
+      </details>
+
     </details>
 
 - 小工具：
