@@ -40,11 +40,6 @@
 
   - `.vagrant/machines/` 中手動改掉 folder 名稱，vagrant 會找不到
 
-  - 創建多個 VM 的預設：
-
-    - 使用 "mac + VirtualBox" 會分配在固定 ip 127.0.0.1 但不同 port
-    - 使用 "windows + Hyper-V" 會分配在不同 ip 172.17.xx.xx 但都在 port 22
-
 ## # 簡介
 
 <!-- 管理 VM 的工具 -->
@@ -317,7 +312,7 @@
     - <details close>
       <summary>vagrant reload 會有一些舊東西保留著</summary>
 
-      ```ruby
+      ```vagrantfile
       # EX.
       # 一開始設定為要同步：
       config.vm.synced_folder ".", "/vagrant", disabled: false
@@ -338,7 +333,7 @@
     - <details close>
       <summary>可以分別設定數個同步路徑，但目標資料夾不能重複，否則只會被最後一次覆蓋掉</summary>
 
-      ```ruby
+      ```vagrantfile
       # EX.
       # 這樣最後 /vagrant 只會覆蓋成 test/
       # 而不是同時擁有 src/、test/ 兩者的檔案
@@ -354,7 +349,7 @@
     - <details close>
       <summary>預設會將 "." 同步 "/vagrant"，所以若想客製化同步的檔案，可以在最開頭先取消該預設</summary>
 
-      ```ruby
+      ```vagrantfile
       config.vm.synced_folder ".", "/vagrant", disabled: true
       ```
 
@@ -368,6 +363,75 @@
 
 - <details close>
   <summary>網路配置</summary>
+
+  - 預設網路配置
+
+    - 使用 "VirtualBox"
+
+      - 會分配在固定 ip 127.0.0.1 但不同 port (ex. port 22xx)
+      - 因為使用 NAT 分配
+
+    - 使用 "Hyper-V"
+
+      - 會分配在不同 ip 但都在 port 22 (ex. ip 172.17.xx.xx)
+      - 因為其 Network Adapter 是選用 Default Switch 做分配
+      - Default Switch 可設定分配哪些範圍的 ip 供其使用
+      - 此種方法，在 VM 內部外部都是同一個 ip，並不像 NAT 會進行轉換
+
+    - 註：此部分描述預設方式，理論上 provider 應該能選擇使用不同方式來進行 ip 分配轉換
+
+  - 基本配置方式
+
+    - `forwarded_port`
+
+      - 用來設定轉發 port，例如以 nat 連線時，需用此設定來轉發 port，使本機能夠連進 VM
+      - ssh 的轉發一開始就自動設定好，因此能夠連線。但例如要連 ngnix 的 port 80，則須設定轉發到本機的哪個 port
+
+    - `private_network`
+
+      - DHCP(Dynamic Host Configuration Protocol)
+
+        - 在原始碼有寫預設 ip 為 `172.28.128.1`
+        - <mark>TODO:</mark> 未成功，如下
+
+          - 目前有建立出一個 eth2 是由於設定 DHCP 而創建的，但沒有像 eth3 一樣有一個 inet
+          - 不知是沒成功創建 DHCP，還是已經創建了但我不會使用
+
+            ```sh
+            4: eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+                link/ether 08:00:27:ba:5c:34 brd ff:ff:ff:ff:ff:ff
+                inet6 fe80::a00:27ff:feba:5c34/64 scope link
+                  valid_lft forever preferred_lft forever
+            5: eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+                link/ether 08:00:27:4f:4a:7a brd ff:ff:ff:ff:ff:ff
+                inet 192.168.50.21/24 brd 192.168.50.255 scope global eth3
+                  valid_lft forever preferred_lft forever
+                inet6 fe80::a00:27ff:fe4f:4a7a/64 scope link
+                  valid_lft forever preferred_lft forever
+            ```
+
+      - Static IP
+
+        - 自己設定一個固定的 ip
+
+    - `public_network`
+
+      - 用以公開讓外網都能連進來
+
+  - 測試：
+
+    - 安裝 nginx 後，在本機瀏覽器上做連線測試：
+
+      ```vagrantfile
+      host.vm.network "forwarded_port", guest: 80, host: 12001
+      # --> 可用 localhost:12001
+
+      host.vm.network "private_network", ip: "192.168.50.20"
+      # --> 可用 192.168.50.20:80
+
+      host.vm.network "public_network", ip: "192.168.0.10", bridge: "en0: Wi-Fi"
+      # --> 可用 192.168.0.10:80
+      ```
 
   </details>
 

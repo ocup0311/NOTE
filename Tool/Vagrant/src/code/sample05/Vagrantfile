@@ -1,0 +1,48 @@
+node_list = [
+  {
+    :name => "host1",
+    :box => "ubuntu/trusty64",
+    :public_ip => "192.168.0.10",
+    :private_ip => "192.168.50.20",
+    :forwarded_port => 12001
+  },
+  {
+    :name => "host2",
+    :box => "ubuntu/trusty64",
+    :public_ip => "192.168.0.11",
+    :private_ip => "192.168.50.21",
+    :forwarded_port => 12002
+  },
+  {
+    :name => "host3",
+    :box => "ubuntu/trusty64",
+    :public_ip => "192.168.0.12",
+    :private_ip => "192.168.50.22",
+    :forwarded_port => 12003
+  }
+]
+
+
+Vagrant.configure("2") do |config|
+
+  config.vm.synced_folder ".", "/vagrant", disabled: true, type: "virtualbox"
+  config.vm.synced_folder "src/", "/vagrant/src", disabled: false, type: "virtualbox"
+
+  node_list.each do |node|
+
+    config.vm.define node[:name] do |host|
+      host.vm.box = node[:box]
+      host.vm.hostname = "ocuphost.#{node[:name]}"
+
+      host.vm.network "forwarded_port", guest: 80, host: node[:forwarded_port]
+      host.vm.network "private_network", type: "dhcp"
+      host.vm.network "private_network", ip: node[:private_ip]
+      host.vm.network "public_network", ip: node[:public_ip], bridge: "en0: Wi-Fi", hostname: true
+      
+    end 
+
+  end
+
+end
+
+
