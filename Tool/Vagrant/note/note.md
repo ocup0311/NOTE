@@ -440,6 +440,9 @@
 - <details close>
   <summary>Provisioning</summary>
 
+  - 啟動方法：(1)第一次 up、(2)`vagrant provision`、(3)`--provision`
+  - 幾本方法：Shell、Ansible
+
   </details>
 
 ## # 問題
@@ -474,6 +477,10 @@
     - 未知原因講師在 windows VirtualBox 用 `vagrant ssh` 也需要密碼
 
   </details>
+
+- 使用 Provisioning 時，是用哪一個 user？例如使用 shell, path 方式，其中在執行那個 shell script 時，會是在哪一個 user？是依照 box 的設定嗎？還是 vagrant up 會統一使用某個 user？
+
+- 研究 `.vagrant/` 裡的檔案用途。例如 bundler 是在有 plugin 的情況下才出現的。有使用 provisioner 時也會出現 `provisioners`
 
 ## # 其他補充
 
