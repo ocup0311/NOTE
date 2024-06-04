@@ -14,7 +14,7 @@
 
 <!----------- ref start ----------->
 
-[Vagrant入門系列]: https://youtu.be/4nK_S-mU6_o?list=PLfQqWeOCIH4B6YAEXMr6cx4AfnKNBLbZO
+[Vagrant 入門系列]: https://youtu.be/4nK_S-mU6_o?list=PLfQqWeOCIH4B6YAEXMr6cx4AfnKNBLbZO
 [Vagrant Cloud]: https://app.vagrantup.com/boxes/search
 [Vagrantfile Doc]: https://developer.hashicorp.com/vagrant/docs/vagrantfile
 
@@ -518,7 +518,7 @@
     <summary>注意：</summary>
 
     - 若需將 file 放進權限較高的地方，建議先用 File Provisioner 放到低權限位置，再用 Shell Provisioner 移動到位
-    - 使用 Shell Provisioner 時，需注意當下的 user
+    - 使用 Shell Provisioner 時，需注意當下的 user。預設為 `privileged: true`，會以 root 執行
 
     </details>
 
@@ -577,15 +577,6 @@
       - 使用 rsync 有些 box 創建的 VM 會有權限問題，每次都要輸入密碼
 
     - 未知原因講師在 windows Virtualbox 用 `vagrant ssh` 也需要密碼
-
-  </details>
-
-<!-- 使用 Provisioning 時，是用哪一個 user？ -->
-
-- <details close>
-  <summary>使用 Provisioning 時，是用哪一個 user？</summary>
-
-  - 例如使用 shell, path 方式，其中在執行那個 shell script 時，會是在哪一個 user？是依照 box 的設定嗎？還是 vagrant up 會統一使用某個 user？
 
   </details>
 
