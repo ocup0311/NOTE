@@ -25,21 +25,6 @@
 > DATE: 6 (2023)
 > REF: [Vagrant 入門系列]
 
-## <mark># TODO: 待整理</mark>
-
-- 講師習慣：
-
-  - 稱 Vagrant Box 為 Vagrant 鏡像
-  - 在 windows 中，更偏好使用 VirtualBox，而不是 Hyper-V (因為提供的 box 比較多與 VirtualBox 相容？)
-
-- 細節觀察：
-
-  - 使用 vagrant 管理 VirtualBox 啟動 VM 時，不需開啟 VirtualBox 應用程式
-
-  - `vagrant destory` 後重開，才會換一台 VM
-
-  - `.vagrant/machines/` 中手動改掉 folder 名稱，vagrant 會找不到
-
 ## # 簡介
 
 <!-- 管理 VM 的工具 -->
@@ -82,7 +67,10 @@
 <!-- providers & provisioners -->
 
 - <details close>
-  <summary><mark>TODO: 待補充</mark>providers & provisioners</summary>
+  <summary>providers & provisioners</summary>
+
+  - providers：用於創建和管理 VM 的基礎架構，如 Virtualbox
+  - provisioners：用於在 VM 創建後對其執行任務，如 Ansible
 
   </details>
 
@@ -115,28 +103,39 @@
   - 可透過 `vagrant plugin list` 查看已安裝項目
   - 一些功能推薦從 vagrant plugin 來安裝。
 
-    - EX. 當想要同步檔案到 VM 時，可能會說可以安裝 VirtualBox Guest Additiions，不建議直接安裝，而是從 vagrant plugin 來安裝 (`vagrant plugin install vagrant-vbguest`)
+    - EX. 當想要同步檔案到 VM 時，可能會說可以安裝 Virtualbox Guest Additiions，不建議直接安裝，而是從 vagrant plugin 來安裝 (`vagrant plugin install vagrant-vbguest`)
 
   </details>
 
 ## # 基礎
+
+<!-- Provider -->
+
+- <details close>
+  <summary>Provider</summary>
+
+  - 使用 vagrant 管理 Virtualbox 時，可以不用開啟 Virtualbox 的應用程式，可以背景執行，應用程式只是提供 UI 讓你使用
+
+  </details>
 
 <!-- Box -->
 
 - <details close>
   <summary>Box</summary>
 
-  - [Vagrant Cloud] 網頁中有提供 Vagrant Box 可使用
-
   - <details close>
-    <summary></summary>
+    <summary>Vagrant Cloud 網頁中有提供 Vagrant Box 可使用</summary>
+
+    - [Vagrant Cloud]
+    - 使用時養成習慣要指定版本
+    - 其上對 box 的描述資訊有點少
 
     </details>
 
-  <!-- 打包 box (以 virtualbox 為例，不同 provider 細節不同，指令也不同) -->
+  <!-- 打包 box (以 Virtualbox 為例，不同 provider 細節不同，指令也不同) -->
 
   - <details close>
-    <summary>打包 box (以 virtualbox 為例，不同 provider 細節不同，指令也不同)</summary>
+    <summary>打包 box (以 Virtualbox 為例，不同 provider 細節不同，指令也不同)</summary>
 
     <!-- vagrant package --base [VM name or ID] -->
 
@@ -162,10 +161,10 @@
 
         </details>
 
-      <!-- 需安裝 VirtualBox Guest Additions -->
+      <!-- 需安裝 Virtualbox Guest Additions -->
 
       - <details close>
-        <summary>需安裝 VirtualBox Guest Additions</summary>
+        <summary>需安裝 Virtualbox Guest Additions</summary>
 
         - 共用資料夾功能需能正常運作
         - 可以進行一些最佳化提高效能
@@ -267,6 +266,15 @@
 
     </details>
 
+  <!-- vagrant destory -->
+
+  - <details close>
+    <summary><code>vagrant destory</code></summary>
+
+    - `vagrant destory` 後重新 up，才會真正換一台 VM
+
+    </details>
+
   </details>
 
 <!-- 同步資料夾 -->
@@ -281,11 +289,11 @@
 
     - 沒設定則會使用 provider 當前的方法
 
-    - EX. VirtualBox 有 VirtualBox Guest Additiions
+    - EX. Virtualbox 有 Virtualbox Guest Additiions
 
       - 需安裝
       - 可以自動隨時同步
-      - 設定 `type: "virtualbox"`
+      - 設定 `type: "Virtualbox"`
 
     </details>
 
@@ -364,61 +372,92 @@
 - <details close>
   <summary>網路配置</summary>
 
-  - 預設網路配置
+  <!-- 預設網路配置 -->
 
-    - 使用 "VirtualBox"
+  - <details close>
+    <summary>預設網路配置</summary>
+
+    <!-- 使用 "Virtualbox" -->
+
+    - <details close>
+      <summary>使用 "Virtualbox"</summary>
 
       - 會分配在固定 ip 127.0.0.1 但不同 port (ex. port 22xx)
       - 因為使用 NAT 分配
 
-    - 使用 "Hyper-V"
+      </details>
+
+    <!-- 使用 "Hyper-V" -->
+
+    - <details close>
+      <summary>使用 "Hyper-V"</summary>
 
       - 會分配在不同 ip 但都在 port 22 (ex. ip 172.17.xx.xx)
       - 因為其 Network Adapter 是選用 Default Switch 做分配
       - Default Switch 可設定分配哪些範圍的 ip 供其使用
       - 此種方法，在 VM 內部外部都是同一個 ip，並不像 NAT 會進行轉換
 
+      </details>
+
     - 註：此部分描述預設方式，理論上 provider 應該能選擇使用不同方式來進行 ip 分配轉換
 
-  - 基本配置方式
+    </details>
 
-    - `forwarded_port`
+  <!-- 基本配置方式 -->
+
+  - <details close>
+    <summary>基本配置方式</summary>
+
+    <!-- forwarded_port -->
+
+    - <details close>
+      <summary><code>forwarded_port</code></summary>
 
       - 用來設定轉發 port，例如以 nat 連線時，需用此設定來轉發 port，使本機能夠連進 VM
       - ssh 的轉發一開始就自動設定好，因此能夠連線。但例如要連 ngnix 的 port 80，則須設定轉發到本機的哪個 port
 
-    - `private_network`
+      </details>
 
-      - DHCP(Dynamic Host Configuration Protocol)
+    <!-- private_network -->
 
-        - 在原始碼有寫預設 ip 為 `172.28.128.1`
-        - <mark>TODO:</mark> 未成功，如下
+    - <details close>
+      <summary><code>private_network</code></summary>
 
-          - 目前有建立出一個 eth2 是由於設定 DHCP 而創建的，但沒有像 eth3 一樣有一個 inet
-          - 不知是沒成功創建 DHCP，還是已經創建了但我不會使用
+      <!-- DHCP(Dynamic Host Configuration Protocol) -->
 
-            ```sh
-            4: eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
-                link/ether 08:00:27:ba:5c:34 brd ff:ff:ff:ff:ff:ff
-                inet6 fe80::a00:27ff:feba:5c34/64 scope link
-                  valid_lft forever preferred_lft forever
-            5: eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
-                link/ether 08:00:27:4f:4a:7a brd ff:ff:ff:ff:ff:ff
-                inet 192.168.50.21/24 brd 192.168.50.255 scope global eth3
-                  valid_lft forever preferred_lft forever
-                inet6 fe80::a00:27ff:fe4f:4a7a/64 scope link
-                  valid_lft forever preferred_lft forever
-            ```
+      - <details close>
+        <summary>DHCP(Dynamic Host Configuration Protocol)</summary>
 
-      - Static IP
+        - 在原始碼有明寫預設 ip (教學中講師提到為 `172.28.128.1`)
+
+        </details>
+
+      <!-- Static IP -->
+
+      - <details close>
+        <summary>Static IP</summary>
 
         - 自己設定一個固定的 ip
 
-    - `public_network`
+        </details>
+
+      </details>
+
+    <!-- public_network -->
+
+    - <details close>
+      <summary><code>public_network</code></summary>
 
       - 用以公開讓外網都能連進來
 
-  - 測試：
+      </details>
+
+    </details>
+
+  <!-- 測試 -->
+
+  - <details close>
+    <summary>測試</summary>
 
     - 安裝 nginx 後，在本機瀏覽器上做連線測試：
 
@@ -433,6 +472,8 @@
       # --> 可用 192.168.0.10:80
       ```
 
+    </details>
+
   </details>
 
 <!-- Provisioning -->
@@ -440,8 +481,31 @@
 - <details close>
   <summary>Provisioning</summary>
 
-  - 啟動方法：(1)第一次 up、(2)`vagrant provision`、(3)`--provision`
-  - 幾本方法：Shell、Ansible
+  - 啟動時機：(1)第一次 `vagrant up`、(2)`vagrant provision`、(3)`--provision`
+  - 基本方式：Shell、Ansible
+
+  </details>
+
+<!-- 資料夾解析 -->
+
+- <details close>
+  <summary>資料夾解析</summary>
+
+  <!-- ./.vagrant/ -->
+
+  - <details close>
+    <summary><code>./.vagrant/</code></summary>
+
+    - `.vagrant/machines/` 中手動改掉 folder 名稱，vagrant 會找不到
+
+    </details>
+
+  <!-- ~/.vagrant.d/ -->
+
+  - <details close>
+    <summary><code>~/.vagrant.d/</code></summary>
+
+    </details>
 
   </details>
 
@@ -474,13 +538,50 @@
       - `vagrant ssh` 連線時不用輸入 VM 的使用者密碼，但以 `ssh` 連線則需要輸入密碼
       - 使用 rsync 有些 box 創建的 VM 會有權限問題，每次都要輸入密碼
 
-    - 未知原因講師在 windows VirtualBox 用 `vagrant ssh` 也需要密碼
+    - 未知原因講師在 windows Virtualbox 用 `vagrant ssh` 也需要密碼
 
   </details>
 
-- 使用 Provisioning 時，是用哪一個 user？例如使用 shell, path 方式，其中在執行那個 shell script 時，會是在哪一個 user？是依照 box 的設定嗎？還是 vagrant up 會統一使用某個 user？
+<!-- 使用 Provisioning 時，是用哪一個 user？ -->
 
-- 研究 `.vagrant/` 裡的檔案用途。例如 bundler 是在有 plugin 的情況下才出現的。有使用 provisioner 時也會出現 `provisioners`
+- <details close>
+  <summary>使用 Provisioning 時，是用哪一個 user？</summary>
+
+  - 例如使用 shell, path 方式，其中在執行那個 shell script 時，會是在哪一個 user？是依照 box 的設定嗎？還是 vagrant up 會統一使用某個 user？
+
+  </details>
+
+<!-- 研究 `.vagrant/` 裡的檔案用途。 -->
+
+- <details close>
+  <summary>研究 `.vagrant/` 裡的檔案用途。</summary>
+
+  - 例如 bundler 是在有 plugin 的情況下才出現的。有使用 provisioner 時也會出現 `provisioners`
+
+  </details>
+
+<!-- DHCP 未成功，如下 -->
+
+- <details close>
+  <summary>DHCP 未成功，如下</summary>
+
+  - 目前有建立出一個 eth2 是由於設定 DHCP 而創建的，但沒有像 eth3 一樣有一個 inet
+  - 不知是沒成功創建 DHCP，還是已經創建了但我不會使用
+
+    ```sh
+    4: eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+        link/ether 08:00:27:ba:5c:34 brd ff:ff:ff:ff:ff:ff
+        inet6 fe80::a00:27ff:feba:5c34/64 scope link
+          valid_lft forever preferred_lft forever
+    5: eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+        link/ether 08:00:27:4f:4a:7a brd ff:ff:ff:ff:ff:ff
+        inet 192.168.50.21/24 brd 192.168.50.255 scope global eth3
+          valid_lft forever preferred_lft forever
+        inet6 fe80::a00:27ff:fe4f:4a7a/64 scope link
+          valid_lft forever preferred_lft forever
+    ```
+
+  </details>
 
 ## # 其他補充
 
@@ -532,6 +633,16 @@
     - [Vagrantfile Doc]
 
     </details>
+
+<!-- 講師習慣 -->
+
+- <details close>
+  <summary>講師習慣</summary>
+
+  - 稱 "Vagrant Box" 為 "Vagrant 鏡像"
+  - 在 windows 中，更偏好使用 Virtualbox，而不是 Hyper-V (因為提供的 box 比較多與 Virtualbox 相容？)
+
+  </details>
 
 ---
 
