@@ -1,0 +1,43 @@
+node_list = [
+  {
+    :name => "host1"
+  },
+  {
+    :name => "host2"
+  },
+  {
+    :name => "host3"
+  }
+]
+
+
+Vagrant.configure("2") do |config|
+
+  config.vm.synced_folder ".", "/vagrant", disabled: true, type: "virtualbox"
+  config.vm.synced_folder "src/", "/vagrant/src", disabled: false, type: "virtualbox"
+  config.vm.box = "ubuntu/bionic64"
+
+  node_list.each do |node|
+
+    config.vm.define node[:name] do |host|
+      host.vm.hostname = "docker.#{node[:name]}"
+      
+      # 使用 Ansible 作為 provisioner
+      if node[:name] == "host3"
+        host.vm.provision "ansible" do |ansible|
+          # Disable default limit to connect to all the machines
+          ansible.limit = "all"        
+          ansible.playbook = "playbook.yml"
+        end
+      end
+      
+    end 
+
+  end
+
+
+
+end
+
+
+

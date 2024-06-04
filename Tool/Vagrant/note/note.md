@@ -74,6 +74,13 @@
 
   </details>
 
+- <details close>
+  <summary>host & guest</summary>
+
+  - 在 mac 使用 Virtualbox 創建 VM --> host 為 mac，guest 為 VM
+
+  </details>
+
 ## # 安裝與設定
 
 <!-- mac 按習慣透過 Homebrew -->
@@ -482,7 +489,38 @@
   <summary>Provisioning</summary>
 
   - 啟動時機：(1)第一次 `vagrant up`、(2)`vagrant provision`、(3)`--provision`
-  - 基本方式：Shell、Ansible
+
+  - 基本方式：File、Shell(inline、path)、Ansible
+
+  <!-- 技巧： -->
+
+  - <details close>
+    <summary>技巧：</summary>
+
+    - Ansible 可以設置成在最後一個 VM 啟動完後，才一次並行讓所有 VM 一起執行
+
+      ```vagrantfile
+      # 用 if 判斷迴圈執行到最後一台 VM 時
+      if machine_id == N
+        machine.vm.provision :ansible do |ansible|
+          # 需要將 limit 設定成 all，讓所有 VM 都執行 ansible 動作
+          ansible.limit = "all"
+          ansible.playbook = "playbook.yml"
+        end
+      end
+      ```
+
+    </details>
+
+  <!-- 注意： -->
+
+  - <details close>
+    <summary>注意：</summary>
+
+    - 若需將 file 放進權限較高的地方，建議先用 File Provisioner 放到低權限位置，再用 Shell Provisioner 移動到位
+    - 使用 Shell Provisioner 時，需注意當下的 user
+
+    </details>
 
   </details>
 
