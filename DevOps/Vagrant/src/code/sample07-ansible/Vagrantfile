@@ -1,0 +1,39 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.require_version ">= 1.6.0"
+
+node_list = [
+    {
+      :name => "ansible-controller",
+      :eth1 => "192.168.50.10"
+
+    },
+    {
+      :name => "ansible-node1",
+      :eth1 => "192.168.50.11"
+    },
+    {
+      :name => "ansible-node2",
+      :eth1 => "192.168.50.12"
+    }
+]
+
+Vagrant.configure(2) do |config|
+
+  config.vm.synced_folder ".", "/vagrant", disabled: true, type: "virtualbox"
+  config.vm.synced_folder "src/", "/vagrant/src", disabled: false, type: "virtualbox"
+  config.vm.box = "ubuntu/bionic64"
+
+  node_list.each do |node|
+    config.vm.define node[:name] do |host|
+      host.vm.hostname = node[:name]
+      host.vm.network :private_network, ip: node[:eth1]
+
+      if node[:name] == "ansible-controller"
+        host.vm.provision "shell", privileged: false, path: "./setup.sh"
+      end
+    end
+  end
+
+end
