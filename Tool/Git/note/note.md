@@ -7,6 +7,7 @@
 [.gitmessage.txt]: ../src/code/.gitmessage.txt
 [Git Commit Message 這樣寫會更好]: https://wadehuanglearning.blogspot.com/2019/05/commit-commit-commit-why-what-commit.html
 [git-commit-message]: https://github.com/joelparkerhenderson/git-commit-message
+[gc 條件設定]: https://www.git-scm.com/docs/git-gc#_configuration
 
 <!------------ ref end ------------>
 
@@ -16,11 +17,6 @@
 > REF: [30 天精通 Git 版本控管]
 
 ## <mark># TODO: 未整理</mark>
-
-- `git cat-file -p <HASH ID>`
-
-  - 查看該物件內容，hashID 會是該物件檔案名稱
-  - 也可直接查看 ref，EX. `git cat-file -p HEAD`
 
 - 合併三個以上分支，就會有三個以上的 parent。那什麼情況會造成合併三條以上分支？
 
@@ -39,9 +35,118 @@
     WIP on master: d530150 TEST git 1
     ```
 
-- `git config`
+- 細節觀察：
 
-  - 如果在多個地方設置同一屬性，則 `--local` 會蓋過 `--global` 再蓋過 `--system`
+  - stash，在 refs/ 中只會紀錄一個最新的 stash，也就是 stash@{0}。其他則是記錄在 logs/refs/stash
+
+## # 簡介
+
+## # 基礎
+
+<!-- 指令(研究學習用) -->
+
+- <details close>
+  <summary>指令(研究學習用)</summary>
+
+  <!-- git cat-file -p [HASH ID] -->
+
+  - <details close>
+    <summary><code>git cat-file -p [HASH ID]</code></summary>
+
+    - 查看該物件內容
+    - hashID 會是該物件檔案名稱
+    - 也可直接查看 ref，EX. `git cat-file -p HEAD`
+
+    </details>
+
+  <!-- git cat-file -t [HASH ID] -->
+
+  - <details close>
+    <summary><code>git cat-file -t [HASH ID]</code></summary>
+
+    - 查看該物件種類 (commit、tree、blob、tag)
+
+    </details>
+
+  <!-- git show-ref [NAME] -->
+
+  - <details close>
+    <summary><code>git show-ref [NAME]</code></summary>
+
+    - 查看符合 ref 所代表的所有 HASH ID 跟 path
+    - 只會查詢 refs/ 中的內容
+
+    - EX.
+
+      ```sh
+      $ git show-ref master
+
+      c3bd002d4dcf4169512e94d66bf1db5d648cea17 refs/heads/master
+      8gj3h4y38cc334d7060blm3c13jw748a3b75d9a8 refs/remotes/origin/master
+
+      $ git show-ref HEAD
+
+      8gj3h4y38cc334d7060blm3c13jw748a3b75d9a8 refs/remotes/origin/HEAD
+      ```
+
+    </details>
+
+  <!-- git rev-parse [NAME] -->
+
+  - <details close>
+    <summary><code>git rev-parse [NAME]</code></summary>
+
+    - 查看該名稱所代表的 HASH ID
+    - EX.
+
+      ```sh
+      $ git rev-parse master
+      c3bd002d4dcf4169512e94d66bf1db5d648cea17
+      ```
+
+    </details>
+
+  </details>
+
+<!-- 資料結構 -->
+
+- <details close>
+  <summary>資料結構</summary>
+
+  <!-- 物件種類 -->
+
+  - 物件種類：commit、tree、blob、tag
+
+  <!-- 儲存流程 -->
+
+  - <details close>
+    <summary>儲存流程</summary>
+
+    - commit 後，會先將所有單一 file 以 zlib 演算法壓縮成 blob，包含整個完整的內容，而不只儲存檔案間的差異，存於 `.git/objects/` 中
+
+    - 後面 commit 改回與更之前完全相同內容，也只有一份 blob ，因為 hash 一樣
+
+    - 達到條件後，才利用 delta compression 演算法，封裝後存於 `.git/objects/pack/` 中，每個 pack 包含兩個檔案 `.idx` & `.pack`
+
+    - 自動封裝參考 [gc 條件設定]，一般以 `gc.auto` 設定條件啟動封裝鬆散的 object，以 `gc.autoPackLimit` 設定條件啟動合併 pack
+
+    - 用 `git gc` 手動執行，封裝鬆散的 object，並合併 pack
+
+    </details>
+
+  </details>
+
+<!-- config -->
+
+- <details close>
+  <summary>config</summary>
+
+  <!-- 順序：local -> global -> system -->
+
+  - <details close>
+    <summary>順序：local -> global -> system</summary>
+
+    - 如果在多個地方設置同一屬性，則 `--local` 會蓋過 `--global` 再蓋過 `--system`
 
     ```sh
     ## EX.
@@ -63,41 +168,70 @@
     ## --> 則最後是 ocup3 生效
     ```
 
-  - windows 在設定 `--system` 時，可能需要切換成管理員權限，才能設定正確
+    </details>
 
-  - macOS 中 `credential.helper=osxkeychain` 將你的憑證（如 GitHub、GitLab 的帳密）安全地存儲在 macOS 的鑰匙串中，以便進行身份驗證時自動填充，無需每次都手動輸入
+  <!-- 常用設定 -->
 
-  - 常用設定
+  - <details close>
+    <summary>常用設定</summary>
 
     - `git config --global core.editor "code --wait"` - 設定使用 vscode 編輯
     - `git config --local commit.template "./.gitmessage.txt"` - 設定 commit 模板
     - `git config --global commit.cleanup "strip"` - 設定 commit 依照哪個模式 cleanup。用 SourceTree 可能需要設定
 
-- commit template
+    </details>
+
+  <!-- 其他細節 -->
+
+  - <details close>
+    <summary>其他細節</summary>
+
+    - windows 在設定 `--system` 時，可能需要切換成管理員權限，才能設定正確
+    - macOS 中 `credential.helper=osxkeychain` 將你的憑證（如 GitHub、GitLab 的帳密）安全地存儲在 macOS 的鑰匙串中，以便進行身份驗證時自動填充，無需每次都手動輸入
+
+    </details>
+
+  </details>
+
+<!-- commit template -->
+
+- <details close>
+  <summary>commit template</summary>
 
   - 模板：[.gitmessage.txt]
+
   - REF
+
     - [使用 git commit template 管理 git log]
     - [Git Commit Message 這樣寫會更好]
     - [git-commit-message]
-  -
 
-- 細節觀察：
+  - 流程改善：
 
-  - stash，在 refs/ 中只會紀錄一個最新的 stash，也就是 stash@{0}。其他則是記錄在 logs/refs/stash
+    - 設定使用 vscode 開啟編輯
+    - 提供 template，註解中描述規則
+    - 使用 hook 自動檢查 commit 是否符合規則
 
-  -
+  </details>
 
-## # 簡介
-
-## # 基本
-
-<!--  -->
+<!-- tag -->
 
 - <details close>
-  <summary></summary>
+  <summary>tag</summary>
 
-  -
+  - lightweight tag
+
+    - `git tag`
+    - 只會有一個 tag ref 指向 commit
+    - 若加上 `-m` 也會自動升級為 annotated tag
+
+  - annotated tag
+
+    - `git tag -a`
+    - 會新增一個 tag object，並有一個 tag ref 指向 tag
+    - 才有 metadata 描述
+    - 可以用 GnuPG 金鑰簽章
+    - 通常使用此種
 
   </details>
 
