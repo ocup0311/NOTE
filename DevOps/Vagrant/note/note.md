@@ -612,6 +612,8 @@
 
   </details>
 
+- 再認真研究一下 Vagrant command lifecycle
+
 ## # 其他補充
 
 - 注意事項：
@@ -677,8 +679,53 @@
 
 ## # 踩雷實錄
 
+<!-- sample-ansible 的 ssh key 設定 -->
+
 - <details close>
-  <summary></summary>
+  <summary>sample-ansible 的 ssh key 設定</summary>
+
+  - 所遇狀況：
+
+    - 前情：
+
+      - 我使用 vagrant 創建三個 virtualbox VM 想用來學習 ansible。
+      - 欲將 VM1 當作 controller 控制 VM2, VM3。
+
+    - 我卡在：
+
+      - 我在 VM1 使用 ssh-copy-id 把公鑰傳給 VM2 時，`Permission denied (publickey).`
+
+    - 已經做的事：
+
+      - `/etc/hosts` 已設定
+      - VM1 可以 ping VM2
+      - VM2 確定能被 ssh 連，因為本機能連
+      - VM2 的 `/etc/ssh/sshd_config` 已設定如下，並且 `sudo systemctl restart ssh`
+
+        - `PubkeyAuthentication yes`
+        - `AuthorizedKeysFile .ssh/authorized_keys`
+
+      - 有清理過 VM1 的 `~/.ssh/known_hosts` 重試幾次
+      - 直接將 VM1 的公鑰手動複製去 VM2 `~/.ssh/authorized_keys`
+      - 檢查過 VM1 的私鑰 `600` 公鑰 `644`
+      - 如下重新設定開通 port 22
+
+        - `sudo ufw allow 22/tcp`
+        - `sudo ufw enable`
+        - `sudo ufw status`
+
+      - 用 `telnet VM2 22` 測試 port 22 可以連接
+      - 用 `sudo cat /var/log/auth.log` 查看 log 來思考解決方法
+
+  - 此事件關鍵問題：
+
+    - 忽略了「因為用 vagrant 創建，已經關閉密碼登入，沒辦法用 ssh-copy-id 傳公鑰」
+    - 忘記要寫入 `~/.ssh/config` 才能直接 `ssh ansible-node1`
+
+  - 解決方法：
+
+    - 直接將 VM1 的公鑰手動複製去 VM2 `~/.ssh/authorized_keys`
+    - 先開啟密碼登入，設定好再關閉 (此方法較易用 vagrant 的腳本實現，暫選用此法)
 
   </details>
 
