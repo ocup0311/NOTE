@@ -8,6 +8,7 @@
 [Git Commit Message 這樣寫會更好]: https://wadehuanglearning.blogspot.com/2019/05/commit-commit-commit-why-what-commit.html
 [git-commit-message]: https://github.com/joelparkerhenderson/git-commit-message
 [gc 條件設定]: https://www.git-scm.com/docs/git-gc#_configuration
+[Understanding git gc --auto]: https://stackoverflow.com/questions/16337498/understanding-git-gc-auto
 
 <!------------ ref end ------------>
 
@@ -18,26 +19,11 @@
 
 ## <mark># TODO: 未整理</mark>
 
-- 合併三個以上分支，就會有三個以上的 parent。那什麼情況會造成合併三條以上分支？
-
-  - EX. `git stash save -u`
-
-    - 這個做法會分別將 worktree、index(untracked)、tracked 存成一個 stash
-    - 則此時的表現方式是該 stash 會有三個 parent，分別為那三個狀態
-
-    ```sh
-    $ git cat-file -p stash
-    tree 6381dc317d7a3c2cac9fd0bf383b6b5427b633bb     # worktree  (unmodified/modified)
-    parent d5301505f50aa16b1f12cc195897185334c4f044   # HEAD
-    parent f07891d84a88efc08f3f305dc59d255a4c1bb68a   # index     (staged)
-    parent 18f5efab303dbb7920ae15e71e5b3e62b0381d16   # untracked
-
-    WIP on master: d530150 TEST git 1
-    ```
-
 - 細節觀察：
 
   - stash，在 refs/ 中只會紀錄一個最新的 stash，也就是 stash@{0}。其他則是記錄在 logs/refs/stash
+
+  -
 
 ## # 簡介
 
@@ -115,7 +101,66 @@
 
   <!-- 物件種類 -->
 
-  - 物件種類：commit、tree、blob、tag
+  - <details close>
+    <summary>物件種類：commit、tree、blob、tag</summary>
+
+    <!-- commit：包含 tree、parent、author、committer -->
+
+    - <details close>
+      <summary>commit：包含 tree、parent、author、committer</summary>
+
+      <!-- 什麼情況會造成合併三條以上分支？ -->
+
+      - <details close>
+        <summary>合併三個以上分支，就會有三個以上的 parent。那什麼情況會造成合併三條以上分支？</summary>
+
+        - EX. `git stash save -u`
+
+          - 這個做法會分別將 worktree、index(untracked)、tracked 存成一個 stash
+          - 則此時的表現方式是該 stash 會有三個 parent，分別為那三個狀態
+
+          ```sh
+          $ git cat-file -p stash
+          tree 6381dc317d7a3c2cac9fd0bf383b6b5427b633bb     # worktree  (unmodified/modified)
+          parent d5301505f50aa16b1f12cc195897185334c4f044   # HEAD
+          parent f07891d84a88efc08f3f305dc59d255a4c1bb68a   # index     (staged)
+          parent 18f5efab303dbb7920ae15e71e5b3e62b0381d16   # untracked
+
+          WIP on master: d530150 TEST git 1
+          ```
+
+        </details>
+
+      </details>
+
+    <!-- tree：包含 tree、blob -->
+
+    - <details close>
+      <summary>tree：包含 tree、blob</summary>
+
+      -
+
+      </details>
+
+    <!-- blob：包含完整一份 file 內容 -->
+
+    - <details close>
+      <summary>blob：包含完整一份 file 內容</summary>
+
+      -
+
+      </details>
+
+    <!-- tag：包含 object、type、tag、tagger -->
+
+    - <details close>
+      <summary>tag：包含 object、type、tag、tagger</summary>
+
+      -
+
+      </details>
+
+    </details>
 
   <!-- 儲存流程 -->
 
@@ -128,7 +173,10 @@
 
     - 達到條件後，才利用 delta compression 演算法，封裝後存於 `.git/objects/pack/` 中，每個 pack 包含兩個檔案 `.idx` & `.pack`
 
-    - 自動封裝參考 [gc 條件設定]，一般以 `gc.auto` 設定條件啟動封裝鬆散的 object，以 `gc.autoPackLimit` 設定條件啟動合併 pack
+    - 自動封裝以 `gc.auto` 設定條件啟動封裝鬆散的 object，以 `gc.autoPackLimit` 設定條件啟動合併 pack
+
+      - [gc 條件設定]
+      - [Understanding git gc --auto]
 
     - 用 `git gc` 手動執行，封裝鬆散的 object，並合併 pack
 
@@ -181,6 +229,16 @@
 
     </details>
 
+  <!-- 日期格式 -->
+
+  - <details close>
+    <summary>日期格式</summary>
+
+    - [Git Date 原始碼](https://git.kernel.org/pub/scm/git/git.git/tree/date.c)
+    - EX. "never"、"7 days"、"1 day"
+
+    </details>
+
   <!-- 其他細節 -->
 
   - <details close>
@@ -211,6 +269,67 @@
     - 設定使用 vscode 開啟編輯
     - 提供 template，註解中描述規則
     - 使用 hook 自動檢查 commit 是否符合規則
+
+  </details>
+
+<!-- reflog -->
+
+- <details close>
+  <summary>reflog</summary>
+
+  <!-- 紀錄"使用指令"改變狀態的動作 -->
+
+  - <details close>
+    <summary>紀錄"使用指令"改變狀態的動作</summary>
+
+    - 像是 `ORIG_HEAD` 那樣，只是它記錄了所有的動作
+    - 包含：commit、checkout、pull、push、merge、reset、clone、branch、rebase、stash..etc
+
+    </details>
+
+  <!-- HEAD@{0} -->
+
+  - <details close>
+    <summary><code>HEAD@{0}</code></summary>
+
+    - 可用 `git reflog` 查詢
+    - 以 `HEAD@{0}` 來標記最新紀錄，也就是 `HEAD`
+    - 依此類推 `HEAD@{1}`, `HEAD@{2}`..，數字越大越舊
+
+    </details>
+
+  <!-- 紀錄在 `.git\logs\` -->
+
+  - <details close>
+    <summary>紀錄在 <code>.git\logs\</code></summary>
+
+    - 還分多種 EX. HEAD、master、remote..等等
+
+    </details>
+
+  <!-- 預設保留時間 -->
+
+  - <details close>
+    <summary>預設保留時間</summary>
+
+    - 紀錄保留 90 天
+    - 紀錄中已經不存在任何分支上的 commit 物件保留 30 天
+    - `gc.reflogExpire "90 days"` & `gc.reflogExpireUnreachable "30 days"`
+
+    </details>
+
+  <!-- 常用指令 -->
+
+  - <details close>
+    <summary>常用指令</summary>
+
+    - `git reflog`
+    - `git reflog delete "ref@{specifier}"` (EX. HEAD@{0})
+    - `git reflog expire --expire=now --all`
+    - `git config --global gc.reflogExpire "never"`
+    - `git config --global gc.reflogExpireUnreachable "never"`
+
+    </details>
 
   </details>
 
