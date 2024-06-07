@@ -612,7 +612,23 @@
 
   </details>
 
-- 再認真研究一下 Vagrant command lifecycle
+<!-- 再認真研究一下 Vagrant command lifecycle -->
+
+- <details close>
+  <summary>再認真研究一下 Vagrant command lifecycle</summary>
+
+  </details>
+
+<!-- Provision 順序調控 -->
+
+- <details close>
+  <summary>Provision 順序調控</summary>
+
+  - [Vagrant Multiple VM Provision Order](https://stackoverflow.com/q/70930031/13108209)
+
+  - 找不到可以調整 Provision 順序的方法，因此用了 `--provision-with` 分批次執行
+
+  </details>
 
 ## # 其他補充
 
@@ -684,7 +700,10 @@
 - <details close>
   <summary>sample-ansible 的 ssh key 設定</summary>
 
-  - 所遇狀況：
+  <!-- 所遇狀況： -->
+
+  - <details close>
+    <summary>所遇狀況：</summary>
 
     - 前情：
 
@@ -717,15 +736,27 @@
       - 用 `telnet VM2 22` 測試 port 22 可以連接
       - 用 `sudo cat /var/log/auth.log` 查看 log 來思考解決方法
 
-  - 此事件關鍵問題：
+    </details>
+
+  <!-- 關鍵問題： -->
+
+  - <details close>
+    <summary>關鍵問題：</summary>
 
     - 忽略了「因為用 vagrant 創建，已經關閉密碼登入，沒辦法用 ssh-copy-id 傳公鑰」
     - 忘記要寫入 `~/.ssh/config` 才能直接 `ssh ansible-node1`
 
-  - 解決方法：
+    </details>
+
+  <!-- 解決方法： -->
+
+  - <details close>
+    <summary>解決方法：</summary>
 
     - 直接將 VM1 的公鑰手動複製去 VM2 `~/.ssh/authorized_keys`
     - 先開啟密碼登入，設定好再關閉 (此方法較易用 vagrant 的腳本實現，暫選用此法)
+
+    </details>
 
   </details>
 

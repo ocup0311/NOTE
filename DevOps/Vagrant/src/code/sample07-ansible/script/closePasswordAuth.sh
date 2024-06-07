@@ -1,6 +1,17 @@
-hostname
-echo "Current user is $USER to run closePasswordAuth.sh ---------------------------------- "
+#!/bin/bash
 
-# 關閉使用密碼登入方法
-sudo sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
-sudo systemctl restart sshd.service
+echo "$(hostname): Current user is $USER to run openPasswordAuth.sh ---------------------------------- "
+echo '----------------------------------'
+close="PasswordAuthentication no" 
+open="PasswordAuthentication yes" 
+file="/etc/ssh/sshd_config"
+
+while grep -q "$open" $file; do
+    echo "[$open] is found. Updating configuration..."
+    sudo sed -i "s/$open/$close/g" $file
+    sudo systemctl restart sshd.service
+    echo "Configuration updated and SSH service restarted."
+done
+
+echo "Now is: $close"
+echo '----------------------------------'

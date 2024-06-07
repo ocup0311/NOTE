@@ -1,5 +1,4 @@
-hostname
-echo "Current user is $USER to run setupController.sh ---------------------------------- "
+echo "$(hostname): Current user is $USER to run setupController.sh ---------------------------------- "
 
 # install something
 echo "install something ---------------------------------- "
@@ -50,15 +49,20 @@ ansible --version
 
 # generate ssh key & connect to other nodes
 echo "setup ssh key ---------------------------------- "
+node="ansible-node"
+ip="192.168.50.1"
+sudo sh -c "echo $ip\0 ansible-controller >> /etc/hosts"
+ssh-keygen -t ed25519 -f ~/.ssh/ansible_ssh_key
+touch ~/.ssh/config
 
-hosts=("192.168.50.10 ansible-controller" "192.168.50.11 ansible-node1" "192.168.50.12 ansible-node2")
-for host in "${hosts[@]}"; do
-    sudo sh -c "echo $host >> /etc/hosts"
-done
+for i in {1..2}; do
+    sudo sh -c "echo $ip$i $node$i >> /etc/hosts"
+    sshpass -p "vagrant" ssh-copy-id -i ~/.ssh/ansible_ssh_key.pub -o StrictHostKeyChecking=no $node$i
 
-ssh-keygen -t ed25519 -f ~/.ssh/ansible_ssh_key -N ""
-
-nodes=("ansible-node1" "ansible-node2")
-for node in "${nodes[@]}"; do
-    sshpass -p "vagrant" ssh-copy-id -i ~/.ssh/ansible_ssh_key.pub -o StrictHostKeyChecking=no $node 
+    sudo sh -c "echo \
+    'Host $node$i \n \
+        HostName $ip$i \n \
+        User vagrant \n \
+        IdentityFile ~/.ssh/ansible_ssh_key \n' \
+    >> ~/.ssh/config"
 done

@@ -1,5 +1,4 @@
-hostname
-echo "Current user is $USER to run setupController_closePasswordAuth.sh ---------------------------------- "
+echo "$(hostname): Current user is $USER to run setupController_closePasswordAuth.sh ---------------------------------- "
 
 # install something
 echo "install something ---------------------------------- "
@@ -73,10 +72,14 @@ for i in {1..2}; do
     echo 'Current terminal is in =>' && hostname && \
     echo '----------------------------------' && \
     echo 'set PasswordAuthentication -> no' && \
-    sudo sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config && \
-    echo 'restart the sshd.service' && \
-    sudo systemctl restart sshd.service && \
-    echo 'DONE' && \
+    while grep -q 'PasswordAuthentication yes' /etc/ssh/sshd_config; do
+        echo '[PasswordAuthentication yes] is found. Updating configuration...'
+        sudo sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
+        echo 'restart the sshd.service'
+        sudo systemctl restart sshd.service
+        echo 'Configuration updated and SSH service restarted.'
+    done && \
+    echo 'Now is: PasswordAuthentication no' && \
     echo '----------------------------------' && \
     exit \
     "

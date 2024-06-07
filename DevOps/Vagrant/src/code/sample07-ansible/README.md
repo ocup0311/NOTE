@@ -2,7 +2,10 @@
 
 - 使用方法：
 
-  - 使用 `vagrant up` 來搭建 Ansible 學習環境
+  - 二選一以下方法，來搭建 Ansible 學習環境
+
+    - `cd ./run/setup1/` && `vagrant up`
+    - `cd ./run/setup2/` 並執行 [run.sh](./run/setup2/run.sh)
 
 - 使用條件：
 

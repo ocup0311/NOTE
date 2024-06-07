@@ -29,17 +29,17 @@ Vagrant.configure(2) do |config|
     config.vm.define node[:name] do |host|
       host.vm.hostname = node[:name]
       host.vm.network :private_network, ip: node[:eth1]
-      host.vm.provision "openPasswordAuth", type: "shell", privileged: false, path: "./script/openPasswordAuth.sh"
+      host.vm.provision "openPasswordAuth", type: "shell", privileged: false, path: "../../script/openPasswordAuth.sh"
     end
   end
   
   # set ansible_controller
   config.vm.define ansible_controller[:name] do |controller|
-    controller.vm.synced_folder "src/", "/vagrant/src", disabled: false, type: "virtualbox"
+    controller.vm.synced_folder "../../src/", "/vagrant/src", disabled: false, type: "virtualbox"
     controller.vm.hostname = ansible_controller[:name]
     controller.vm.network :private_network, ip: ansible_controller[:eth1]
     
-    controller.vm.provision "setupController", type: "shell", privileged: false, path: "./script/setupController_closePasswordAuth.sh"      
+    controller.vm.provision "setupController", type: "shell", privileged: false, path: "../../script/setupController_closePasswordAuth.sh"      
   end
 
 end
