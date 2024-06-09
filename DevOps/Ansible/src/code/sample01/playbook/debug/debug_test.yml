@@ -1,0 +1,28 @@
+- name: Debug-Test
+  hosts: web1
+  gather_facts: false
+
+  vars_files:
+    - '../vars/loop.yml'
+    - '../vars/demo.yml'
+    - '../vars/greetings.yml'
+
+  vars:
+    greetings: 'Hello from inline vars~~'
+    goodbye: 'Goodbye from inline vars~~'
+
+  tasks:
+    - name: Vars-Test
+      ansible.builtin.debug:
+        msg:
+          greetings: '{{ greetings }}'
+          goodbye: '{{ goodbye }}'
+
+    - name: Yml-Struct-Test
+      ansible.builtin.debug:
+        msg: '{{ yml_struct_demo }}'
+
+    - name: Loop-Test
+      ansible.builtin.debug:
+        msg: '{{ item.0 }} - {{ item.1 }} - {{ item.2 }}'
+      loop: "{{ query('nested', list_1, list_2, list_3) }}"

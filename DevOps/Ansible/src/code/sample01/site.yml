@@ -1,0 +1,9 @@
+- name: Main-Site
+  hosts: web1
+  tasks:
+    - name: Main-Debug
+      ansible.builtin.debug:
+        msg: play1
+
+- name: Include a play after another play
+  ansible.builtin.import_playbook: './playbook/debug/debug_test.yml'

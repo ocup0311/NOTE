@@ -1,0 +1,8 @@
+[web]
+ansible-node[1:2]  
+
+[web1]
+ansible-node1
+
+[web2]
+ansible-node2 

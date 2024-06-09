@@ -1,29 +1,159 @@
 ##### <!-- 收起 -->
 
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!------------  style  ------------>
-
 <!----------- ref start ----------->
+
+[vagrant-ansible 腳本]: ../../Vagrant/src/code/sample07-ansible/README.md
+[Ansible Doc]: https://docs.ansible.com/ansible/latest/
+[YAML Doc]: https://yaml.org/
+[Index of all Modules]: https://docs.ansible.com/ansible/latest/collections/index_module.html
+[Ansible Collections]: https://github.com/ansible-collections
+[Ansible-lint is not available. Kindly check the path or disable validation using ansible-lint]: https://github.com/ansible/vscode-ansible/issues/763
+[Ansible 入門]: https://www.youtube.com/playlist?list=PLfQqWeOCIH4BDoRx8lpXXl4hqSD4GSDU5
+[官方 Best Practices]: https://docs.ansible.com/ansible/latest/tips_tricks/ansible_tips_tricks.html
 
 <!------------ ref end ------------>
 
 # Ansible
 
 > DATE: 6 (2023)
-> REF:
+> REF: [Ansible 入門]
 
 ## # <mark>TODO:待整理筆記</mark>
 
--
+- 兩種用法
+
+  - `ansible -i inventory.ini -m ping`
+  - `ansible-playbook playbook.yml -i inventory.ini`
+
+- core
+
+  - Inventory
+
+    - 設定每台主機的資訊
+
+  - Playbook
+
+    - 設定每台主機要執行的 Task
+
+  - Module
+
+    - Task 的執行內容
+    - 一般是使用平台提供的，可在 [Index of all Modules] 查詢
+    - 為一種 Plugin。Module 主要是用在 VM 上執行的 Task
+
+- Inventory
+
+  - 設定每台主機的資訊
+  - 固定名稱資料夾
+
+    - `group_vars`
+
+      - 只對放 inventory.ini 中 group 名稱有效
+      - EX. `all.yml`, `web.yml`
+
+    - `host_vars`
+
+      - 只對放 inventory.ini 中 host 名稱有效
+      - EX. `ansible-node1.yml`
+
+    - 註：
+      - 名稱、相對位置固定不能錯
+      - 資料夾內檔案名稱參照 inventory.ini 中的命名 (.yml)
+      - 優先順序：範圍越小越優先 (EX. host > group > all)
+
+- playbook
+
+  - 主要構成
+
+    - hosts
+    - remote_user
+    - tasks
+      - name
+      - plugin (module)
+
+  - 介紹
+
+    - `vars`
+
+      - 優先順序： vars_files 後者 > vars_files 前者 > vars
+
+    - `loop`
+
+      - `{{ item }}`：為關鍵字，代表該次 loop 到的變數
+      - `with_items`、`with_nested`..etc 建議轉移成使用 `loop`+`query`
+      - > In most cases, loops work best with the loop keyword instead of with_X style loops. The loop syntax is usually best expressed using filters instead of more complex use of query or lookup.
+      - EX. `with_nested` --> `loop: "{{ query('nested', list_1, list_2, list_3) }}"`
+      - query 已經包含 `wantlist=True`
+
+    - `when`
+
+      - 預設為 and
+      - 需要 or，則要寫 `or`
+
+        ```yml
+        # EX. and
+        when:
+          - condition1
+          - condition2
+
+        # EX. or
+        when: (condition1) or (condition2)
+        ```
+
+- yaml
+
+  - 記得冒號後要空格
+  - 三種格式：
+
+    - key-value
+    - list
+
+      ```yml
+      # 等同於 JSON： ["a", "b", "c"]
+
+      - a
+      - b
+      - b
+      ```
+
+    - dictionary
+
+      ```yml
+      # 等同於 JSON： "dic": {"a": 1, "b": 2, "c": 3}
+
+      dic:
+        aa: 1
+        bb: 2
+        cc: 3
+      ```
+
+- `ansible.cfg`
+
+  - 設定 config
+  - 優先順序，由上往下開始查詢，找到即使用該檔案
+
+    - 設定在環境變數 ANSIBLE_CONFIG 的位置 (`export ANSIBLE_CONFIG=xxx/xxx/ansible.cfg`)
+    - 當前 shell 所在位置 (`./ansible.cfg`)
+    - home (`~/.ansible.cfg`)
+    - `/etc/ansible/ansible.cfg`
+
+  - <mark>TODO:</mark> 再研究哪些內容適合放在哪裡
+
+- 技巧：
+
+  - 加上 `-vv` 可以印出 debug 資訊
+
+- v2.10 的升級為大更新
+
+  - Module 被拆分出來到不同 repo，只剩下常用的主要功能在主要 repo 中
+  - 剩下的被歸類為 Plugin，由第三方開發維護，被放在 [Ansible Collections]
+  - v2.9 的寫法會在執行時被自動對照轉換為新的，依然可以執行
+
+    - EX. `mysql_user` --> `community.mysql.mysql_user`
+    - 有趣的是，用 v2.10 語法，在 v2.9.27 軟體也能執行
+
+  - 更新必須刪除舊版本重新安裝，不可直接升級
+  - Ansible Collections 有些會隨安裝 Ansible 一起安裝，有些需另外安裝 `ansible-galaxy collection install [COLLECTIONS]`
 
 ## # 簡介
 
@@ -34,9 +164,21 @@
 
 ## # 安裝與設定
 
+- 相關設定已製作成 [vagrant-ansible 腳本]，在 vagrant 啟動時直接安裝設定完成，可參考其中細節
+
+  - 安裝 ansible
+  - 在 `/etc/hosts` 中設定 ip:name 配對
+  - 設定使用 ssh key 連線
+    - 生成 ssh key
+    - 傳送公鑰給其他 node
+    - 在 `~/.ssh/config` 中設定連線所需私鑰
+    - 關閉 node 密碼登入功能
+
 ## # 基礎
 
 ## # 問題
+
+<mark>TODO:</mark> 找時間在 vagrant-ansible 設定中新增更新 ubuntu 版本 & 更新 ansible 版本，以最新版練習。或是設定兩個 controller 來比較新舊版差異 (v2.10 前後)
 
 ## # 其他補充
 
@@ -63,8 +205,22 @@
 
 - 補充學習：
 
+  <!-- 文件 -->
+
   - <details close>
-    <summary></summary>
+    <summary>文件</summary>
+
+    - [Ansible Doc]
+    - [YAML Doc]
+
+    </details>
+
+  <!-- Best Practices -->
+
+  - <details close>
+    <summary>Best Practices</summary>
+
+    - [官方 Best Practices]
 
     </details>
 
@@ -72,8 +228,12 @@
 
 ## # 踩雷實錄
 
+<!-- vscode Ansible 插件 -->
+
 - <details close>
-  <summary></summary>
+  <summary>vscode Ansible 插件</summary>
+
+  - 安裝 vscode Ansible 插件後，還得自行安裝 Ansible-lint，否則報錯 [Ansible-lint is not available. Kindly check the path or disable validation using ansible-lint]
 
   </details>
 
