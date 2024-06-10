@@ -13,3 +13,6 @@
 
 - name: Include Template-Test
   ansible.builtin.import_playbook: './playbook/file/template_test.yml'
+
+- name: Include System-Test
+  ansible.builtin.import_playbook: './playbook/system/system_test.yml'

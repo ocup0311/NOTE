@@ -1,0 +1,41 @@
+- name: System-Test
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Ping-Test
+      ansible.builtin.ping:
+
+    - name: Facts-Test
+      ansible.builtin.debug:
+        msg: '{{ ansible_all_ipv4_addresses }}'
+
+    - name: Group-Add-Test
+      ansible.builtin.group:
+        name: ansible_test_group
+        state: present
+      become: true
+      become_method: ansible.builtin.sudo
+
+    - name: Group-Del-Test
+      ansible.builtin.group:
+        name: ansible_test_group
+        state: absent
+      become: true
+      become_method: ansible.builtin.sudo
+
+    - name: User-Add-Test
+      ansible.builtin.user:
+        name: ansible_demo
+        state: present
+        password: "{{ '123456' | password_hash('sha512') }}"
+      become: true
+      become_method: ansible.builtin.sudo
+
+    - name: User-Del-Test
+      ansible.builtin.user:
+        name: ansible_demo
+        state: absent
+        remove: true
+      become: true
+      become_method: ansible.builtin.sudo

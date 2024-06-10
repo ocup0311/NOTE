@@ -25,6 +25,7 @@
 
   - `ansible -i inventory.ini -m ping`
   - `ansible-playbook playbook.yml -i inventory.ini`
+  - 每個 host 不會按照順序執行，是並行，所以呈現的內容並非有序
 
 - core
 
@@ -101,6 +102,16 @@
         when: (condition1) or (condition2)
         ```
 
+  - PLAY RECAP
+
+    - ok：執行成功，沒變動
+    - changed：執行成功，有變動
+    - unreachable
+    - failed：執行失敗
+    - skipped
+    - rescued
+    - ignored
+
 - yaml
 
   - 記得冒號後要空格
@@ -156,7 +167,7 @@
   - 更新必須刪除舊版本重新安裝，不可直接升級
   - Ansible Collections 有些會隨安裝 Ansible 一起安裝，有些需另外安裝 `ansible-galaxy collection install [COLLECTIONS]`
 
-- file system
+- file
 
   - file
 
@@ -178,6 +189,38 @@
     - `File permissions unset or incorrect.`：需要設定 mode
     - 若沒指定 owner，則因為使用 sudo，都會變成 root
     - directory 記得開 x 權限
+
+- system
+
+  - ping
+
+    -
+
+  - gather_facts
+
+    - 預設 true
+    - 開啟後，可以用 `debug` 印出相關變數 (可利用 `ansible all -m gather_facts` 看有哪些變數)
+    - `ansible all -m gather_facts --tree ./facts`：將 gather_facts 內容輸出到 `./facts/` 中保存
+
+  - user
+
+    - `present`
+
+      - 自動建立 `/home/user/`
+
+    - `absent`
+
+      - `remove` 將 `/home/user/` 刪除
+
+    - `password`
+
+      - 必須是經過 hash 處理
+      - 可用 `password_hash('sha512')` 處理，可能需另外安裝 `passlib`
+      - 按往例會放在 env 等，不會放在 code
+
+  - group
+
+    - `present`、`absent`
 
 ## # 簡介
 
