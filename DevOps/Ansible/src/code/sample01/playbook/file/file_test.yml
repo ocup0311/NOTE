@@ -1,0 +1,42 @@
+- name: File-Test
+  hosts: web1
+  gather_facts: false
+
+  tasks:
+    - name: Mkdir-Root
+      ansible.builtin.file:
+        path: /etc/test-ansible
+        state: directory
+        owner: root
+        group: root
+        mode: '0751'
+      become: true
+      become_method: ansible.builtin.sudo
+
+    - name: Copy-Root
+      ansible.builtin.copy:
+        src: ../../assets/test.txt
+        dest: /etc/test-ansible
+        owner: root
+        group: root
+        mode: '0644'
+        backup: true
+      become: true
+      become_method: ansible.builtin.sudo
+
+    - name: Mkdir-User
+      ansible.builtin.file:
+        path: ~/test-ansible
+        state: directory
+        owner: vagrant
+        group: vagrant
+        mode: '0775'
+
+    - name: Copy-User
+      ansible.builtin.copy:
+        src: ../../assets/test.txt
+        dest: ~/test-ansible
+        owner: vagrant
+        group: vagrant
+        mode: '0644'
+        backup: true

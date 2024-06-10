@@ -10,6 +10,7 @@
 [Ansible-lint is not available. Kindly check the path or disable validation using ansible-lint]: https://github.com/ansible/vscode-ansible/issues/763
 [Ansible 入門]: https://www.youtube.com/playlist?list=PLfQqWeOCIH4BDoRx8lpXXl4hqSD4GSDU5
 [官方 Best Practices]: https://docs.ansible.com/ansible/latest/tips_tricks/ansible_tips_tricks.html
+[Understanding variable precedence]: https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#understanding-variable-precedence
 
 <!------------ ref end ------------>
 
@@ -59,7 +60,7 @@
     - 註：
       - 名稱、相對位置固定不能錯
       - 資料夾內檔案名稱參照 inventory.ini 中的命名 (.yml)
-      - 優先順序：範圍越小越優先 (EX. host > group > all)
+      - 優先順序：範圍越小越優先 (EX. host > group > all) (REF: [Understanding variable precedence])
 
 - playbook
 
@@ -154,6 +155,29 @@
 
   - 更新必須刪除舊版本重新安裝，不可直接升級
   - Ansible Collections 有些會隨安裝 Ansible 一起安裝，有些需另外安裝 `ansible-galaxy collection install [COLLECTIONS]`
+
+- file system
+
+  - file
+
+    -
+
+  - copy
+
+    - 不會直接創建 folder
+    - `backup`：被覆蓋的檔案都會保留紀錄
+
+  - template
+
+    - 需用 `Jinja` 寫 (`.j2`)
+    - 可以製作 template 依照 host_vars 的變數帶入生成各自 host 的 file
+
+  - 注意
+
+    - `become_method: ansible.builtin.sudo` 只是指定方法，依然需要搭配 `become: true` 才能使用
+    - `File permissions unset or incorrect.`：需要設定 mode
+    - 若沒指定 owner，則因為使用 sudo，都會變成 root
+    - directory 記得開 x 權限
 
 ## # 簡介
 

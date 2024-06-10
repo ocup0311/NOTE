@@ -1,0 +1,21 @@
+- name: Template-Test
+  hosts: web
+  gather_facts: false
+
+  tasks:
+    - name: Mkdir-User
+      ansible.builtin.file:
+        path: ~/test-ansible
+        state: directory
+        owner: vagrant
+        group: vagrant
+        mode: '0775'
+
+    - name: Template-Test
+      ansible.builtin.template:
+        src: ../../templates/demo.j2
+        dest: ~/test-ansible/demo.cfg
+        owner: vagrant
+        group: vagrant
+        mode: '644'
+        backup: true
