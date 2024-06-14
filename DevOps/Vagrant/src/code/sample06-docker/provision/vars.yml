@@ -1,0 +1,6 @@
+key_path: '/etc/apt/keyrings'
+key_name: 'docker-archive-keyring.asc'
+docker_url: 'https://download.docker.com/linux/ubuntu'
+docker_gpg_key: '{{ key_path }}/{{ key_name }}'
+docker_apt_source: '/etc/apt/sources.list.d/docker.list'
+docker_apt_repo: 'deb [arch=amd64 signed-by={{ docker_gpg_key }}] {{ docker_url }} {{ ansible_distribution_release }} stable'

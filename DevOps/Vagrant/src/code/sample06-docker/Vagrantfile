@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
         host.vm.provision "ansible" do |ansible|
           # Disable default limit to connect to all the machines
           ansible.limit = "all"        
-          ansible.playbook = "playbook.yml"
+          ansible.playbook = "./provision/site.yml"
         end
       end
       

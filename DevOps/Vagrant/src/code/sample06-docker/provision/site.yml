@@ -1,0 +1,57 @@
+- name: Install Docker on all nodes
+  hosts: all
+  become: true
+  become_method: ansible.builtin.sudo
+
+  vars_files: './vars.yml'
+
+  tasks:
+    - name: Install necessary packages
+      ansible.builtin.apt:
+        update_cache: true
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+
+    - name: Ensure keyrings directory exists
+      ansible.builtin.file:
+        path: '{{ key_path }}'
+        state: directory
+        mode: '755'
+
+    - name: Download Docker GPG key
+      ansible.builtin.get_url:
+        url: '{{ docker_url }}/gpg'
+        dest: '{{ docker_gpg_key }}'
+        mode: '0644'
+        force: true
+
+    - name: Add Docker APT repository
+      ansible.builtin.apt_repository:
+        repo: '{{ docker_apt_repo }}'
+        state: present
+        filename: 'docker'
+
+    - name: Install Docker packages
+      ansible.builtin.apt:
+        update_cache: true
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: present
+
+    - name: Start and enable Docker service
+      ansible.builtin.systemd:
+        name: docker
+        enabled: true
+        state: started
+
+    - name: Add vagrant user to the docker group
+      ansible.builtin.user:
+        name: vagrant
+        groups: docker
+        append: true

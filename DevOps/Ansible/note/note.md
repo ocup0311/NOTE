@@ -304,6 +304,23 @@
 
   </details>
 
+<!-- 以自己管理 trusted.gpg.d 方式執行 apt 安裝 -->
+
+- <details close>
+  <summary>以自己管理 trusted.gpg.d 方式執行 apt 安裝</summary>
+
+  - 指定 apt repo 時不能用 `ansible_architecture` 變數。這會顯示如 x86_64 形式，而不是所需要的 amd64
+  - GPG keys 格式：
+
+    - 透過 curl 下載下來的 GPG key 是 ASCII 格式
+    - apt will not accept ASCII GPG keys saved with .gpg extension
+    - 而 ansible 找不到提供 `--dearmor` 方法，將 ASCII 轉為 binary (只想到可直接用 command 寫)
+    - 並非只能用 `.gpg` 的 GPG key，`.asc` 也能用 (直接將輸出設為 .asc 格式即可)
+
+  - REF: [How can I manage keyring files in trusted.gpg.d with ansible playbook since apt-key is deprecated?]
+
+  </details>
+
 ---
 
 ## # 延伸討論
