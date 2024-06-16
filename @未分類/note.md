@@ -115,6 +115,12 @@
 
     - [論文列表](https://arc.net/folder/D0472A20-9C20-4D3F-B145-D2865C0A9FEE)
 
+- 保哥 GitHub Copilot 協作開發筆記
+
+  - [2024.01.29 簡介 GitHub Copilot](https://hackmd.io/@Eudicotz/BJVuG93i6)
+  - [2024.02.16 GitHub Copilot advance usage 其他妙用](https://hackmd.io/@Eudicotz/SyGvHkAsT)
+  - [2024.02.16 GitHub Copilot Chat](https://hackmd.io/@Eudicotz/BkfOVkCiT)
+
 ## # Linux
 
 - `xargs`

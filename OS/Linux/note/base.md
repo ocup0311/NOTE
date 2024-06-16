@@ -513,6 +513,7 @@
 - <details close>
   <summary>使用 ssh key 登入</summary>
 
+  - `ssh-keygen -t ed25519 -f ~/.ssh/my_ed25519_key`
   - 主機生成 ssh key (rsa, ed25519..)，將公鑰傳給 VM
   - 若有使用 SSH 代理，則需要`ssh-add`將私鑰加進去
 
@@ -522,6 +523,17 @@
 
   - <mark>TODO:</mark> 研究 ssh -v 細節
     - Verbose mode: debugging messages
+
+  </details>
+
+<!-- 斷開 ssh remote 連線 -->
+
+- <details close>
+  <summary>斷開 ssh remote 連線</summary>
+
+  - 可用 `exit` 指令退出
+  - 想確保主機沒再連上任何 remote，可用 `pkill ssh` 清理
+  - 連線的 remote 狀態不好，可用 `~.` 來強制斷開
 
   </details>
 

@@ -9,6 +9,7 @@
 [LibreNMS]: https://www.librenms.org/
 [Zabbix]: https://www.zabbix.com/
 [sysdig]: https://sysdig.com/
+[Terrascan]: https://blog.devops.dev/security-first-devsecops-empowerment-with-terrascan-0434d365a2ff
 
 <!------------ ref end ------------>
 
@@ -49,6 +50,8 @@
   - [Sysdig]
 
     ![](./src/image/GPT_Monitor_Sysdig.png)
+
+  - [Terrascan]
 
   </details>
 
