@@ -1,0 +1,3 @@
+# 跳過不需要的規則
+skip_list:
+  - 'no-relative-paths'

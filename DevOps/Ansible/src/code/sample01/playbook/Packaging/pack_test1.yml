@@ -1,0 +1,16 @@
+- name: Pack-Test
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Yum-Test
+      ansible.builtin.yum:
+        name: git
+        state: present
+      when: ansible_distribution == "CentOS"
+
+    - name: Apt-Test
+      ansible.builtin.apt:
+        name: git
+        state: present
+      when: ansible_distribution == "Ubuntu"

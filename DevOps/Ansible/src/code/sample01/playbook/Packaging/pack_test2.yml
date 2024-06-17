@@ -1,0 +1,9 @@
+- name: Pack-Test
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Package-Test
+      ansible.builtin.package:
+        name: git
+        state: present

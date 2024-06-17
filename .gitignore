@@ -90,6 +90,7 @@ typings/
 # dotenv environment variables file
 dev.js
 .env
+.pass
 
 *_tmp.md
 *_tmp

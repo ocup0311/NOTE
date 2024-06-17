@@ -1,0 +1,19 @@
+- name: Unarchive-Test
+  hosts: web1
+  gather_facts: false
+
+  tasks:
+    - name: Get_url-Test
+      ansible.builtin.get_url:
+        url: https://www.python.org/ftp/python/3.12.4/Python-3.12.4.tar.xz
+        dest: /home/vagrant/
+        checksum: md5:d68f25193eec491eb54bc2ea664a05bd
+        mode: '0644'
+      become: true
+      become_method: ansible.builtin.sudo
+
+    - name: Unarchive-Test
+      ansible.builtin.unarchive:
+        src: /home/vagrant/Python-3.12.4.tar.xz
+        remote_src: true
+        dest: /home/vagrant/

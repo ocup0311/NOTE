@@ -8,7 +8,10 @@
 
     - name: Facts-Test
       ansible.builtin.debug:
-        msg: '{{ ansible_all_ipv4_addresses }}'
+        msg:
+          - 'ansible_distribution': '{{ ansible_distribution }}'
+          - 'ansible_facts.distribution': '{{ ansible_facts.distribution }}'
+          - 'ansible_facts["distribution"]': '{{ ansible_facts["distribution"] }}'
 
     - name: Group-Add-Test
       ansible.builtin.group:

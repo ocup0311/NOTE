@@ -1,0 +1,26 @@
+- name: Debug-Test
+  hosts: web1
+  gather_facts: false
+
+  tasks:
+    - name: Command-Test1
+      ansible.builtin.command:
+        cmd: cat /etc/hosts
+      changed_when: false
+      register: command_cmd
+
+    - name: Command-Test2
+      ansible.builtin.command:
+        argv:
+          - cat
+          - /etc/hosts
+      changed_when: false
+      register: command_argv
+
+    - name: Show Command-Test1
+      ansible.builtin.debug:
+        msg: '{{ command_cmd.stdout_lines }}'
+
+    - name: Show Command-Test2
+      ansible.builtin.debug:
+        msg: '{{ command_argv.stdout_lines }}'

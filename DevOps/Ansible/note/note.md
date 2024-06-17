@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[Common Return Values]: https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html
 [vagrant-ansible 腳本]: ../../Vagrant/src/code/sample07-ansible/README.md
 [Ansible Doc]: https://docs.ansible.com/ansible/latest/
 [YAML Doc]: https://yaml.org/
@@ -151,10 +152,10 @@
 
 ## # 基本 Module
 
-<!-- file: `file`, `copy`, `template` -->
+<!-- Files: `file`, `copy`, `template`, `unarchive` -->
 
 - <details close>
-  <summary>file: <code>file</code>, <code>copy</code>, <code>template</code></summary>
+  <summary>Files: <code>file</code>, <code>copy</code>, <code>template</code>, <code>unarchive</code></summary>
 
   - copy
 
@@ -172,18 +173,24 @@
     - `File permissions unset or incorrect.`：需要設定 mode
     - 若沒指定 owner，則因為使用 sudo，都會變成 root
     - directory 記得開 x 權限
+    - 需釐清每個設定檔案的參數，所指的是 controller or node 上的內容 (有些參數可以設定為指何者 EX. remote_src)
 
   </details>
 
-<!-- system: `ping`, `gather_facts`, `user`, `group`, `service` -->
+<!-- System: `ping`, `gather_facts`, `user`, `group`, `service` -->
 
 - <details close>
-  <summary>system: <code>ping</code>, <code>gather_facts</code>, <code>user</code>, <code>group</code>, <code>service</code></summary>
+  <summary>System: <code>ping</code>, <code>gather_facts</code>, <code>user</code>, <code>group</code>, <code>service</code></summary>
 
   - gather_facts
 
     - 預設 true
     - 開啟後，可以用 `debug` 印出相關變數 (可利用 `ansible all -m gather_facts` 看有哪些變數)
+    - 幾種用法，EX.
+
+      - `ansible_distribution`
+      - `ansible_facts.distribution`
+      - `ansible_facts['distribution']`
 
   - user
 
@@ -207,12 +214,34 @@
 
   </details>
 
+<!-- Packaging: `yum`, `apt`, `package`, `pip`, -->
+
 - <details close>
-  <summary>packaging: <code>yum</code>, `, `, <code>pip</code>, `, `, `, `,</summary>
+  <summary>Packaging: <code>yum</code>, <code>package</code>, <code>pip</code></summary>
+
+  - 可用 gather_facts 判斷，針對不同發行版做處理
+  - 可用 `package`
+    - 已經針對一些常用的發行版做處理，不需再自行判斷
+    - 但不包含所有發行版
+    - 但可能相同套件，在不同發行版的 name 不同，則無法使用
+  - 需注意 Requirements 標註所需的前置安裝項目
 
   </details>
 
+- Net Tools: `get_url`
+
+  - 通常會有 `checksum` 可使用，可到各自的官網查詢 (EX. python.org 查詢 python 的 checksum)
+
+- Commands: `command`, `shell`, `raw`
+
+  - 都是可以用來直接執行 command，但有不同限制
+  - EX. command 不能用：環境變數、operation (`<`, `>`, `|`, `;`, `&`)..等
+
+- Service: `service`, `systemd`
+
 ## # 問題
+
+- 不知為何已經使用 `ansible.builtin.yum` 寫法，但 ansible-lint 依然顯示 `Use FQCN for builtin module actions (ansible.builtin.yum)`
 
 ## # 其他補充
 
@@ -237,8 +266,13 @@
 
 - 小技巧：
 
+  <!-- 新版文件 module 查詢方法 -->
+
   - <details close>
-    <summary></summary>
+    <summary>新版文件 module 查詢方法</summary>
+
+    - 新版文件沒有分類很難查，可以先找一個出來再從 see also 找相關
+    - 或是知道名稱直接搜尋
 
     </details>
 
@@ -398,3 +432,15 @@
   -
 
   </details>
+
+- Return Values
+
+  - [Common Return Values]: 幾乎所有 module 都會有的
+  - 獨有的則在個別的文件中
+
+- Ansible Vault
+
+  - 以指令 `ansible-vault` 來執行
+  - 可以針對 file 或 string 進行對稱式加密
+  - 可手動輸入
+  - 可在 ansible.cfg 設定 `vault_password_file` 指定密碼位置 (建議將密碼檔案設為 600 權限)
