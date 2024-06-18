@@ -166,6 +166,22 @@
         - `ansible_facts.distribution`
         - `ansible_facts['distribution']`
 
+    - `block`
+
+      - 處理 error 的其中一種方式
+      - 如同 JS 的 try..catch
+      - 有用 block 包起來的部分，若有 error 也不會直接結束，會繼續望下執行
+      - 可搭配 `rescue`, `always`, `handlers` 處理
+
+        - `handlers`
+          - 另外獨立出來，層級與 `tasks` 相同
+          - 相較於直接使用 `rescue`，可以處理更多細節，但不論是否有 error 都會執行
+          - 使用方式
+            - `notify` 連結到對應 handler
+            - 要有 changed 才能觸發 handler (範例刻意使用 changed_when: true 讓其有 changed)
+            - `rescue` 需設置為 `meta: flush_handlers`
+            - 會執行該 block 中出現 error 前的所有 handler
+
   </details>
 
 <!-- Plugin (以前為 Module) -->
@@ -181,15 +197,16 @@
 
 ## # 基本 Module
 
-<!-- Files: `file`, `copy`, `template`, `unarchive` -->
+<!-- Files: `file`, `copy`, `template`, `unarchive`, `fetch` -->
 
 - <details close>
-  <summary>Files: <code>file</code>, <code>copy</code>, <code>template</code>, <code>unarchive</code></summary>
+  <summary>Files: <code>file</code>, <code>copy</code>, <code>template</code>, <code>unarchive</code>, <code>fetch</code></summary>
 
   - copy
 
     - 不會直接創建 folder
     - `backup`：被覆蓋的檔案都會保留紀錄
+    - 跟 `fetch` 相反
 
   - template
 
@@ -206,10 +223,10 @@
 
   </details>
 
-<!-- System: `ping`, `gather_facts`, `user`, `group`, `service` -->
+<!-- System: `ping`, `gather_facts`, `user`, `group`, `service`, `systemd` -->
 
 - <details close>
-  <summary>System: <code>ping</code>, <code>gather_facts</code>, <code>user</code>, <code>group</code>, <code>service</code></summary>
+  <summary>System: <code>ping</code>, <code>gather_facts</code>, <code>user</code>, <code>group</code>, <code>service</code>, <code>systemd</code></summary>
 
   - user
 
@@ -247,7 +264,7 @@
 
   </details>
 
-- Net Tools: `get_url`
+- Net Tools: `get_url`, `uri`
 
   - 通常會有 `checksum` 可使用，可到各自的官網查詢 (EX. python.org 查詢 python 的 checksum)
 
@@ -256,7 +273,7 @@
   - 都是可以用來直接執行 command，但有不同限制
   - EX. command 不能用：環境變數、operation (`<`, `>`, `|`, `;`, `&`)..等
 
-- Service: `service`, `systemd`
+- Utilities: `debug`, `set_fact`,
 
 ## # 問題
 
@@ -474,3 +491,7 @@
   - 可以針對 file 或 string 進行對稱式加密
   - 可手動輸入
   - 可在 ansible.cfg 設定 `vault_password_file` 指定密碼位置 (建議將密碼檔案設為 600 權限)
+
+- Role
+
+  -
