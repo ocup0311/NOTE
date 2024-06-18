@@ -1,3 +1,9 @@
+# 快速測試用檔案
+DevOps/Ansible/src/code/sample01/test.yml
+
+
+
+
 # mac
 .DS_Store
 
@@ -19,6 +25,7 @@ output/
 # vagrant
 .vagrant
 *.box
+
 
 # Runtime data
 

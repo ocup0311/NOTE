@@ -3,9 +3,9 @@
   gather_facts: false
 
   vars_files:
-    - '../vars/loop.yml'
-    - '../vars/demo.yml'
-    - '../vars/greetings.yml'
+    - '../../vars/loop.yml'
+    - '../../vars/demo.yml'
+    - '../../vars/greetings.yml'
 
   vars:
     greetings: 'Hello from inline vars~~'

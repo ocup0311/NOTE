@@ -112,7 +112,25 @@
 
     - `vars`
 
-      - 優先順序： vars_files 後者 > vars_files 前者 > vars
+      - 優先順序： `vars_files 後者` > `vars_files 前者` > `vars`
+      - 位於 `vars` 變數底下 (EX. `vars.my_var`)
+      - "lazy" variables：vars 中記載為算式，並非計算後的值
+
+      - 變數層級：
+
+        - `vars.hostvars.my_host_name` 包含 host 的預設資訊 (如 inventory 內所設定)
+        - `vars.hostvars.my_host_name.ansible_facts` 包含從 host 收集的資訊
+
+      - 變數會攤開在 `vars`，而可直接使用，無需層層連結
+
+        - 所有 `vars.hostvars.my_host_name` 中的變數
+        - `vars.hostvars.my_host_name.ansible_facts` 本身
+        - 部分 `vars.hostvars.my_host_name.ansible_facts` 內的變數 (加上前綴 `ansible_`)
+
+      - 在 task 階段新增變數於 `vars.hostvars.my_host_name`
+
+        - `register`：將 task 的 Return Values 註冊為變數
+        - `set_fact`：新增靜態變數
 
     - `loop`
 
@@ -136,6 +154,17 @@
         # EX. or
         when: (condition1) or (condition2)
         ```
+
+    - `gather_facts`
+
+      - 預設 true
+      - 收集 remote host 的資訊
+      - 可在 task 使用 `setup` 或 `gather_facts`，再次收集更新 (即便設置 false)
+      - 幾種變數寫法，EX.
+
+        - `ansible_distribution`
+        - `ansible_facts.distribution`
+        - `ansible_facts['distribution']`
 
   </details>
 
@@ -181,16 +210,6 @@
 
 - <details close>
   <summary>System: <code>ping</code>, <code>gather_facts</code>, <code>user</code>, <code>group</code>, <code>service</code></summary>
-
-  - gather_facts
-
-    - 預設 true
-    - 開啟後，可以用 `debug` 印出相關變數 (可利用 `ansible all -m gather_facts` 看有哪些變數)
-    - 幾種用法，EX.
-
-      - `ansible_distribution`
-      - `ansible_facts.distribution`
-      - `ansible_facts['distribution']`
 
   - user
 
@@ -261,6 +280,17 @@
 
     - 更新必須刪除舊版本重新安裝，不可直接升級
     - Ansible Collections 有些會隨安裝 Ansible 一起安裝，有些需另外安裝 `ansible-galaxy collection install [COLLECTIONS]`
+
+    </details>
+
+  <!-- 變數命名與輸出不完全同 -->
+
+  - <details close>
+    <summary>變數命名與輸出不完全同</summary>
+
+    - EX. 輸出 `ansible_facts` 時
+      - 呈現為 `ansible_facts: { ansible_distribution ...}`
+      - 其實變數命名為 `ansible_facts.distribution`
 
     </details>
 
