@@ -19,7 +19,7 @@
 
 # Ansible
 
-> DATE: 6 (2023)
+> DATE: 6 (2024)
 > REF: [Ansible 入門] | [Ansible - Edureka]
 
 ## # 簡介

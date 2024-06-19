@@ -22,7 +22,7 @@
 
 # Vagrant
 
-> DATE: 6 (2023)
+> DATE: 6 (2024)
 > REF: [Vagrant 入門系列]
 
 ## # 簡介
