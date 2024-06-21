@@ -92,6 +92,10 @@
       - 資料夾內檔案名稱參照 inventory.ini 中的命名 (.yml)
       - 優先順序：範圍越小越優先 (EX. host > group > all) (REF: [Understanding variable precedence])
 
+  - 可使用 `.ini`, `.yml`, `.json` 等格式
+    - 若沒副檔名會自動辨識
+    - 除了 `.ini`，需用 `hosts`, `children` ([範例](../src/code/sample01/inventory/test/hosts.yml))
+
   </details>
 
 <!-- playbook -->
@@ -170,7 +174,7 @@
 
       - 處理 error 的其中一種方式
       - 如同 JS 的 try..catch
-      - 有用 block 包起來的部分，若有 error 也不會直接結束，會繼續望下執行
+      - block 區塊中，若有 error 不會直接結束，但會跳過該 block 內後續內容，繼續往下執行
       - 可搭配 `rescue`, `always`, `handlers` 處理
 
         - `handlers`
@@ -410,9 +414,9 @@
   - ok：執行成功，沒變動
   - changed：執行成功，有變動
   - unreachable
-  - failed：執行失敗
-  - skipped
-  - rescued
+  - failed：執行失敗 (rescued)
+  - skipped：不符合判斷條件，而跳過的內容 (EX. when)
+  - rescued：出現錯誤，而執行的內容 (EX. block ... rescue)
   - ignored
 
   </details>
@@ -494,4 +498,12 @@
 
 - Role
 
-  -
+  - 對照結構、名字
+  - 注意新版用法
+    - include(dynamic) vs. import(static)
+    - import 看似舊版用法
+
+- Ansible Galaxy
+
+  - Ansible 的資源共享和管理平台，主要用來分享和下載 Roles，由社群和官方提供的預配置模板
+  - `ansible-galaxy role init roles/demo` 可以直接幫你在 roles/demo 建立一個 role 模板

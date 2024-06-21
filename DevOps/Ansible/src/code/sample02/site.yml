@@ -1,0 +1,6 @@
+- name: Main-Site
+  hosts: all
+  tasks:
+    - name: Main-Debug
+      ansible.builtin.debug:
+        msg: play1
