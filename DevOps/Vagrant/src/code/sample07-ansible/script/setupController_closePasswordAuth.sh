@@ -72,7 +72,7 @@ for i in {1..2}; do
     echo 'Current terminal is in =>' && hostname && \
     echo '----------------------------------' && \
     echo 'set PasswordAuthentication -> no' && \
-    while grep -q 'PasswordAuthentication yes' /etc/ssh/sshd_config; do
+    while sudo grep -q 'PasswordAuthentication yes' /etc/ssh/sshd_config; do
         echo '[PasswordAuthentication yes] is found. Updating configuration...'
         sudo sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
         echo 'restart the sshd.service'

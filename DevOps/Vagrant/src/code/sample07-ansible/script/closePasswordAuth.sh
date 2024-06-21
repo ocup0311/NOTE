@@ -6,7 +6,7 @@ close="PasswordAuthentication no"
 open="PasswordAuthentication yes" 
 file="/etc/ssh/sshd_config"
 
-while grep -q "$open" $file; do
+while sudo grep -q "$open" $file; do
     echo "[$open] is found. Updating configuration..."
     sudo sed -i "s/$open/$close/g" $file
     sudo systemctl restart sshd.service

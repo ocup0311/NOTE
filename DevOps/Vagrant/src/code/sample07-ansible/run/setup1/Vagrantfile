@@ -5,37 +5,41 @@ Vagrant.require_version ">= 1.6.0"
 
 ansible_controller = {
   :name => "ansible-controller",
-  :eth1 => "192.168.50.10"
+  :eth1 => "192.168.50.10",
+  :box => "ubuntu/bionic64"
 }
 
 node_list = [
     {
       :name => "ansible-node1",
-      :eth1 => "192.168.50.11"
+      :eth1 => "192.168.50.11",
+      :box => "ubuntu/bionic64"
     },
     {
       :name => "ansible-node2",
-      :eth1 => "192.168.50.12"
+      :eth1 => "192.168.50.12",
+      :box => "ubuntu/bionic64"
     }
 ]
 
 Vagrant.configure(2) do |config|
   # set all
   config.vm.synced_folder ".", "/vagrant", disabled: true, type: "virtualbox"
-  config.vm.box = "ubuntu/bionic64"
 
   # set nodes
   node_list.each do |node|
     config.vm.define node[:name] do |host|
       host.vm.hostname = node[:name]
       host.vm.network :private_network, ip: node[:eth1]
+      host.vm.box = node[:box]
       host.vm.provision "openPasswordAuth", type: "shell", privileged: false, path: "../../script/openPasswordAuth.sh"
     end
   end
   
   # set ansible_controller
   config.vm.define ansible_controller[:name] do |controller|
-    controller.vm.synced_folder "../../src/", "/vagrant/src", disabled: false, type: "virtualbox"
+    controller.vm.synced_folder "../../../../../../Ansible/src/code/sample02/", "/vagrant/src", disabled: false, type: "virtualbox"
+    controller.vm.box = ansible_controller[:box]
     controller.vm.hostname = ansible_controller[:name]
     controller.vm.network :private_network, ip: ansible_controller[:eth1]
     
