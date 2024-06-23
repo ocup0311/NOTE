@@ -13,6 +13,10 @@ COPY hello0.py /hello0.py
 COPY hello1.py /hello1.py
 COPY hello2.py /hello2.py
 
+RUN groupadd -r user1 && useradd -r -g user1 user1
+
+USER user1
+
 ENTRYPOINT ["python3", "/hello0.py"]
 ENTRYPOINT ["python3", "/hello1.py"]
 ENTRYPOINT ["python3", "/hello2.py"]

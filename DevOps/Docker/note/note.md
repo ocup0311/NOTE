@@ -261,7 +261,7 @@
         FROM ubuntu:20.04
         RUN apt-get update && \
             DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y python3.9 python3-pip python3.9-dev
-        ADD hello.py /
+        COPY hello.py /hello.py
         CMD ["python3", "/hello.py"]
         ```
 
@@ -285,6 +285,7 @@
       <summary><code>docker container commit</code></summary>
 
       - 每次產生的 image ID 都不同
+      - 開發中不常使用 `docker container commit`，推測只用在臨時測試與快速修補，最終還是會用 dockerfile 寫完整來使用
 
       </details>
 
@@ -337,13 +338,15 @@
         - builder
           ![](https://i.imgur.com/xwlp8qf.png)
 
+        - 是否還需要 `.dockerignore` ？
+
+          - 疑惑：因為其作法改為當有需求時，buildkit 才會向 buildx 發送請求。而不像舊的方式會直接打包整個資料夾過去
+          - 解答：需要，因為實際專案中會在 Dockerfile 直接 `COPY` 整個資料夾，資料夾內的一些內容會需要 ignore
+
         - <mark>TODO:</mark> 已知手動刪除 cache、builder。手動刪除 intermediate image/container 待研究
 
           - 手動刪除 cache、builder 請查 `docker buildx` & `docker builder`
           - [How to remove intermediate images from a build after the build?] 可事先以 LABEL 方式標註，來做刪除。但不知未標註時該如何刪除。
-
-        - <mark>TODO:Q</mark> 是否還需要 `.dockerignore` ？
-          (因為其作法改為當有需求時，buildkit 才會向 buildx 發送請求。而不像舊的方式會直接打包整個資料夾過去。)
 
         </details>
 
@@ -397,11 +400,16 @@
         - `ADD` 會自動解壓縮，`COPY` 不會
         - `ADD` 可以從 URL 加過來，`COPY` 只能複製本地檔案
         - `COPY` 會複製檔案權限， `ADD` 不會
+        - 推薦：`COPY` 優先，因為功能單一且透明
+
+      - `ARG` vs `ENV`
+
+        - `ARG` 用在 build，`ENV` 會帶進 container
 
       - `ENTRYPOINT`＋`CMD`
 
         - 兩者都只有最後一個生效
-        - `ENTRYPOINT` 為該指令的進入點，`CMD` 為 container run 的默認指令
+        - 使用方式：`ENTRYPOINT` 為該指令的進入點，`CMD` 為 container run 的默認指令
 
         - 兩種格式：Shell & Exec
 
@@ -1066,15 +1074,6 @@
 
   </details>
 
-<!-- docker container commit -->
-
-- <details close>
-  <summary>docker container commit</summary>
-
-  - <mark>TODO:Q</mark> 在開發中不常使用 `docker container commit` ?
-
-  </details>
-
 <!-- 範例研究： -->
 
 - <details close>
@@ -1128,8 +1127,14 @@
   - <details close>
     <summary>盡量不要設定為 root user</summary>
 
+    - 風險：`container root` 搭配 `Volume` 就可以擁有 `本機 root` 權限
+
+      - 因為 docker demaen 是 root 在運行
+      - 但應該得用 `rootless` 才能真正解決
+
+      ![提問：root in container](../src/image/root_in_container.png)
+
     - 可在 dockerfile、container run 中設定
-    - <mark>TODO:</mark> 再找機會研究 container 中 root 可造成的風險
 
     </details>
 
@@ -1148,6 +1153,8 @@
 
   - <details close>
     <summary>scratch：空的 image</summary>
+
+    - 不能 `pull`，可用在搭建 base image 時，由 `FROM scratch` 開始
 
     </details>
 
@@ -1366,4 +1373,4 @@
 
   - [Docker: What's Under the Hood?]
 
-  -
+  - 做一個包含自動補全等齊全功能的環境的 image，方便不斷測試學習使用
