@@ -65,3 +65,17 @@
   - [Ansible]
 
   </details>
+
+- Road Map
+
+  ![](./src/image/DevOps_RoadMap.jpeg)
+
+## # 架構
+
+- 常見部署策略
+
+  ![常見部署策略](./src/image/常見部署策略.jpg)
+
+- Code First vs. API First
+
+  ![](./src/image/Code_First_vs_API_First.jpg)
