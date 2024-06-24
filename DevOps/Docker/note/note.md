@@ -451,45 +451,96 @@
 <!-- 資料保存 -->
 
 - <details close>
-  <summary>資料保存</summary>
+  <summary>資料保存 (Volume & Mount)</summary>
 
-  - 默認：
+  <!-- Data Volume vs. Bind Mount -->
 
-    - container stop，資料還在
-    - container rm，資料不在
+  - <details close>
+    <summary><code>Data Volume</code> vs. <code>Bind Mount</code></summary>
 
-  - 永久保存：
+    <!-- Data Volume -->
 
-    - Data Volume：由 Docker 管理 (/var/lib/docker/volumes/)
-    - Bind Mount：自訂位置
+    - <details close>
+      <summary>Data Volume</summary>
 
-  <br>
+      - 由 Docker 管理(/var/lib/docker/volumes/)
+      - 推薦使用 volume 來儲存資料
 
-  ![](https://i.imgur.com/DUZqsCY.png)
+      </details>
 
-  - mac 存在 Docker Desktop VM
+    <!-- Bind Mount -->
 
-    ![](https://i.imgur.com/3hxwRmf.png)
+    - <details close>
+      <summary>Bind Mount</summary>
 
-  - 連結後，檔案並非 host & container 兩個檔案同步，而是直接操作一個檔案
-    (也可以直接在 container 刪除 host 的檔案)
+      - 自訂任意本機位置
+      - 可以用在搭建特殊環境，以操作 host 的檔案
 
-  - 推薦使用 volume 來儲存資料
+        - 如果 target (container 上) 不是空資料夾，則 container 中，該資料夾中原有的內容會被屏蔽
+        - EX. 搭建 gcc 編譯環境，用來編譯 host 上的檔案
+        - EX. 用 vscode 的 Dev Containers 套件，搭建專案開發環境，以 container 開啟 host 上的專案 folder
 
-  - `bind mount` 可以用來搭建特殊環境，以操作 host 的檔案
+      </details>
 
-    - 如果 target (container 上) 不是空資料夾，則 container 中，該資料夾中原有的內容會被屏蔽
-    - EX. 搭建 gcc 編譯環境，用來編譯 host 上的檔案
-    - EX. 用 vscode 的 Dev Containers 套件，搭建專案開發環境，以 container 開啟 host 上的專案 folder
+      ![](https://i.imgur.com/DUZqsCY.png)
 
-  - `--mount` VS `--volume`
+    </details>
 
-    - 幾乎是一樣的，但 `--mount` 是較新的語法，有針對某些部分做改變
+  <!-- `--mount` VS `--volume` -->
+
+  - <details close>
+    <summary><code>--mount</code> VS <code>--volume</code></summary>
+
+    - 幾乎是一樣的，兩者都可以指定成 `volume` 或 `bind mount`
+    - `--mount` 是較新的語法，有針對某些部分做改變
     - 推薦使用 `--mount`，較易於理解
 
-  - <mark>TODO:Q</mark> volume 的所有方法，都只有掛載？也就是只有在掛載的位置上有儲存資料？
+    </details>
 
-    - 目前簡單測試 `sshfs` 方式也是只有設定為 volume 端有資料，若將那台 host 斷開連線，則其他 host 無法讀寫資料，且會卡住。
+  <!-- 其他 -->
+
+  - <details close>
+    <summary>其他</summary>
+
+    <!-- 預設 container 內部儲存 -->
+
+    - <details close>
+      <summary>預設使用 container內部 儲存，而未設定 Volume 或 Mount</summary>
+
+      - container stop，資料還在
+      - container rm，資料不在
+
+      </details>
+
+    <!-- mac 存在 Docker Desktop VM -->
+
+    - <details close>
+      <summary>mac 存在 Docker Desktop VM</summary>
+
+      ![](https://i.imgur.com/3hxwRmf.png)
+
+      </details>
+
+    - 連結後，檔案並非 host & container 兩個檔案同步，而是直接操作本機的一個檔案
+    - 也可以直接在 container 刪除 host 的檔案
+
+    - <mark>TODO:Q</mark> 所有方法都是，只有掛載？也就是只有在掛載的位置上有儲存資料？
+
+      - 目前簡單測試 `sshfs` 方式也是只有設定為 volume 端有資料，若將那台 host 斷開連線，則其他 host 無法讀寫資料，且會卡住。
+
+    </details>
+
+  <!-- 總結＆推薦 -->
+
+  - <details close>
+    <summary>總結＆推薦</summary>
+
+    - 沒作設定，`container rm` 後內部資料就消失
+    - 純儲存，優先用 `Volume` (因為只掛到本機 /var/lib/docker/volumes/ 上)
+    - 用於搭建開發環境，才用 `Bind Mount` 掛載到開發資料夾
+    - 指令，用 `--mount` (因為書寫方式較易於理解)
+
+    </details>
 
   </details>
 
@@ -562,31 +613,70 @@
 
 - <details close>
   <summary>安全性檢查</summary>
-  - 檢查執行環境
 
-  - [Docker Bench Security]：本地
+  <!-- 檢查執行環境 -->
 
-    - 範例畫面
+  - <details close>
+    <summary>檢查執行環境</summary>
 
-    ![](../src/image/SAMPLE_docker_bench_security.png)
+    </details>
 
-  - 檢查程式碼 [CVE]
+  <!-- 本地 -->
 
-    - [Snyk]：線上
+  - <details close>
+    <summary>本機上檢查</summary>
 
-      - 範例畫面
-
-      ![](../src/image/SAMPLE_Snyk.png)
-
-    - [Trivy]：本地
+    - [Docker Bench Security]
 
       - 範例畫面
 
-      ![](../src/image/SAMPLE_Trivy.png)
+      ![](../src/image/SAMPLE_docker_bench_security.png)
 
-  - 執行時的動態監控
+    </details>
+
+  <!-- 檢查程式碼 CVE -->
+
+  - <details close>
+    <summary>檢查程式碼 CVE</summary>
+
+    - [CVE] (Common Vulnerabilities and Exposures)
+
+      <!-- 線上服務：Snyk -->
+
+      - <details close>
+        <summary>線上服務：Snyk</summary>
+
+        - [Snyk]
+
+        - 範例畫面
+
+        ![](../src/image/SAMPLE_Snyk.png)
+
+        </details>
+
+      <!-- 本地軟體：Trivy -->
+
+      - <details close>
+        <summary>本地軟體：Trivy</summary>
+
+        - [Trivy]
+
+        - 範例畫面
+
+        ![](../src/image/SAMPLE_Trivy.png)
+
+        </details>
+
+    </details>
+
+  <!-- 執行時的動態監控 -->
+
+  - <details close>
+    <summary>執行時的動態監控</summary>
 
     - [sysdig]：付費
+
+    </details>
 
   </details>
 
@@ -1127,14 +1217,27 @@
   - <details close>
     <summary>盡量不要設定為 root user</summary>
 
-    - 風險：`container root` 搭配 `Volume` 就可以擁有 `本機 root` 權限
+    <!-- 風險：`container root` 搭配 `Volume` 就可以擁有 `本機 root` 權限 -->
+
+    - <details close>
+      <summary>風險：<code>container root</code> 搭配 <code>mount</code> 就可以擁有 <code>本機 root</code> 權限</summary>
 
       - 因為 docker demaen 是 root 在運行
-      - 但應該得用 `rootless` 才能真正解決
+      - 但應該得用 `rootless` 才能真正解決，但將 container 內部設成其他 user 能有雙重保險 (避免自己犯錯)
 
       ![提問：root in container](../src/image/root_in_container.png)
 
-    - 可在 dockerfile、container run 中設定
+      </details>
+
+    <!-- 設定方式： -->
+
+    - <details close>
+      <summary>設定方式：</summary>
+
+      - 可在 dockerfile、container run 中設定
+      - 設定內部 user UID 時，也要符合外部的 user
+
+      </details>
 
     </details>
 
@@ -1190,6 +1293,7 @@
 
       - <mark>TODO:</mark> 找時間將此 vscode 套件融入開發使用
       - 使用 docker 建立開發環境，來開發遠端的檔案
+      - [參考這節課 6:00](https://www.udemy.com/course/docker-china/learn/lecture/27236572)
 
     - [Docker Bench Security]
 
@@ -1347,30 +1451,28 @@
 
 ---
 
-##
+## <mark>TODO:</mark>
 
-- <mark>TODO:</mark>
+- 再研究 docker version 跟 docker info 裡的資訊
+- client-server 的分工
+- 研究在 windows 中的 container 中的 ctr+c 不會傳給下一層的問題
+- 在 container 的 terminal 中，ctr+c 無法退出 container
 
-  - 再研究 docker version 跟 docker info 裡的資訊
-  - client-server 的分工
-  - 研究在 windows 中的 container 中的 ctr+c 不會傳給下一層的問題
-  - 在 container 的 terminal 中，ctr+c 無法退出 container
+  - 因為那個是在 shell 裡頭，ctr+c 無法退出 shell
+  - 而在 nginx 中，是用 ctr+c 結束他的 entrypoint
 
-    - 因為那個是在 shell 裡頭，ctr+c 無法退出 shell
-    - 而在 nginx 中，是用 ctr+c 結束他的 entrypoint
+- process 的關係
 
-  - process 的關係
+- 設定不傳 signal 給 container
 
-  - 設定不傳 signal 給 container
+  - `docker attach --sig-proxy=false 304f5db405ec`
+  - https://stackoverflow.com/questions/19688314/how-do-you-attach-and-detach-from-dockers-process
 
-    - `docker attach --sig-proxy=false 304f5db405ec`
-    - https://stackoverflow.com/questions/19688314/how-do-you-attach-and-detach-from-dockers-process
+- [七天用 Go 寫個 docker]
+- [docker 原始碼？](https://github.com/moby/moby)
 
-  - [七天用 Go 寫個 docker]
-  - [docker 原始碼？](https://github.com/moby/moby)
+  - https://stackoverflow.com/questions/22272401/what-does-it-mean-to-attach-a-tty-std-in-out-to-dockers-or-lxc
 
-    - https://stackoverflow.com/questions/22272401/what-does-it-mean-to-attach-a-tty-std-in-out-to-dockers-or-lxc
+- [Docker: What's Under the Hood?]
 
-  - [Docker: What's Under the Hood?]
-
-  - 做一個包含自動補全等齊全功能的環境的 image，方便不斷測試學習使用
+- 做一個包含自動補全等齊全功能的環境的 image，方便不斷測試學習使用
