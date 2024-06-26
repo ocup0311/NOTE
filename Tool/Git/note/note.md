@@ -17,14 +17,6 @@
 > DATE: 5, 6 (2024)
 > REF: [30 天精通 Git 版本控管]
 
-## <mark># TODO: 未整理</mark>
-
-- 細節觀察：
-
-  - stash，在 refs/ 中只會紀錄一個最新的 stash，也就是 stash@{0}。其他則是記錄在 logs/refs/stash
-
-  -
-
 ## # 簡介
 
 ## # 基礎
@@ -354,6 +346,98 @@
 
   </details>
 
+<!-- 整理 commit 的方法 -->
+
+- <details close>
+  <summary>整理已存在 commit</summary>
+
+  <!-- revert -->
+
+  - <details close>
+    <summary>revert</summary>
+
+    - 定義：恢復所選 commit 所做的動作，合併到 HEAD
+
+      - EX. 若 commit1 是「將 1 改成 2」，則 git revert commit1 是「將 2 改成 1」，合併到 HEAD
+
+    - 時機：想恢復某次 commit 所做動作
+
+    - 指令：
+
+      - `git revert [commitID]`
+
+      - `git revert -n`
+
+        - revert 後不直接 commit
+        - 執行完後，並不是用 `git commit` 建立版本，正確方式：
+          - `git revert --continue`: 代替 git commit
+          - `git revert --abort`: 放棄 revert
+
+    </details>
+
+  <!-- cherry-pick -->
+
+  - <details close>
+    <summary>cherry-pick</summary>
+
+    - 定義：重新套用所選 commit 所做的動作，合併到 HEAD
+
+    - 時機：只想將分支中，其中幾個 commit 合併到 master
+
+    - 指令：
+
+      - `git cherry-pick -x`: 在 commit 訊息中加入是從哪裡撿來
+
+        - EX. `cherry picked from commit dc070...`
+        - 需注意可能 pick 後，該分支刪除後也找不到反而困惑，所以不一定較好
+
+      - `git cherry-pick -e`: 先編輯 commit 訊息
+      - `git cherry-pick -n`: 不直接 commit
+
+    </details>
+
+  <!-- rebase -->
+
+  - <details close>
+    <summary>rebase</summary>
+
+    - 定義：重新修改目前分支的「基礎版本」，把另外一個分支當成目前分支的 Base
+
+      - EX. 處在 branch1，執行 `git rebase master`
+
+        - 原本 branch1 有 branch1 自己的 Base，將 branch1 的 base 改成 master 的 Base
+
+        ```
+        原本：
+          branch1:
+            commit4
+            commit3
+            commit1
+
+          master:
+            commit2
+            commit1
+
+        使用後：
+          branch1:
+            commit4
+            commit3
+            commit2
+            commit1
+
+          master:
+            commit2
+            commit1
+        ```
+
+    - 時機：
+
+    - 指令：
+
+    </details>
+
+  </details>
+
 ## # 問題
 
 <!-- 關鍵字 -->
@@ -451,3 +535,13 @@
   </details>
 
 ---
+
+## <mark># TODO: 未整理</mark>
+
+- 細節觀察：
+
+  - stash，在 refs/ 中只會紀錄一個最新的 stash，也就是 stash@{0}。其他則是記錄在 logs/refs/stash
+
+  -
+
+- TODO: 結束後擬定一個常用動作的 SOP
