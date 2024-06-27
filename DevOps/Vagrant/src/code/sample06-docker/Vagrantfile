@@ -14,8 +14,8 @@ node_list = [
 Vagrant.configure("2") do |config|
 
   config.vm.synced_folder ".", "/vagrant", disabled: true, type: "virtualbox"
-  config.vm.synced_folder "src/", "/vagrant/src", disabled: false, type: "virtualbox"
-  config.vm.box = "ubuntu/bionic64"
+  config.vm.synced_folder "../../../../Docker/src/code/06_Scale/", "/vagrant/src", disabled: false, type: "virtualbox"
+  config.vm.box = "ubuntu/jammy64"
 
   node_list.each do |node|
 

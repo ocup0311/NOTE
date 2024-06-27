@@ -2,6 +2,9 @@
 
 <!----------- ref start ----------->
 
+[docker init]: https://docs.docker.com/reference/cli/docker/init/
+[Docker Daemon 的 Unix Socket & TCP Socket]: https://dockertips.readthedocs.io/en/latest/docker-blog/docker-sock.html
+[RedHat NAT Doc]: https://docs.redhat.com/en/documentation/Red_Hat_Enterprise_Linux/4/html/Security_Guide/s1-firewall-ipt-fwd.html#s1-firewall-ipt-fwd
 [Docker: What's Under the Hood?]: https://www.codementor.io/blog/docker-technology-5x1kilcbow
 [七天用 Go 寫個 docker]: https://zhuanlan.zhihu.com/p/113926966
 [Github Actions Triggering by other repository]: https://github.com/orgs/community/discussions/26323#discussioncomment-3343871
@@ -34,7 +37,7 @@
 [RAFT]: http://thesecretlivesofdata.com/raft/
 [Play with Docker]: https://labs.play-with-docker.com/
 [鳥哥 iptables]: https://linux.vbird.org/linux_server/centos6/0250simple_firewall.php#netfilter
-[初探 IPTABLES 流動之路 - 以 Docker 為範例]: https://www.hwchiu.com/iptables-1.html
+[初探 IPTABLES 流動之路 - 以 Docker 為範例]: https://www.hwchiu.com/docs/2020/iptables-1
 [Docker - iptables 小知識]: https://www.gss.com.tw/blog/%E6%AF%8F%E6%97%A5%E5%B0%8F%E7%9F%A5%E8%AD%98-19-docker-%E7%B6%B2%E8%B7%AF%E7%AF%87-3-iptables
 [Multi-platform 文件]: https://docs.docker.com/build/building/multi-platform/
 
@@ -134,6 +137,24 @@
 
     ![](https://i.imgur.com/tOtQyfr.png)
     ![](https://i.imgur.com/x9fx0kd.png)
+
+  </details>
+
+<!-- rootless mode -->
+
+- <details close>
+  <summary>rootless mode</summary>
+
+  - [Docker rootless mode]
+  - version 20.10 以上
+  - 需設定 docker.sock 位置
+
+    - rootless 是在個別 user 上運行 Docker Daemon
+    - 需將 docker.sock 設定成使用個別 user 的
+
+    ```sh
+    $ export DOCKER_HOST=unix:///run/user/1000/docker.sock
+    ```
 
   </details>
 
@@ -406,6 +427,27 @@
 
         - `ARG` 用在 build，`ENV` 會帶進 container
 
+        <!-- 敏感訊息，建議用 secret 方式 -->
+
+        - <details close>
+          <summary>敏感訊息，建議用 secret 方式</summary>
+
+          - 以 `--mount=type=secret,id=my_secret` 告知要使用 secret
+          - 默認會放在 container 的 /run/secrets/my_secret
+          - 將 token 寫在 my_token 檔案中
+          - 以 `--secret id=my_secret, src=my_token` 將 secret 帶入用來 build 的那個 container(EX. alpine) 中
+
+          ```dockerfile
+          FROM alpine
+          RUN --mount=type=secret,id=my_secret git clone https://$(cat /run/secrets/my_secret)@github.com/...
+          ```
+
+          ```sh
+          $ docker image build --secret id=my_secret, src=my_token .
+          ```
+
+          </details>
+
       - `ENTRYPOINT`＋`CMD`
 
         - 兩者都只有最後一個生效
@@ -419,7 +461,7 @@
             CMD echo "hello world"
             ```
 
-          - Exec:
+          - Exec: (推薦)
 
             ```dockerfile
             CMD ["echo", "hello world"]
@@ -464,7 +506,7 @@
       <summary>Data Volume</summary>
 
       - 由 Docker 管理(/var/lib/docker/volumes/)
-      - 推薦使用 volume 來儲存資料
+      - 推薦使用 Data Volume 來儲存資料
 
       </details>
 
@@ -536,7 +578,7 @@
     <summary>總結＆推薦</summary>
 
     - 沒作設定，`container rm` 後內部資料就消失
-    - 純儲存，優先用 `Volume` (因為只掛到本機 /var/lib/docker/volumes/ 上)
+    - 純儲存，優先用 `Data Volume` (因為只掛到本機 /var/lib/docker/volumes/ 上)
     - 用於搭建開發環境，才用 `Bind Mount` 掛載到開發資料夾
     - 指令，用 `--mount` (因為書寫方式較易於理解)
 
@@ -602,10 +644,28 @@
 - <details close>
   <summary>healthcheck</summary>
 
-  - <mark>TODO:Q</mark> 會偏好寫在 dockerfile、run、docker-compose.yml？
+  - 會偏好寫在 Dockerfile、run、docker-compose.yml 哪一層？
 
-    - 我認為更喜歡寫在 dockerfile，但現成 image 大部分沒寫 healthcheck
-    - 也可能當要組成更健全的架構時，都會再另外寫一層 dockerfile？
+    <!-- 思考過程： -->
+
+    - <details close>
+      <summary>思考過程：</summary>
+
+      - 我認為更喜歡寫在 Dockerfile，但現成 image 大部分沒寫 healthcheck
+      - 也可能當要組成更健全的架構時，都會再另外寫一層 Dockerfile？
+      - 寫在 Compose 中，可以搭配依賴做不同的檢查
+
+      </details>
+
+    <!-- 結論： -->
+
+    - <details close>
+      <summary>結論：</summary>
+
+      - 將各自需要的固定一致的檢查寫在 Dockerfile
+      - 將針對不同環境或需要依賴搭配的策略性檢查寫在 Compose
+
+      </details>
 
   </details>
 
@@ -621,25 +681,30 @@
 
     </details>
 
-  <!-- 本地 -->
+  <!-- Docker 相關內容檢查 -->
 
   - <details close>
-    <summary>本機上檢查</summary>
+    <summary>Docker 相關檔案檢查</summary>
 
     - [Docker Bench Security]
 
+      - 簡介：將其 clone 到本機，執行 `docker-bench-security.sh`，就會對本機上 docker 所有內容進行掃描 (image, container, compose..)
+
       - 範例畫面
 
-      ![](../src/image/SAMPLE_docker_bench_security.png)
+        ![](../src/image/SAMPLE_docker_bench_security.png)
 
     </details>
 
-  <!-- 檢查程式碼 CVE -->
+  <!-- CVE：程式碼漏洞掃描 -->
 
   - <details close>
-    <summary>檢查程式碼 CVE</summary>
+    <summary>CVE：程式碼漏洞掃描</summary>
 
     - [CVE] (Common Vulnerabilities and Exposures)
+
+      - C(critical), H(high), M(medium), L(low)
+      - 不存在沒有漏洞的程式，依照自己需求取捨
 
       <!-- 線上服務：Snyk -->
 
@@ -648,9 +713,13 @@
 
         - [Snyk]
 
+        - 簡介：在 Snyk 網站上，選擇線上的 repo 讓他掃描整個 repo
+
+        - 對開源專案免費，掃描私有專案需付費
+
         - 範例畫面
 
-        ![](../src/image/SAMPLE_Snyk.png)
+          ![](../src/image/SAMPLE_Snyk.png)
 
         </details>
 
@@ -661,20 +730,24 @@
 
         - [Trivy]
 
+        - 簡介：下載到本機，用他的指令對本機 repo 掃描
+
         - 範例畫面
 
-        ![](../src/image/SAMPLE_Trivy.png)
+          ![](../src/image/SAMPLE_Trivy.png)
 
         </details>
 
     </details>
 
-  <!-- 執行時的動態監控 -->
+  <!-- runtime 動態監控 -->
 
   - <details close>
-    <summary>執行時的動態監控</summary>
+    <summary>runtime 動態監控</summary>
 
     - [sysdig]：付費
+
+      - 功能不只 runtime 部分
 
     </details>
 
@@ -727,7 +800,7 @@
 - <details close>
   <summary>更新 compose</summary>
 
-  - 修改已經 up 的 compose，可以不先停止，直接再下一次 `up` 指令更新。但一些特需變化需再加上 Options 來處理
+  - 修改已經 up 的 compose，可以不先停止，直接再下一次 `up` 指令更新。但一些特殊變化需再加上 Options 來處理
     (`docker compose up --help`查看 Options)
 
     ```sh
@@ -801,7 +874,7 @@
   <summary>node</summary>
 
   - 預設 manager 本身也可當作一個 worker 使用
-  - init 之後，會得到加入該 swarm 的 token
+  - `docker swarm init` 之後，會得到加入該 swarm 的 token
   - 可透過 `docker swarm join-token <manager/worker>` 來查詢加入新 manager/worker 的 token
 
   </details>
@@ -1137,39 +1210,12 @@
 
 ## # 問題集中區
 
-<!-- container 中下載的軟體是由什麼方式放在 host？ -->
-
-- <details close>
-  <summary>container 中下載的軟體是由什麼方式放在 host？</summary>
-
-  - <mark>TODO:Q</mark> container 中下載的軟體是由什麼方式放在 host？當 host 已有需下載的軟體時，怎麼做？當 host 沒有時，怎麼做？還是不管 host 有沒有，在 host 中都是只有分配一個空間給 docker 使用，而 host 不知道是哪些軟體？
-
-  </details>
-
-<!-- docker-compose.yml 可以分多個檔案嗎？ -->
-
-- <details close>
-  <summary>docker-compose.yml 可以分多個檔案嗎？</summary>
-
-  - <mark>TODO:Q</mark> docker-compose.yml 可以分多個檔案嗎？
-
-  </details>
-
 <!-- 加入成為 swarm 的新 node 時，背後的網路如何通訊？ -->
 
 - <details close>
   <summary>加入成為 swarm 的新 node 時，背後的網路如何通訊？</summary>
 
   - <mark>TODO:Q</mark> 使用 `docker swarm join --token <TOKEN> <IP>:<PORT>` 在新主機加入成為 swarm 的新 node 時，背後的網路如何通訊？使用廣播？
-
-  </details>
-
-<!-- 範例研究： -->
-
-- <details close>
-  <summary>範例研究</summary>
-
-  - <mark>TODO:</mark> 範例研究： `--restart unless-stopped`
 
   </details>
 
@@ -1358,7 +1404,18 @@
   - <details close>
     <summary>實驗新功能</summary>
 
-    - [docker manifest]
+    - [docker manifest]: 可用來查詢 docker hub 上 image 詳細資訊..等等
+
+    - [docker init]: 有一些常用專案類型的初始化模板可用
+
+    </details>
+
+  <!-- NAT -->
+
+  - <details close>
+    <summary>NAT</summary>
+
+    - [RedHat NAT Doc]
 
     </details>
 
@@ -1366,10 +1423,10 @@
 
 ## # 踩雷實錄
 
-<!-- 並非可以完全使用 docker build -->
+<!-- 並非可以完全只使用 docker build -->
 
 - <details close>
-  <summary>並非可以完全使用 <code>docker build</code></summary>
+  <summary>並非可以完全只使用 <code>docker build</code> 取代 <code>buildx</code></summary>
 
   - [Buildx] 文件中提到，新版本中 `docker build` 會默認使用 `Buildx`
   - 事實上使用 `docker build` 確實是使用 `Buildx` 來進行 biuld 的行為
@@ -1398,7 +1455,7 @@
 - <details close>
   <summary>docker.sock</summary>
 
-  > [掛載 docker.sock 的用意？]
+  > [掛載 docker.sock 的用意？] | [Docker Daemon 的 Unix Socket & TCP Socket]
 
   - <mark>TODO:</mark> 研究哪些情況該用與不用 `docker.sock`
   - <mark>TODO:</mark> 更深入研究 `docker.sock` ＆ `Docker daemon`
@@ -1426,12 +1483,15 @@
     - [Don't Panic: Kubernetes and Docker]
     - [Kubernetes 停止支持 Docker 了？]
 
-  - 總結：
+  - 摘要：
 
     - CRI (container runtime interface)
 
       - (2020) 支持 CRI 的 container runtime 只有 `containerd` 跟 `cri-o`
-      - <mark>TODO:Q</mark> 但 docker 使用 containerd，是否可以把接口方式調整一下，就可以繼續跟 k8s 對接了？
+
+    - k8s kubelet CRI 演進
+
+      ![](../src/image/kubelet_CRI.png)
 
     - k8s 不維護 `dockershim`，dockershim 是 kubelet 與 docker 的 CRI 接口
 
@@ -1475,4 +1535,32 @@
 
 - [Docker: What's Under the Hood?]
 
+- 範例研究： `--restart unless-stopped`
+
 - 做一個包含自動補全等齊全功能的環境的 image，方便不斷測試學習使用
+
+- 學習時常用網路指令
+
+  - `ping`, `ip a`, `curl`, `dig`
+  - `telnet`
+    - 測試 port 的連通性、是否可達
+    - `telnet google.com 80`
+  - `tracepath` (`traceroute`, windows:`TRACERT.EXE`)
+    - 路徑探測追蹤
+    - `tracepath google.com`
+  - `brctl`
+    - 可以查看 bridge 相關訊息
+    - `brctl show`
+  - `ip route`
+    - 查看路由規則
+  - `iptables`
+    - 查看 iptable 轉發規則
+    - `sudo iptables --list -t nat`
+    - `sudo iptables -t nat -nvxL`
+
+- `/etc/resolv.conf`: 存放 DNS Server 的 ip (nameserver)
+
+  - ubuntu: `systemd-resolve --status`
+  - mac: `scutil --dns`
+
+- 複習章節： 61, 65, 68, 83, 109
