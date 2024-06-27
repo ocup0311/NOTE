@@ -526,6 +526,15 @@
 
   </details>
 
+<!-- 更嚴謹：研究使用 SSH Certificate -->
+
+- <details close>
+  <summary>更嚴謹：研究使用 SSH Certificate</summary>
+
+  - 採取 SSH Certificate 取代 SSH Public Key
+
+  </details>
+
 <!-- 斷開 ssh remote 連線 -->
 
 - <details close>
@@ -684,12 +693,24 @@
 
 - 小工具：
 
+  <!-- scp -->
+
   - <details close>
     <summary>scp</summary>
 
     > REF: [Classic SysAdmin: How to Securely Transfer Files Between Servers with scp]
 
     - 只要知道 Ubuntu 的用戶名、密碼、ip，就可以 scp 複製文件進去 Ubuntu
+
+    </details>
+
+  <!-- pstree -->
+
+  - <details close>
+    <summary>pstree</summary>
+
+    - `pstree -halps [PID]`
+    - 易於查看與該 process 相關的 process
 
     </details>
 
@@ -770,6 +791,7 @@
 
     - Address Resolution Protocol (位址解析協定)
     - Data link layer
+    - MAC 與 IP 的配對
 
   - <mark>TODO:Q</mark> 浮動 ip 機制
   - <mark>TODO:Q</mark> 研究 mDNS：使用 ssh 時可以不用設定固定 IP
