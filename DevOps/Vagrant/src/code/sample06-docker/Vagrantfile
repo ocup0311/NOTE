@@ -1,12 +1,15 @@
 node_list = [
   {
-    :name => "host1"
+    :name => "worker1",
+    :eth1 => "192.168.100.11"
   },
   {
-    :name => "host2"
+    :name => "worker2",
+    :eth1 => "192.168.100.12"
   },
   {
-    :name => "host3"
+    :name => "manger1",
+    :eth1 => "192.168.100.10"
   }
 ]
 
@@ -14,16 +17,17 @@ node_list = [
 Vagrant.configure("2") do |config|
 
   config.vm.synced_folder ".", "/vagrant", disabled: true, type: "virtualbox"
-  config.vm.synced_folder "../../../../Docker/src/code/06_Scale/", "/vagrant/src", disabled: false, type: "virtualbox"
   config.vm.box = "ubuntu/jammy64"
 
   node_list.each do |node|
 
     config.vm.define node[:name] do |host|
-      host.vm.hostname = "docker.#{node[:name]}"
+      host.vm.hostname = node[:name]
+      host.vm.network :private_network, ip: node[:eth1]
       
       # 使用 Ansible 作為 provisioner
-      if node[:name] == "host3"
+      if node[:name] == "manger1"
+        host.vm.synced_folder "../../../../Docker/src/code/06_Scale/", "/vagrant/src", disabled: false, type: "virtualbox"
         host.vm.provision "ansible" do |ansible|
           # Disable default limit to connect to all the machines
           ansible.limit = "all"        

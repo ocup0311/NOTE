@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[Vagrant/sample06-docker]: ../../Vagrant/src/code/sample06-docker/
 [docker init]: https://docs.docker.com/reference/cli/docker/init/
 [Docker Daemon 的 Unix Socket & TCP Socket]: https://dockertips.readthedocs.io/en/latest/docker-blog/docker-sock.html
 [RedHat NAT Doc]: https://docs.redhat.com/en/documentation/Red_Hat_Enterprise_Linux/4/html/Security_Guide/s1-firewall-ipt-fwd.html#s1-firewall-ipt-fwd
@@ -155,6 +156,16 @@
     ```sh
     $ export DOCKER_HOST=unix:///run/user/1000/docker.sock
     ```
+
+  </details>
+
+<!-- Swarm -->
+
+- <details close>
+  <summary>Swarm</summary>
+
+  - 環境搭建可使用 [Vagrant/sample06-docker]，啟動三台 VM 供學習
+  - 必須開啟的 port: `TCP port2376`, `TCP port2377`, `TCP and UDP port7946`, `UDP port4789`
 
   </details>
 
@@ -928,7 +939,9 @@
 
     - 研究方法：
 
-      - 可用 `sudo tcpdump -i enp0s8 port 4789` 捕抓 VXLAN 封包，以進行測試 (port 4789 為 VXLAN)
+      - 可在本機用 `sudo tcpdump -i enp0s8 port 4789` 捕抓 VXLAN 封包，以進行測試
+        - enp0s8 是對外接口
+        - port 4789 為 VXLAN
 
     </details>
 
@@ -952,6 +965,10 @@
 
     - 也屬於 overlay，提供給「外部訪問內部」使用
     - 從外部進來的封包會透過 `ingress overlay` 進行轉發
+    - 其中的 Load Balance 屬於
+      - stateless (EX. 無法將同一個 user 都導向同一個 node)
+      - Layer 3(TCP)，而非 Layer 4(DNS)
+      - 解法：可另外配置 Nginx 或 HAProxy LB proxy 等來達到目的
 
     <!-- 步驟： -->
 
@@ -982,7 +999,7 @@
 
       - `docker run -it --rm -v /var/run/docker/netns:/netns --privileged=true nicolaka/netshoot nsenter --net=/netns/ingress_sbox `
 
-        - 利用 volume 方式，開一個 container 來查看 ingress-sbox 內部
+        - 利用 mount 到本機 docker 的命名空間中，開一個 container 來研究 ingress-sbox 內部運作方式
         - `iptables -vnL -t mangle` 查到從`docker_gwbridge`該 port 進來的會被做一個 MARK：`tcp dpt:8080 MARK set 0x102`
 
         - 使用 `ipvsadm` 可以看到 `MARK set 0x102` 的內容會被進行隨機 load blance 到各個 replica
@@ -1542,18 +1559,38 @@
 - 學習時常用網路指令
 
   - `ping`, `ip a`, `curl`, `dig`
+
   - `telnet`
+
     - 測試 port 的連通性、是否可達
     - `telnet google.com 80`
+
   - `tracepath` (`traceroute`, windows:`TRACERT.EXE`)
+
     - 路徑探測追蹤
     - `tracepath google.com`
+
   - `brctl`
+
     - 可以查看 bridge 相關訊息
     - `brctl show`
+
   - `ip route`
+
     - 查看路由規則
+    - 範例
+
+      - 查看順序為 `10.0.1.0/24` --> `172.18.0.0/16` --> `default`
+
+      ```sh
+      $ ip route
+      default via 172.18.0.1 dev eth1
+      10.0.1.0/24 dev eth0 scope link  src 10.0.1.12
+      172.18.0.0/16 dev eth1 scope link  src 172.18.0.4
+      ```
+
   - `iptables`
+
     - 查看 iptable 轉發規則
     - `sudo iptables --list -t nat`
     - `sudo iptables -t nat -nvxL`
@@ -1563,4 +1600,4 @@
   - ubuntu: `systemd-resolve --status`
   - mac: `scutil --dns`
 
-- 複習章節： 61, 65, 68, 83, 109
+- 複習章節： 61, 65, 68, 91, 92, 95,
