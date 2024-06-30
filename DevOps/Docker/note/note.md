@@ -2,6 +2,9 @@
 
 <!----------- ref start ----------->
 
+[How do you attach and detach from Docker's process?]: https://stackoverflow.com/questions/19688314/how-do-you-attach-and-detach-from-dockers-process
+[Security Tips]: https://www.prplbx.com/resources/blog/docker-part1/
+[Security 筆記]: https://hackmd.io/@blueskyson/docker-security
 [Vagrant/sample06-docker]: ../../Vagrant/src/code/sample06-docker/
 [docker init]: https://docs.docker.com/reference/cli/docker/init/
 [Docker Daemon 的 Unix Socket & TCP Socket]: https://dockertips.readthedocs.io/en/latest/docker-blog/docker-sock.html
@@ -99,18 +102,33 @@
 <!-- 「container 即 process」 -->
 
 - <details close>
-  <summary>「container 即 process」</summary>
+  <summary>container 即 process</summary>
 
   - 範例：
 
-    - 啟動一個 ngmix container 的步驟如下：
+    - 啟動一個 nginx container 的步驟如下：
     - 由 containerd-shim 先產生一個 process，也就是建立一個 container (PID 18728)
-    - 再從 18728 fork 出 ngnix
-    - `docker container exec -it` 出一個 shell，也是從 18728 fork 出來
+    - 再從 18728 fork 出 nginx
+    - `docker container exec -it` 出一個 shell (21030)，也是從 18728 fork 出來
 
-    ![](https://i.imgur.com/Mxb7YGA.png)
+    - EX.1
+
+    ![](../src/image/container_is_process_EX1.png)
+
+    - EX.2
+
+    ![](../src/image/container_is_process_EX2.png)
 
   ![](https://i.imgur.com/w4w1YE2.png)
+
+  </details>
+
+<!-- client-server 分工架構 -->
+
+- <details close>
+  <summary>client-server 分工架構</summary>
+
+  ![](../src/image/docker_client_server.png)
 
   </details>
 
@@ -132,12 +150,22 @@
 - <details close>
   <summary>啟動 container</summary>
 
-  - `docker container run -it -u $(id -u):$(id -g) --name container_name image_name`
-  - `-u $(id -u):$(id -g)`以設定使用 builder user 在 docker 中執行，未指定則為 root
-  - container 裡的 root 是另外建立可用來使用 container 內部的權限的 user。跟主機 root 為不同的 user
+  <!-- `docker container run -dit -u $(id -u):$(id -g) --name [container_name] [image_name]` -->
 
-    ![](https://i.imgur.com/tOtQyfr.png)
-    ![](https://i.imgur.com/x9fx0kd.png)
+  - <details close>
+    <summary><code>docker container run -dit -u $(id -u):$(id -g) --name [container_name] [image_name]</code>></summary>
+
+    - `-u $(id -u):$(id -g)`以設定使用 builder user 在 docker 中執行，未指定則為 root
+    - container 裡的 root
+
+      - 是另外建立可用來使用 container 內部的權限的 user。
+      - 跟主機 root 為不同的 user
+      - 但注意 mount 之後，內部 root 才能執行本機 root 權限的檔案
+
+      ![](https://i.imgur.com/tOtQyfr.png)
+      ![](https://i.imgur.com/x9fx0kd.png)
+
+    </details>
 
   </details>
 
@@ -151,7 +179,7 @@
   - 需設定 docker.sock 位置
 
     - rootless 是在個別 user 上運行 Docker Daemon
-    - 需將 docker.sock 設定成使用個別 user 的
+    - 需將 docker.sock 設定成使用個別 user 的 (同理可以設定成使用遠端的 sock，此時需要設定成 tcp sock)
 
     ```sh
     $ export DOCKER_HOST=unix:///run/user/1000/docker.sock
@@ -174,7 +202,10 @@
 - <details close>
   <summary>踩雷</summary>
 
-  - 似乎是在同一台 mac 上啟動的兩台 linux VM 同時安裝時，其中一台出現此狀況，過一陣子後，在安裝就通過了
+  <!-- 似乎是在同一台 mac 上啟動的兩台 linux VM 同時安裝時，其中一台出現此狀況，過一陣子後，再安裝就通過了 -->
+
+  - <details close>
+    <summary>似乎是在同一台 mac 上啟動的兩台 linux VM 同時安裝時，其中一台出現此狀況，過一陣子後，再安裝就通過了</summary>
 
     ```sh
     E: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 23606 (unattended-upgr)
@@ -183,7 +214,12 @@
 
     ![](https://i.imgur.com/iRHUQmp.jpg)
 
-  - 執行 `sudo docker container run -it manjarolinux/base`
+    </details>
+
+  <!-- 執行 `sudo docker container run -it manjarolinux/base` -->
+
+  - <details close>
+    <summary>執行 <code>sudo docker container run -it manjarolinux/base</code></summary>
 
     - 出現錯誤：
 
@@ -197,16 +233,27 @@
     - 目前只能以「還原」來解決
     - 後來將記憶體從 4GB 改為 8GB，就正常了（但不確定是否只是剛好，還是真的需要這麼高配置）
 
-  - docker-buildx
+    </details>
+
+  <!-- docker-buildx -->
+
+  - <details close>
+    <summary>docker-buildx</summary>
 
     - manjaro 需再自行下載 `sudo pacman -Sy docker-buildx`
 
-  - [Migrate to Compose V2]
+    </details>
 
+  - <details close>
+    <summary>Migrate to Compose V2</summary>
+
+    - REF: [Migrate to Compose V2]
     - ubuntu 下載最新 docker 時，已下載 V2
     - `sudo apt-get install docker-compose-plugin`
     - Compose V1 已經不維護了
     - 指令更改`docker-compose`-->`docker compose`
+
+    </details>
 
   </details>
 
@@ -261,6 +308,7 @@
         - Ｑ：dockerfile 裡面寫的某些 apt-get 是在什麼階段下載？包成 image 時、pull image 時、container run 時?
 
           - 在 build image 時，會將 apt-get 的東西存在 image 中
+          - 用 Multi-stage builds，image 中只會保存最後一個 stage 內容
 
         - Ｑ：在 image build 時，會使用 cache，那麼其是以哪些內容來進行 hash？
 
@@ -357,7 +405,7 @@
 
         - cache
 
-          - 舊：當下完全無使用，即刻刪除
+          - 舊：當下完全沒有在使用的話，會即刻刪除
           - 新：Least Recently Used（LRU），一段時間未使用才刪除
 
           ![](https://i.imgur.com/Jwg8EFU.png)
@@ -375,10 +423,15 @@
           - 疑惑：因為其作法改為當有需求時，buildkit 才會向 buildx 發送請求。而不像舊的方式會直接打包整個資料夾過去
           - 解答：需要，因為實際專案中會在 Dockerfile 直接 `COPY` 整個資料夾，資料夾內的一些內容會需要 ignore
 
-        - <mark>TODO:</mark> 已知手動刪除 cache、builder。手動刪除 intermediate image/container 待研究
+        - 刪除 cache、builder
 
           - 手動刪除 cache、builder 請查 `docker buildx` & `docker builder`
-          - [How to remove intermediate images from a build after the build?] 可事先以 LABEL 方式標註，來做刪除。但不知未標註時該如何刪除。
+
+        - 刪除 intermediate image/container
+
+          - [How to remove intermediate images from a build after the build?]
+          - 可事先以 LABEL 方式標註，來做刪除
+          - 不知是否有方法可以，無需標註而一步刪除 intermediate 產物
 
         </details>
 
@@ -443,19 +496,22 @@
         - <details close>
           <summary>敏感訊息，建議用 secret 方式</summary>
 
-          - 以 `--mount=type=secret,id=my_secret` 告知要使用 secret
-          - 默認會放在 container 的 /run/secrets/my_secret
-          - 將 token 寫在 my_token 檔案中
-          - 以 `--secret id=my_secret, src=my_token` 將 secret 帶入用來 build 的那個 container(EX. alpine) 中
+          - 此方法會在 build 的過程中，短暫利用 mount 取得本機存放的 secret，因此在 image 中並不會保留
+          - 步驟解析：
 
-          ```dockerfile
-          FROM alpine
-          RUN --mount=type=secret,id=my_secret git clone https://$(cat /run/secrets/my_secret)@github.com/...
-          ```
+            - 以 `--mount=type=secret,id=my_secret` 告知要使用 secret
+            - 默認會放在 container 的 /run/secrets/my_secret
+            - 將 token 寫在 my_token 檔案中
+            - 以 `--secret id=my_secret, src=my_token` 將 secret 帶入用來 build 的那個 container(EX. alpine) 中
 
-          ```sh
-          $ docker image build --secret id=my_secret, src=my_token .
-          ```
+            ```dockerfile
+            FROM alpine
+            RUN --mount=type=secret,id=my_secret git clone https://$(cat /run/secrets/my_secret)@github.com/...
+            ```
+
+            ```sh
+            $ docker image build --secret id=my_secret, src=my_token .
+            ```
 
           </details>
 
@@ -480,7 +536,10 @@
 
       - `LABEL`
 
-        - EX. Name & Version 。只會標註在 metadata 中，而不會直接顯示在 image 上，因此 build 的時候依然需要指定
+        - 只會標註在 metadata 中的資訊，而不會直接顯示在 image 上
+        - EX. Name, Version, Description, Maintainer..etc
+        - 許多 CI/CD 工具和容器編排系統 (EX. K8s) 都可以使用 LABEL 信息來進行管理和操作
+        - EX. `docker images --filter "label=Name=ocup0311/hello"`
 
       - `USER`
 
@@ -685,6 +744,8 @@
 - <details close>
   <summary>安全性檢查</summary>
 
+  - REF：[Security Tips] | [Security 筆記]
+
   <!-- 檢查執行環境 -->
 
   - <details close>
@@ -758,7 +819,7 @@
 
     - [sysdig]：付費
 
-      - 功能不只 runtime 部分
+      - 很完整的付費檢查軟體，功能不只 runtime 部分
 
     </details>
 
@@ -856,7 +917,7 @@
     <summary>scale</summary>
 
     - `--scale flask=3` 是指總共 3 個，而不是再增加 3 個
-    - 自動做了 load balance
+    - 自動做了 load balance (隨機分配)
 
     </details>
 
@@ -898,6 +959,7 @@
   - `docker service create` 來建立 service
   - 一個 service 可包括多個 replica (container)
   - 某個 replica 的 container exit，會自動補開 container
+  - swarm 會自行判斷在比較不忙碌的 worker 上，開 container
   - 各種 ID 關係
 
     - `docker service ls` 中，service id
@@ -933,7 +995,7 @@
       - 當有 service 的 container 使用到 overlay 時，會自動建立一個用來 load balance 的空間，在其中建立 VIP
       - 用來在 service 的 replica 間進行 load balance
       - 一個 service 對應一個 VIP，每個 VIP 透過 iptables + ipvs 轉發給多個 replica
-      - EX. 圖中 lb-mylay
+      - EX. 圖中 lb-mylay：每個有用到 mylay overlay 的 worker，會自動建立一個 container 名為 lb-mylay
 
         ![](https://i.imgur.com/aDeJkna.png)
 
@@ -1024,7 +1086,7 @@
 
   - swarm 的 compose
   - 一樣需下載 docker compose，使用 .yml
-  - 需使用已經 build 好的 image
+  - 需使用已經 build 好的 image。這設計是為了避免在部署過程中因為構建失敗而中斷部署
 
   </details>
 
@@ -1057,8 +1119,8 @@
 
     </details>
 
-  - `docker secret inspect`只會看到其資訊，不會顯示 secret 本身
-  - secret 可放進 container 中 `/run/secrets/`
+  - `docker secret inspect` 只會看到其資訊，不會顯示 secret 本身
+  - secret 會被放進 container 中 `/run/secrets/`
   - 約定俗成以 env 存 secret 的 filename，如：
     `-e MY_PASSWORD_FILE=/run/secrets/my_pass`
 
@@ -1212,7 +1274,7 @@
 
     - Github 的 Marketplace 中，有提供開源的 Action，可直接以 `uses:` 來使用
 
-    - muti-platform build 可以無需額外使用 QEMU，但是 QEMU 支援的 platform 還是比較多的。(但其中三個有 Error：linux/mips64,linux/mips64le,linux/riscv64)
+    - multi-platform build 可以無需額外使用 QEMU (但其中三個有 Error：linux/mips64,linux/mips64le,linux/riscv64)，QEMU 支援的 platform 還是比較多的
 
     - 可以設定 step id，就可以用 `${{ steps.<step_id>.outputs.<property> }}` 來取得該 step 中的輸出
 
@@ -1269,9 +1331,33 @@
       $ docker container exec -it container_name shell_name
       ```
 
-    - attach 很難關掉：有些情況`ctr+p ctr+q`沒作用，`ctr+c`之後又會把 container stop
+    - attach 很難關掉：有些情況`ctr+p ctr+q`沒作用，`ctr`+`c`之後又會把 container stop
 
     - 使用 exec 開 shell 輸入，才不會影響到 container 原本的運作 (EX. 使用 exit 時，只是關閉該 shell)
+
+    <!-- docker container attach --sig-proxy=false -->
+
+    - <details close>
+      <summary><code>docker container attach --sig-proxy=false</code></summary>
+
+      - 也可以設定不傳 signal 給 container
+      - [How do you attach and detach from Docker's process?]
+
+      </details>
+
+    <!-- `ctr`+`c` 相關討論 -->
+
+    - <details close>
+      <summary><code>ctr</code>+<code>c</code> 相關討論</summary>
+
+      - 在 container 的 terminal 中，ctr+c 無法退出 container
+
+        - 因為那個是在 shell 裡頭，ctr+c 無法退出 shell
+        - 而在 nginx 中，是用 ctr+c 結束他的 entrypoint
+
+      - 再研究 windows 的 container 中的 ctr+c 為何不會傳給下一層
+
+      </details>
 
     </details>
 
@@ -1303,6 +1389,8 @@
       </details>
 
     </details>
+
+  - 安全性參考：[Security Tips] | [Security 筆記]
 
 <!-- 小技巧 -->
 
@@ -1388,21 +1476,8 @@
     <summary>範例研究</summary>
 
     - [學習範本]
-
-    </details>
-
-  <!-- iptables -->
-
-  - <details close>
-    <summary>iptables</summary>
-
-    - [鳥哥 iptables]
-
-      ![](https://i.imgur.com/ay4aLYh.png)
-
-    - [初探 IPTABLES 流動之路 - 以 Docker 為範例]
-
-      ![](https://i.imgur.com/VxV7WRK.png)
+    - `--restart unless-stopped`
+      - 除非手動停止，否則重啟
 
     </details>
 
@@ -1421,18 +1496,150 @@
   - <details close>
     <summary>實驗新功能</summary>
 
-    - [docker manifest]: 可用來查詢 docker hub 上 image 詳細資訊..等等
+    - [docker manifest]：可用來查詢 docker hub 上 image 詳細資訊..等等
 
-    - [docker init]: 有一些常用專案類型的初始化模板可用
+    - [docker init]：有一些常用專案類型的初始化模板可用
 
     </details>
 
-  <!-- NAT -->
+  <!-- 學習時，基本網路相關知識 -->
 
   - <details close>
-    <summary>NAT</summary>
+    <summary>學習時，基本網路相關知識</summary>
 
-    - [RedHat NAT Doc]
+    - 基本網路知識
+
+      <!-- NAT -->
+
+      - <details close>
+        <summary>NAT</summary>
+
+        - [RedHat NAT Doc]
+
+        </details>
+
+      <!-- iptables -->
+
+      - <details close>
+        <summary>iptables</summary>
+
+        - [鳥哥 iptables]
+
+          ![](https://i.imgur.com/ay4aLYh.png)
+
+        - [初探 IPTABLES 流動之路 - 以 Docker 為範例]
+
+          ![](https://i.imgur.com/VxV7WRK.png)
+
+        </details>
+
+    - 常用網路指令
+
+      <!-- `ping`, `ip a`, `curl`, `dig` -->
+
+      - <details close>
+        <summary><code>ping</code>, <code>ip a</code>, <code>curl</code>, <code>dig</code></summary>
+
+        </details>
+
+      <!-- iptables -->
+
+      - <details close>
+        <summary><code>iptables</code></summary>
+
+        - 查看 iptable 轉發規則
+        - `sudo iptables --list -t nat`
+        - `sudo iptables -t nat -nvxL`
+        - `sudo iptables -vnL -t nat`
+
+        </details>
+
+      <!-- ip route -->
+
+      - <details close>
+        <summary><code>ip route</code></summary>
+
+        - 查看路由規則
+        - 範例
+
+          - 查看順序為 `10.0.1.0/24` --> `172.18.0.0/16` --> `default`
+
+          ```sh
+          $ ip route
+          default via 172.18.0.1 dev eth1
+          10.0.1.0/24 dev eth0 scope link  src 10.0.1.12
+          172.18.0.0/16 dev eth1 scope link  src 172.18.0.4
+          ```
+
+        </details>
+
+      <!-- brctl -->
+
+      - <details close>
+        <summary><code>brctl</code></summary>
+
+        - 可以查看 bridge 相關訊息
+        - `brctl show`
+
+        </details>
+
+      <!-- `tracepath` (`traceroute`, windows:`TRACERT.EXE`) -->
+
+      - <details close>
+        <summary><code>tracepath</code> (<code>traceroute</code>, windows: <code>TRACERT.EXE</code>)</summary>
+
+        - 路徑探測追蹤
+        - `tracepath google.com`
+
+        </details>
+
+      <!-- telnet -->
+
+      - <details close>
+        <summary><code>telnet</code></summary>
+
+        - 測試 port 的連通性、是否可達
+        - `telnet google.com 80`
+
+        </details>
+
+      <!-- ipvsadm -->
+
+      - <details close>
+        <summary><code>ipvsadm</code></summary>
+
+        - 查看 ipvs 設定了哪些規則
+
+        </details>
+
+    - 相關檔案位置
+
+      <!-- /etc/resolv.conf -->
+
+      - <details close>
+        <summary><code>/etc/resolv.conf</code></summary>
+
+        - 存放 DNS Server 的 ip (nameserver)
+
+        - 指令查看方式
+
+          - ubuntu: `systemd-resolve --status`
+          - mac: `scutil --dns`
+
+        </details>
+
+    </details>
+
+  <!-- 其他 -->
+
+  - <details close>
+    <summary>其他</summary>
+
+    - [Docker: What's Under the Hood?]
+    - [七天用 Go 寫個 docker]
+    - [docker 原始碼？](https://github.com/moby/moby)
+
+      - https://stackoverflow.com/questions/22272401/what-does-it-mean-to-attach-a-tty-std-in-out-to-dockers-or-lxc
 
     </details>
 
@@ -1531,73 +1738,7 @@
 ## <mark>TODO:</mark>
 
 - 再研究 docker version 跟 docker info 裡的資訊
-- client-server 的分工
-- 研究在 windows 中的 container 中的 ctr+c 不會傳給下一層的問題
-- 在 container 的 terminal 中，ctr+c 無法退出 container
-
-  - 因為那個是在 shell 裡頭，ctr+c 無法退出 shell
-  - 而在 nginx 中，是用 ctr+c 結束他的 entrypoint
-
-- process 的關係
-
-- 設定不傳 signal 給 container
-
-  - `docker attach --sig-proxy=false 304f5db405ec`
-  - https://stackoverflow.com/questions/19688314/how-do-you-attach-and-detach-from-dockers-process
-
-- [七天用 Go 寫個 docker]
-- [docker 原始碼？](https://github.com/moby/moby)
-
-  - https://stackoverflow.com/questions/22272401/what-does-it-mean-to-attach-a-tty-std-in-out-to-dockers-or-lxc
-
-- [Docker: What's Under the Hood?]
-
-- 範例研究： `--restart unless-stopped`
 
 - 做一個包含自動補全等齊全功能的環境的 image，方便不斷測試學習使用
 
-- 學習時常用網路指令
-
-  - `ping`, `ip a`, `curl`, `dig`
-
-  - `telnet`
-
-    - 測試 port 的連通性、是否可達
-    - `telnet google.com 80`
-
-  - `tracepath` (`traceroute`, windows:`TRACERT.EXE`)
-
-    - 路徑探測追蹤
-    - `tracepath google.com`
-
-  - `brctl`
-
-    - 可以查看 bridge 相關訊息
-    - `brctl show`
-
-  - `ip route`
-
-    - 查看路由規則
-    - 範例
-
-      - 查看順序為 `10.0.1.0/24` --> `172.18.0.0/16` --> `default`
-
-      ```sh
-      $ ip route
-      default via 172.18.0.1 dev eth1
-      10.0.1.0/24 dev eth0 scope link  src 10.0.1.12
-      172.18.0.0/16 dev eth1 scope link  src 172.18.0.4
-      ```
-
-  - `iptables`
-
-    - 查看 iptable 轉發規則
-    - `sudo iptables --list -t nat`
-    - `sudo iptables -t nat -nvxL`
-
-- `/etc/resolv.conf`: 存放 DNS Server 的 ip (nameserver)
-
-  - ubuntu: `systemd-resolve --status`
-  - mac: `scutil --dns`
-
-- 複習章節： 61, 65, 68, 91, 92, 95,
+- 複習章節： 61, 65, 68, 91, 92, 95, secret 操作一遍
