@@ -327,7 +327,7 @@
     - <details close>
       <summary>vagrant reload 會有一些舊東西保留著</summary>
 
-      ```vagrantfile
+      ```ruby
       # EX.
       # 一開始設定為要同步：
       config.vm.synced_folder ".", "/vagrant", disabled: false
@@ -348,7 +348,7 @@
     - <details close>
       <summary>可以分別設定數個同步路徑，但目標資料夾不能重複，否則只會被最後一次覆蓋掉</summary>
 
-      ```vagrantfile
+      ```ruby
       # EX.
       # 這樣最後 /vagrant 只會覆蓋成 test/
       # 而不是同時擁有 src/、test/ 兩者的檔案
@@ -364,7 +364,7 @@
     - <details close>
       <summary>預設會將 "." 同步 "/vagrant"，所以若想客製化同步的檔案，可以在最開頭先取消該預設</summary>
 
-      ```vagrantfile
+      ```ruby
       config.vm.synced_folder ".", "/vagrant", disabled: true
       ```
 
@@ -468,7 +468,7 @@
 
     - 安裝 nginx 後，在本機瀏覽器上做連線測試：
 
-      ```vagrantfile
+      ```ruby
       host.vm.network "forwarded_port", guest: 80, host: 12001
       # --> 可用 localhost:12001
 
@@ -499,7 +499,7 @@
 
     - Ansible 可以設置成在最後一個 VM 啟動完後，才一次並行讓所有 VM 一起執行
 
-      ```vagrantfile
+      ```ruby
       # 用 if 判斷迴圈執行到最後一台 VM 時
       if machine_id == N
         machine.vm.provision :ansible do |ansible|
