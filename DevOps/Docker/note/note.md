@@ -2,6 +2,10 @@
 
 <!----------- ref start ----------->
 
+[ebtables/iptables interaction on a Linux-based bridge]: https://ebtables.netfilter.org/br_fw_ia/br_fw_ia.html
+[再談 Docker 容器單機網路：利用 iptables trace 和 ebtables log]: https://tonybai.com/2017/11/06/explain-docker-single-host-network-using-iptables-trace-and-ebtables-log/
+[iptables 視覺化工具]: https://github.com/Nudin/iptable_vis
+[namespace 模擬]: ../src/code/09_Namespace/README.md
 [How do you attach and detach from Docker's process?]: https://stackoverflow.com/questions/19688314/how-do-you-attach-and-detach-from-dockers-process
 [Security Tips]: https://www.prplbx.com/resources/blog/docker-part1/
 [Security 筆記]: https://hackmd.io/@blueskyson/docker-security
@@ -636,9 +640,16 @@
     - 連結後，檔案並非 host & container 兩個檔案同步，而是直接操作本機的一個檔案
     - 也可以直接在 container 刪除 host 的檔案
 
-    - <mark>TODO:Q</mark> 所有方法都是，只有掛載？也就是只有在掛載的位置上有儲存資料？
+    <!-- Ｑ：其他所有方法都是只有掛載？也就是只有在掛載的位置上有儲存資料？ -->
 
-      - 目前簡單測試 `sshfs` 方式也是只有設定為 volume 端有資料，若將那台 host 斷開連線，則其他 host 無法讀寫資料，且會卡住。
+    - <details close>
+      <summary><mark>TODO:Q</mark> 其他所有方法都是只有掛載？也就是只有在掛載的位置上有儲存資料？</summary>
+
+      - 目前已做測試：
+
+        - `sshfs`：簡單測試後，只有設定為 volume 端有資料。若將那台 host 斷開連線，則其他 host 無法讀寫資料，且會卡住
+
+      </details>
 
     </details>
 
@@ -702,8 +713,20 @@
     <summary>Docker 所使用的 network 技術：</summary>
 
     - 端口轉發（port forwarding），是靠 `iptables` 完成的
-    - 不同的容器通過 `Network namespace` 進行了隔離
-      （<mark>TODO:</mark> 沒模擬成功，尚未找出原因）
+    - 不同的容器通過 `Network namespace` 進行了隔離 ([namespace 模擬])
+
+      <!-- 模擬測試過程踩雷排除 -->
+
+      - <details close>
+        <summary>模擬測試過程踩雷排除</summary>
+
+        - ubuntu 若兩個 namespace 中的 eth 名稱一樣，則會分配同一個 mac address
+        - 需注意是否需要設定 bridge 的 icmp FORWARD
+
+        ![](../src/image/Q_network_namespace.png){ width=90% }
+        ![](../src/image/A_network_namespace.png){ width=90% }
+
+        </details>
 
     </details>
 
@@ -1278,7 +1301,15 @@
 
     - 可以設定 step id，就可以用 `${{ steps.<step_id>.outputs.<property> }}` 來取得該 step 中的輸出
 
-    - <mark>TODO:Q</mark> 不知為何 .yml 中只設定 build & push，但是 docker hub 上的下載數也有增加
+    <!-- 不知為何 .yml 中只設定 build & push，但是 docker hub 上的下載數也有增加 -->
+
+    - <details close>
+      <summary><mark>TODO:Q</mark> 不知為何 .yml 中只設定 build & push，但是 docker hub 上的下載數也有增加</summary>
+
+      - 可查看所使用的 Action 中，是否包含 push 後做 check
+      - 或是 dockerhub 有自動檢查
+
+      </details>
 
     </details>
 
@@ -1523,6 +1554,10 @@
       - <details close>
         <summary>iptables</summary>
 
+        - iptables 透過 getsockopt/setsockopt 等 IPC 方式與 Kernel 進行溝通以讀寫規則
+        - 規則本身不會被儲存，所以當機器重開機，kernel 內的規則就會全部消失
+        - 規則按照順序篩選
+
         - [鳥哥 iptables]
 
           ![](https://i.imgur.com/ay4aLYh.png)
@@ -1530,6 +1565,14 @@
         - [初探 IPTABLES 流動之路 - 以 Docker 為範例]
 
           ![](https://i.imgur.com/VxV7WRK.png)
+
+        - [再談 Docker 容器單機網路：利用 iptables trace 和 ebtables log] ([補充](https://guanjunjian.github.io/2017/12/05/study-15-docker-single-host-network-analysis/))
+
+        - [ebtables/iptables interaction on a Linux-based bridge]
+
+          ![](../src/image/netfilter_packet_flow.png)
+
+        - Tool：[iptables 視覺化工具]
 
         </details>
 
@@ -1548,9 +1591,14 @@
         <summary><code>iptables</code></summary>
 
         - 查看 iptable 轉發規則
-        - `sudo iptables --list -t nat`
-        - `sudo iptables -t nat -nvxL`
-        - `sudo iptables -vnL -t nat`
+        - 也可用 `iptables-save` 直接看寫入格式 (EX. `-A INPUT -p icmp -j ACCEPT`)
+        - 可搭配 `| column -tL` 排版，`| ccze -A` 上色
+        - 舒服版：`sudo iptables -vnL -t filter  | column -tL | ccze -A`
+        - 其他用過：
+          - `sudo iptables --list -t nat`
+          - `sudo iptables -t nat -nvxL`
+          - `sudo iptables -vnL -t nat`
+          - `sudo iptables -vnL`
 
         </details>
 
@@ -1578,6 +1626,7 @@
       - <details close>
         <summary><code>brctl</code></summary>
 
+        - 安裝 `bridge-utils`
         - 可以查看 bridge 相關訊息
         - `brctl show`
 
@@ -1691,8 +1740,6 @@
 - <details close>
   <summary>docker.socket VS docker.service</summary>
 
-  - <mark>TODO:</mark> 研究 docker.socket 跟 docker.service 的關係
-
   ![](https://i.imgur.com/aaOKVwD.png)
 
   </details>
@@ -1739,6 +1786,4 @@
 
 - 再研究 docker version 跟 docker info 裡的資訊
 
-- 做一個包含自動補全等齊全功能的環境的 image，方便不斷測試學習使用
-
-- 複習章節： 61, 65, 68, 91, 92, 95, secret 操作一遍
+- secret 操作一遍
