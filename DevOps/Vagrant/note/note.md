@@ -322,6 +322,23 @@
   - <details close>
     <summary>注意</summary>
 
+    <!-- 釐清使用的方法是 copy / mount -->
+
+    - <details close>
+      <summary>釐清使用的方法是 copy / mount</summary>
+
+      - `type: "virtualbox"`
+
+        - mount
+        - 刪掉 vagrnatfile 中掛載規則，再 reload 後不會解除 mount
+        - 重新設定新的任一使用 virtualbox 且不 disabled 的掛載規則，再 reload 後才會重新部署規則
+
+      - `type: "rsync"`
+
+        - copy
+
+      </details>
+
     <!-- vagrant reload 會有一些舊東西保留著 -->
 
     - <details close>
