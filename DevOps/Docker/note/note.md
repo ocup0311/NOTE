@@ -2,6 +2,8 @@
 
 <!----------- ref start ----------->
 
+[Securing client and daemon communication]: https://hackmd.io/@ZGt0WcJQQ_enG8iTXTGNWw/SyWNFb0v5#Securing-client-and-daemon-communication-kaishiuny
+[淺析 Docker、Containerd、RunC]: https://www.51cto.com/article/687502.html
 [ebtables/iptables interaction on a Linux-based bridge]: https://ebtables.netfilter.org/br_fw_ia/br_fw_ia.html
 [再談 Docker 容器單機網路：利用 iptables trace 和 ebtables log]: https://tonybai.com/2017/11/06/explain-docker-single-host-network-using-iptables-trace-and-ebtables-log/
 [iptables 視覺化工具]: https://github.com/Nudin/iptable_vis
@@ -54,6 +56,7 @@
 # Docker
 
 > DATE: 4, 5 (2023)
+> UPDATE: 6, 7 (2024)
 > REF: [Docker 容器技术从入门到精通] | [課堂筆記]
 
 ## # 測試環境
@@ -87,6 +90,8 @@
     - image spec
 
       - 主要定義鏡像的基本格式
+
+    - distribution spec
 
   </details>
 
@@ -133,6 +138,26 @@
   <summary>client-server 分工架構</summary>
 
   ![](../src/image/docker_client_server.png)
+
+  </details>
+
+<!-- Docker - Containerd - RunC -->
+
+- <details close>
+  <summary>Docker - Containerd - RunC</summary>
+
+  - REF: [淺析 Docker、Containerd、RunC]
+
+  - `containerd` 建立一個叫做 containerd-shim 的 process
+  - `containerd-shim` 去呼叫 runc 來啟動容器 (fork runc instance)
+  - `runc` 啟動完容器後本身會直接退出
+  - `containerd-shim` 則會成為容器 process 的 parent, 負責收集容器的狀態, 上報給 containerd, 並在容器中的 pid 1 (該容器本身那個 process) 退出後接管容器中所有 child process 進行清理, 確保沒有 zombie process
+
+  - 圖說
+
+    ![](../src/image/Docker_Containerd_RunC1.png){ width=90% }
+    ![](../src/image/Docker_Containerd_RunC2.jpeg){ width=90% }
+    ![](../src/image/Docker_Containerd_RunC3.png){ width=90% }
 
   </details>
 
@@ -504,13 +529,15 @@
           - 步驟解析：
 
             - 以 `--mount=type=secret,id=my_secret` 告知要使用 secret
-            - 默認會放在 container 的 /run/secrets/my_secret
+            - 默認會放在 container 的 `/run/secrets/` (在此表示放在 build image 時的臨時 container 中)
             - 將 token 寫在 my_token 檔案中
             - 以 `--secret id=my_secret, src=my_token` 將 secret 帶入用來 build 的那個 container(EX. alpine) 中
 
             ```dockerfile
             FROM alpine
             RUN --mount=type=secret,id=my_secret git clone https://$(cat /run/secrets/my_secret)@github.com/...
+
+            # 可想像為： docker container run --mount=type=secret,id=my_secret alpine git clone https://$(cat /run/secrets/my_secret)@github.com/...
             ```
 
             ```sh
@@ -736,6 +763,17 @@
 
 - <details close>
   <summary>healthcheck</summary>
+
+  <!-- 只有最後的設定生效 (compose > Dockerfile > base image) -->
+
+  - <details close>
+    <summary>只有最後的設定生效 (compose > Dockerfile > base image)</summary>
+
+    - Dockerfile 會蓋掉其中 base image 中的 HEALTHCHECK
+    - Dockerfile 只有一個 HEALTHCHECK 生效
+    - compose 中 healthcheck 會蓋掉該 Dockerfile 中的 HEALTHCHECK
+
+    </details>
 
   - 會偏好寫在 Dockerfile、run、docker-compose.yml 哪一層？
 
@@ -1301,6 +1339,23 @@
 
     - 可以設定 step id，就可以用 `${{ steps.<step_id>.outputs.<property> }}` 來取得該 step 中的輸出
 
+    <!-- 可配置 `.github/dependabot.yml` 來提醒依賴版本可以更新 -->
+
+    - <details close>
+      <summary>可配置 <code>.github/dependabot.yml</code> 來自動發 PR 提醒依賴版本可以更新</summary>
+
+      ```yml
+      version: 2
+      updates:
+        # Maintain dependencies for GitHub Actions
+        - package-ecosystem: 'github-actions'
+          directory: '/'
+          schedule:
+            interval: 'monthly'
+      ```
+
+      </details>
+
     <!-- 不知為何 .yml 中只設定 build & push，但是 docker hub 上的下載數也有增加 -->
 
     - <details close>
@@ -1325,7 +1380,7 @@
 - <details close>
   <summary>加入成為 swarm 的新 node 時，背後的網路如何通訊？</summary>
 
-  - <mark>TODO:Q</mark> 使用 `docker swarm join --token <TOKEN> <IP>:<PORT>` 在新主機加入成為 swarm 的新 node 時，背後的網路如何通訊？使用廣播？
+  - <mark>TODO:Q (下次 meeting 測試)</mark> 使用 `docker swarm join --token <TOKEN> <IP>:<PORT>` 在新主機加入成為 swarm 的新 node 時，背後的網路如何通訊？使用廣播？
 
   </details>
 
@@ -1661,6 +1716,26 @@
 
         </details>
 
+      <!-- unshare -->
+
+      - <details close>
+        <summary><code>unshare</code></summary>
+
+        - 建立新的命名空間並在其中執行給定的程式
+        - `sudo unshare --pid --mount-proc --fork ps ax`
+
+        </details>
+
+      <!-- lsns -->
+
+      - <details close>
+        <summary><code>lsns</code></summary>
+
+        - 列出可存取命名空間的資訊
+        - `sudo lsns -t pid`
+
+        </details>
+
     - 相關檔案位置
 
       <!-- /etc/resolv.conf -->
@@ -1674,6 +1749,17 @@
 
           - ubuntu: `systemd-resolve --status`
           - mac: `scutil --dns`
+
+        </details>
+
+      <!-- /proc/[PID]/status -->
+
+      - <details close>
+        <summary><code>/proc/[PID]/status</code></summary>
+
+        - 存放該 process 的狀態
+        - `sudo cat /proc/6111/status | grep NSpid`
+          - 可以查看該 process 與 container 內部的 PID 轉換
 
         </details>
 
@@ -1717,9 +1803,8 @@
 - <details close>
   <summary>host process VS container process</summary>
 
-  - [Host PID of a Process Running in a Docker Container]
-    解釋 host process VS container process
-  - <mark>TODO:</mark> 照著範例走一次
+  - REF: [Host PID of a Process Running in a Docker Container]
+  - 其中透過 `sudo cat /proc/[PID]/status | grep NSpid` 查看了 host process 與 container process 的 PID 轉換
 
   </details>
 
@@ -1728,19 +1813,40 @@
 - <details close>
   <summary>docker.sock</summary>
 
-  > [掛載 docker.sock 的用意？] | [Docker Daemon 的 Unix Socket & TCP Socket]
+  <!-- 相關情境與用法 -->
 
-  - <mark>TODO:</mark> 研究哪些情況該用與不用 `docker.sock`
-  - <mark>TODO:</mark> 更深入研究 `docker.sock` ＆ `Docker daemon`
+  - <details close>
+    <summary>相關情境與用法</summary>
 
-  </details>
+    - mount 主機上的 docker.sock 資料夾，一般用於本地容器的監控，log 採集等
 
-<!-- docker.socket 跟 docker.service 的關係 -->
+      - REF: [掛載 docker.sock 的用意？] | [Docker Daemon 的 Unix Socket & TCP Socket]
 
-- <details close>
-  <summary>docker.socket VS docker.service</summary>
+    - 當想使用的並非預設的 sock 時，需要自己設定 docker.sock
 
-  ![](https://i.imgur.com/aaOKVwD.png)
+    - 若使用 TCP Socket 需設定為 TLS 模式，較為安全
+
+      - REF: [Securing client and daemon communication]
+
+    </details>
+
+  <!-- `docker.sock` ＆ `Docker daemon` -->
+
+  - <details close>
+    <summary><code>docker.sock</code> & <code>Docker daemon</code></summary>
+
+    ![](https://i.imgur.com/aaOKVwD.png)
+
+    </details>
+
+  <!-- docker.socket 跟 docker.service 的關係 -->
+
+  - <details close>
+    <summary><code>docker.socket</code> & <code>docker.service</code></summary>
+
+    ![](https://i.imgur.com/aaOKVwD.png)
+
+    </details>
 
   </details>
 
@@ -1763,27 +1869,10 @@
     - k8s kubelet CRI 演進
 
       ![](../src/image/kubelet_CRI.png)
+      ![](../src/image/kubelet_CRI2.png){ width=100% }
 
-    - k8s 不維護 `dockershim`，dockershim 是 kubelet 與 docker 的 CRI 接口
-
-  </details>
-
-<!-- containerd -->
-
-- <details close>
-  <summary>containerd</summary>
-
-  - 一個開源的 container runtime
-  - docker 即是使用 containerd
-
-  ![](../src/image/GPT_containerd.png)
+    - k8s 不繼續維護 `dockershim` (kubelet 與 docker 的 CRI 接口)
 
   </details>
 
 ---
-
-## <mark>TODO:</mark>
-
-- 再研究 docker version 跟 docker info 裡的資訊
-
-- secret 操作一遍
