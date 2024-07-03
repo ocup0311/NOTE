@@ -155,9 +155,9 @@
 
   - 圖說
 
-    ![](../src/image/Docker_Containerd_RunC1.png){ width=90% }
-    ![](../src/image/Docker_Containerd_RunC2.jpeg){ width=90% }
-    ![](../src/image/Docker_Containerd_RunC3.png){ width=90% }
+    ![](../src/image/Docker_Containerd_RunC1.png)
+    ![](../src/image/Docker_Containerd_RunC2.jpeg)
+    ![](../src/image/Docker_Containerd_RunC3.png)
 
   </details>
 
@@ -750,8 +750,8 @@
         - ubuntu 若兩個 namespace 中的 eth 名稱一樣，則會分配同一個 mac address
         - 需注意是否需要設定 bridge 的 icmp FORWARD
 
-        ![](../src/image/Q_network_namespace.png){ width=90% }
-        ![](../src/image/A_network_namespace.png){ width=90% }
+        ![](../src/image/Q_network_namespace.png)
+        ![](../src/image/A_network_namespace.png)
 
         </details>
 
@@ -1869,7 +1869,7 @@
     - k8s kubelet CRI 演進
 
       ![](../src/image/kubelet_CRI.png)
-      ![](../src/image/kubelet_CRI2.png){ width=100% }
+      ![](../src/image/kubelet_CRI2.png)
 
     - k8s 不繼續維護 `dockershim` (kubelet 與 docker 的 CRI 接口)
 
