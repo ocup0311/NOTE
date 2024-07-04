@@ -974,7 +974,7 @@
   - <details close>
     <summary>Covering Index</summary>
 
-    - 前提要是 Clustered Index
+    - 只要 index 包含所有想查詢的 col，即為 Covering Index
     - 讓 index 中包含一些資料，使得查詢時可以直接從 index 取得資料
     - REF
 
@@ -1000,8 +1000,12 @@
     <summary>ICP (Index Condition Pushdown)</summary>
 
     - 索引條件下推（Index Condition Pushdown，ICP）
-    - 過濾的動作由下層的存儲引擎層通過使用索引來完成，而不需要上推到 Server 層進行處理
     - 預設開啟
+    - 允許在 `存儲引擎層` 篩選條件，從而利用 index 過濾掉不符合的 row。而不需要將所有匹配的 index key 上傳到 `MySQL Server 層` 進行處理
+    - EXPLAIN 中 `Extra: Using index condition` 即表示此查詢使用到 ICP
+    - 範例
+
+      ![](./src/image/GPT_ICP.png)
 
     </details>
 
