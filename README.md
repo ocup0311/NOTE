@@ -8,7 +8,7 @@
 - [Docker](./DevOps/Docker/note/note.md) | [Kubernetes](./DevOps/Kubernetes/note/note.md)
 - [Ansible](./DevOps/Ansible/note/note.md) | [Vagrant](./DevOps/Vagrant/note/note.md) | [Linux](./OS/Linux/note/base.md)
 - [MySQL](./DataBase/note/MySQL/note.md) | [MongoDB](./DataBase/note/MongoDB/note.md)
-- [TypeScript](./Language/TypeScript/note/base.md) | [JavaScript](./Language/JavaScript/note/base.md)
+- [TypeScript](./Language/TypeScript/note/base.md) | [JavaScript](./Language/JavaScript/note/base.md) | [NodeJS](./Language/JavaScript/note/Node.md) | [C](./Language/C/note/base.md) | [Golang](./Language/Golang/note/base.md)
 - [CORS](./Web/note/CORS.md) | [HTTP](./Web/note/HTTP.md) | [Web](./Web/note/Web.md) | [Server](./Web/note/Server.md) | [DOM](./FrontEnd/note/DOM.md)
 - [Functional Programming](./Pattern/FP/note/base.md)
 - [基礎演算法](https://github.com/ocup0311/Algorithm)
