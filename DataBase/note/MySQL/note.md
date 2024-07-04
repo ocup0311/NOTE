@@ -2,6 +2,10 @@
 
 <!----------- ref start ----------->
 
+[一起學習Mysql索引二（索引的高效能策略）]: https://mp.weixin.qq.com/s?__biz=MzI0MDEzODc5MA==&mid=2247483930&idx=1&sn=1514297d01e62af4185622c6f87ce99f
+[MySQL索引背後的資料結構與演算法原理]: http://blog.codinglabs.org/articles/theory-of-mysql-index.html
+[MySQL ICP Doc]: https://dev.mysql.com/doc/refman/8.4/en/index-condition-pushdown-optimization.html
+[MySQL 系列文]: https://ithelp.ithome.com.tw/users/20124671/articles
 [ON UPDATE/DELETE 作用]: https://blog.csdn.net/u013636377/article/details/51313669
 [MariaDB Error Codes]: https://mariadb.com/kb/en/mariadb-error-codes/
 [Prisma Doc: Data Proxy]: https://www.prisma.io/docs/data-platform/data-proxy
@@ -47,11 +51,9 @@
 
 # MySQL
 
-## # <mark>待整理筆記區</mark>
-
-- `IFNULL()`、`CONVERT()`
-
----
+> DATE: 6, 7 (2023)
+> UPDATE: 7 (2024)
+> REF: [MySQL 系列文] | [MySQL 索引背後的資料結構與演算法原理] | [一起學習 Mysql 索引二（索引的高效能策略）]
 
 ## # 簡介
 
@@ -69,11 +71,11 @@
 
   ![](https://i.imgur.com/KydSI1d.png)
 
-## # 安裝
+<!-- ## # 安裝
 
-<mark>TODO:</mark> 再修改整理
+TODO: 再修改整理
 
-<!-- - 以`Homebrew`安裝
+- 以`Homebrew`安裝
 - 以`docker`啟動
 - `mysql_secure_installation`進行安全設置
 
@@ -999,10 +1001,19 @@
   - <details close>
     <summary>ICP (Index Condition Pushdown)</summary>
 
+    - REF: [MySQL ICP Doc]
     - 索引條件下推（Index Condition Pushdown，ICP）
     - 預設開啟
     - 允許在 `存儲引擎層` 篩選條件，從而利用 index 過濾掉不符合的 row。而不需要將所有匹配的 index key 上傳到 `MySQL Server 層` 進行處理
-    - EXPLAIN 中 `Extra: Using index condition` 即表示此查詢使用到 ICP
+    - `Extra: Using index condition` 即表示此查詢使用到 ICP
+    - 關閉 ICP
+
+      ![](./src/image/MySQL_without_ICP.png)
+
+    - 使用 ICP
+
+      ![](./src/image/MySQL_with_ICP.png)
+
     - 範例
 
       ![](./src/image/GPT_ICP.png)
@@ -1027,7 +1038,40 @@
 
 ## # 效能研究
 
-- REF: [MySQL EXPLAIN Extra 解析]
+<!-- 名詞解釋 -->
+
+- <details close>
+  <summary>名詞解釋</summary>
+
+  - REF: [MySQL EXPLAIN Extra 解析]
+
+  <!-- Extra -->
+
+  - <details close>
+    <summary>Extra</summary>
+
+    - `Using where`：在 全表 中，使用 where
+    - `Using index`：只在 index 中獲取資料，不用回表
+    - `Using where; Using index`：在該 index 中，使用 where，且不用回表
+    - `Using index condition`：使用到 ICP，在 index 中篩選好 WHERE 條件，只攜帶符合條件的 row 回表
+    - `Using filesort`
+    - `Using temporary`
+
+    </details>
+
+  <!-- type -->
+
+  - <details close>
+    <summary>type</summary>
+
+    - `all`：跑了整個全表
+    - `index`：跑了整個 index
+    - `range`：數個 ref
+    - `ref`：直達
+
+    </details>
+
+  </details>
 
 <!-- 使用 sql function 查詢，對 index 的影響 ( EX. CONCAT ) -->
 
@@ -1057,6 +1101,8 @@
   ![Index_VS_OrderBy1.png](./src/image/Index_VS_OrderBy1.png)
 
   - 若加上 WHERE 只取得某個區間，會依照區間大小選用 index。區間需要多小？
+
+    - 推測是直接判斷 head & tail，發現資料為回傳全表時，就直接不用 index
 
   ![Index_VS_OrderBy2.png](./src/image/Index_VS_OrderBy2.png)
 
@@ -1472,6 +1518,7 @@
   <summary>WHER 中使用 "!=" 可否使用 index</summary>
 
   - 舊版不行，新版可以
+  - 結論：本質上都是優化器去計算一下對應的二級索引數量佔所有記錄數量的比值，來決定是否使用 index
   - REF: [MySQL 中 IS NULL、IS NOT NULL、!= 不能用索引？]
 
   </details>
@@ -1487,9 +1534,6 @@
 
 ---
 
-# XX
+## # <mark>待整理筆記區</mark>
 
-- <details close>
-  <summary></summary>
-
-  </details>
+- `IFNULL()`、`CONVERT()`
