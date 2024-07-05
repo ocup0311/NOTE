@@ -66,8 +66,8 @@ void fn3()
 
 void fn4()
 {
-  char* s5 = get_string("s5:");
-  char* t5 = get_string("t5:");
+  char * s5 = get_string("s5:");
+  char * t5 = get_string("t5:");
 
   printf("s5: %s: %p\n", s5, s5);     // s5: abc: 0x7ff3f6004080
   printf("t5: %s: %p\n", t5, t5);     // t5: abc: 0x7ff3f60040a0
@@ -84,8 +84,8 @@ void fn4()
   printf("t1: %s: %p\n", t1, t1);     // t1: bbc: 0x7ff7b345c1c8
 
   //
-  char* s2 = "abc";
-  char* t2 = "abc";
+  char * s2 = "abc";
+  char * t2 = "abc";
   
   printf("2.\nt2: %s: %p\n", t2, t2); // t2: abc: 0x10caa6f5d
 

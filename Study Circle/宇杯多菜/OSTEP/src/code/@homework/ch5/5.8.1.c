@@ -8,7 +8,7 @@
 #include <sys/wait.h>
 
 // declare
-void do_pipe(int* pipefd);
+void do_pipe(int * pipefd);
 int isChild(int pid);
 
 // main
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 }
 
 // funciton
-void do_pipe(int* pipefd)
+void do_pipe(int * pipefd)
 {
 		if(pipe(pipefd) == -1)
 		{
