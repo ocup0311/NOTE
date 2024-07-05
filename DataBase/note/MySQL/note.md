@@ -57,7 +57,10 @@
 
 ## # 簡介
 
-- 定義：一般會把 `DBMS + Database` 這兩部分合稱 Database
+<!-- 定義：一般會把 `DBMS + Database` 這兩部分合稱 Database -->
+
+- <details close>
+  <summary>定義：一般會把 <code>DBMS + Database</code> 這兩部分合稱 Database</summary>
 
   - DBMS (Database Management System)
 
@@ -70,6 +73,17 @@
   <br>
 
   ![](https://i.imgur.com/KydSI1d.png)
+
+  </details>
+
+<!-- 查詢執行順序 -->
+
+- <details close>
+  <summary>查詢執行順序</summary>
+
+  ![](./src/image/SQL_Query_Execution_Order.jpg)
+
+  </details>
 
 <!-- ## # 安裝
 
