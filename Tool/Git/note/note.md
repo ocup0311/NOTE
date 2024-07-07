@@ -462,6 +462,83 @@
 
   </details>
 
+<!-- remote 觀念 -->
+
+- <details close>
+  <summary>remote</summary>
+
+  <!-- 分支 -->
+
+  - <details close>
+    <summary>分支</summary>
+
+    - 分支 & 追蹤分支
+
+      - 分支：refs/heads/ 中的那些
+      - 追蹤分支：refs/remotes/ 中的那些
+
+        - EX. 本地的 refs/remotes/origin/master，用來追蹤 origin remote 的 master
+
+    - 在本地有：本地分支 & 本地追蹤分支
+    - 在遠端有：遠端分支 & 遠端追蹤分支
+
+    </details>
+
+  <!-- refspec -->
+
+  - <details close>
+    <summary>refspec</summary>
+
+    - 定義：用來設定直接以 `git push` & `git fetch`，未指定 remote repo & branch 時，要執行的 repo、branch 組合 (設定檔：`.git/config`)
+
+    - 範例：
+
+      ```sh
+      [branch "master"]
+        remote = git@your/url.git
+        merge = refs/heads/master
+      [remote "origin"]
+        url = git@your/url.git
+        fetch = +refs/heads/master:refs/remotes/origin/master
+        fetch = +refs/heads/test:refs/remotes/origin/test
+      ```
+
+    - 其他：
+
+      - 沒設定也可以 `git push/fetch [remote_name] [branch_name]` 方式來 push/fetch
+
+    - 指令：
+
+      - 新增與移除 fetch 設定
+
+        ```sh
+        git config --add remote.origin.fetch +refs/heads/test:refs/remotes/origin/test
+        git config --unset remote.origin.fetch +refs/heads/test:refs/remotes/origin/test
+        ```
+
+      - 用 `git push --set-upstream` 來設定 push 對應的 remote:branch
+
+        - EX. 執行 `git push --set-upstream origin branchA`，會在 `.git\config` 增加以下內容：
+
+        - 意義：當想將本地 branchA 推送到遠端，預設的遠端為 origin，推送的時候要將變更合併到遠端的 refs/heads/branchA
+
+        ```sh
+        [branch "branchA"]
+        remote = origin
+        merge = refs/heads/branchA
+        ```
+
+    </details>
+
+  </details>
+
+- <details close>
+  <summary></summary>
+
+  -
+
+  </details>
+
 ## # 問題
 
 <!-- 關鍵字 -->
@@ -523,12 +600,13 @@
 
 - 補充學習：
 
-  <!--  -->
+  <!-- 指令文件：git help & git -h -->
 
   - <details close>
-    <summary></summary>
+    <summary>指令文件：<code>git help</code> & <code>git -h</code></summary>
 
-    -
+    - 指令簡易版文件參考 `git -h` (EX. `git commit -h`)
+    - 指令更多細節可參考 `git help` (EX. `git help commit`)
 
     </details>
 
