@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[Day 24 ~ 26 - 191010 學習筆記 Git]: https://ithelp.ithome.com.tw/articles/10226733
 [30 天精通 Git 版本控管]: https://ithelp.ithome.com.tw/users/20004901/ironman/525
 [使用 git commit template 管理 git log]: https://medium.com/dev-chill/%E4%BD%BF%E7%94%A8-git-commit-template-%E7%AE%A1%E7%90%86-git-log-cb70f95fda2f
 [.gitmessage.txt]: ../src/code/.gitmessage.txt
@@ -18,6 +19,8 @@
 > REF: [30 天精通 Git 版本控管]
 
 ## # 簡介
+
+- 參考以前的筆記 [Day 24 ~ 26 - 191010 學習筆記 Git]
 
 ## # 基礎
 
@@ -433,6 +436,27 @@
     - 時機：
 
     - 指令：
+
+      - `git rebase [commitID] -i`
+
+        - 可指定 Base 的起點 (rewinding head)，從 commitID 開始
+        - `-i` 可選擇要對途中每個 commit 做哪些動作 (pick, reword, edit, squash, fixup, ...)
+        - 有修改過的 commit(以及後續的 commit) 都會建立新的 commit 物件
+        - EX. 舉例以 edit 來移除該 commit 中的某個異動的流程
+
+          ```sh
+          # 1. 列出該 commit 所有的異動檔案名稱
+          $ git diff --name-only HEAD~
+
+          # 2. 將想要移出掉的異動檔案移出 index
+          $ git reset HEAD~ [path]
+
+          # 3. 將現況存進此 commit
+          $ git commit --amend
+
+          # 4. 繼續 rebase 後續動作
+          $ git rebase --continue
+          ```
 
     </details>
 
