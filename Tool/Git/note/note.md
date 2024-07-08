@@ -15,7 +15,7 @@
 
 # Git
 
-> DATE: 5, 6 (2024)
+> DATE: 5, 6, 7 (2024)
 > REF: [30 天精通 Git 版本控管]
 
 ## # 簡介
@@ -103,6 +103,15 @@
 
     - <details close>
       <summary>commit：包含 tree、parent、author、committer</summary>
+
+      <!-- stash -->
+
+      - <details close>
+        <summary>stash</summary>
+
+        - stash，在 refs/ 中只會紀錄一個最新的 stash，也就是 stash@{0}。其他則是記錄在 logs/refs/stash
+
+        </details>
 
       <!-- 什麼情況會造成合併三條以上分支？ -->
 
@@ -530,12 +539,35 @@
 
     </details>
 
-  </details>
+  <!-- 初始化相關 -->
 
-- <details close>
-  <summary></summary>
+  - <details close>
+    <summary>初始化相關</summary>
 
-  -
+    - `git checkout [branch_name]` 可直接建立本地分支
+
+      - EX. clone 之後，只有 remotes/origin/hotfix/test，可以 `git checkout hotfix/test` 建立本地 hotfix/test
+
+      ```sh
+      $ git branch -a
+      * master
+        remotes/origin/HEAD -> origin/master
+        remotes/origin/hotfix/test
+        remotes/origin/master
+
+      $ git checkout hotfix/test
+        Branch hotfix/test set up to track remote branch hotfix/test from origin.
+        Switched to a new branch 'hotfix/test'
+
+      $ git branch -a
+      * hotfix/test
+        master
+        remotes/origin/HEAD -> origin/master
+        remotes/origin/hotfix/test
+        remotes/origin/master
+      ```
+
+    </details>
 
   </details>
 
@@ -574,12 +606,33 @@
 
 - 小技巧：
 
-  <!--  -->
+  <!-- git shortlog -->
 
   - <details close>
-    <summary></summary>
+    <summary><code>git shortlog</code></summary>
 
-    -
+    - 查看每個 user 的統計
+    - `git shortlog -sne`
+
+    </details>
+
+  <!-- git clean -->
+
+  - <details close>
+    <summary>git clean</summary>
+
+    - 清除未被 git 追蹤的檔案
+    - `git clean -n`
+    - `git clean -x`：會刪除包含被 .gitignore 的檔案
+
+    </details>
+
+  <!-- git blame -->
+
+  - <details close>
+    <summary><code>git blame</code></summary>
+
+    - 查看特定檔案的 commit 紀錄
 
     </details>
 
@@ -638,12 +691,7 @@
 
 ---
 
-## <mark># TODO: 未整理</mark>
+## TODO:
 
-- 細節觀察：
-
-  - stash，在 refs/ 中只會紀錄一個最新的 stash，也就是 stash@{0}。其他則是記錄在 logs/refs/stash
-
-  -
-
-- TODO: 結束後擬定一個常用動作的 SOP
+- 擬定一些 SOP
+- 新增各種 flow (git flow、github flow...etc)
