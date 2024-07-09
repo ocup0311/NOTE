@@ -16,16 +16,176 @@
 
 # Generative AI (生成式人工智慧)
 
-> DATE: 6 (2024)
+> DATE: 6, 7 (2024)
 > REF: [生成式 AI 導論 2024 - 李弘毅] | [生成式 AI 導論 - 作業] | [跟李沐学 AI] | [Andrew Ng]
 
 ## # 簡介
 
-## # 安裝與設定
+- 定義：機器產生複雜(近乎無法窮舉的)有結構的物件
 
-## # 基礎
+- ML：大約是讓機器從資料中自動找出 function
 
-## # 問題
+  - Deep Learning (DL)：一種 ML 技術
+    - Neural Nertwork：有非常大量參數的 function
+      - Transformer：Neural Nertwork 的一種，目前 GPT 用的模型
+  - Structured Learning (Generative Learning 概念的前身)
+
+- 名詞：
+
+  - Training = Learning
+  - Testing = Inference
+  - Autoregressive Generative：圖片用的
+  - Self-Supervised Learning (自監督式學習)：AI 自己做網路爬蟲學習，不需人工介入
+  - Supervised Learning (監督式學習)：人工指導訓練
+  - Reinforcement Learning (增強式學習) (RL)
+  - RLHF (Reinforcement Learning from Human Feedback) & RLAIF
+  - Reward Model
+
+- 名詞 2：
+
+  - Agentic AI
+  - Policy Network & Value Network
+  - MAMBA Model & SSM (Selective State Space Model)
+
+- Inference Optimization (推理增強 or 推理優化)
+
+  - 不訓練模型，強化模型的方式
+  - 種類簡介
+
+    - In-Context Learning：沒有真的訓練到模型，而是提供範例，讓他讀懂輸入的範例後輸出
+    - Constitution AI：可放在中間，將第一版回答先不輸出，先透過 Constitution AI 進行審視，再將審視後的回答輸出
+    - Chain of Thoughts (CoT)：將問題拆解步驟，一步一步去問
+    - Self-Consistency (SC)：自己問多次，選出最多數相同的回答，當作答案 (這件事可以讓 AI 自己做？該做幾次？)
+    - CoT-SC：CoT 之後，最後結果才 SC
+    - Tree of Thoughts (ToT)：CoT 後，並且每一步驟都
+
+      - REF: [Tree of Thoughts: Deliberate Problem Solving with Large Language Models]
+
+    - Algorithm of Thoughts (AoT)
+    - Graph of Thoughts (GoT)
+    - Program of Thoughts (PoT)：叫 AI 先列程式碼再執行，來解決問題 (例如算數學，叫他列出計算該題的程式碼，再執行取得答案)
+    - Retrieval Augmented Generation (RAG)：讓他搜尋更多資料再回答
+    - Exchange of Thoughts (EoT)：讓多個模型間互相討論 (可加入一個裁判模型判斷何時討論達共識後輸出)
+
+    ![ToT - Tree of Thoughts: Deliberate Problem Solving with Large Language Models](../src/image/ToT.png)
+    ![AoT,GoT](../src/image/AoT_GoT.png)
+
+- [AnyTool: Self-Reflective, Hierarchical Agents for Large-Scale API Calls]
+
+  - 解釋 AnyTool 如何讓 LLM 快速選擇到適合的工具的原理
+
+  ![AnyTool](../src/image/AnyTool.png)
+
+- Decoder-Only Model vs. Encoder-Decoder Model
+
+- FrugalGPT
+
+  - 簡介：LLM cascade。訓練 Scorer 模型，讓他判斷出最適合用來回答各類問題的模型，讓合適的模型做合適的事
+
+  - 影片：[FrugalGPT: 來看看窮人怎麼用省錢的方式來使用]
+  - 論文：[FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance]
+
+- 打造未來專案團隊
+
+  - 人類可以專注於：訓練出每個專業領域的模型，每個模型當作一個團隊，讓每個模型分工、互相合作討論去完成專案
+
+  - 設計思路範例：[Generative Agents: Interactive Simulacra of Human Behavior]
+
+    - Reflection: 自己內部的想法延伸，對事件的詮釋
+    - Observation: 觀察外部的事件
+
+## # ML
+
+- 簡介：目標是找出模型參數 (Parameters)
+
+  ![](../src/image/ML_Parameters.png)
+
+- 兩個步驟
+
+  - Training / Learning (訓練 / 學習)：設定超參數,透過最佳化找出參數
+
+    - 首先給定一組函式的 Initial Parameters，餵以訓練資料，透過設定的 Hyperparameters 進行最佳化，得到一組從 Initial Parameters 修改而來的 Parameters
+    - 其中人類不斷設定調整 Hyperparameters 來執行最佳化，以獲取最合理的 Parameters
+    - 算力，即是用在最佳化過程中所需
+
+  - Testing / Inference (測試 / 推論)：使用已訓練的參數進行測試 (生成)
+
+- 三大階段
+
+  - Pre-training (Self-Supervised Learning)
+
+    - 自我學習，通過大量文字資料進行訓練
+
+    - 資料清理 (filter)
+
+      - 對訓練資料來源，先進行清理
+      - 去除重複資料：一些重複的內容，如廣告詞，只當作一份資料來進行訓練。避免將其重複訓練，可能會加重生成該文字的比重
+
+      ![](../src/image/ML_filter.png)
+
+  - Instruction Fine-tuning (Supervised Learning)
+
+    - 通過人類標註資料
+    - 專才 vs 通才
+    - 重點在於高品質的資料，不在數量 (數量級約 10k)
+    - 更多高品質資料 -> 搶使用者 -> Meta LLaMA 釋出 -> 人人可訓練 LLM (建立在 LLaMA 之上)
+    - Adapter 技巧：
+
+      - EX. LoRA
+      - 不改變 Pre-training 得到的參數，而再新增多的參數疊加上去
+      - 通常數量遠小於 Pre-training 得到的參數
+      - 優點能保留更多原貌較穩定，且資源消耗小很多
+
+    - 精進生成過程，不問結果
+
+      ```txt
+      EX.
+      這是蘋 -> 這是蘋果 Ｏ
+      這是蘋 -> 這是蘋行 Ｘ
+      ```
+
+  - RLHF (Reinforcement Learning from Human Feedback)
+
+    - 根據用戶反饋進行學習與調整
+    - 簡單說，提高 & 降低 某種結果的生成機率
+    - EX. Proximal Policy Optimization (PPO)、TRPO（Trust Region Policy Optimization）
+    - RLAIF：使用 Reward Model 模擬人類反饋
+    - RLHF -> RLAIF (當 AI 比人類更能判斷好壞)
+    - 精進生成結果，不問過程
+
+      ```txt
+      EX.
+      這是蘋果 Ｏ
+      這是梨子 Ｘ
+      ```
+
+- 名詞
+
+  - overfitting
+
+    - 訓練成功，測試失敗
+    - 訓練用的資料能成功辨別，但再拿其他資料來測試卻失敗
+    - EX. 訓練結果判定黑色都是貓，黃色都是狗
+
+  - Parameters
+
+    - Hyperparameters (超參數)
+
+      - 也就是工程師在調的參數
+      - 用以執行最佳化過程的參數，而得到此模型函數的 Parameters
+
+    - Initial Parameters (初始參數)
+
+      - 預設的 Parameters，協助訓練出 Parameters
+      - 有給定 Initial Parameters，最後訓練出的 Parameters 會較為接近 Initial Parameters
+      - 最初隨機給定，重複訓練時再將之前得到的結果設為 Initial Parameters
+
+    - Parameters (參數)
+
+      - 訓練後生成的參數
+      - 訓練好的模型函數中的參數
+
+    ![](../src/image/GPT_Parameters.png)
 
 ## # 其他補充
 
@@ -36,10 +196,6 @@
 - 小工具：
 
 - 補充學習：
-
----
-
-## # 踩雷實錄
 
 ---
 
@@ -123,66 +279,4 @@
 
 ## # <mark>TODO:待整理筆記</mark>
 
-- 定義：機器產生複雜(近乎無法窮舉的)有結構的物件
-
-- ML：大約是讓機器從資料中自動找出 function
-
-  - Deep Learning (DL)：一種 ML 技術
-    - Neural Nertwork：有非常大量參數的 function
-      - Transformer：Neural Nertwork 的一種，目前 GPT 用的模型
-  - Structured Learning (Generative Learning 概念的前身)
-
-- 名詞：
-
-  - training = learning
-  - testing = inference
-  - Autoregressive Generative：圖片用的
-  - Supervised Learning (督導式學習)
-  - Reinforcement Learning (增強式學習) (RL)
-
-- Inference Optimization (推理增強 or 推理優化)
-
-  - 不訓練模型，強化模型的方式
-  - 種類簡介
-
-    - In-Context Learning：沒有真的訓練到模型，而是提供範例，讓他讀懂輸入的範例後輸出
-    - Constitution AI：可放在中間，將第一版回答先不輸出，先透過 Constitution AI 進行審視，再將審視後的回答輸出
-    - Chain of Thoughts (CoT)：將問題拆解步驟，一步一步去問
-    - Self-Consistency (SC)：自己問多次，選出最多數相同的回答，當作答案 (這件事可以讓 AI 自己做？該做幾次？)
-    - CoT-SC：CoT 之後，最後結果才 SC
-    - Tree of Thoughts (ToT)：CoT 後，並且每一步驟都
-
-      - REF: [Tree of Thoughts: Deliberate Problem Solving with Large Language Models]
-
-    - Algorithm of Thoughts (AoT)
-    - Graph of Thoughts (GoT)
-    - Program of Thoughts (PoT)：叫 AI 先列程式碼再執行，來解決問題 (例如算數學，叫他列出計算該題的程式碼，再執行取得答案)
-    - Retrieval Augmented Generation (RAG)：讓他搜尋更多資料再回答
-    - Exchange of Thoughts (EoT)：讓多個模型間互相討論 (可加入一個裁判模型判斷何時討論達共識後輸出)
-
-    ![ToT - Tree of Thoughts: Deliberate Problem Solving with Large Language Models](../src/image/ToT.png)
-    ![AoT,GoT](../src/image/AoT_GoT.png)
-
-- [AnyTool: Self-Reflective, Hierarchical Agents for Large-Scale API Calls]
-
-  - 解釋 AnyTool 如何讓 LLM 快速選擇到適合的工具的原理
-
-  ![AnyTool](../src/image/AnyTool.png)
-
-- Decoder-Only Model vs. Encoder-Decoder Model
-
-- FrugalGPT
-
-  - 簡介：LLM cascade。訓練 Scorer 模型，讓他判斷出最適合用來回答各類問題的模型，讓合適的模型做合適的事
-
-  - 影片：[FrugalGPT: 來看看窮人怎麼用省錢的方式來使用]
-  - 論文：[FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance]
-
-- 打造未來專案團隊
-
-  - 人類可以專注於：訓練出每個專業領域的模型，每個模型當作一個團隊，讓每個模型分工、互相合作討論去完成專案
-
-  - 設計思路範例：[Generative Agents: Interactive Simulacra of Human Behavior]
-
-    - Reflection: 自己內部的想法延伸，對事件的詮釋
-    - Observation: 觀察外部的事件
+-
