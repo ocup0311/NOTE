@@ -2,6 +2,11 @@
 
 <!----------- ref start ----------->
 
+[HW3]: https://colab.research.google.com/drive/1IRARv6A-3gxzczK6akw0mbb_2wVd0GeB?usp=sharing
+[OpenAI API 文件]: https://platform.openai.com/docs/api-reference
+[Gemini API 文件]: https://ai.google.dev/api/python/google/generativeai
+[AI 輸出的調節術：Temperature 與 Top P]: https://medium.com/seaniap/ai輸出的調節術-了解openai的temperature與top-p參數-d849e29dc505
+[Exploring Efficient-tuning Methods in Self-supervised Speech Models]: https://arxiv.org/pdf/2210.06175
 [Generative Agents: Interactive Simulacra of Human Behavior]: https://arxiv.org/pdf/2304.03442
 [FrugalGPT: 來看看窮人怎麼用省錢的方式來使用]: https://youtu.be/vxxPtDCb9Go
 [FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance]: https://arxiv.org/pdf/2305.05176
@@ -127,10 +132,11 @@
 
     - 通過人類標註資料
     - 專才 vs 通才
-    - 重點在於高品質的資料，不在數量 (數量級約 10k)
+    - 重點在於高品質的資料，不在數量 (數量級約 10k)，用以畫龍點睛
     - 更多高品質資料 -> 搶使用者 -> Meta LLaMA 釋出 -> 人人可訓練 LLM (建立在 LLaMA 之上)
     - Adapter 技巧：
 
+      - [Exploring Efficient-tuning Methods in Self-supervised Speech Models]
       - EX. LoRA
       - 不改變 Pre-training 得到的參數，而再新增多的參數疊加上去
       - 通常數量遠小於 Pre-training 得到的參數
@@ -186,6 +192,42 @@
       - 訓練好的模型函數中的參數
 
     ![](../src/image/GPT_Parameters.png)
+
+## # 實作演練
+
+### 1. 使用 AI 搭建自己的應用
+
+- Colab & Gradio
+
+  - Colab
+
+    - 提供免費 GPU 額度
+    - 可直接在平台上筆記中執行程式碼
+    - 步驟：複製筆記 -> 連線 -> 執行程式區塊 -> 輸出 -> 檔案存進主機
+
+  - Gradio
+
+    - 可快速搭建和部署互動式機器學習應用和模型接口，讓用戶可以通過網頁與機器學習模型進行互動
+
+- Generation Tuning Parameters
+
+  - DOC: [OpenAI API 文件] | [Gemini API 文件]
+
+  - 常用參數
+
+    - Max Tokens：避免過長或不相關的回應
+
+    - Temperature & Top-p
+
+      - REF: [AI 輸出的調節術：Temperature 與 Top P]
+
+    - Frequency Penalty & Presence Penalty
+
+      - Frequency Penalty：懲罰模型重複使用同一單詞的頻率
+
+      - Presence Penalty：懲罰模型在回應中多次引入相同概念
+
+- 練習：[HW3]
 
 ## # 其他補充
 
@@ -278,5 +320,3 @@
 ---
 
 ## # <mark>TODO:待整理筆記</mark>
-
--
