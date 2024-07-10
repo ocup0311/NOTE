@@ -2,6 +2,12 @@
 
 <!----------- ref start ----------->
 
+[GitHub Doc: GitHub Flow]: https://docs.github.com/en/get-started/using-github/github-flow
+[GitLab Flow - Jadson José dos Santos, PhD]: https://www.linkedin.com/pulse/gitlab-flow-jadson-santos/
+[Contributing Guide when you fork a repository]: https://medium.com/@rishabhmittal200/contributing-guide-when-you-fork-a-repository-3b97657b01fb
+[Choosing the Right Git Branching Strategy: A Comparative Analysis]: https://medium.com/@sreekanth.thummala/choosing-the-right-git-branching-strategy-a-comparative-analysis-f5e635443423
+[What Are the Best Git Branching Strategies]: https://www.abtasty.com/blog/git-branching-strategies/
+[TBD - TW]: https://tw.trunkbaseddevelopment.com/
 [Day 24 ~ 26 - 191010 學習筆記 Git]: https://ithelp.ithome.com.tw/articles/10226733
 [30 天精通 Git 版本控管]: https://ithelp.ithome.com.tw/users/20004901/ironman/525
 [使用 git commit template 管理 git log]: https://medium.com/dev-chill/%E4%BD%BF%E7%94%A8-git-commit-template-%E7%AE%A1%E7%90%86-git-log-cb70f95fda2f
@@ -571,6 +577,107 @@
 
   </details>
 
+## # Workflow
+
+<!-- Git Flow -->
+
+- <details close>
+  <summary>Git Flow</summary>
+
+  ![](../src/image/Git_Flow.png)
+
+  </details>
+
+<!-- GitHub Flow -->
+
+- <details close>
+  <summary>GitHub Flow</summary>
+
+  - REF: [GitHub Doc: GitHub Flow]
+  - NOTE:
+
+    - 簡單流程快速迭代
+    - PR、code review 流程
+    - 相較於 TBD，GitHub Flow 的 Feature 分支存活較久
+
+  ![](../src/image/GitHub_Flow.png)
+
+  </details>
+
+<!-- GitLab Flow -->
+
+- <details close>
+  <summary>GitLab Flow</summary>
+
+  - REF: [GitLab Flow - Jadson José dos Santos, PhD]
+  - NOTE:
+
+    - 多開幾層做環境測試，一層層往上推
+    - 有 bug 被拉回來後，再一層層往上推，不像 Git Flow 有 hotfix
+
+  ![](../src/image/GitLab_Flow.png)
+
+  </details>
+
+<!-- Forking Workflow -->
+
+- <details close>
+  <summary>Forking Workflow</summary>
+
+  - REF: [Contributing Guide when you fork a repository]
+
+  ![](../src/image/Fork_Workflow.png)
+
+  </details>
+
+<!-- Trunk-Based Development (TBD) -->
+
+- <details close>
+  <summary>Trunk-Based Development (TBD)</summary>
+
+  - REF: [TBD - TW]
+
+  - NOTE:
+
+    - 盡可能讓所有變動都能在一個 main 上看見
+
+  ![](../src/image/TBD_Flow.png)
+
+  </details>
+
+<!-- Workflow 選擇與比較 -->
+
+- <details close>
+  <summary>VS. Workflow 選擇與比較</summary>
+
+  <!-- REF: -->
+
+  - REF:
+
+    - [Choosing the Right Git Branching Strategy: A Comparative Analysis]
+    - [What Are the Best Git Branching Strategies]
+
+  <!-- GPT -->
+
+  - <details close>
+    <summary>GPT</summary>
+
+    - 中心思想
+
+      ![](../src/image/GPT_flow_core_concept.png)
+
+    - 使用情境
+
+      ![](../src/image/GPT_flow_use_case.png)
+
+    - 主要細節差異
+
+      ![](../src/image/GPT_flow_key_differences.png)
+
+    </details>
+
+  </details>
+
 ## # 問題
 
 <!-- 關鍵字 -->
@@ -691,7 +798,6 @@
 
 ---
 
-## TODO:
+## # TODO:
 
 - 擬定一些 SOP
-- 新增各種 flow (git flow、github flow...etc)
