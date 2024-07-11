@@ -2,6 +2,11 @@
 
 <!----------- ref start ----------->
 
+[什麼是人工智慧領域模式的 temperature 參數？]: https://xie.infoq.cn/article/5c762f4f8f9731884bc7107ff
+[Softmax function]: https://en.wikipedia.org/wiki/Softmax_function
+[What is the "temperature" in the GPT models?]: https://ai.stackexchange.com/questions/32477/what-is-the-temperature-in-the-gpt-models
+[Foundation model parameters: decoding and stopping criteria]: https://www.ibm.com/docs/en/watsonx/saas?topic=lab-model-parameters-prompting
+[大模型推理常見取樣策略：Top-k, Top-p, Temperature, Beam Search]: https://blog.csdn.net/qq_43243579/article/details/136331123
 [HW3]: https://colab.research.google.com/drive/1IRARv6A-3gxzczK6akw0mbb_2wVd0GeB?usp=sharing
 [OpenAI API 文件]: https://platform.openai.com/docs/api-reference
 [Gemini API 文件]: https://ai.google.dev/api/python/google/generativeai
@@ -219,19 +224,130 @@
 
     - Temperature & Top-p & Top-k
 
-      - REF: [AI 輸出的調節術：Temperature 與 Top P]
+      - REF:
 
-      - Temperature：影響每個候選人機率間的差距
-
-        - EX. [ 90% / 50% / 10% ] vs. [ 80% / 70% / 60% ]
-
-      - Top-p：設定候選人閾值
-
-        - EX. 只從 70% up 的選項中選出
+        - [AI 輸出的調節術：Temperature 與 Top P]
+        - [大模型推理常見取樣策略：Top-k, Top-p, Temperature, Beam Search]
+        - [Foundation model parameters: decoding and stopping criteria]
 
       - Top-k：設定候選人數量
 
-        - EX. 只從前五高機率的選項中選出
+        ```txt
+        // EX.原始機率：
+        A: 70%, B: 15%, C: 9%, D: 6%
+
+        // 設定 Top-k = 3 篩選後 -->
+        A: 70%, B: 15%, C: 9%, D: 0%
+
+        // 因為只篩選最高機率的前三個
+        ```
+
+      - Top-p：設定候選人累積閾值
+
+        ```txt
+        // EX.原始機率：
+        A: 70%, B: 15%, C: 9%, D: 6%
+
+        // 設定 Top-p = 0.8 篩選後 -->
+        A: 70%, B: 15%, C: 0%, D: 0%
+
+        // 因為 A + B 總機率始超過 80%
+        ```
+
+      - Temperature：調整每個候選人機率間的差距
+
+        - 也就是 Normalized (正規化) _(中國：歸一化 或 規範化)_
+        - 需注意每個模型參數範圍可能不同 (可能 0 ~ 2 或 0 ~ 1)
+        - 研究探討
+
+          - 注意：公式不確定，以下分別由 GPT 提供 ＆ 一些文章提及的公式
+
+          - 公式 1：文章提及
+
+            - REF:
+              - [What is the "temperature" in the GPT models?]
+              - [Softmax function]
+
+            ```txt
+            // EX. 原本機率
+            A: 70%, B: 15%, C: 9%, D: 6%
+
+            // Temperature = 1 計算後變為 -->
+            Result: A: 38%, B: 22%, C: 21%, D: 20%
+
+            // Temperature = 0.1 計算後變為 -->
+            Result: A: 99%, B: 0%, C: 0%, D: 0%
+
+            // Temperature = 2 計算後變為 -->
+            Result: A: 31%, B: 24%, C: 23%, D: 23%
+            ```
+
+            ![](../src/image/Temperature_function1.png)
+
+            ```py
+            import math
+
+            def normalize_by_temperature(initial_probs, t):
+              adjusted_probs = { k: math.exp(v / t) for k, v in initial_probs.items() }
+              sum_probs = sum(adjusted_probs.values())
+              normalized_probs = { k: round(v / sum_probs, 2) for k, v in adjusted_probs.items() }
+              return normalized_probs
+
+            initial_probabilities = { 'A': 0.70, 'B': 0.15, 'C': 0.09, 'D': 0.06 }
+
+            print("Temperature = 1\n", "Result: ", normalize_by_temperature(initial_probabilities, 1))
+            print("Temperature = 0.1\n", "Result: ", normalize_by_temperature(initial_probabilities, 0.1))
+            print("Temperature = 2\n", "Result: ", normalize_by_temperature(initial_probabilities, 2))
+
+
+            # Temperature = 1
+            # Result:  {'A': 0.38, 'B': 0.22, 'C': 0.21, 'D': 0.2}
+            # Temperature = 0.1
+            # Result:  {'A': 0.99, 'B': 0.0, 'C': 0.0, 'D': 0.0}
+            # Temperature = 2
+            # Result:  {'A': 0.31, 'B': 0.24, 'C': 0.23, 'D': 0.23}
+            ```
+
+          - 公式 2：GPT 提供
+
+            - REF: 類似 [什麼是人工智慧領域模式的 temperature 參數？]
+
+            ```txt
+            // EX. 原本機率
+            A: 70%, B: 15%, C: 9%, D: 6%
+
+            // Temperature = 0.7 計算後變為 -->
+            A: 83.75%, B: 9.27%, C: 4.47%, D: 2.50%
+
+            // Temperature = 2 計算後變為 -->
+            A: 47.30%, B: 21.89%, C: 16.96%, D: 13.85%
+            ```
+
+            ![](../src/image/Temperature_function2.png)
+
+            ```py
+            import math
+
+            def normalize_by_temperature(initial_probs, t):
+              adjusted_probs = { k: math.pow(v, 1 / t) for k, v in initial_probs.items() }
+              sum_probs = sum(adjusted_probs.values())
+              normalized_probs = { k: round(v / sum_probs, 2) for k, v in adjusted_probs.items() }
+              return normalized_probs
+
+            initial_probabilities = { 'A': 0.70, 'B': 0.15, 'C': 0.09, 'D': 0.06 }
+            print("Temperature = 0.7\n", "Result: ", normalize_by_temperature(initial_probabilities, 0.7))
+            print("Temperature = 2\n", "Result: ", normalize_by_temperature(initial_probabilities, 2))
+
+
+            # Temperature = 0.7
+            # Result:  {'A': 0.84, 'B': 0.09, 'C': 0.04, 'D': 0.03}
+            # Temperature = 1
+            # Result:  { 'A': 0.70, 'B': 0.15, 'C': 0.09, 'D': 0.06 }
+            # Temperature = 2
+            # Result:  {'A': 0.47, 'B': 0.22, 'C': 0.17, 'D': 0.14}
+            ```
+
+      - 計算過程：先 Top-k 過濾之後，再進行 Top-p 過濾，最後才進行 Temperature 計算
 
     - Frequency Penalty & Presence Penalty
 
