@@ -13,6 +13,7 @@
 - [Functional Programming](./Pattern/FP/note/base.md)
 - [基礎演算法](https://github.com/ocup0311/Algorithm)
 - [Git](./Tool/Git/note/note.md)
+- [AI](./AI/Generative%20AI/note/note.md)
 
 ### # 讀書會參與
 

@@ -215,17 +215,55 @@
 
   - 常用參數
 
-    - Max Tokens：避免過長或不相關的回應
+    - Max Tokens：限制回答的 Token 上限，避免過長或不相關的回應
 
-    - Temperature & Top-p
+    - Temperature & Top-p & Top-k
 
       - REF: [AI 輸出的調節術：Temperature 與 Top P]
+
+      - Temperature：影響每個候選人機率間的差距
+
+        - EX. [ 90% / 50% / 10% ] vs. [ 80% / 70% / 60% ]
+
+      - Top-p：設定候選人閾值
+
+        - EX. 只從 70% up 的選項中選出
+
+      - Top-k：設定候選人數量
+
+        - EX. 只從前五高機率的選項中選出
 
     - Frequency Penalty & Presence Penalty
 
       - Frequency Penalty：懲罰模型重複使用同一單詞的頻率
 
       - Presence Penalty：懲罰模型在回應中多次引入相同概念
+
+- openAI API
+
+  - Fine-tuning：openAI 有提供各種量級方法，但目前只能以 API，在他那裡訓練一個模型 instance
+  - Batch：可以非同步一次傳送一批請求 (費用有折扣)
+  - Model：選你要用的模型
+  - Moderation：內容審核
+
+  - 對話結構
+
+    - Assistant：將基本功能(Tool) 包裝成一組套路
+    - Thread：用以建立一個上下文空間
+    - Message：存放 Threads 所需的上下文
+    - Run：Thread 上的一次執行，一個 Run 執行一個 Assistant，或是另外寫 Run Steps
+
+  - 動作
+
+    - Modify：動態調整
+    - Retrieve：查詢當前配置
+
+  - Vector Store：
+
+    - 儲存向量化資料，可快速搜尋到類似的資料
+    - 可以補充生成式 AI 模型。其可以為生成式 AI 聊天機器人提供外部知識庫，並協助確保提供可信任的資訊，降低 AI 的幻覺
+
+  - Streaming：除了可以串流輸出即時結果，也能用來即時監控，即時動態調整
 
 - 練習：[HW3]
 
