@@ -2,6 +2,12 @@
 
 <!----------- ref start ----------->
 
+[Hugging Face 文件]: https://huggingface.co/docs/transformers/main/en/index
+[參考防幻覺參數：DoLa]: https://huggingface.co/docs/transformers/main/en/generation_strategies#dola-decoding
+[Temperature check: theory and practice for training models with softmax-cross-entropy losses]: https://openreview.net/pdf?id=LBA2Jj5Gqn
+[Understanding and Leveraging the Temperature Parameter in Generative Language Models]: https://www.linkedin.com/pulse/understanding-leveraging-temperature-parameter-language-ziga-bracko/
+[GPT-4 Technical Report]: https://cdn.openai.com/papers/gpt-4.pdf
+[Why the API output is inconsistent even after the temperature is set to 0]: https://community.openai.com/t/why-the-api-output-is-inconsistent-even-after-the-temperature-is-set-to-0/329541
 [什麼是人工智慧領域模式的 temperature 參數？]: https://xie.infoq.cn/article/5c762f4f8f9731884bc7107ff
 [Softmax function]: https://en.wikipedia.org/wiki/Softmax_function
 [What is the "temperature" in the GPT models?]: https://ai.stackexchange.com/questions/32477/what-is-the-temperature-in-the-gpt-models
@@ -214,9 +220,11 @@
 
     - 可快速搭建和部署互動式機器學習應用和模型接口，讓用戶可以通過網頁與機器學習模型進行互動
 
-- Generation Tuning Parameters
+- Generation Tuning Parameters (hyperparameter)
 
-  - DOC: [OpenAI API 文件] | [Gemini API 文件]
+  - DOC: [OpenAI API 文件] | [Gemini API 文件] | [Hugging Face 文件]
+
+  - 此階段都是在使用訓練後的模型，與 ML 調整的 hyperparameter 需作區別
 
   - 常用參數
 
@@ -229,6 +237,7 @@
         - [AI 輸出的調節術：Temperature 與 Top P]
         - [大模型推理常見取樣策略：Top-k, Top-p, Temperature, Beam Search]
         - [Foundation model parameters: decoding and stopping criteria]
+        - [Understanding and Leveraging the Temperature Parameter in Generative Language Models]
 
       - Top-k：設定候選人數量
 
@@ -256,31 +265,34 @@
 
       - Temperature：調整每個候選人機率間的差距
 
+        ```txt
+        // EX. 原本機率
+        A: 70%, B: 15%, C: 9%, D: 6%
+
+        // Temperature = 1 計算後變為 -->
+        Result: A: 70%, B: 15%, C: 9%, D: 6%
+
+        // Temperature = 0.1 計算後變為 -->
+        Result: A: 100%, B: 0%, C: 0%, D: 0%
+
+        // Temperature = 0.7 計算後變為 -->
+        A: 83.75%, B: 9.27%, C: 4.47%, D: 2.50%
+
+        // Temperature = 2 計算後變為 -->
+        Result: A: 47.30%, B: 21.89%, C: 16.96%, D: 13.85%
+        ```
+
+        - 論文：[Temperature check: theory and practice for training models with softmax-cross-entropy losses]
         - 也就是 Normalized (正規化) _(中國：歸一化 或 規範化)_
         - 需注意每個模型參數範圍可能不同 (可能 0 ~ 2 或 0 ~ 1)
-        - 研究探討
+        - 公式研究探討
 
-          - 注意：公式不確定，以下分別由 GPT 提供 ＆ 一些文章提及的公式
+          - 公式 1：文章提及用 Softmax
 
-          - 公式 1：文章提及
+            - REF：
 
-            - REF:
               - [What is the "temperature" in the GPT models?]
               - [Softmax function]
-
-            ```txt
-            // EX. 原本機率
-            A: 70%, B: 15%, C: 9%, D: 6%
-
-            // Temperature = 1 計算後變為 -->
-            Result: A: 38%, B: 22%, C: 21%, D: 20%
-
-            // Temperature = 0.1 計算後變為 -->
-            Result: A: 99%, B: 0%, C: 0%, D: 0%
-
-            // Temperature = 2 計算後變為 -->
-            Result: A: 31%, B: 24%, C: 23%, D: 23%
-            ```
 
             ![](../src/image/Temperature_function1.png)
 
@@ -288,40 +300,41 @@
             import math
 
             def normalize_by_temperature(initial_probs, t):
-              adjusted_probs = { k: math.exp(v / t) for k, v in initial_probs.items() }
+              logit_probs = { k: math.log(v) for k, v in initial_probs.items() }
+              adjusted_probs = { k: math.exp(v / t) for k, v in logit_probs.items() }
               sum_probs = sum(adjusted_probs.values())
-              normalized_probs = { k: round(v / sum_probs, 2) for k, v in adjusted_probs.items() }
+              normalized_probs = { k: v / sum_probs for k, v in adjusted_probs.items() }
               return normalized_probs
 
+            def format(input):
+              return { k: f"{round(v * 100, 2)}%" for k, v in input.items() }
+
+            # run
             initial_probabilities = { 'A': 0.70, 'B': 0.15, 'C': 0.09, 'D': 0.06 }
+            temperatures = [1, 0.1, 2]
 
-            print("Temperature = 1\n", "Result: ", normalize_by_temperature(initial_probabilities, 1))
-            print("Temperature = 0.1\n", "Result: ", normalize_by_temperature(initial_probabilities, 0.1))
-            print("Temperature = 2\n", "Result: ", normalize_by_temperature(initial_probabilities, 2))
+            print(f"原始機率: {format(initial_probabilities)}\n")
 
+            for t in temperatures:
+                result = format(normalize_by_temperature(initial_probabilities, t))
+                print(f"Temperature = {t}\nResult: {result}\n")
+
+            # 原始機率: {'A': '70.0%', 'B': '15.0%', 'C': '9.0%', 'D': '6.0%'}
 
             # Temperature = 1
-            # Result:  {'A': 0.38, 'B': 0.22, 'C': 0.21, 'D': 0.2}
+            # Result: {'A': '70.0%', 'B': '15.0%', 'C': '9.0%', 'D': '6.0%'}
+
+            # Temperature = 0.7
+            # Result: {'A': '83.75%', 'B': '9.27%', 'C': '4.47%', 'D': '2.5%'}
+
             # Temperature = 0.1
-            # Result:  {'A': 0.99, 'B': 0.0, 'C': 0.0, 'D': 0.0}
+            # Result: {'A': '100.0%', 'B': '0.0%', 'C': '0.0%', 'D': '0.0%'}
+
             # Temperature = 2
-            # Result:  {'A': 0.31, 'B': 0.24, 'C': 0.23, 'D': 0.23}
+            # Result: {'A': '47.3%', 'B': '21.89%', 'C': '16.96%', 'D': '13.85%'}
             ```
 
           - 公式 2：GPT 提供
-
-            - REF: 類似 [什麼是人工智慧領域模式的 temperature 參數？]
-
-            ```txt
-            // EX. 原本機率
-            A: 70%, B: 15%, C: 9%, D: 6%
-
-            // Temperature = 0.7 計算後變為 -->
-            A: 83.75%, B: 9.27%, C: 4.47%, D: 2.50%
-
-            // Temperature = 2 計算後變為 -->
-            A: 47.30%, B: 21.89%, C: 16.96%, D: 13.85%
-            ```
 
             ![](../src/image/Temperature_function2.png)
 
@@ -331,29 +344,72 @@
             def normalize_by_temperature(initial_probs, t):
               adjusted_probs = { k: math.pow(v, 1 / t) for k, v in initial_probs.items() }
               sum_probs = sum(adjusted_probs.values())
-              normalized_probs = { k: round(v / sum_probs, 2) for k, v in adjusted_probs.items() }
+              normalized_probs = { k: v / sum_probs for k, v in adjusted_probs.items() }
               return normalized_probs
 
-            initial_probabilities = { 'A': 0.70, 'B': 0.15, 'C': 0.09, 'D': 0.06 }
-            print("Temperature = 0.7\n", "Result: ", normalize_by_temperature(initial_probabilities, 0.7))
-            print("Temperature = 2\n", "Result: ", normalize_by_temperature(initial_probabilities, 2))
+            def format(input):
+              return { k: f"{round(v * 100, 2)}%" for k, v in input.items() }
 
+            # run
+            initial_probabilities = { 'A': 0.70, 'B': 0.15, 'C': 0.09, 'D': 0.06 }
+            temperatures = [1, 0.1, 0.7, 2]
+
+            print(f"原始機率: {format(initial_probabilities)}\n")
+
+            for t in temperatures:
+                result = format(normalize_by_temperature(initial_probabilities, t))
+                print(f"Temperature = {t}\nResult: {result}\n")
+
+            # 原始機率: {'A': '70.0%', 'B': '15.0%', 'C': '9.0%', 'D': '6.0%'}
+
+            # Temperature = 1
+            # Result: {'A': '70.0%', 'B': '15.0%', 'C': '9.0%', 'D': '6.0%'}
+
+            # Temperature = 0.1
+            # Result: {'A': '100.0%', 'B': '0.0%', 'C': '0.0%', 'D': '0.0%'}
 
             # Temperature = 0.7
-            # Result:  {'A': 0.84, 'B': 0.09, 'C': 0.04, 'D': 0.03}
-            # Temperature = 1
-            # Result:  { 'A': 0.70, 'B': 0.15, 'C': 0.09, 'D': 0.06 }
+            # Result: {'A': '83.75%', 'B': '9.27%', 'C': '4.47%', 'D': '2.5%'}
+
             # Temperature = 2
-            # Result:  {'A': 0.47, 'B': 0.22, 'C': 0.17, 'D': 0.14}
+            # Result: {'A': '47.3%', 'B': '21.89%', 'C': '16.96%', 'D': '13.85%'}
             ```
 
+          - 後記：
+
+            - 尋解初期：兩個公式對不起來，公式 2 結果符合預期效果，公式 1 在 Temperature = 1 時無法算回原始機率，但查到的內容都指向公式 1
+
+            - 再次尋解：發現原因是公式 1 不是直接將 機率 P 帶入公式計算，而是要先轉換成 logit (也就是 ln(P))，經過此處理後的公式，再做簡化轉換就會得到公式 2，因此兩個公式其實相同
+
+            - 數學補充：
+
+              - python: `math.log(x)`
+
+                - 數學意義為 `ln(x)`，也就是以 `e` 為底數對 x 取 log
+
+              - python: `math.exp(x)`
+
+                - 數學意義為 `e^x`，也就是 `e` 的 x 次方
+
+              - 數學簡化轉換回憶：
+
+                ![](../src/image/Temperature_math.png)
+
       - 計算過程：先 Top-k 過濾之後，再進行 Top-p 過濾，最後才進行 Temperature 計算
+
+      - 其他討論
+
+        - [Why the API output is inconsistent even after the temperature is set to 0]
 
     - Frequency Penalty & Presence Penalty
 
       - Frequency Penalty：懲罰模型重複使用同一單詞的頻率
 
       - Presence Penalty：懲罰模型在回應中多次引入相同概念
+
+  - 其他參數
+
+    - [參考防幻覺參數：DoLa]
 
 - openAI API
 
@@ -392,6 +448,10 @@
 - 小工具：
 
 - 補充學習：
+
+  - 論文
+
+    - [GPT-4 Technical Report]
 
 ---
 
