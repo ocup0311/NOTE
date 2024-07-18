@@ -7,26 +7,15 @@
 [kubeadm 官方]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
 [Kubernetes Best practices (官方)]: https://kubernetes.io/docs/setup/best-practices/
 [apt-key is deprecated]: https://itsfoss.com/apt-key-deprecated/
-[Ubuntu Server 如何永久儲存 iptables 的設定？]: https://magiclen.org/ubuntu-server-iptables-save-permanently/
+[Linux 如何永久儲存 iptables 的設定？]: https://magiclen.org/iptables-save-permanently/
 [K8sGPT]: https://k8sgpt.ai/
 
 <!------------ ref end ------------>
 
 # Kubernetes
 
-> DATE: 6 (2023)
+> DATE: 6 (2023) , 7 (2024)
 > REF: [CKA 考試完全指南（2022 版）] | [Kubernetes Best practices (官方)]
-
-## # <mark>待整理筆記</mark>
-
-## # 測試環境
-
-- <details close>
-  <summary></summary>
-
-  </details>
-
----
 
 ## # 簡介
 
@@ -36,10 +25,10 @@
 
   - Kubernets Master (control plane)
 
-    - API Server (kubectl)
-    - etcd (/etc distributed)：分散式鍵值存儲系統
-    - Controller Manager
-    - Scheduler
+    - API Server (kubectl)：Server
+    - etcd (/etc distributed)：分散式 key-value DB
+    - Controller Manager：管理不同的 Controller
+    - Scheduler：調度決定 Pod 在哪一個 Node 上運行
 
   - Worker Node
 
@@ -88,6 +77,11 @@
 
       - 禁用 SWAP
 
+        - SWAP：為記憶體管理技術，當物理記憶體不夠時，能借用一部分硬碟來儲存部分記憶體內容
+        - 因為 K8s 就是要用容器化方式來擴展，藉由硬體資訊來判斷如何分配，資源不夠就分配到其他硬體，而無需再用 SWAP 這種技術來緩解，反而使用了 SWAP 會讓 K8s 誤判硬體資源
+
+          ![](../src/image/GPT_K8s_SWAP_off.png)
+
     - 安裝 `CRI- container runtime`、`kubeadm`、`kubelet`、`kubectl`
 
       - 注意版本相容
@@ -98,13 +92,13 @@
 
   - `install.sh` 步驟
 
-    - 關閉 SWAP
+    - 安裝必須的基本工具
 
-      ![](../src/image/GPT_K8s_SWAP_off.png)
+    - 關閉 SWAP
 
     - 設定 Ports
 
-      - REF: [Ubuntu Server 如何永久儲存 iptables 的設定？]
+      - REF: [Linux 如何永久儲存 iptables 的設定？]
 
       - 所有默認端口都可以重新配置
 
@@ -112,6 +106,8 @@
         ![](../src/image/K8s_Ports_Protocols_worker.png)
 
       - `iptables` 設定防火牆，以較早設定的為主
+
+        - 因為符合條件後就會按照設定往下一步，所以更後面的設定就不會被經過
 
         ```sh
         # EX. 先設定 ACCEPT 再設定成 DROP，則為 ACCEPT
@@ -138,9 +134,9 @@
     - 設定 Kernel 網路參數
 
       - 新增在 `/etc/sysctl.d/kubernetes.conf`
-      - 設定可以使用 iptables 跟 ip forward
+      - 設定使 K8s 可以使用 `iptables` 跟 `ip forward`
 
-    - 安裝 apt repo
+    - 加入 apt repo
 
       - 有兩種方式設定 apt key，但 [apt-key is deprecated]，建議都改成用 `gpg` 自己管理
 
@@ -148,11 +144,23 @@
 
     - 安裝 kubeadm、kubelet、kubectl
 
+    - 調整為使用 `Systemd` 管理 Cgroup (而不使用 cgroupfs)
+
+      - 新版預設也已經改為使用 Systemd
+      - 優點：一致、穩定、兼容
+
+    - 鎖定版本，避免自動升級
+
+      - 透過 `apt-mark hold` 可以鎖定版本
+      - 使用特定版本的金鑰，更新版本也須記得更新金鑰
+
   - 安裝後啟動前，此時 kubelet 每隔幾秒就會重啟，因為它陷入一個等待 kubeadm 指令的死循環
 
   - 踩雷
 
     - `install.sh` 最後步驟安裝 kubelet, kubeadm, kubectl，無法一次成功
+
+      - 因為有修改到 `/etc/apt/sources.list.d/`，使 apt repo 有改變，所以需要再次 `apt update`
 
       ```sh
       # 錯誤訊息如下
@@ -161,10 +169,6 @@
       E: Unable to locate package kubectl
       E: No packages found
       ```
-
-      - 未知原因，目前為止都需要第二次執行 script 才成功
-
-      - 猜測：可能在安裝完 container runtime 後，apt update 才會出現 K8s 相關的套件，所以在該步驟前還得再做一次 apt update
 
 - 初始化
 
@@ -262,8 +266,15 @@
   <summary>CGroup Driver</summary>
 
   - container runtime 和 kubelet 需使用相同的 CGroup Driver
-  - 回頭詳細研究
+  - 使用不同的會造成哪些問題？
 
   </details>
 
 ---
+
+## # <mark>待整理筆記</mark>
+
+- CNI (Container Network Interface)
+
+4. 安裝
+5. 看文件 30
