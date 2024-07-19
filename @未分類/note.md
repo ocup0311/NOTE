@@ -165,3 +165,9 @@
   - [Not By AI]: https://notbyai.fyi/tw/
 
     - 用來標記創作作品為人類原創而非 AI
+
+- 監控
+
+  - [Real-time problem & outage monitoring](https://downdetector.com/)
+
+    - 監控各大服務的狀態

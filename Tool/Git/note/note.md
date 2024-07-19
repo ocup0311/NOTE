@@ -148,7 +148,7 @@
     - <details close>
       <summary>tree：包含 tree、blob</summary>
 
-      -
+      - 像是一個資料夾
 
       </details>
 
@@ -157,7 +157,16 @@
     - <details close>
       <summary>blob：包含完整一份 file 內容</summary>
 
-      -
+      - 只對內容做 hash，檔案名稱等資訊都寫在 tree
+      - EX. fileA.txt 與 fileB.txt，內容一模一樣，則只生成一個 blob
+
+        ```txt
+        # fileA.txt
+        此部分為內文...ABC
+
+        # fileB.txt
+        此部分為內文...ABC
+        ```
 
       </details>
 
