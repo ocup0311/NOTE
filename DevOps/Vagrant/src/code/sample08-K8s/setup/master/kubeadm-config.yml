@@ -1,0 +1,13 @@
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: '192.168.56.10'
+nodeRegistration:
+  kubeletExtraArgs:
+    node-ip: '192.168.56.10'
+
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+networking:
+  podSubnet: '10.244.0.0/16'

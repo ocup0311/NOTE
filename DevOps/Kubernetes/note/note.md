@@ -2,6 +2,11 @@
 
 <!----------- ref start ----------->
 
+[［回答］kubeadm init/join 設定 external/internal IPs]: https://github.com/kubernetes/kubeadm/issues/1987#issuecomment-569074463
+[10-kubeadm.conf located under different folder]: https://github.com/kubernetes/kubeadm/issues/1575
+[Network Policy 插件]: https://kubernetes.io/docs/concepts/cluster-administration/addons/
+[Kubectl autocomplete 文件]: https://kubernetes.io/docs/reference/kubectl/cheatsheet/#kubectl-autocomplete
+[kubeadm configuration 文件]: https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2
 [CKA 考試完全指南（2022 版）]: https://www.udemy.com/course/k8s-chinese/
 [Play with Kubernetes]: https://labs.play-with-k8s.com/
 [kubeadm 官方]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
@@ -57,6 +62,8 @@
 
 ## # 安裝與設定
 
+- [參考腳本](../../Vagrant/src/code/sample08-K8s/README.md)
+
 - 安裝 kubeadm
 
   - [kubeadm 官方]
@@ -90,7 +97,7 @@
 
       - `container runtime` 和 `kubelet` 需使用相同的 CGroup Driver
 
-  - `install.sh` 步驟
+  - 步驟
 
     - 安裝必須的基本工具
 
@@ -156,36 +163,95 @@
 
   - 安裝後啟動前，此時 kubelet 每隔幾秒就會重啟，因為它陷入一個等待 kubeadm 指令的死循環
 
-  - 踩雷
-
-    - `install.sh` 最後步驟安裝 kubelet, kubeadm, kubectl，無法一次成功
-
-      - 因為有修改到 `/etc/apt/sources.list.d/`，使 apt repo 有改變，所以需要再次 `apt update`
-
-      ```sh
-      # 錯誤訊息如下
-      E: Unable to locate package kubelet
-      E: Unable to locate package kubeadm
-      E: Unable to locate package kubectl
-      E: No packages found
-      ```
-
 - 初始化
 
   - 步驟
 
-    - 快速範例：`sudo kubeadm init --apiserver-advertise-address=192.168.56.10  --pod-network-cidr=10.244.0.0/16`
-    -
+    - `kubeadm init`
+
+      - 快速範例：`sudo kubeadm init --apiserver-advertise-address=192.168.56.10  --pod-network-cidr=10.244.0.0/16`
+      - `--apiserver-advertise-address`：設定對外 API 的 ip
+      - `--pod-network-cidr`：設定內部 pod 網域 (cidr: Classless Inter-Domain Routing)
+      - 更多選項可改為寫在 config，EX. `sudo kubeadm init --config $CONFIG_FILE`
+        - REF: [kubeadm configuration 文件]
+
+    - 配置 kubeconfig
+
+      ```sh
+      mkdir -p $HOME/.kube
+      sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+      sudo chown $(id -u):$(id -g) $HOME/.kube/config
+      ```
+
+    - shell 自動補全
+
+      - REF: [Kubectl autocomplete 文件]
+
+      ```sh
+      # EX. Bash 自動補全設定
+
+      source <(kubectl completion bash)
+      echo "source <(kubectl completion bash)" >> ~/.bashrc
+      ```
+
+    - 部署 Network Policy (Flannel、Calico..etc)
+
+      - REF: [Network Policy 插件]
+      - 選擇一個 Network Policy，按官方說明操作
+      - EX. Flannel 適合學習環境
+
+        - 下載 yml 模板進行修改，符合自己的配置
+
+          - 確保 network 與 `–pod-network-cidr` 配置的一致 (EX. `"Network": "10.244.0.0/16"`)
+          - 確保 kube-flannel 容器的 args，有 `--iface=enp0s8` (enp0s8 是 `–apiserver-advertise-address` 名稱)
+
+        - `kubectl apply -f flannel.yaml`
 
   - 初始化時，會自動偵測硬體有沒有符合最低標準，太低則會報錯不做初始化
   - 發生初始化錯誤時，可使用 `sudo kubeadm init --v=5` 來看更詳細錯誤
   - 主要動作：使用 `/etc/kubernetes/manifests` 中的 .yml 來建立 control plane (以一個 static Pods 的形式)
 
-  - <mark>雷</mark> 初始化失敗後，需要手動做許多方面的清理，才能再次 init
+- 踩雷
+
+  - 初始化失敗後，需要手動做許多方面的清理，才能再次 init
 
     - 此次我主要清了 GPT 所提步驟 1 2 3 5
 
     ![](../src/image/GPT_kubeadm_init_clean.png)
+
+  - `install.sh` 最後步驟安裝 kubelet, kubeadm, kubectl，無法一次成功
+
+    - 因為有修改到 `/etc/apt/sources.list.d/`，使 apt repo 有改變，所以需要再次 `apt update`
+
+    ```sh
+    # 錯誤訊息如下
+    E: Unable to locate package kubelet
+    E: Unable to locate package kubeadm
+    E: Unable to locate package kubectl
+    E: No packages found
+    ```
+
+  - `kubectl version` --> `The connection to the server localhost:8080 was refused - did you specify the right host or port?`
+
+    - 這個問題出在於 master 還沒進行 `kubeadm init`，而 worker node 基本上不需要安裝 kubectl
+
+  - 使用 systemd：`/etc/systemd/system` --> `/usr/lib/systemd/system`
+
+    - REF: [10-kubeadm.conf located under different folder]
+    - 新版 10-kubeadm.conf 位址從 `/etc/systemd/system` 改為 `/usr/lib/systemd/system`
+
+  - 設定 Internal IPs 的方法
+
+    - 首選：是用 `--config`
+    - 也可配置在 `/usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf` 中
+    - REF: [［回答］kubeadm init/join 設定 external/internal IPs]
+
+  - `detected that the sandbox image "registry.k8s.io/pause:3.8" of the container runtime is inconsistent with that used by kubeadm.It is recommended to use "registry.k8s.io/pause:3.9" as the CRI sandbox image.`
+
+    - REF: [issue1](https://github.com/kubernetes/minikube/issues/18694) | [issue2](https://github.com/kubernetes/kubernetes/issues/125910)
+    - 因為 containerd 初始化產生的 `/etc/containerd/config.toml` 配置為 3.8，而 K8s v1.30 下載的預設 image 為 3.9
+    - 可能是 linux 的版本影響
+    - 暫時解法：修改 `/etc/containerd/config.toml` 為 3.9
 
 ---
 
