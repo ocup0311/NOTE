@@ -43,13 +43,13 @@ kubectl get pods -A -o wide
 
 
 echo '[TASK6] 輸出 token 供 worker 加入'
-token=$(kubeadm token create)
-hash_value=$(openssl x509 -in /etc/kubernetes/pki/ca.crt -pubkey -noout | \
+token=$(kubeadm token create --ttl 30m)
+pubkey_hash=$(openssl x509 -in /etc/kubernetes/pki/ca.crt -pubkey -noout | \
              openssl pkey -pubin -outform DER | \
              openssl dgst -sha256 | \
              awk '{print $2}')
 echo "TOKEN=$token" > $env_file
-echo "HASH_VALUE=$hash_value" >> $env_file
+echo "PUBKEY_HASH=$pubkey_hash" >> $env_file
 echo "APISERVER_IP=$node_ip" >> $env_file
 echo "APISERVER_PORT=$node_port" >> $env_file
 

@@ -207,6 +207,23 @@
 
         - `kubectl apply -f flannel.yaml`
 
+    - 將 worker node 加入集群 (cluster)
+
+      - 一樣透過 config：`sudo kubeadm join --config $CONFIG_FILE`
+      - 在 master 中輸出 Token & CA 公鑰
+
+        - Token & 公鑰 的搭配，讓 node 可以被驗證加入
+        - Token 有時效性，預設為 24h，可自訂時間
+        - 也可用 generate 先生成範本，在需要時才創建該 Token
+
+        ```sh
+        TOKEN=$(kubeadm token create --ttl 30m)
+        PUBKEY_HASH=$(openssl x509 -in /etc/kubernetes/pki/ca.crt -pubkey -noout | \
+                    openssl pkey -pubin -outform DER | \
+                    openssl dgst -sha256 | \
+                    awk '{print $2}')
+        ```
+
   - 初始化時，會自動偵測硬體有沒有符合最低標準，太低則會報錯不做初始化
   - 發生初始化錯誤時，可使用 `sudo kubeadm init --v=5` 來看更詳細錯誤
   - 主要動作：使用 `/etc/kubernetes/manifests` 中的 .yml 來建立 control plane (以一個 static Pods 的形式)
@@ -261,8 +278,17 @@
 
 ## # 問題集中區
 
+<!-- 哪些 node 需要安裝 kubectl -->
+
 - <details close>
-  <summary></summary>
+  <summary>哪些 node 需要安裝 kubectl</summary>
+
+  </details>
+
+<!-- iptables 配置回頭再更詳細研究 -->
+
+- <details close>
+  <summary>iptables 配置回頭再更詳細研究</summary>
 
   </details>
 
@@ -341,6 +367,3 @@
 ## # <mark>待整理筆記</mark>
 
 - CNI (Container Network Interface)
-
-4. 安裝
-5. 看文件 30

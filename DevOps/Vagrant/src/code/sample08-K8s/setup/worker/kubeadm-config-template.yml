@@ -5,7 +5,7 @@ discovery:
     apiServerEndpoint: '${APISERVER_IP}:${APISERVER_PORT}'
     token: '${TOKEN}'
     caCertHashes:
-      - 'sha256:${HASH_VALUE}'
+      - 'sha256:${PUBKEY_HASH}'
 nodeRegistration:
   kubeletExtraArgs:
     node-ip: '${NODE_IP}'
