@@ -2,6 +2,9 @@
 
 <!----------- ref start ----------->
 
+[kubeadm init/join and ExternalIP vs InternalIP]: https://medium.com/@aleverycity/kubeadm-init-join-and-externalip-vs-internalip-519519ddff89
+[Can we run kubectl form worker/minion node?]: https://stackoverflow.com/q/36078305/13108209
+[Why kubectl is required to be installed on every node while setting up cluster using kubeadm?]: https://serverfault.com/questions/1031966/why-kubectl-is-required-to-be-installed-on-every-node-while-setting-up-cluster-u
 [［回答］kubeadm init/join 設定 external/internal IPs]: https://github.com/kubernetes/kubeadm/issues/1987#issuecomment-569074463
 [10-kubeadm.conf located under different folder]: https://github.com/kubernetes/kubeadm/issues/1575
 [Network Policy 插件]: https://kubernetes.io/docs/concepts/cluster-administration/addons/
@@ -194,10 +197,11 @@
       echo "source <(kubectl completion bash)" >> ~/.bashrc
       ```
 
-    - 部署 Network Policy (Flannel、Calico..etc)
+    - 部署 Network Policy (CNI) (Flannel、Calico、Weave、Cilium..etc)
 
-      - REF: [Network Policy 插件]
-      - 選擇一個 Network Policy，按官方說明操作
+      - REF: [CNI 插件]
+      - CNI (Container Network Interface)
+      - 選擇一個 CNI 插件，按官方說明操作
       - EX. Flannel 適合學習環境
 
         - 下載 yml 模板進行修改，符合自己的配置
@@ -261,7 +265,10 @@
 
     - 首選：是用 `--config`
     - 也可配置在 `/usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf` 中
-    - REF: [［回答］kubeadm init/join 設定 external/internal IPs]
+    - REF:
+
+      - [［回答］kubeadm init/join 設定 external/internal IPs]
+      - [kubeadm init/join and ExternalIP vs InternalIP]
 
   - `detected that the sandbox image "registry.k8s.io/pause:3.8" of the container runtime is inconsistent with that used by kubeadm.It is recommended to use "registry.k8s.io/pause:3.9" as the CRI sandbox image.`
 
@@ -272,7 +279,65 @@
 
 ---
 
+## # 基本概念
+
+- CNI (Container Network Interface)
+
+  - 由 CNCF（Cloud Native Computing Foundation）管理的開源項目，旨在簡化容器網路管理
+
+- API Server
+
+  - REST API
+  - 將一切都視為 API Object 形式
+  - Client/Server 架構 (透過 kubectl、API、其他 client UI 與 server 溝通)
+  - 主要操作方式是 Declarative Configuration：先定義好 Manifest 檔案 (YAML/JSON)，再透過 `kubectl apply -f file.yml` 執行
+
 ## # 基本操作
+
+- kubectl
+
+  - `dry-run`
+
+    - 可以演練執行，分為在 Server-side/Client-side 兩種
+    - Server-side：測試在該 Server 環境是否可執行
+
+      - EX. `kubectl apply -f config.yml --dry-run=server`
+
+    - Client-side：測試在書寫格式上是否正確
+
+      - 也可用來將指令配置輸出成配置檔
+      - EX. `kubectl run web --image=nginx --dry-run=client -o yaml > nginx.yml`
+
+  - `diff`
+
+    - 可以將指定配置檔 (EX. new-file.yml)，與集群中當前運行的配置做比對
+    - 可以預先得知該配置檔是否能在當前環境執行 (EX. 有些配置與運行中的配置有衝突，若沒有先移除可能無法執行)
+    - EX. `kubectl diff -f new-file.yml`
+
+  - `-v`
+
+    - 可以查看到指令使用 API 的細節
+    - 1~10 不同等級，數字越高回傳越多訊息
+    - 常用 `-v=6`
+
+  - `proxy`
+
+    - 用於在本地創建一個 HTTP 代理，允許用戶通過這個代理訪問 K8s API Server (方便開發，因為 proxy 自動處理好驗證內容，而可以直接在本地 call API)
+    - 默認只有綁定 localhost
+    - `--address`：指定代理綁定的網路接口位址
+    - `--accept-hosts`：設置允許的主機名或 IP 通過代理訪問 K8s API Server
+
+    ```sh
+    # EX. 1 允許 192.168.55.10:8080
+
+    $ kubectl proxy --address='192.168.55.10' --port=8080 --accept-hosts='192.168.55.10' &
+
+    # EX. 2 允許所有接口的 8080
+
+    $ kubectl proxy --address='0.0.0.0' --port=8080 --accept-hosts='^.\*$' &
+    ```
+
+  - `get`、`describe`、`-watch`、`config get-context`、``
 
 ---
 
@@ -282,6 +347,11 @@
 
 - <details close>
   <summary>哪些 node 需要安裝 kubectl</summary>
+
+  - REF:
+
+    - [Why kubectl is required to be installed on every node while setting up cluster using kubeadm?]
+    - [Can we run kubectl form worker/minion node?]
 
   </details>
 
@@ -366,4 +436,8 @@
 
 ## # <mark>待整理筆記</mark>
 
-- CNI (Container Network Interface)
+- Static Pod
+
+- 其他細節
+
+  - 可以將 service 對應的 pod 刪除，service 還在，但實際上沒東西在跑
