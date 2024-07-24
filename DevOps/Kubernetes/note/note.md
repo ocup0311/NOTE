@@ -2,6 +2,10 @@
 
 <!----------- ref start ----------->
 
+[Kubernetes: Static Pods]: https://yuminlee2.medium.com/kubernetes-static-pods-734dc0684f31
+[Static Pods 文件]: https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/
+[鐵人 Static Pods]: https://ithelp.ithome.com.tw/articles/10235803
+[Using Static Pods in Kubernetes]: https://www.linkedin.com/pulse/using-static-pods-kubernetes-christopher-adamson-14joc/
 [kubeadm init/join and ExternalIP vs InternalIP]: https://medium.com/@aleverycity/kubeadm-init-join-and-externalip-vs-internalip-519519ddff89
 [Can we run kubectl form worker/minion node?]: https://stackoverflow.com/q/36078305/13108209
 [Why kubectl is required to be installed on every node while setting up cluster using kubeadm?]: https://serverfault.com/questions/1031966/why-kubectl-is-required-to-be-installed-on-every-node-while-setting-up-cluster-u
@@ -292,6 +296,72 @@
   - Client/Server 架構 (透過 kubectl、API、其他 client UI 與 server 溝通)
   - 主要操作方式是 Declarative Configuration：先定義好 Manifest 檔案 (YAML/JSON)，再透過 `kubectl apply -f file.yml` 執行
 
+- Static Pods
+
+  - 原理：透過 `Kubelet` 建立的 pod，而不是透過 API Server
+
+  - 行為特性
+
+    - 即使 API Server 故障也不影響
+    - 執行中的 kubelet 會定期掃描配置的目錄中的變化 (EX. /etc/kubernetes/manifests)，並維持 static pod 與配置同步
+    - Kubelet 創建並運行 Static Pod 之後，會自動生成對應的 Mirror Pod，並將其上報到 API Server，因此可用 kubectl 來查看狀態
+
+  - 使用步驟：
+
+    - 查詢所使用的 config
+
+      - `ps -aux | grep kubelet`
+      - (EX. `--config=/var/lib/kubelet/config.yaml`)
+
+    - 查詢 static pod 的位址
+
+      - `cat /var/lib/kubelet/config.yaml | grep static`
+      - (EX. `staticPodPath: /etc/kubernetes/manifests`)
+
+    - 將 pod 配置檔放置在 staticPodPath 裡
+
+      - `cp pod.yml /etc/kubernetes/manifests/pod.yml`
+
+    - 重啟 kubelet
+
+      - `sudo systemctl restart kubelet.service`
+
+  - 管理方式：
+
+    - 簡介：可使用一個遠端位址，統一管理多台 node 上，相同的 static pod
+    - 行為特性：
+
+      - Kubelet 改為定時向遠端位址掃描配置檔變化
+      - 當遠端機器斷開，執行中的 static pod 會繼續運行，直到 Kubelet 再次連上配置檔才會進行更新
+
+    - 設定方式：
+
+      - 在 Kubelet config 加入以下內容 (`/etc/default/kubelet` 或 `/etc/sysconfig/kubelet`)
+
+        ```
+        KUBELET_EXTRA_ARGS="--cluster-dns=10.254.0.10 --cluster-domain=kube.local --manifest-url=<manifest-url>"
+        ```
+
+      - 重啟 kubelet
+
+        ```sh
+        sudo systemctl daemon-reload
+        sudo systemctl restart kubelet
+        ```
+
+  - 適用情境
+
+    - 搭建完成 API Server 前的前置作業 (scheduler、controller-manager、etcd)
+    - 特別需求需要 node 上 kubelet 的 fs 權限來完成
+    - 需要確保高可用性，要能維持在 node 上運作的基礎依賴
+
+  - REF：
+
+    - [Static Pods 文件]
+    - [Using Static Pods in Kubernetes]
+    - [鐵人 Static Pods]
+    - [Kubernetes: Static Pods]
+
 ## # 基本操作
 
 - kubectl
@@ -370,9 +440,13 @@
 
 - 注意事項：
 
+  - 注意規範命名規則 (EX. pod name 不能大寫)
+
 <!-- 小技巧 -->
 
 - 小技巧：
+
+  - 查 log：`sudo journalctl -u kubelet -f`
 
 <!-- 小工具 -->
 
@@ -436,8 +510,10 @@
 
 ## # <mark>待整理筆記</mark>
 
-- Static Pod
+- DaemonSet
 
 - 其他細節
 
   - 可以將 service 對應的 pod 刪除，service 還在，但實際上沒東西在跑
+  - 將 pod 運行的 node 關機，並不會自動改到其他 node 上運行？
+  -
