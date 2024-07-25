@@ -8,6 +8,8 @@ Vagrant.require_version ">= 1.6.0"
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 
+SRC_PATH = "../../../../Kubernetes/src/code/practice01"
+
 k8s_master = {
     :name => "k8s-master",
     :eth1 => "192.168.56.10",
@@ -39,7 +41,7 @@ Vagrant.configure(2) do |config|
   # set master
   config.vm.define k8s_master[:name] do |master|
     master.vm.hostname = k8s_master[:name]
-    master.vm.synced_folder "./src/", "/vagrant/src", disabled: false, type: "virtualbox"
+    master.vm.synced_folder "#{SRC_PATH}/master/", "/vagrant/src", disabled: false, type: "virtualbox"
     master.vm.synced_folder "./setup/master/", "/vagrant/setup", disabled: false, type: "rsync"
 
     master.vm.provider "virtualbox" do |v|
@@ -56,6 +58,7 @@ Vagrant.configure(2) do |config|
   worker_list.each do |worker|
     config.vm.define worker[:name] do |node|
       node.vm.hostname = worker[:name]
+      node.vm.synced_folder "#{SRC_PATH}/worker/", "/vagrant/src", disabled: false, type: "virtualbox"
       node.vm.synced_folder "./setup/worker/", "/vagrant/setup", disabled: false, type: "rsync"
 
       node.vm.provider "virtualbox" do |v|

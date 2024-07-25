@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[Feature Gates]: https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/
 [Kubernetes: Static Pods]: https://yuminlee2.medium.com/kubernetes-static-pods-734dc0684f31
 [Static Pods 文件]: https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/
 [鐵人 Static Pods]: https://ithelp.ithome.com.tw/articles/10235803
@@ -361,6 +362,24 @@
     - [Using Static Pods in Kubernetes]
     - [鐵人 Static Pods]
     - [Kubernetes: Static Pods]
+
+- Init Containers
+
+  - 用來做初始化的 container
+  - 按照順序等待單一個 Init Container 執行結束，才會進入下一步驟
+  - 若是一個不會執行完畢的任務，則會停在那個階段，不會進行下一步驟
+  - 所有 initContainers 都執行結束，才會執行 containers (containers 會同步執行所有 container)
+
+  ![](../src/image/InitContainers.png)
+
+  - **注意** 與 Sidecar 的差異：設定 `restartPolicy: Always` 的 Init Container
+
+- Sidecar Container
+
+  - `v1.29beta` 後，[Feature Gates] 已預設 `SidecarContainers=true`
+  - 使得 Init Container 設定 `restartPolicy: Always` 後，成為一個 Sidecar Container
+  - 將可以在整個 life cycle 中持續運行
+  - 在主要 Containers 都關閉後，Sidecar Container 才進行關閉
 
 ## # 基本操作
 
