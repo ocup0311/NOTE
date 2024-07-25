@@ -2,6 +2,11 @@
 
 <!----------- ref start ----------->
 
+[Pod Lifecycle 文件]: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase
+[SIGTERM vs SIGKILL: What's the Difference?]: https://linuxhandbook.com/sigterm-vs-sigkill/
+[kubeadm-ha repo]: https://github.com/TimeBye/kubeadm-ha
+[Creating Highly Available Clusters with kubeadm]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
+[K8s 原始碼研究]: https://github.com/Kevin-fqh/learning-k8s-source-code
 [Feature Gates]: https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/
 [Kubernetes: Static Pods]: https://yuminlee2.medium.com/kubernetes-static-pods-734dc0684f31
 [Static Pods 文件]: https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/
@@ -28,7 +33,7 @@
 # Kubernetes
 
 > DATE: 6 (2023) , 7 (2024)
-> REF: [CKA 考試完全指南（2022 版）] | [Kubernetes Best practices (官方)]
+> REF: [CKA 考試完全指南（2022 版）] | [Kubernetes Best practices (官方)] | [K8s 原始碼研究]
 
 ## # 簡介
 
@@ -179,7 +184,7 @@
 
       - 快速範例：`sudo kubeadm init --apiserver-advertise-address=192.168.56.10  --pod-network-cidr=10.244.0.0/16`
       - `--apiserver-advertise-address`：設定對外 API 的 ip
-      - `--pod-network-cidr`：設定內部 pod 網域 (cidr: Classless Inter-Domain Routing)
+      - `--pod-network-cidr`：設定內部 Pod 網域 (cidr: Classless Inter-Domain Routing)
       - 更多選項可改為寫在 config，EX. `sudo kubeadm init --config $CONFIG_FILE`
         - REF: [kubeadm configuration 文件]
 
@@ -304,7 +309,7 @@
   - 行為特性
 
     - 即使 API Server 故障也不影響
-    - 執行中的 kubelet 會定期掃描配置的目錄中的變化 (EX. /etc/kubernetes/manifests)，並維持 static pod 與配置同步
+    - 執行中的 kubelet 會定期掃描配置的目錄中的變化 (EX. /etc/kubernetes/manifests)，並維持 Static Pod 與配置同步
     - Kubelet 創建並運行 Static Pod 之後，會自動生成對應的 Mirror Pod，並將其上報到 API Server，因此可用 kubectl 來查看狀態
 
   - 使用步驟：
@@ -314,12 +319,12 @@
       - `ps -aux | grep kubelet`
       - (EX. `--config=/var/lib/kubelet/config.yaml`)
 
-    - 查詢 static pod 的位址
+    - 查詢 Static Pod 的位址
 
       - `cat /var/lib/kubelet/config.yaml | grep static`
       - (EX. `staticPodPath: /etc/kubernetes/manifests`)
 
-    - 將 pod 配置檔放置在 staticPodPath 裡
+    - 將 Pod 配置檔放置在 staticPodPath 裡
 
       - `cp pod.yml /etc/kubernetes/manifests/pod.yml`
 
@@ -329,11 +334,11 @@
 
   - 管理方式：
 
-    - 簡介：可使用一個遠端位址，統一管理多台 node 上，相同的 static pod
+    - 簡介：可使用一個遠端位址，統一管理多台 node 上，相同的 Static Pod
     - 行為特性：
 
       - Kubelet 改為定時向遠端位址掃描配置檔變化
-      - 當遠端機器斷開，執行中的 static pod 會繼續運行，直到 Kubelet 再次連上配置檔才會進行更新
+      - 當遠端機器斷開，執行中的 Static Pod 會繼續運行，直到 Kubelet 再次連上配置檔才會進行更新
 
     - 設定方式：
 
@@ -380,6 +385,74 @@
   - 使得 Init Container 設定 `restartPolicy: Always` 後，成為一個 Sidecar Container
   - 將可以在整個 life cycle 中持續運行
   - 在主要 Containers 都關閉後，Sidecar Container 才進行關閉
+
+- Pod Lifecycle
+
+  - REF: [Pod Lifecycle 文件]
+
+  - Pod phase
+
+    - Pending：Pod 已被 API Server 接受
+    - Running：Pod 已分配到 Node、所有容器都已創建、至少還有一個正常啟動或在啟動路上 (可能有失敗的在重試)
+    - Succeeded：Pod 的所有容器已成功終止
+    - Failed：Pod 中至少有一個容器已失敗
+    - Unknown：無法取得 Pod 的狀態
+
+    ![](../src/image/Pod_phase.png)
+
+  - 行為特性：
+
+    - Pod 本身不會重新自動部署
+
+    - Pod (由 UID 定義) 永遠不會被 “重新調度” 到不同 Node；但可以被新的、幾乎相同的 Pod 替代
+
+    - 替代 Pod 的 `.metadata.name` 可以相同，但 `.metadata.uid` 會不同
+
+    - 執行 `kubectl delete pod`，kubelet 收到通知，首先會發送 `SIGTERM` 給 container，在 `grace period Timer` 超過後還沒完成終止才發送 `SIGKILL`
+
+    - `Kubernetes 1.27 up`，kubelet 會在刪除 regular Pod 前更新狀態為 terminal phase (Failed/Succeeded)，確保最終狀態被記錄。隨後，kubelet 向 API Server 發送刪除請求，完成 Pod 的刪除操作
+
+    - 由 API Server 將 Pod 標記為 Failed 後，超過 `podEvictionTimeout` (預設 5 min) 才會真的從 API Server 刪除
+
+  - container states (Waiting -> Running -> Terminated)
+
+  - 相關參數：
+
+    - `terminationGracePeriodSeconds`
+
+      - 預設 30
+      - 設定 grace period Timer
+
+    - `restartPolicy`
+
+      - 預設 Always (Always、OnFailure、Never)
+      - exponential backoff delay (10s, 20s, 40s, …)，上限 300s
+      - 有任何 container 進入 backoff 時，pod 狀態為 `CrashLoopBackOff`
+
+    - `--force` + `--grace-period=0`
+
+      - 確保執行強制刪除，兩者一起使用
+      - `--force`：立刻從 API Server 上的紀錄移除
+      - `--grace-period=0`：kubelet 會立刻發送 SIGKILL 給容器 (略過 SIGTERM)
+
+    - `postStart` & `preStop`
+
+      - container hook
+      - `postStart`：Running 後執行
+      - `preStop`：Terminated 前執行
+
+    - `readinessGates`：可自訂義狀態
+
+  - SIGTERM vs SIGKILL
+
+    - SIGTERM：進行正常終止程序
+    - SIGKILL：直接砍掉
+    - REF: [SIGTERM vs SIGKILL: What's the Difference?]
+
+  - 舉例
+
+    - 若沒有設定好處理 SIGTERM 的 container，則會直接等到 grace period Time 結束，被 SIGKILL
+    - nginx vs busybox：nginx 有處理，busybox 沒處理，所以 nginx 很快處理完則可以完成終止
 
 ## # 基本操作
 
@@ -500,10 +573,13 @@
 
     </details>
 
-  <!-- 範例研究 -->
+  <!-- 高可用 kubeadm 的搭建 -->
 
   - <details close>
-    <summary>範例研究</summary>
+    <summary>高可用 kubeadm 的搭建</summary>
+
+    - [Creating Highly Available Clusters with kubeadm]
+    - [kubeadm-ha repo]
 
     </details>
 
@@ -533,6 +609,6 @@
 
 - 其他細節
 
-  - 可以將 service 對應的 pod 刪除，service 還在，但實際上沒東西在跑
-  - 將 pod 運行的 node 關機，並不會自動改到其他 node 上運行？
+  - 可以將 service 對應的 Pod 刪除，service 還在，但實際上沒東西在跑
+  - 將 Pod 運行的 node 關機，並不會自動改到其他 node 上運行？
   -
