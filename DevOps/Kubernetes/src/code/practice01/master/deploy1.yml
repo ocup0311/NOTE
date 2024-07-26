@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: deploy-practice1
+  name: deploy-practice1
+
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 10
+  selector:
+    matchLabels:
+      app: deploy-practice1
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: deploy-practice1
+    spec:
+      containers:
+        - image: nginx:1.14.2
+          imagePullPolicy: IfNotPresent
+          name: nginx
+      terminationGracePeriodSeconds: 30

@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[Pod deletion cost 文件]: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#pod-deletion-cost
 [Pod Lifecycle 文件]: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase
 [SIGTERM vs SIGKILL: What's the Difference?]: https://linuxhandbook.com/sigterm-vs-sigkill/
 [kubeadm-ha repo]: https://github.com/TimeBye/kubeadm-ha
@@ -45,7 +46,7 @@
 
     - API Server (kubectl)：Server
     - etcd (/etc distributed)：分散式 key-value DB
-    - Controller Manager：管理不同的 Controller
+    - Controller Manager：用來管理讓 current state 維持在符合 desired state (即我們所做的配置)
     - Scheduler：調度決定 Pod 在哪一個 Node 上運行
 
   - Worker Node
@@ -402,7 +403,7 @@
 
   - 行為特性：
 
-    - Pod 本身不會重新自動部署
+    - Pod 本身不會重新自動部署 (需透過各種 Controller)
 
     - Pod (由 UID 定義) 永遠不會被 “重新調度” 到不同 Node；但可以被新的、幾乎相同的 Pod 替代
 
@@ -412,7 +413,7 @@
 
     - `Kubernetes 1.27 up`，kubelet 會在刪除 regular Pod 前更新狀態為 terminal phase (Failed/Succeeded)，確保最終狀態被記錄。隨後，kubelet 向 API Server 發送刪除請求，完成 Pod 的刪除操作
 
-    - 由 API Server 將 Pod 標記為 Failed 後，超過 `podEvictionTimeout` (預設 5 min) 才會真的從 API Server 刪除
+    - 由 API Server 將 Pod 標記為 Unknown 後，超過 `podEvictionTimeout` (預設 5 min) 才會標記為 Failed，真的從 API Server 刪除
 
   - container states (Waiting -> Running -> Terminated)
 
@@ -476,12 +477,6 @@
     - 可以預先得知該配置檔是否能在當前環境執行 (EX. 有些配置與運行中的配置有衝突，若沒有先移除可能無法執行)
     - EX. `kubectl diff -f new-file.yml`
 
-  - `-v`
-
-    - 可以查看到指令使用 API 的細節
-    - 1~10 不同等級，數字越高回傳越多訊息
-    - 常用 `-v=6`
-
   - `proxy`
 
     - 用於在本地創建一個 HTTP 代理，允許用戶通過這個代理訪問 K8s API Server (方便開發，因為 proxy 自動處理好驗證內容，而可以直接在本地 call API)
@@ -499,7 +494,28 @@
     $ kubectl proxy --address='0.0.0.0' --port=8080 --accept-hosts='^.\*$' &
     ```
 
-  - `get`、`describe`、`-watch`、`config get-context`、``
+  - `-v`
+
+    - 可以查看到指令使用 API 的細節
+    - 1~10 不同等級，數字越高回傳越多訊息
+    - 常用 `-v=6`
+
+  - `--selector (-l)`
+
+    - EX. `kubectl get pods --selector app=v1`
+    - EX. `kubectl get pods --selector 'app in (v1, v2)'`
+    - EX. `kubectl get pods --selector 'app notin (v1)'`
+
+  - `--record` (X)
+
+    - 已棄用
+    - 記錄該命令的執行細節到資源的 Annotations 中
+
+  - 其他
+
+    - `get`、`describe`、`label`、`config`、`edit`、`scale`
+    - `--watch (-w)`、`--show-xx`、`--namespace (-n)`、`--overwrite`、`--cascade=orphan`、``
+    - `config get-context`、
 
 ---
 
@@ -524,6 +540,30 @@
 
   </details>
 
+<!-- 完整的 Client/Server 連線流程為何？ -->
+
+- <details close>
+  <summary>完整的 Client/Server 連線流程為何？</summary>
+
+  - 目前理解：
+
+    - kubelet 向 API server 發起 `watch` 請求，之後就會一直監聽他需要的資訊，API server 會主動推送更新給 kubelet
+    - 透過 `HTTP/2 長連線` 來進行，server 在推送資訊前會先發一個預告訊號，隨後才推送資訊本身，client 再決定是否接收推送的資訊
+
+  ![](../src/image/QA_Client_Watch.png)
+
+  </details>
+
+<!-- 關於 node 失聯超時、重連上後，如何自動重新均勻分配 pod -->
+
+- <details close>
+  <summary>關於 node 失聯超時、重連上後，如何自動重新均勻分配 pod</summary>
+
+  - 目前查到的方法只有手動處理
+  - 再研究是否有方法配置使其自動處理
+
+  </details>
+
 ---
 
 ## # 其他補充
@@ -533,12 +573,14 @@
 - 注意事項：
 
   - 注意規範命名規則 (EX. pod name 不能大寫)
+  - 注意當前 namespace
 
 <!-- 小技巧 -->
 
 - 小技巧：
 
   - 查 log：`sudo journalctl -u kubelet -f`
+  - 改當前 namespace：`kubectl config set-context --current --namespace [NAMESPACE]`
 
 <!-- 小工具 -->
 
@@ -603,12 +645,94 @@
 
 ---
 
-## # <mark>待整理筆記</mark>
+## # Controllers
 
-- DaemonSet
+- Controllers
+
+  - Workload
+
+    - Deployment Controller
+
+      - 管理 app 的部署和滾動更新 (會透過 Label 中 `app=[APP_NAME]` 來辨認)
+      - Deployment 控制 ReplicaSet，ReplicaSet 控制 Pod
+      - 管理 Deployment，會連動管理底下的 ReplicaSet & Pod
+
+      ![](../src/image/Sample_Deployment_ReplicaSet.png)
+
+    - ReplicaSet Controller
+
+      - 確保特定數量的 Pod 副本運行，支持基於 Label 的選擇
+      - 冗余 Pod 刪除順序：`非 Running 狀態` -> `最小 Pod deletion cost` -> `最新的`
+
+        - REF: [Pod deletion cost 文件]
+        - `v1.22beta` 後可以設定個別 Pod 的 deletion cost
+
+      - Node 失聯需等待超過 `podEvictionTimeout` 後，才會重新調配取代該 Node 原本運行的 Pod
+
+      - 即便 Node 重新連上，也不會自動再次平均分配 Pod 到 Node 上
+
+      - `--cascade=orphan` 可在不刪除 Pod 情況下單獨刪除 ReplicaSet
+
+    - StatefulSet Controller
+
+      - 管理有狀態應用，確保每個 Pod 都有唯一的持久標識
+
+    - DaemonSet Controller
+
+      - 管理讓每個 Node 上都運行指定的 Pod
+      - EX. 日誌收集、監控代理
+
+    - Job Controller
+
+      - 管理和執行一次性任務，確保 Pod 在任務完成前運行
+
+    - CronJob Controller
+
+      - 基於時間表定期運行 Jobs
+
+    - Replication Controller (X)
+
+      - 過時，被 `Deployment` + `ReplicaSet` 取代
+      - 確保指定數量的 Pod 副本始終運行
+
+  - Resource Management
+
+    - Node Controller
+
+      - 監控節點的健康狀況，處理節點加入和失聯
+
+    - Endpoint Controller
+
+      - 更新服務的 Endpoint 對象，維護服務與 Pod 的映射關係
+
+  - Security
+
+    - Service Account Controller
+
+      - 創建和管理服務帳戶，用於身份驗證
+
+    - Token Controller
+
+      - 創建和管理 API 訪問令牌，用於身份驗證
+
+  - Network
+
+    - Ingress Controller
+
+      - 管理 Ingress 資源，提供 HTTP 和 HTTPS 路由
+
+## # <mark>待整理筆記</mark>
 
 - 其他細節
 
   - 可以將 service 對應的 Pod 刪除，service 還在，但實際上沒東西在跑
-  - 將 Pod 運行的 node 關機，並不會自動改到其他 node 上運行？
   -
+
+可以從 describe 的 `Controlled By` 看受哪個 Controller 管理
+
+多出來的隨機刪嗎？刪除最新的？
+
+- Deployment
+
+  - Rolling Update/Roll Back
+  - `kubectl rollout undo deployment <deployment> --to-revision=<revision>`
