@@ -23,8 +23,6 @@
 [fast and efficient pagination in mongodb]: https://www.codementor.io/@arpitbhayani/fast-and-efficient-pagination-in-mongodb-9095flbqr
 [mongoose - what does the exec function do?]: https://stackoverflow.com/questions/31549857/mongoose-what-does-the-exec-function-do
 [mongoose .exec()]: https://mongoosejs.com/docs/promises.html
-[mongoose index]: https://mongoosejs.com/docs/guide.html#indexes
-[mongodb create index]: https://stackoverflow.com/questions/31991710/mongodb-auto-create-index-for-new-collections
 [龐大資料庫分頁方案 cursor-based pagination]: https://tec.xenby.com/36-%E9%BE%90%E5%A4%A7%E8%B3%87%E6%96%99%E5%BA%AB%E5%88%86%E9%A0%81%E6%96%B9%E6%A1%88-cursor-based-pagination
 [mongodb pagination, fast & consistent]: https://medium.com/swlh/mongodb-pagination-fast-consistent-ece2a97070f3
 [why token-based pagination performs better than offset based?]: https://betterprogramming.pub/why-token-based-pagination-performs-better-than-offset-based-465e1139bb33
@@ -112,30 +110,13 @@
 
       > In MongoDB parlance, a cursor is an object that you can use to iterate through the results of a query. If you execute a query against a MongoDB server directly, the result is a cursor rather than a bunch of documents. Similarly, the MongoDB Node.js driver will return a cursor from find () . In most cases the cursor API is overkill, so mongoose hides it from you by default.
 
-    - 2. [Mongodb create index]
-
-      > REF: [mongoose index]
-
-      - index VS 臨時 index
-
-        - code 設定： 臨時 index
-
-          - mongodb `db.collection.createIndex()`
-          - mongoose `Schema.index()`：啟動時自動 `createIndex()`
-
-        - 平台設定：index
-
-      > But don't be afraid to call createIndex too often. The documentation guarantees that when an index with the same settings already exists, nothing will happen. So you can attach it to some common database operations executed by new users.
-
-      - When your application starts up, Mongoose automatically calls createIndex for each defined index in your schema.
-
-    - 3. [mongoose .exec()]
+    - 2. [mongoose .exec()]
 
       > REF: [Mongoose - What does the exec function do?]
 
       - As far as functionality is concerned, these two are equivalent. However, we recommend using `.exec()` because that gives you better stack traces.
 
-    - 4. Pagination: offset VS token
+    - 3. Pagination: offset VS token
 
       - TODO: 在閱讀一次 [Implementing API Pagination with NodeJS, Mongoose]
       - offset:

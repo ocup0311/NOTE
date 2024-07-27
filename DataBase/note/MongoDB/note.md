@@ -1,3 +1,5 @@
+##### <!-- 收起 -->
+
 <style> 
 .imgBox{
   display: flex; 
@@ -12,6 +14,11 @@
 
 ###### <!-- ref -->
 
+[mongoose index]: https://mongoosejs.com/docs/guide.html#indexes
+[mongodb create index]: https://stackoverflow.com/questions/31991710/mongodb-auto-create-index-for-new-collections
+[maxTimeMS (stackoverflow)]: https://stackoverflow.com/questions/67260458/mongodb-find-query-maxtimems
+[WiredTiger Storage Engine 文件]: https://www.mongodb.com/docs/manual/core/wiredtiger
+[What type of lock does MongoDB apply at the document level when reading or writing the document?]: https://dba.stackexchange.com/questions/334265/what-type-of-lock-does-mongodb-apply-at-the-document-level-when-reading-or-writi
 [MongoDB 零基礎從入門到精通]: https://www.udemy.com/course/best-mongodb/
 [MongoDB 官方課程]: https://learn.mongodb.com/catalog
 [nosql data modeling techniques]: https://highlyscalable.wordpress.com/2012/03/01/nosql-data-modeling-techniques/
@@ -140,136 +147,162 @@
 
 > REF: [mongodb 基本原理：索引（Indexes）]
 
-- 系統預設會建立一個以`_id`排序的 index
+- Primary Index
 
-- `unique`：所有的 doc，該 `index key` 的 `value` 不能有重複
+  - 系統預設會建立一個以`_id`排序的 index
 
-  ```shell
-  # EX.
-  # 若有重複 title + year 組合，則無法建立此 index
-  # index 建立後，若給他重複的 title + year 組合，則插入或更新會失敗
-  > db.movie.createIndex({ title: 1, year:1 }, { unique: true })
+- Secondary Index
 
-  # EX. 重複 title + year 組合：
-  # A: { _id: 1, title: "La vita è bella", year:"1997" }
-  # B: { _id: 2, title: "La vita è bella", year:"1997" }
-  # --> A, B 重複
-  ```
+  - 種類：
 
-- TTL Indexes
+    - `unique`：所有的 doc，該 `index key` 的 `value` 不能有重複
 
-  - `expireAfterSeconds`
+      ```shell
+      # EX.
+      # 若有重複 title + year 組合，則無法建立此 index
+      # index 建立後，若給他重複的 title + year 組合，則插入或更新會失敗
+      > db.movie.createIndex({ title: 1, year:1 }, { unique: true })
 
-  ```shell
-  # 當超過該 doc 的 createAt 10 秒後，會自動刪除該 doc
-  > db.people.createIndex({ createAt: 1 }, { expireAfterSeconds: 10 })
-  ```
+      # EX. 重複 title + year 組合：
+      # A: { _id: 1, title: "La vita è bella", year:"1997" }
+      # B: { _id: 2, title: "La vita è bella", year:"1997" }
+      # --> A, B 重複
+      ```
 
-- [Text Indexes]
+    - TTL Indexes
 
-  ```sh
-  # EX.
-  > db.movie.createIndex({ title: 'text' })
-  > db.movie.find({ $text: { $search: 'room' } })
-  ```
+      - `expireAfterSeconds`
 
-- 範例：
+      ```shell
+      # 當超過該 doc 的 createAt 10 秒後，會自動刪除該 doc
+      > db.people.createIndex({ createAt: 1 }, { expireAfterSeconds: 10 })
+      ```
 
-  - 建立：`db.movie.createIndex({ year: 1 })`
-  - 刪除：`db.movie.dropIndex({ year: 1 })`
-  - 查詢：`db.movie.getIndexes()`
+    - [Text Indexes]
 
-  - 未建立 index
+      ```sh
+      # EX.
+      > db.movie.createIndex({ title: 'text' })
+      > db.movie.find({ $text: { $search: 'room' } })
+      ```
 
-  ```shell
-  > db.movie.explain('executionStats').find({ year: { $gte: 2015 } })
-  {
-    ...,
-    executionStats: {
-      executionSuccess: true,
-      nReturned: 747,
-      executionTimeMillis: 16,
-      totalKeysExamined: 0,
-      totalDocsExamined: 28795,
-      executionStages: {
-        stage: 'COLLSCAN',      # --> 直接去 collection 查詢
-        filter: { year: { '$gte': 2015 } },
+  - 建立：
+
+    - code 設定
+
+      - mongodb
+
+        - `db.collection.createIndex()`
+        - `db.collection.createIndexes()`
+
+      - mongoose
+
+        - `Schema.index()`：啟動時自動呼叫 `createIndex()` (生產環境建議設定 `autoIndex: false` 則會關閉此方法)
+        - `Model.createIndexes()`
+
+    - 平台設定：可以查看有哪些建議的 index，再直接點擊設定
+
+    - 若已經存在的 Index，再次使用 `createIndex()` 不會重複建立
+
+    - REF: [mongoose index] | [Mongodb create index]
+
+  - 範例：
+
+    - 建立：`db.movie.createIndex({ year: 1 })`
+    - 刪除：`db.movie.dropIndex({ year: 1 })`
+    - 查詢：`db.movie.getIndexes()`
+
+    - 未建立 index
+
+    ```shell
+    > db.movie.explain('executionStats').find({ year: { $gte: 2015 } })
+    {
+      ...,
+      executionStats: {
+        executionSuccess: true,
         nReturned: 747,
-        executionTimeMillisEstimate: 0,
-        works: 28797,
-        advanced: 747,
-        needTime: 28049,
-        needYield: 0,
-        saveState: 28,
-        restoreState: 28,
-        isEOF: 1,
-        direction: 'forward',
-        docsExamined: 28795
-      }
-    },
-    ...
-  }
-  ```
-
-  - 建立以 year 排序的 index
-
-  ```shell
-  > db.movie.createIndex({ year: 1 })
-  year_1
-
-  > db.movie.explain('executionStats').find({ year: { $gte: 2015 } })
-  {
-    ...,
-    executionStats: {
-      executionSuccess: true,
-      nReturned: 747,
-      executionTimeMillis: 1,
-      totalKeysExamined: 747,
-      totalDocsExamined: 747,
-      executionStages: {
-        stage: 'FETCH',
-        nReturned: 747,
-        executionTimeMillisEstimate: 0,
-        works: 748,
-        advanced: 747,
-        needTime: 0,
-        needYield: 0,
-        saveState: 0,
-        restoreState: 0,
-        isEOF: 1,
-        docsExamined: 747,
-        alreadyHasObj: 0,
-        inputStage: {
-          stage: 'IXSCAN',        # --> 改用 index 查詢
+        executionTimeMillis: 16,
+        totalKeysExamined: 0,
+        totalDocsExamined: 28795,
+        executionStages: {
+          stage: 'COLLSCAN',      # --> 直接去 collection 查詢
+          filter: { year: { '$gte': 2015 } },
           nReturned: 747,
           executionTimeMillisEstimate: 0,
-          works: 748,             # --> 所需步驟變少
+          works: 28797,
+          advanced: 747,
+          needTime: 28049,
+          needYield: 0,
+          saveState: 28,
+          restoreState: 28,
+          isEOF: 1,
+          direction: 'forward',
+          docsExamined: 28795
+        }
+      },
+      ...
+    }
+    ```
+
+    - 建立以 year 排序的 index
+
+    ```shell
+    > db.movie.createIndex({ year: 1 })
+    year_1
+
+    > db.movie.explain('executionStats').find({ year: { $gte: 2015 } })
+    {
+      ...,
+      executionStats: {
+        executionSuccess: true,
+        nReturned: 747,
+        executionTimeMillis: 1,
+        totalKeysExamined: 747,
+        totalDocsExamined: 747,
+        executionStages: {
+          stage: 'FETCH',
+          nReturned: 747,
+          executionTimeMillisEstimate: 0,
+          works: 748,
           advanced: 747,
           needTime: 0,
           needYield: 0,
           saveState: 0,
           restoreState: 0,
           isEOF: 1,
-          keyPattern: { year: 1 },
-          indexName: 'year_1',
-          isMultiKey: false,
-          multiKeyPaths: { year: [] },
-          isUnique: false,
-          isSparse: false,
-          isPartial: false,
-          indexVersion: 2,
-          direction: 'forward',
-          indexBounds: { year: [ '[2015, inf.0]' ] },
-          keysExamined: 747,
-          seeks: 1,
-          dupsTested: 0,
-          dupsDropped: 0
+          docsExamined: 747,
+          alreadyHasObj: 0,
+          inputStage: {
+            stage: 'IXSCAN',        # --> 改用 index 查詢
+            nReturned: 747,
+            executionTimeMillisEstimate: 0,
+            works: 748,             # --> 所需步驟變少
+            advanced: 747,
+            needTime: 0,
+            needYield: 0,
+            saveState: 0,
+            restoreState: 0,
+            isEOF: 1,
+            keyPattern: { year: 1 },
+            indexName: 'year_1',
+            isMultiKey: false,
+            multiKeyPaths: { year: [] },
+            isUnique: false,
+            isSparse: false,
+            isPartial: false,
+            indexVersion: 2,
+            direction: 'forward',
+            indexBounds: { year: [ '[2015, inf.0]' ] },
+            keysExamined: 747,
+            seeks: 1,
+            dupsTested: 0,
+            dupsDropped: 0
+          }
         }
-      }
-    },
-    ...
-  }
-  ```
+      },
+      ...
+    }
+    ```
 
 ## # 其他
 
@@ -374,38 +407,56 @@
 
 - `db.test.explain("executionStats")`
 
-```shell
-# 可回傳 DB 執行的相關資訊，如執行時間等
-> db.movie.explain('executionStats').find({ year: { $gte: 2015 } })
-{
-  ...,
-  executionStats: {
-    executionSuccess: true,
-    nReturned: 747,
-    executionTimeMillis: 16,
-    totalKeysExamined: 0,
-    totalDocsExamined: 28795,
-    executionStages: {
-      stage: 'COLLSCAN',
-      filter: { year: { '$gte': 2015 } },
+  ```shell
+  # 可回傳 DB 執行的相關資訊，如執行時間等
+  > db.movie.explain('executionStats').find({ year: { $gte: 2015 } })
+  {
+    ...,
+    executionStats: {
+      executionSuccess: true,
       nReturned: 747,
-      executionTimeMillisEstimate: 0,
-      works: 28797,
-      advanced: 747,
-      needTime: 28049,
-      needYield: 0,
-      saveState: 28,
-      restoreState: 28,
-      isEOF: 1,
-      direction: 'forward',
-      docsExamined: 28795
-    }
-  },
-  ...
-}
-```
+      executionTimeMillis: 16,
+      totalKeysExamined: 0,
+      totalDocsExamined: 28795,
+      executionStages: {
+        stage: 'COLLSCAN',
+        filter: { year: { '$gte': 2015 } },
+        nReturned: 747,
+        executionTimeMillisEstimate: 0,
+        works: 28797,
+        advanced: 747,
+        needTime: 28049,
+        needYield: 0,
+        saveState: 28,
+        restoreState: 28,
+        isEOF: 1,
+        direction: 'forward',
+        docsExamined: 28795
+      }
+    },
+    ...
+  }
+  ```
 
-## # 延伸閱讀
+- `maxTimeMS`
+
+  - 若設定 `maxTimeMS` 則超時後，會執行 `db.killOp()`，並回傳 `ExceededTimeLimit` 錯誤 (沒有預設)
+  - REF: [maxTimeMS (stackoverflow)]
+
+## # 延伸討論
+
+- WiredTiger 引擎
+
+  - 引入 `Document-Level Lock`
+
+    - `S` (Shared), `X` (Exclusive), `IS` (Intent Shared), `IX` (Intent Exclusive)
+    - REF: [What type of lock does MongoDB apply at the document level when reading or writing the document?]
+
+    ![](./src/image/GPT_Mongo_Lock.png)
+
+  - 引入 `MVCC`
+
+  - REF: [WiredTiger Storage Engine 文件]
 
 - [Everything You Know About MongoDB is Wrong!]
 - [NOSQL 數據建模技術]([NOSQL DATA MODELING TECHNIQUES])
@@ -448,16 +499,6 @@
 
 4. 也不太明白 planCacheKey 的機制，我以 find({name: "Jack", age: 20}) 實測發現，當我只有 age_1 index 時，與只有 name_1 時，planCacheKey 是一樣的。
 ```
-
-# 暫存 Linux
-
-- `ps`
-  - Process Status
-- `grep`
-  - g/re/p（globally search a regular expression and print)
-  - `grep xxxx`：過濾出 xxxx
-  - `grep -v yyyy`：反向過濾 xxxx （去除 yyyy）
-  - `grep -v grep`：去除掉 `grep` 本身產生的 `precess`
 
 # 未整理問題暫存
 
