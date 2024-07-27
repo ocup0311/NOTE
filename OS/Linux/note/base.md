@@ -14,9 +14,11 @@
 
  <!-- ref -->
 
+[SELinux 基礎與實務]: https://www.lijyyh.com/2012/11/selinux-security-enhanced-linux-basics.html
+[Linux - 安全增強式 Linux ( SELinux )]: https://how64bit.com/posts/linux/2022/linux-selinux/
 [透過 ip 切換的攻擊手法]: https://www.youtube.com/watch?v=it_V3ig1_4o&t=78s
 [TTY 到底是什麼？]: https://www.kawabangga.com/posts/4515
-[零基礎七天入門linux]: https://www.udemy.com/course/linux-zh/learn/lecture/8531918#content
+[零基礎七天入門 Linux]: https://www.udemy.com/course/linux-zh/learn/lecture/8531918#content
 [manjaro]: https://manjaro.org
 [linux newbie: running manjaro on macbookpro]: https://medium.com/@pswoo/linux-newbie-running-manjaro-on-macbookpro-5db4672351c9
 [classic sysadmin: how to securely transfer files between servers with scp]: https://www.linuxfoundation.org/blog/blog/classic-sysadmin-how-to-securely-transfer-files-between-servers-with-scp
@@ -546,6 +548,15 @@
 
   </details>
 
+## 8. 資安
+
+- SELinux
+
+  REF:
+
+  - [Linux - 安全增強式 Linux ( SELinux )]
+  - [SELinux 基礎與實務]
+
 ## # 其他補充
 
 - 注意事項：
@@ -643,6 +654,18 @@
 
   - <details close>
     <summary>指令</summary>
+
+    <!-- grep -->
+
+    - <details close>
+      <summary><code>grep</code>></summary>
+
+      - g/re/p (globally search a regular expression and print)
+      - `grep xxxx`：過濾出 xxxx
+      - `grep -v yyyy`：反向過濾 xxxx （去除 yyyy）
+      - `grep -v grep`：去除掉 `grep` 本身產生的 `precess`
+
+      </details>
 
     <!-- printenv -->
 

@@ -7,10 +7,6 @@
   $ xcversion install 14.0.1
   ```
 
-## # 資安
-
-> 簡訊只要運用 SS7 就有可能被攔截，所以 2FA 並不建議用簡訊來驗證
-
 ## # ChatGPT
 
 - [ChatGPT](https://chat.openai.com/chat)
@@ -171,3 +167,15 @@
   - [Real-time problem & outage monitoring](https://downdetector.com/)
 
     - 監控各大服務的狀態
+
+## # License
+
+- REF: [【概念筆記】什麼是軟體授權條款(Software License)? ](https://medium.com/@ellierellier/概念筆記-什麼是軟體授權條款-software-license-授權條款相關概念一次釐清-9d70e29f3a29)
+
+![](./src/Software_License.png)
+
+## # 2FA
+
+- [如何透過 Golang 開發 OAuth2 的 PKCE - 以 LINE Login 為例](https://engineering.linecorp.com/zh-hant/blog/pkce-line-login)
+- [AWS: Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html)
+- 簡訊只要運用 SS7 就有可能被攔截，所以 2FA 並不建議用簡訊來驗證
