@@ -2,8 +2,16 @@
 
 <!----------- ref start ----------->
 
-[一起學習Mysql索引二（索引的高效能策略）]: https://mp.weixin.qq.com/s?__biz=MzI0MDEzODc5MA==&mid=2247483930&idx=1&sn=1514297d01e62af4185622c6f87ce99f
-[MySQL索引背後的資料結構與演算法原理]: http://blog.codinglabs.org/articles/theory-of-mysql-index.html
+[MySQL InnoDB 儲存引擎大觀]: http://www.linkedkeeper.com/1500.html
+[老生常談：MySQL 的體系結構]: https://generalthink.github.io/2022/04/06/mysql-architecture/
+[從 Indexing 的角度切入 MySQL-Innodb 與 PostgreSQL 的效能比較]: https://tech-blog.cymetrics.io/posts/maxchiu/indexing/
+[淺談 PostgreSQL 與 MySQL 的差異]: https://blog.kennycoder.io/2023/11/18/%E8%AB%87%E8%AB%87-Postgres-%E8%88%87-MySQL-%E7%9A%84%E5%B7%AE%E7%95%B0/
+[MySQL 超新手入門系列文]: https://www.codedata.com.tw/database/mysql-tutorial-getting-started
+[MySQL 儲存引擎與資料型態]: https://www.codedata.com.tw/database/mysql-tutorial-8-storage-engine-datatype/
+[MySQL 資料庫引擎 InnoDB 與 MyISAM 有何差異?]: https://www.mysql.tw/2023/05/mysql-innodb-myisam-difference.html
+[MVCC: Postgres vs MySQL vs Dolt]: https://www.dolthub.com/blog/2024-07-08-are-git-branches-mvcc/
+[一起學習 Mysql 索引二（索引的高效能策略）]: https://mp.weixin.qq.com/s?__biz=MzI0MDEzODc5MA==&mid=2247483930&idx=1&sn=1514297d01e62af4185622c6f87ce99f
+[MySQL 索引背後的資料結構與演算法原理]: http://blog.codinglabs.org/articles/theory-of-mysql-index.html
 [MySQL ICP Doc]: https://dev.mysql.com/doc/refman/8.4/en/index-condition-pushdown-optimization.html
 [MySQL 系列文]: https://ithelp.ithome.com.tw/users/20124671/articles
 [ON UPDATE/DELETE 作用]: https://blog.csdn.net/u013636377/article/details/51313669
@@ -53,7 +61,11 @@
 
 > DATE: 6, 7 (2023)
 > UPDATE: 7 (2024)
-> REF: [MySQL 系列文] | [MySQL 索引背後的資料結構與演算法原理] | [一起學習 Mysql 索引二（索引的高效能策略）]
+> REF: [MySQL 系列文] | [MySQL 超新手入門系列文] | [MySQL 索引背後的資料結構與演算法原理] | [一起學習 Mysql 索引二（索引的高效能策略）]
+
+## # 版本備註
+
+- 此筆記以 MySQL `InnoDB` 為主
 
 ## # 簡介
 
@@ -943,6 +955,25 @@ TODO: 再修改整理
 
 ## # 底層研究
 
+<!-- MyISAM VS InnoDB (現況預設：InnoDB) -->
+
+- <details close>
+  <summary>MyISAM VS InnoDB (現況預設：InnoDB)</summary>
+
+  ![](./src/image/MyISAM_vs_InnoDB1.png)
+  ![](./src/image/MyISAM_vs_InnoDB2.png)
+
+  - `Transactions`、`ACID`、`Row-level lock`、`Foreign key`
+
+  - REF:
+
+    - [老生常談：MySQL 的體系結構]
+    - [MySQL InnoDB 儲存引擎大觀]
+    - [MySQL 儲存引擎與資料型態]
+    - [MySQL 資料庫引擎 InnoDB 與 MyISAM 有何差異?]
+
+  </details>
+
 <!-- B+ Tree -->
 
 - <details close>
@@ -1047,6 +1078,95 @@ TODO: 再修改整理
     </details>
 
   - REF: [圖解｜索引覆蓋、索引下推以及如何避免索引失效]
+
+  </details>
+
+<!-- Temporary Table (臨時表) -->
+
+- <details close>
+  <summary>Temporary Table (臨時表)</summary>
+
+  <!-- 外部臨時表 -->
+
+  - <details close>
+    <summary>外部臨時表</summary>
+
+    - 主動使用 `CREATE TEMPORARY TABLE` 建立
+    - 位置：`disk`
+
+    </details>
+
+  <!-- 內部臨時表 -->
+
+  - <details close>
+    <summary>內部臨時表</summary>
+
+    - 一些操作時，MySQL 自動建立 (EX. UNION, DISTINCT, view, derived tables, CTE, ORDER BY , GROUP BY)
+    - 位置：`memory (HEAP)`、`disk`
+
+      - 超過 `MAX_HEAP_TABLE_SIZE` 則由 memory 改放 disk
+
+    </details>
+
+  <!-- Disk 上的 Tablespace -->
+
+  - <details close>
+    <summary>Disk 上的 Tablespace</summary>
+
+    <!-- session temporary tablespaces -->
+
+    - <details close>
+      <summary>session temporary tablespaces</summary>
+
+      - 預設使用
+      - 放在 `innodb_temp/`
+      - 初始化 `temp_1.ibt` ~ `temp_10.ibt` 供使用
+      - 用超過才會再增加 `temp_11.ibt`...
+      - 只在一個 Session 中使用 (即每次重啟連線都會初始化)
+
+      </details>
+
+    <!-- global temporary tablespace -->
+
+    - <details close>
+      <summary>global temporary tablespace</summary>
+
+      - 配置後重啟，會從使用 session 改為使用 global
+      - 以 `innodb_temp_data_file_path` 進行配置
+
+        ```ini
+        # EX. filename : 初始大小 : 自動擴展 : max : 上限大小
+
+        [mysqld]
+        innodb_temp_data_file_path=ibtmp1:12M:autoextend:max:5G
+        ```
+
+      </details>
+
+    </details>
+
+  <!-- status label -->
+
+  - <details close>
+    <summary>status label</summary>
+
+    - `Created_tmp_tables`
+    - `Created_tmp_disk_tables`
+
+    </details>
+
+  </details>
+
+<!-- MVCC -->
+
+- <details close>
+  <summary>MVCC</summary>
+
+  - REF: [MVCC: Postgres vs MySQL vs Dolt]
+
+  - GPT
+
+    ![](./src/image/GPT_MVCC.png)
 
   </details>
 
@@ -1543,6 +1663,16 @@ TODO: 再修改整理
   <summary>Data Proxy</summary>
 
   - [Prisma Doc: Data Proxy]
+
+  </details>
+
+<!-- PostgreSQL vs MySQL -->
+
+- <details close>
+  <summary>PostgreSQL vs MySQL</summary>
+
+  - [淺談 PostgreSQL 與 MySQL 的差異]
+  - [從 Indexing 的角度切入 MySQL-Innodb 與 PostgreSQL 的效能比較]
 
   </details>
 

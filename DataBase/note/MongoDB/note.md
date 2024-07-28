@@ -14,10 +14,13 @@
 
 ###### <!-- ref -->
 
+[WiredTiger’s Organizational Systems: B-Trees vs. LSM Trees]: https://medium.com/@eliehannouch800/wiredtigers-organizational-systems-b-trees-vs-lsm-trees-fbf262c99a43
+[WiredTiger 文件：Data Sources]: https://source.wiredtiger.com/11.2.0/arch-toc-data-src.html
+[WiredTiger wiki: B-tree vs LSM]: https://github.com/wiredtiger/wiredtiger/wiki/Btree-vs-LSM
 [mongoose index]: https://mongoosejs.com/docs/guide.html#indexes
 [mongodb create index]: https://stackoverflow.com/questions/31991710/mongodb-auto-create-index-for-new-collections
 [maxTimeMS (stackoverflow)]: https://stackoverflow.com/questions/67260458/mongodb-find-query-maxtimems
-[WiredTiger Storage Engine 文件]: https://www.mongodb.com/docs/manual/core/wiredtiger
+[MongoDB 文件：WiredTiger Storage Engine]: https://www.mongodb.com/docs/manual/core/wiredtiger
 [What type of lock does MongoDB apply at the document level when reading or writing the document?]: https://dba.stackexchange.com/questions/334265/what-type-of-lock-does-mongodb-apply-at-the-document-level-when-reading-or-writi
 [MongoDB 零基礎從入門到精通]: https://www.udemy.com/course/best-mongodb/
 [MongoDB 官方課程]: https://learn.mongodb.com/catalog
@@ -46,6 +49,26 @@
 - Map/reduce for aggregation
 - Replication and Failover
 - Auto Sharding
+
+## # WiredTiger Storage Engine
+
+- 默認使用 B+ Tree 變體(Row-Oriented Storage)
+- 可選 `Row-Oriented Storage`、`Column-Oriented Storage`、`LSM Tree`
+
+- 引入 `Document-Level Lock`
+
+  - `S` (Shared), `X` (Exclusive), `IS` (Intent Shared), `IX` (Intent Exclusive)
+  - REF: [What type of lock does MongoDB apply at the document level when reading or writing the document?]
+
+  ![](./src/image/GPT_Mongo_Lock.png)
+
+- 引入 `MVCC`
+
+- REF:
+  - [MongoDB 文件：WiredTiger Storage Engine]
+  - [WiredTiger 文件：Data Sources]
+  - [WiredTiger wiki: B-tree vs LSM]
+  - [WiredTiger’s Organizational Systems: B-Trees vs. LSM Trees]
 
 ## # BSON
 
@@ -444,19 +467,6 @@
   - REF: [maxTimeMS (stackoverflow)]
 
 ## # 延伸討論
-
-- WiredTiger 引擎
-
-  - 引入 `Document-Level Lock`
-
-    - `S` (Shared), `X` (Exclusive), `IS` (Intent Shared), `IX` (Intent Exclusive)
-    - REF: [What type of lock does MongoDB apply at the document level when reading or writing the document?]
-
-    ![](./src/image/GPT_Mongo_Lock.png)
-
-  - 引入 `MVCC`
-
-  - REF: [WiredTiger Storage Engine 文件]
 
 - [Everything You Know About MongoDB is Wrong!]
 - [NOSQL 數據建模技術]([NOSQL DATA MODELING TECHNIQUES])
