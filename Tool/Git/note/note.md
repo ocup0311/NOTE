@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[Anyone can Access Deleted and Private Repository Data on GitHub]: https://trufflesecurity.com/blog/anyone-can-access-deleted-and-private-repo-data-github
 [GitHub Doc: GitHub Flow]: https://docs.github.com/en/get-started/using-github/github-flow
 [GitLab Flow - Jadson José dos Santos, PhD]: https://www.linkedin.com/pulse/gitlab-flow-jadson-santos/
 [Contributing Guide when you fork a repository]: https://medium.com/@rishabhmittal200/contributing-guide-when-you-fork-a-repository-3b97657b01fb
@@ -796,12 +797,14 @@
 
 ## # 延伸討論
 
-<!--  -->
+<!-- Github Fork 共用 <code>.git/objects</code>？ -->
 
 - <details close>
-  <summary></summary>
+  <summary>Github Fork 共用 <code>.git/objects</code>？</summary>
 
-  -
+  - REF: [Anyone can Access Deleted and Private Repository Data on GitHub]
+  - 可以在任何 Fork 以 commit hash 讀取所有 Fork 的 commit，不論是否設為 private 或是 delete
+  - 因為可以用 Short SHA-1 value 讀取，因此可以暴力破解 commit hash
 
   </details>
 

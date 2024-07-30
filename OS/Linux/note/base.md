@@ -698,6 +698,8 @@
     - <details close>
       <summary>方便查 ip 上色</summary>
 
+      - `ip -c a`
+
       ```sh
       $ ip addr | awk '
       /inet/ { system("tput setaf 2"); print; system("tput sgr0"); next }
