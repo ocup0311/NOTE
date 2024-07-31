@@ -67,3 +67,13 @@ sudo apt-get install -qq -y kubeadm=$FULL_VERSION kubelet=$FULL_VERSION kubectl=
 
 echo "[TASK 10] Hold the version of Kubernetes components (kubelet, kubeadm, kubectl)"
 sudo apt-mark hold kubelet kubeadm kubectl
+
+
+echo "[TASK 11] Install network tools"
+sudo apt-get -qq -y update >/dev/null 2>&1
+sudo apt-get install -qq -y bridge-utils net-tools >/dev/null 2>&1
+
+
+echo "[TASK 12] Install other tools"
+sudo apt-get -qq -y update >/dev/null 2>&1
+sudo apt-get install -qq -y jq >/dev/null 2>&1
