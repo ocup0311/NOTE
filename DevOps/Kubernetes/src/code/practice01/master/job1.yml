@@ -1,0 +1,12 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-practice1
+spec:
+  template:
+    spec:
+      containers:
+        - name: box
+          image: busybox
+          command: ['sh', '-c', 'sleep 50']
+      restartPolicy: OnFailure

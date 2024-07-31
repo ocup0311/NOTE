@@ -661,6 +661,13 @@
 
   </details>
 
+<!-- Cluster Autoscaling & Horizontal Pod Autoscaler (HPA) -->
+
+- <details close>
+  <summary>Cluster Autoscaling & Horizontal Pod Autoscaler (HPA)</summary>
+
+  </details>
+
 ---
 
 ## # Controllers
@@ -720,7 +727,7 @@
     - ReplicaSet Controller
 
       - 確保特定數量的 Pod 副本運行，支持基於 Label 的選擇
-      - 冗余 Pod 刪除順序：`非 Running 狀態` -> `最小 Pod deletion cost` -> `最新的`
+      - 冗餘 Pod 刪除順序：`非 Running 狀態` -> `最小 Pod deletion cost` -> `最新的`
 
         - REF: [Pod deletion cost 文件]
         - `v1.22beta` 後可以設定個別 Pod 的 deletion cost
@@ -761,10 +768,13 @@
     - Job Controller
 
       - 管理和執行一次性任務，確保 Pod 在任務完成前運行
+      - 必須手動加入 `restartPolicy`:`Never`/`OnFailure`
 
     - CronJob Controller
 
       - 基於時間表定期運行 Jobs
+      - CronJob 控制 Job，Job 控制 Pod
+      - `startingDeadlineSeconds`、`concurrencyPolicy` 用來設定：當抵達下次 job 執行時間，卻還未完成前次的 job 的處理方式
 
     - ~~Replication Controller~~ (X)
 
@@ -804,8 +814,6 @@
 
   - 可以將 service 對應的 Pod 刪除，service 還在，但實際上沒東西在跑
   -
-
-多出來的隨機刪嗎？刪除最新的？
 
 - PV PVC
 
@@ -875,5 +883,3 @@
 
   - 可以查詢到 coredns 中有設定 forward，也就是設定成此 DNS 查詢不到配對時，會自動轉發給本機的 DNS (/etc/resolv.conf)
   - 例如想 ping google.com，則會一直往外的 DNS 去轉發
-
-- priorityClass

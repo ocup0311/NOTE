@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-practice1
+spec:
+  schedule: '*/1 * * * *'
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: box1
+              image: busybox:1.28
+              imagePullPolicy: IfNotPresent
+              command: ['sh', '-c', 'sleep 70']
+
+          restartPolicy: OnFailure
