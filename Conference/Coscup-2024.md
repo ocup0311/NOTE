@@ -94,7 +94,7 @@
 
   - 成本可視化工具
 
-# # DA 模組的核心：Data Availability Sampling 技術介紹
+# # DA 模組的核心：Data Availability Sampling 技術介紹 (＊)
 
 - 可看講者的數篇文章
 
@@ -138,7 +138,7 @@
         - 需要 50% 資料才能還原
 
       - 2D Encoding
-        - sqr(k)
+        - sqrt(k)
         - 需要 75% 資料才能還原
 
     -
@@ -201,9 +201,9 @@
 
 - 可幫忙做 RBAC 的驗證
 
-# # What We Can Do with K8s Custom Controllers
+# # What We Can Do with K8s Custom Controllers (＊)
 
-# # fsft?
+# # FSFE
 
 # # Adaptive Cluster - K8s Operator 5W1H
 
@@ -231,3 +231,160 @@
   - CRD (by API Marker..)
   - OLM (operator lifecyle Manager)
   - 關於 HELM 的部分，比較不完全
+
+# # 區塊鏈和加密技術如何使 AI 更去中心化和兼顧隱私安全
+
+- layer 0: 跨鏈橋
+
+- 以 LLM 的應用為例的探討
+
+- 輸入內容沒有隱私 ＋ 無法確認背後是否提供你所選擇的模型
+
+- ZKML & OPML
+
+- 將浮點化為整數，降低 gas
+
+- 研究顯示 GKR zkCNN 較適合
+
+- 成功完成 GPT2 的驗證 --> zkp 可以證明 AI inference 的開頭
+
+- FPVM
+
+- Fully Homomorphic Encryption
+
+  - ZAMA-Concrete ML
+
+# # Shuld You Sitch to the New K8s Gateway API?
+
+- Ingress + CRD -> Gateway API
+
+- v1.0 後
+
+  - Much more cabaple
+  -
+  -
+
+- 優勢：Expressive (富有表現力)、extensible、role-oriented
+
+- role-oriented -> 更加關注點分離？
+
+- Merging with Service Mesh Interface (SMI) (GAMMA)
+
+- 使用 ingress2gateway 來轉移 (APISIX 的工具)
+
+# # Let's build llama 3: Source code explained from scratch (＊)
+
+- 可以找一下他的影片介紹一些底層解讀
+
+- Decoder only model
+
+- 一次 input 一個 token
+
+- re-scaling 比 re-centering 重要
+
+- KV cache
+
+  - Attention(Q,K,V)
+
+# # WebAssembly 在零知識證明中的應用
+
+- 前記：遠端直播時，微信設備一直有問題，最後改用 Google meet 即可
+
+- 將 web3 需要的 ZKP 等，做成 WebAssembly 模塊，輕鬆移植供使用
+
+- 因為效能好、因為 C 已經有現成的 repo 可以直接用
+
+# # Boost Security in K8s with CIS Security Controls and Benchmarks
+
+- CIS、NIST、ENISA
+
+- GCB
+
+- 可下載 CIS Benchmarks 參考其規定
+
+- CIS Benchmarks
+
+  - 有一條條告訴你每個改版，怎麼改，改的理由
+
+  - Level
+
+    - Level 1 的盡量都過
+    - Level 2 的 by 業務場景
+
+- 預設的 namespace 都不使用
+- Kube-bench
+
+  - 認為是追 CIS 相關工具追滿緊的一個專案
+
+# # Diataxis
+
+- Quaity
+
+  - Functional quaity
+
+    - 比較硬性的規定
+    - EX. 16G mem
+
+  - Deep quaity
+    - 主觀的理解
+    - EX. 適合用來 coding
+
+- Diataxis 用來提升 Deep quaity
+
+- 是一個 Craft (工藝)
+
+- 從目標為 學習 或 工作 來做思考
+
+- Tutorials、How-to Guides、Explanations、Reference
+
+  - 四個部分，盡量不要在其中一個部分提及太多其他部分的內容，會喪失焦點 (EX. 在 How-to Guides 不要參雜 Explanations)
+
+- How-to Guides (work)
+
+  - 需設想到使用者在看每個步驟時的心理狀態
+  - 要幫助使用者在每個步驟都進入心流，而不會又須回到上一步
+
+- Tutorials (study)
+
+  - 只領導使用者去透過做一些操作，自己去領悟
+  - 並非把所有內容告知
+  - 並非讓使用者完成達到某個 Guides
+
+- Reference (work)
+
+  - 重點在確保：真實、正確、權威
+  - 不是讓人閱讀，而是讓人可以查到資訊
+  - 讓使用者不需深入其中，但能立刻得到資訊
+
+- Explanations (study)
+  - 跟 How-to Guides 一樣，每一個 Explanations 都需先想好主題，讓此時只聚焦在一個主題，不發散
+
+# # 雲端 GPU 共享系統
+
+- K8s + Kubeflow
+-
+
+# # Introduction to Threshold signature schemes (＊)
+
+- 可以看一下上一節 MPC 共筆
+- MPC 的一個落地應用
+
+- 一些保管私鑰的解方
+
+  - Shamir Secret Sharing：私鑰拆開兩部分保管
+  - Multi-keys：需同時需要幾把私鑰一起開
+  - MPC(Multi-party Computation)：旨在讓私鑰從來不在 memory 出現過
+
+- MPC + Digital Sibnature
+
+  - 從 Gernerate -> Storage -> Sign，都沒讓私鑰完整出現過，從頭到尾都分開在不同 party
+
+# # A short experience to perform Fuzzing and Formal Verification
+
+- property & invariant
+
+  - property：描述任何東西的行為
+  - invariant：更進一步的測試規格
+
+- SMTChecker
+- Halmos
