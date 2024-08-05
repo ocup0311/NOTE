@@ -1,20 +1,26 @@
-# 學習筆記
+# Ocup 學習筆記
 
 歡迎來到我的學習筆記！這裡用於存放我在學習與實作過程中的各種筆記，涵蓋多個主題和課程。
 
-### # 目錄
+---
+
+### 積極求職中
+
+目前正在尋找新的工作機會，期待與優秀的團隊合作，請參考我的[簡歷](https://www.canva.com/design/DAGM_ZTkyo0/_Qtna7uM-GW_cgdFwKjgGQ/view)
+
+---
+
+### # 技術項目
 
 - [System Design](./System/README.md)
-- [Docker](./DevOps/Docker/note/note.md) | [Kubernetes](./DevOps/Kubernetes/note/note.md)
-- [Ansible](./DevOps/Ansible/note/note.md) | [Vagrant](./DevOps/Vagrant/note/note.md) | [Linux](./OS/Linux/note/base.md)
+- [Docker](./DevOps/Docker/note/note.md) | [K8s](./DevOps/Kubernetes/note/note.md) | [Ansible](./DevOps/Ansible/note/note.md) | [Vagrant](./DevOps/Vagrant/note/note.md) | [Serverless](./Cloud/Serverless/note/note.md) | [Linux](./OS/Linux/note/base.md)
 - [MySQL](./DataBase/note/MySQL/note.md) | [MongoDB](./DataBase/note/MongoDB/note.md)
 - [TypeScript](./Language/TypeScript/note/base.md) | [JavaScript](./Language/JavaScript/note/base.md) | [NodeJS](./Language/JavaScript/note/Node.md) | [C](./Language/C/note/base.md) | [Golang](./Language/Golang/note/base.md)
 - [CORS](./Web/note/CORS.md) | [HTTP](./Web/note/HTTP.md) | [Web](./Web/note/Web.md) | [Server](./Web/note/Server.md) | [DOM](./FrontEnd/note/DOM.md)
-- [Functional Programming](./Pattern/FP/note/base.md)
-- [基礎演算法](https://github.com/ocup0311/Algorithm)
+- [FP](./Pattern/FP/note/base.md)
+- [資料結構＆演算法](https://github.com/ocup0311/Algorithm)
 - [Git](./Tool/Git/note/note.md)
 - [AI](./AI/Generative%20AI/note/note.md)
-- [Serverless](./Cloud/Serverless/note/note.md)
 
 ### # 讀書會參與
 
@@ -28,7 +34,7 @@
 
 ### # 使用說明
 
-請通過以上目錄導航到你感興趣的筆記。如果你有任何想要貢獻的建議、發現錯誤資訊、遺漏的面向，歡迎提出 Issue、Pull Request 或者通過以下方式與我聯繫，共同學習成長～～
+歡迎透過以上目錄導航到你感興趣的筆記。如果你有任何建議、發現錯誤資訊、遺漏的面向，歡迎提出 Issue、Pull Request 或者通過以下方式與我聯繫，共同學習成長～～
 
 ### # 聯絡方式
 
