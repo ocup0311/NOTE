@@ -6,7 +6,7 @@
 
 ### 積極求職中
 
-目前正在尋找新的工作機會，期待與優秀的團隊合作，請參考我的[簡歷](https://www.canva.com/design/DAGM_ZTkyo0/_Qtna7uM-GW_cgdFwKjgGQ/view)
+目前正在尋找新的工作機會，期待與優秀的團隊合作，請參考我的[履歷](https://drive.google.com/file/d/1fDkHj1-PVB23jCiT79Eh1y9msUYpSjLj/view?usp=sharing)
 
 ---
 
@@ -40,3 +40,4 @@
 
 - GitHub: [ocup0311](https://github.com/ocup0311)
 - Email: [ocup0311@gmail.com](mailto:ocup0311@gmail.com)
+- 求職中: [履歷](https://drive.google.com/file/d/1fDkHj1-PVB23jCiT79Eh1y9msUYpSjLj/view?usp=sharing)
