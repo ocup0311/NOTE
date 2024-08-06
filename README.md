@@ -6,7 +6,7 @@
 
 ### 積極求職中
 
-目前正在尋找新的工作機會，期待與優秀的團隊合作，請參考我的[履歷](https://bit.ly/ocup0311-resume)
+目前正在尋找新的工作機會，期待與優秀的團隊合作，請參考我的[履歷](https://bit.ly/chiawei-huang-resume)
 
 ---
 
@@ -40,4 +40,4 @@
 
 - GitHub: [ocup0311](https://github.com/ocup0311)
 - Email: [ocup0311@gmail.com](mailto:ocup0311@gmail.com)
-- 求職中: [履歷](https://bit.ly/ocup0311-resume)
+- 求職中: [履歷](https://bit.ly/chiawei-huang-resume)
