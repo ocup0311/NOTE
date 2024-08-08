@@ -2,6 +2,11 @@
 
 <!----------- ref start ----------->
 
+[2024.01.29 簡介 GitHub Copilot]: https://hackmd.io/@Eudicotz/BJVuG93i6
+[2024.02.16 GitHub Copilot advance usage 其他妙用]: https://hackmd.io/@Eudicotz/SyGvHkAsT
+[2024.02.16 GitHub Copilot Chat]: https://hackmd.io/@Eudicotz/BkfOVkCiT
+[論文列表]: https://arc.net/folder/D0472A20-9C20-4D3F-B145-D2865C0A9FEE
+[Ilya Sutskever 貼文]: https://www.reddit.com/r/ArtificialInteligence/comments/1cpbh1s/ilya_sutskever_if_you_really_learn_all_of_these/
 [Hugging Face 文件]: https://huggingface.co/docs/transformers/main/en/index
 [參考防幻覺參數：DoLa]: https://huggingface.co/docs/transformers/main/en/generation_strategies#dola-decoding
 [Temperature check: theory and practice for training models with softmax-cross-entropy losses]: https://openreview.net/pdf?id=LBA2Jj5Gqn
@@ -449,7 +454,21 @@
 
 - 補充學習：
 
-  - 論文
+  - OpenAI 前首席科學家 Ilya Sutskever 精選論文
+
+    - OpenAI 的前首席科學家 Ilya Sutskever 開出了一份論文清單，總共包含 30 篇論文。他說："如果你真正學會了所有這些，你就會知道當今 AI 的 90% 重要內容。"
+
+    - [Ilya Sutskever 貼文]
+
+    - [論文列表]
+
+  - 保哥 GitHub Copilot 協作開發筆記
+
+    - [2024.01.29 簡介 GitHub Copilot]
+    - [2024.02.16 GitHub Copilot advance usage 其他妙用]
+    - [2024.02.16 GitHub Copilot Chat]
+
+  - 論文收集
 
     - [GPT-4 Technical Report]
 

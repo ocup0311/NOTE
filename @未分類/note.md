@@ -94,29 +94,6 @@
 - Azure Boards
 - [Always sprinting?](https://cbh.bearblog.dev/always-sprinting/)
 
-## # Cloud
-
-- [S3 Is Showing Its Age](https://materializedview.io/p/s3-is-showing-its-age)
--
-
-## # AI
-
-- 論文分享
-
-  - OpenAI 前首席科學家 Ilya Sutskever 精選論文
-
-    - [Ilya Sutskever 貼文](https://www.reddit.com/r/ArtificialInteligence/comments/1cpbh1s/ilya_sutskever_if_you_really_learn_all_of_these/)
-
-      - OpenAI 的前首席科學家 Ilya Sutskever 開出了一份論文清單，總共包含 30 篇論文。他說："如果你真正學會了所有這些，你就會知道當今 AI 的 90% 重要內容。"
-
-    - [論文列表](https://arc.net/folder/D0472A20-9C20-4D3F-B145-D2865C0A9FEE)
-
-- 保哥 GitHub Copilot 協作開發筆記
-
-  - [2024.01.29 簡介 GitHub Copilot](https://hackmd.io/@Eudicotz/BJVuG93i6)
-  - [2024.02.16 GitHub Copilot advance usage 其他妙用](https://hackmd.io/@Eudicotz/SyGvHkAsT)
-  - [2024.02.16 GitHub Copilot Chat](https://hackmd.io/@Eudicotz/BkfOVkCiT)
-
 ## # Linux
 
 - `xargs`

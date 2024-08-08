@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[常見 CNI Plugin 介紹]: https://www.hwchiu.com/docs/2018/cni-compare
 [26 Top Kubernetes Tools for 2024]: https://medium.com/spacelift/26-top-kubernetes-tools-for-2024-6809b2f0d5d4
 [Pod deletion cost 文件]: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#pod-deletion-cost
 [Pod Lifecycle 文件]: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase
@@ -19,7 +20,7 @@
 [Why kubectl is required to be installed on every node while setting up cluster using kubeadm?]: https://serverfault.com/questions/1031966/why-kubectl-is-required-to-be-installed-on-every-node-while-setting-up-cluster-u
 [［回答］kubeadm init/join 設定 external/internal IPs]: https://github.com/kubernetes/kubeadm/issues/1987#issuecomment-569074463
 [10-kubeadm.conf located under different folder]: https://github.com/kubernetes/kubeadm/issues/1575
-[Network Policy 插件]: https://kubernetes.io/docs/concepts/cluster-administration/addons/
+[CNI 插件]: https://kubernetes.io/docs/concepts/cluster-administration/addons/
 [Kubectl autocomplete 文件]: https://kubernetes.io/docs/reference/kubectl/cheatsheet/#kubectl-autocomplete
 [kubeadm configuration 文件]: https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2
 [CKA 考試完全指南（2022 版）]: https://www.udemy.com/course/k8s-chinese/
@@ -296,6 +297,7 @@
 - CNI (Container Network Interface)
 
   - 由 CNCF（Cloud Native Computing Foundation）管理的開源項目，旨在簡化容器網路管理
+  - REF: [常見 CNI Plugin 介紹]
 
 - API Server
 
@@ -665,6 +667,15 @@
 
 - <details close>
   <summary>Cluster Autoscaling & Horizontal Pod Autoscaler (HPA)</summary>
+
+  </details>
+
+<!-- Gateway API vs Ingress API -->
+
+- <details close>
+  <summary>Gateway API vs Ingress API</summary>
+
+  -
 
   </details>
 
