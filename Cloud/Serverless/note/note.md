@@ -2,6 +2,8 @@
 
 <!----------- ref start ----------->
 
+[Comparing Container and Zip Lambdaliths with Thin Functions]: https://medium.com/@ryan.cormack/comparing-container-and-zip-lambdaliths-with-thin-functions-03b439239e72
+[Should you use Serverless for your API?]: https://medium.com/@aurelien.bettini/should-you-use-serverless-or-containers-cb28ce38632e
 [Should you use Lambda containers?]: https://kreuzwerker.de/post/should-you-use-lambda-containers
 [AWS Lambda 文件]: https://docs.aws.amazon.com/zh_tw/lambda/latest/dg/welcome.html
 [Working with Lambda layers and extensions in container images]: https://aws.amazon.com/tw/blogs/compute/working-with-lambda-layers-and-extensions-in-container-images/
@@ -116,8 +118,41 @@
 
 ## # 延伸討論
 
+<!-- 技術棧選擇的適用時機 -->
+
 - <details close>
-  <summary></summary>
+  <summary>技術棧選擇的適用時機</summary>
+
+  - [Comparing Container and Zip Lambdaliths with Thin Functions]
+
+    - 比較四個象限：Container Lambdaliths / Zip Lambdaliths / Container Thin Functions / Zip Thin Functions
+    - 結果：
+
+      - warm 幾乎都沒差別
+      - cold
+
+        - Container vs Zip
+
+          - p50 差不多
+          - p90 後 Container 遠高於 Zip
+
+        - Lambdaliths vs Thin
+
+          - Lambdaliths 略高於 Thin
+          - 選擇 Lambdaliths 的情境是技術轉移成本低
+
+    - 我的結論：
+
+      - 考量技術轉移成本，可選 Lambdaliths
+      - 小專案可用 zip 較省啟動時間成本，需要更靈活且使用容器管理方案，才選擇 container
+      - 大專案也可能 container 更省啟動時間成本？ (zip 需要解壓縮)
+
+  - [Should you use Serverless for your API?]
+
+    - `50 req/s`：超過適合 Container，低於適合 Serverless
+    - `10~20 req/s`：約為一般產品的平均值
+
+  - [Should you use Lambda containers?]
 
   </details>
 
