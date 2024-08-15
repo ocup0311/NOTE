@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[state structure]: https://zh-hans.react.dev/learn/choosing-the-state-structure
 [React 18 effect 函式執行兩次的原因及 useEffect 常見情境]: https://medium.com/@linyawun031/react-react-18-effect-函式執行兩次的原因及-useeffect-常見情境-2dc65c18b64b
 [React 18 新功能之自動批次更新]: https://juejin.cn/post/7153814771937067044
 [Learn React 文件]: https://react.dev/learn
@@ -49,4 +50,32 @@
     })
     ```
 
-- transform 可避免 reflow，會直接 repaint，只用 GPU 計算，讓畫面看起來有改變
+- `transform` 可避免 reflow，會直接 repaint，只用 GPU 計算，讓畫面看起來有改變
+
+- "living styleguide" or "storybook"
+
+  - 展示出一個 component 的所有狀態的 view
+  - 設計可用 storybook 工具來做
+
+- state structure
+
+  - REF: [state structure]
+
+  - 盡量濃縮到使用最少數量的 state，若可以合併的則合併
+  - 最好以扁平化方式建置 state。或是用子元件攤平
+  - 在渲染期間從 props 或 state 中計算出一些訊息，則不應該再放到該元件的其他 state 中
+  - 透過 `reducer` 來減少「不可能」state (可視作 "組合 state")
+  - "讓你的狀態盡可能簡單，但不要過於簡單"
+
+- controlled / uncontrolled component
+
+  - 分別為狀態由 prop / state 控制
+
+- React Hook Form
+
+  - 將控制狀態交給瀏覽器，submit 時才更新 react 狀態
+  - 因為一般來說，react 不需要知道這些狀態改變，只需要知道 submit 時才知道
+
+- TODO: 研究扁平化後，是否影響效率，還是只有影響 setState 的便利性
+
+  - [src](../src/code/state_struct.js)
