@@ -79,3 +79,24 @@
 - TODO: 研究扁平化後，是否影響效率，還是只有影響 setState 的便利性
 
   - [src](../src/code/state_struct.js)
+
+- Reducer
+
+  - 複雜的邏輯時，將邏輯統一寫在 reducer 內，達到關注點分離
+  - dispatch
+  - action
+  - state
+
+- Context
+
+  - 分享案例：使用 context 做全域時，即便在一個有 2000 個 component 的專案中，也不會感受到 re-render 的卡頓
+
+- proxy & reflect
+
+- 通常將 reducer 與 context 搭配使用來管理複雜的狀態，可以避免 context 內 state 被任意改動
+
+如果你想用 Effect 只根據其他狀態調整某些狀態，那麼你可能不需要 Effect
+
+useEffectEvent
+
+如果 ref 是從父元件傳遞的，則必須在依賴項陣列中指定它
