@@ -2,6 +2,11 @@
 
 <!----------- ref start ----------->
 
+[Getting Closure on React Hooks]: https://www.swyx.io/hooks
+[互動式視覺化 React hooks 時間軸]: https://julesblom.com/writing/react-hook-component-timeline
+[A (Mostly) Complete Guide to React Rendering Behavior]: https://blog.isquaredsoftware.com/2020/05/blogged-answers-a-mostly-complete-guide-to-react-rendering-behavior/
+[Mark's Dev Blog]: https://blog.isquaredsoftware.com/series/blogged-answers/
+[React 開發者一定要知道的底層機制 — React Fiber Reconciler]: https://medium.com/starbugs/react-開發者一定要知道的底層架構-react-fiber-c3ccd3b047a1
 [state structure]: https://zh-hans.react.dev/learn/choosing-the-state-structure
 [React 18 effect 函式執行兩次的原因及 useEffect 常見情境]: https://medium.com/@linyawun031/react-react-18-effect-函式執行兩次的原因及-useeffect-常見情境-2dc65c18b64b
 [React 18 新功能之自動批次更新]: https://juejin.cn/post/7153814771937067044
@@ -14,21 +19,241 @@
 # React
 
 > DATE: 8 (2024)
-> REF: [Learn React 文件]
+> REF: [Learn React 文件] | [Mark's Dev Blog]
 
 ## # 簡介
 
 ---
 
-## # 安裝與設定
-
----
-
 ## # 基本概念
+
+<!-- Fiber Tree -->
+
+- <details close>
+  <summary>Fiber Tree</summary>
+
+  - REF: [React 開發者一定要知道的底層機制 — React Fiber Reconciler]
+  - [Fiber Object](../src/code/fiber.types.ts)
+
+  ![](../src/image/Fiber_Tree.gif)
+
+  </details>
+
+<!-- Rendering -->
+
+- <details close>
+  <summary>Rendering</summary>
+
+  - 此部分皆為預設的條件下的行為，並未加入其他優化項目 (EX. memo)
+
+  <!-- REF -->
+
+  - <details close>
+    <summary>REF</summary>
+
+    - [互動式視覺化 React hooks 時間軸]
+    - [A (Mostly) Complete Guide to React Rendering Behavior]
+
+    </details>
+
+  <!-- 兩階段 -->
+
+  - <details close>
+    <summary>React 有兩個階段，此部分為 Render Phase</summary>
+
+    - `Render`：製作 VDOM、比較差異
+    - `Commit`：套用到 DOM
+
+    </details>
+
+  <!-- 名詞解釋 -->
+
+  - <details close>
+    <summary>名詞解釋</summary>
+
+    - `Render`
+
+      - 定義：在 React 中指的是製作 VDOM
+      - 解釋：
+        - 為了避免與 VDOM Render 搞混，React 官方將 `browser rendering` 稱為 `painting`
+        - 而在更新 real DOM 之後，瀏覽器就會重新繪製螢幕，這個過程原本應該稱為 `browser rendering`
+
+    - `Reconciliation`
+
+      - 定義：re-render 後，VDOM 會先與 last VDOM 做比對，再將差異更新到 real DOM 的過程
+
+    </details>
+
+  <!-- 行為特性 -->
+
+  - <details close>
+    <summary>行為特性</summary>
+
+    - `setState`、`dispatch` 會觸發 queue a re-render，先將狀態更新放進一個 queue
+    - 單一事件下會一起只做一次更新 (Automatic Batching：v18 前後為兩種版本)
+
+      - REF: [React 18 新功能之自動批次更新]
+
+      - 作用範圍
+
+        - before：every single `React event`
+        - after：every single event loop tick (包含 `setTimeout`、`await` 等等)
+
+      - EX1.
+
+        - before：3 次 render (0 & 1 / 2 / 3)
+        - after：2 次 render (0 & 1 / 2 & 3)
+
+        ```js
+        const [counter, setCounter] = useState(0)
+
+        const onClick = async () => {
+          setCounter(0)
+          setCounter(1)
+
+          const data = await fetchSomeData()
+
+          setCounter(2)
+          setCounter(3)
+        }
+        ```
+
+    - parent 的 state，在 setState 後，整個 parent 底下的 VDOM 都會 re-render
+    - re-render 不代表 re-create 整個 VDOM
+
+      - 會依照 `component type` & `key` 來判斷是否可重用舊的 child VDOM，而不需 re-create
+
+    </details>
+
+  <!-- 避免作法 -->
+
+  - <details close>
+    <summary>避免作法</summary>
+
+    - 避免在 Component 內部創建其他 Component type
+
+      ```js
+      // X 錯誤
+      function ParentComponent() {
+        function ChildComponent() {}
+
+        return <ChildComponent />
+      }
+
+      // O 正確
+      function ChildComponent() {}
+      function ParentComponent() {
+        return <ChildComponent />
+      }
+      ```
+
+    - 避免在 render logic 中 setState
+
+      ```js
+      // X 錯誤
+      function Parent() {
+        const [state, setState] = useState()
+        setState()
+
+        return <Child />
+      }
+
+      // O 正確
+      function Parent() {
+        const [state, setState] = useState()
+        const handleClick = () => {
+          setState()
+        }
+
+        return <Child onClick={handleClick} />
+      }
+      ```
+
+    </details>
+
+  <!-- 其他補充 -->
+
+  - <details close>
+    <summary>其他補充</summary>
+
+    - VDOM re-render 在一般情況下都算可接受範圍，而且 React 就是靠著 VDOM re-render 來快速判斷要更改哪些 real DOM 的部分
+    - 主要影響效能的在於更改 real DOM
+
+    </details>
+
+  <!-- 簡易結論 -->
+
+  - <details close>
+    <summary>簡易結論</summary>
+
+    - 一般使用情況 re-render 幾乎不影響效能
+    - 但應避免濫用 hook，導致的不必要的 re-render
+    - 只在真實感受到效能不好的地方，再針對使用 memo 等做優化
+
+    </details>
+
+  </details>
+
+<!-- Hook -->
+
+- <details close>
+  <summary>Hook</summary>
+
+  - REF: [Getting Closure on React Hooks]
+  - 底層
+
+    - 實際上，React 將一個 component 所有的 Hook 存為 fiber object 中的一個 linked list
+    - 再將整個表層複製到 component 中
+
+  - Hook 是特殊的函數，只在 React 渲染時有效
+
+  </details>
 
 ---
 
 ## # 基本用法
+
+<!-- useState -->
+
+- <details close>
+  <summary><code>useState</code></summary>
+
+  <!-- 使用時機 -->
+
+  - <details close>
+    <summary>使用時機</summary>
+
+    </details>
+
+  <!-- 行為特性 -->
+
+  - <details close>
+    <summary>行為特性</summary>
+
+    </details>
+
+  <!-- 推薦作法 -->
+
+  - <details close>
+    <summary>推薦作法</summary>
+
+    </details>
+
+  <!-- 避免作法 -->
+
+  - <details close>
+    <summary>避免作法</summary>
+
+    </details>
+
+  <!-- 其他補充 -->
+
+  - <details close>
+    <summary>其他補充</summary>
+
+    </details>
+
+  </details>
 
 <!-- useReducer -->
 
@@ -111,6 +336,7 @@
 
     - 讓 props 直達目的 component，而不需透過中間層傳遞
     - 更直接知道 props 來源，而不需再一層層追朔
+    - 當 state 更新時，使用到 useContext 的 child 會 re-render
 
     </details>
 
@@ -119,7 +345,7 @@
   - <details close>
     <summary>推薦作法</summary>
 
-    - 用來管理複雜的狀態時，搭配 reducer 使用
+    - 用來管理複雜的狀態時，搭配 reducer 使用，會建議將 state & dispatch 分別建立兩個 context
 
     </details>
 
@@ -153,17 +379,10 @@
 
   </details>
 
-<!-- 範例 -->
+<!-- useRef -->
 
 - <details close>
-  <summary><code>範例</code></summary>
-
-  <!-- 行為特性 -->
-
-  - <details close>
-    <summary>行為特性</summary>
-
-    </details>
+  <summary><code>useRef</code></summary>
 
   <!-- 使用時機 -->
 
@@ -172,10 +391,143 @@
 
     </details>
 
-  <!-- 開發步驟 -->
+  <!-- 行為特性 -->
 
   - <details close>
-    <summary>開發步驟</summary>
+    <summary>行為特性</summary>
+
+    </details>
+
+  <!-- 推薦作法 -->
+
+  - <details close>
+    <summary>推薦作法</summary>
+
+    </details>
+
+  <!-- 避免作法 -->
+
+  - <details close>
+    <summary>避免作法</summary>
+
+    </details>
+
+  <!-- 其他補充 -->
+
+  - <details close>
+    <summary>其他補充</summary>
+
+    </details>
+
+  </details>
+
+<!-- useEffect -->
+
+- <details close>
+  <summary><code>useEffect</code></summary>
+
+  <!-- 使用時機 -->
+
+  - <details close>
+    <summary>使用時機</summary>
+
+    </details>
+
+  <!-- 行為特性 -->
+
+  - <details close>
+    <summary>行為特性</summary>
+
+    </details>
+
+  <!-- 推薦作法 -->
+
+  - <details close>
+    <summary>推薦作法</summary>
+
+    </details>
+
+  <!-- 避免作法 -->
+
+  - <details close>
+    <summary>避免作法</summary>
+
+    </details>
+
+  <!-- 其他補充 -->
+
+  - <details close>
+    <summary>其他補充</summary>
+
+    </details>
+
+  </details>
+
+<!-- useMemo & useCallback -->
+
+- <details close>
+  <summary><code>useMemo & useCallback</code></summary>
+
+  <!-- 使用時機 -->
+
+  - <details close>
+    <summary>使用時機</summary>
+
+    - 效能優化
+    - 理論上，位於越父層的，越需要使用？
+
+    </details>
+
+  <!-- 行為特性 -->
+
+  - <details close>
+    <summary>行為特性</summary>
+
+    </details>
+
+  <!-- 推薦作法 -->
+
+  - <details close>
+    <summary>推薦作法</summary>
+
+    </details>
+
+  <!-- 避免作法 -->
+
+  - <details close>
+    <summary>避免作法</summary>
+
+    - 避免過早使用 useCallback 和 useMemo 等，而是等到出現效能問題的位置，才進行使用
+
+    </details>
+
+  <!-- 其他補充 -->
+
+  - <details close>
+    <summary>其他補充</summary>
+
+    - 分析工具：[why-did-you-render] | [React Profiler]
+
+    </details>
+
+  </details>
+
+<!-- 範例 -->
+
+- <details close>
+  <summary><code>範例</code></summary>
+
+  <!-- 使用時機 -->
+
+  - <details close>
+    <summary>使用時機</summary>
+
+    </details>
+
+  <!-- 行為特性 -->
+
+  - <details close>
+    <summary>行為特性</summary>
 
     </details>
 
@@ -235,8 +587,6 @@
 
   - [src](../src/code/state_struct.js)
 
-- [React 18 新功能之自動批次更新]
-
 ---
 
 ## # 其他補充
@@ -278,23 +628,6 @@
 ---
 
 ## # 小記
-
-- Hook 是特殊的函數，只在 React 渲染時有效
-
-- parent 的 state，在 setState 後，整個 parent 的 VDOM 都會 re-render
-
-- Reconciliation：更新狀態後，VDOM 會先與上一次的 VDOM 做比對，再更新到真實 DOM
-
-- 效能優化 (如 useCallback、useMemo)
-
-  - 切忌過早使用 useCallback 和 useMemo 等，而是等到出現效能問題的位置，才進行使用
-  - 理論上，位於越父層的，越需要使用
-  - 分析工具
-
-    - [why-did-you-render]
-    - [React Profiler]
-
-- 在渲染完成並且 React 更新 DOM 之後，瀏覽器就會重新繪製螢幕。儘管這個過程被稱為“瀏覽器渲染” (browser rendering)，但我們還是將它稱為“繪製” (painting)
 
 - React 18 嚴格模式下，會在 `開發模式` 中故意調用兩次 setState、mount 等等，用來檢測是否有不期望的副作用
 
@@ -341,3 +674,9 @@
   - useEffectEvent
 
   - 如果 ref 是從父元件傳遞的，則必須在依賴項陣列中指定它
+
+  - 避免用來監聽一個 state 再去更新另一個 state
+
+  - 避免用來處理使用者的事件
+
+- 只在需要有識別度的 component 加上 `key={id}`
