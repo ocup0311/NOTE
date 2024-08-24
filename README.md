@@ -16,7 +16,7 @@
 - [Docker](./DevOps/Docker/note/note.md) | [K8s](./DevOps/Kubernetes/note/note.md) | [Ansible](./DevOps/Ansible/note/note.md) | [Vagrant](./DevOps/Vagrant/note/note.md) | [Serverless](./Cloud/Serverless/note/note.md) | [Linux](./OS/Linux/note/base.md)
 - [MySQL](./DataBase/MySQL/note.md) | [MongoDB](./DataBase/MongoDB/note.md)
 - [TypeScript](./Language/TypeScript/note/base.md) | [JavaScript](./Language/JavaScript/note/base.md) | [NodeJS](./Language/JavaScript/note/Node.md) | [C](./Language/C/note/base.md) | [Golang](./Language/Golang/note/base.md)
-- [CORS](./Web/note/CORS.md) | [HTTP](./Web/note/HTTP.md) | [Web](./Web/note/Web.md) | [Server](./Web/note/Server.md) | [DOM](./FrontEnd/note/DOM.md)
+- [CORS](./Web/note/CORS.md) | [HTTP](./Web/note/HTTP.md) | [Web](./Web/note/Web.md) | [Server](./Web/note/Server.md) | [DOM](./FrontEnd/note/DOM.md) | [React](./FrontEnd/React/note/note.md)
 - [FP](./Pattern/FP/note/base.md)
 - [資料結構＆演算法](https://github.com/ocup0311/Algorithm)
 - [Git](./Tool/Git/note/note.md)

@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[React as a UI Runtime]: https://overreacted.io/react-as-a-ui-runtime/
 [Getting Closure on React Hooks]: https://www.swyx.io/hooks
 [互動式視覺化 React hooks 時間軸]: https://julesblom.com/writing/react-hook-component-timeline
 [A (Mostly) Complete Guide to React Rendering Behavior]: https://blog.isquaredsoftware.com/2020/05/blogged-answers-a-mostly-complete-guide-to-react-rendering-behavior/
@@ -44,8 +45,6 @@
 - <details close>
   <summary>Rendering</summary>
 
-  - 此部分皆為預設的條件下的行為，並未加入其他優化項目 (EX. memo)
-
   <!-- REF -->
 
   - <details close>
@@ -71,16 +70,33 @@
   - <details close>
     <summary>名詞解釋</summary>
 
-    - `Render`
+    <!-- Render -->
+
+    - <details close>
+      <summary>Render</summary>
 
       - 定義：在 React 中指的是製作 VDOM
+      - 細節：
+
+        - 也就是會執行一遍 Functional Component 內部的 render logic
+        - 沒使用 Hook 優化的計算都會再計算一次
+        - 如果 child 的 component type & key 相同，則會直接將計算結果更新在舊有的 Fiber object
+
       - 解釋：
+
         - 為了避免與 VDOM Render 搞混，React 官方將 `browser rendering` 稱為 `painting`
         - 而在更新 real DOM 之後，瀏覽器就會重新繪製螢幕，這個過程原本應該稱為 `browser rendering`
 
-    - `Reconciliation`
+      </details>
+
+    <!-- Reconciliation -->
+
+    - <details close>
+      <summary>Reconciliation</summary>
 
       - 定義：re-render 後，VDOM 會先與 last VDOM 做比對，再將差異更新到 real DOM 的過程
+
+      </details>
 
     </details>
 
@@ -90,7 +106,11 @@
     <summary>行為特性</summary>
 
     - `setState`、`dispatch` 會觸發 queue a re-render，先將狀態更新放進一個 queue
-    - 單一事件下會一起只做一次更新 (Automatic Batching：v18 前後為兩種版本)
+
+    <!-- 單一事件下會一起只做一次更新 (Automatic Batching：v18 前後為兩種版本) -->
+
+    - <details close>
+      <summary>單一事件下會一起只做一次更新 (Automatic Batching：以 v18 前後區分為兩種 作用範圍)</summary>
 
       - REF: [React 18 新功能之自動批次更新]
 
@@ -99,7 +119,10 @@
         - before：every single `React event`
         - after：every single event loop tick (包含 `setTimeout`、`await` 等等)
 
-      - EX1.
+      <!-- EX. -->
+
+      - <details close>
+        <summary>EX.</summary>
 
         - before：3 次 render (0 & 1 / 2 / 3)
         - after：2 次 render (0 & 1 / 2 & 3)
@@ -118,10 +141,13 @@
         }
         ```
 
-    - parent 的 state，在 setState 後，整個 parent 底下的 VDOM 都會 re-render
-    - re-render 不代表 re-create 整個 VDOM
+        </details>
 
-      - 會依照 `component type` & `key` 來判斷是否可重用舊的 child VDOM，而不需 re-create
+      </details>
+
+    - parent 的狀態更新後，整個 parent 底下的 VDOM 都會 re-render
+    - re-render 不代表 re-create Fiber object (可能會將計算結果更新 old Fiber object)
+    - 如果 child 使用 React.memo()，則會先進行 props 的比較，再決定是否 re-render
 
     </details>
 
@@ -130,7 +156,10 @@
   - <details close>
     <summary>避免作法</summary>
 
-    - 避免在 Component 內部創建其他 Component type
+    <!-- 避免在 Component 內部創建其他 Component type -->
+
+    - <details close>
+      <summary>避免在 Component 內部創建其他 Component type</summary>
 
       ```js
       // X 錯誤
@@ -147,7 +176,12 @@
       }
       ```
 
-    - 避免在 render logic 中 setState
+      </details>
+
+    <!-- 避免在 render logic 中 setState -->
+
+    - <details close>
+      <summary>避免在 render logic 中 setState</summary>
 
       ```js
       // X 錯誤
@@ -169,6 +203,8 @@
       }
       ```
 
+      </details>
+
     </details>
 
   <!-- 其他補充 -->
@@ -178,6 +214,7 @@
 
     - VDOM re-render 在一般情況下都算可接受範圍，而且 React 就是靠著 VDOM re-render 來快速判斷要更改哪些 real DOM 的部分
     - 主要影響效能的在於更改 real DOM
+    - 可注意 `<Child />` 與 `{children}` 在 render 上的差異，一些情況可利用 `{children}` 方式避免不必要的 re-render
 
     </details>
 
@@ -186,8 +223,8 @@
   - <details close>
     <summary>簡易結論</summary>
 
-    - 一般使用情況 re-render 幾乎不影響效能
-    - 但應避免濫用 hook，導致的不必要的 re-render
+    - 一般使用情況，re-render 幾乎不影響效能
+    - 但應避免濫用導致的不必要的 re-render (EX. useEffect 的濫用)
     - 只在真實感受到效能不好的地方，再針對使用 memo 等做優化
 
     </details>
@@ -206,6 +243,17 @@
     - 再將整個表層複製到 component 中
 
   - Hook 是特殊的函數，只在 React 渲染時有效
+
+  </details>
+
+<!-- `<Child />` vs `{children}` -->
+
+- <details close>
+  <summary><code>&lt;Child/&gt;</code> vs <code>{children}</code></summary>
+
+  - `<Child />` 是在 parent 上渲染 Child。`{children}` 則是將渲染好的 children 傳入
+  - 因此使用 `{children}` 可以用來分離 state 與 UI，避免 parent 的 state 改變觸發 children 進行不必要的 re-render
+  - 當 `{children}` 本身內部進行 re-render 時，因為可以重用 Fiber object，所以也不會造成 parent 不必要的 re-render
 
   </details>
 
@@ -346,6 +394,10 @@
     <summary>推薦作法</summary>
 
     - 用來管理複雜的狀態時，搭配 reducer 使用，會建議將 state & dispatch 分別建立兩個 context
+    - 若傳遞的 value 是 object，則需使用 `usememo` 優化
+    - 可適時將 (1) provider 包覆下 (2) 使用 `useContext` 下 的第一層 child 進行 `React.memo()` 優化
+      (讓只有真的使用 `useContext` 的那些 component 進行 re-render)
+      (但依然是只在效能耗費很大情況下使用)
 
     </details>
 
@@ -458,6 +510,8 @@
 
   - <details close>
     <summary>其他補充</summary>
+
+    - `useLayoutEffect` 是 `useEffect` 的一個變種，可以在 `repaint` 之前觸發，可讓使用者不會看到畫面的變化，而是直接看到最後結果
 
     </details>
 
@@ -611,6 +665,8 @@
 <!-- 補充學習 -->
 
 - 補充學習：
+
+  - [React as a UI Runtime]
 
 ---
 
