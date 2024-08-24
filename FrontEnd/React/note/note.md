@@ -2,6 +2,12 @@
 
 <!----------- ref start ----------->
 
+[Why React Context is Not a "State Management" Tool (and Why It Doesn't Replace Redux)]: https://blog.isquaredsoftware.com/2021/01/context-redux-differences/
+[react-reconciler]: https://www.npmjs.com/package/react-reconciler
+[圖解 React]: https://7km.top/main/macro-structure/
+[mini-react 翻譯？]: https://github.com/lizuncong/mini-react
+[Introducing the React Profiler]: https://legacy.reactjs.org/blog/2018/09/10/introducing-the-react-profiler.html
+[Profile a React App for Performance]: https://kentcdodds.com/blog/profile-a-react-app-for-performance
 [React as a UI Runtime]: https://overreacted.io/react-as-a-ui-runtime/
 [Getting Closure on React Hooks]: https://www.swyx.io/hooks
 [互動式視覺化 React hooks 時間軸]: https://julesblom.com/writing/react-hook-component-timeline
@@ -105,7 +111,9 @@
   - <details close>
     <summary>行為特性</summary>
 
-    - `setState`、`dispatch` 會觸發 queue a re-render，先將狀態更新放進一個 queue
+    - `setState`、`dispatch` 後，會先檢查是否為新的 state
+
+    - 確認為新的 state 後，會觸發 queue a re-render，先將狀態更新放進一個 queue
 
     <!-- 單一事件下會一起只做一次更新 (Automatic Batching：v18 前後為兩種版本) -->
 
@@ -255,6 +263,74 @@
   - 因此使用 `{children}` 可以用來分離 state 與 UI，避免 parent 的 state 改變觸發 children 進行不必要的 re-render
   - 當 `{children}` 本身內部進行 re-render 時，因為可以重用 Fiber object，所以也不會造成 parent 不必要的 re-render
 
+  ```js
+  // EX. Click 之後，"<Child />" 會 re-render，但 "children" 不會 re-render
+
+  function Parent({ children }) {
+    const [state, setState] = useState(0)
+    const handleClick = () => setState(state + 1)
+
+    return (
+      <>
+        <button onClick={handleClick}>Click</button>
+        <Child />
+        {children}
+      </>
+    )
+  }
+  ```
+
+  </details>
+
+<!-- controlled vs uncontrolled component -->
+
+- <details close>
+  <summary><code>controlled</code> vs <code>uncontrolled</code></summary>
+
+  - controlled component：狀態由 parent (prop) 控制
+  - uncontrolled component：狀態由 self (state 或 DOM) 控制
+
+  </details>
+
+<!-- Strict Mode -->
+
+- <details close>
+  <summary>Strict Mode</summary>
+
+  - REF: [React 18 effect 函式執行兩次的原因及 useEffect 常見情境]
+
+  - React 18 嚴格模式下，會在 `開發模式` 中故意調用兩次 setState、mount 等等，用來檢測是否有不期望的副作用
+
+  - EX. 可看到出現兩次 log
+
+    ```js
+    setNumber((n) => {
+      console.log(n)
+      return n + 1
+    })
+    ```
+
+  </details>
+
+<!-- 效能優化 -->
+
+- <details close>
+  <summary>效能優化</summary>
+
+  - 工具：React DevTools Profiler
+
+    - [Introducing the React Profiler]
+    - [Profile a React App for Performance]
+
+  - 其他補充
+
+    - `transform` 可避免 reflow，會直接 repaint，只用 GPU 計算，讓畫面看起來有改變
+
+  - 注意事項
+
+    - React 在`開發模式`中，運行速度慢很多
+    - 絕對渲染時間：不要使用`開發模式`來測量，僅使用`生產模式`做測量
+
   </details>
 
 ---
@@ -384,7 +460,17 @@
 
     - 讓 props 直達目的 component，而不需透過中間層傳遞
     - 更直接知道 props 來源，而不需再一層層追朔
-    - 當 state 更新時，使用到 useContext 的 child 會 re-render
+    - 當 state 更新時，取用 state (也就是使用 useContext) 的 child 都會排進 re-render
+
+    <!-- 在同一次 state 更新中，同一個 component 只會進行一次 re-render -->
+
+    - <details close>
+      <summary>在同一次 state 更新中，同一個 component 只會進行一次 re-render</summary>
+
+      - EX. 巢狀中可能 (1) parent re-render 觸發 child re-render (2) child 本身也使用 useContext 也觸發 re-render
+      - 但因為 parent 觸發的會先進行，此時 child re-render 後將 child 自身的 render queue 也清空了，因此就不會再 re-render 一次
+
+      </details>
 
     </details>
 
@@ -415,6 +501,7 @@
   - <details close>
     <summary>其他補充</summary>
 
+    - 注意 context 並非 狀態管理工具
     - 可搭配客製化 Hook 使用
     - 一般在 Theme、Auth、Route 會使用
 
@@ -667,6 +754,9 @@
 - 補充學習：
 
   - [React as a UI Runtime]
+  - [react-reconciler]
+  - [圖解 React]
+  - [mini-react 翻譯？]
 
 ---
 
@@ -685,21 +775,6 @@
 
 ## # 小記
 
-- React 18 嚴格模式下，會在 `開發模式` 中故意調用兩次 setState、mount 等等，用來檢測是否有不期望的副作用
-
-  - REF: [React 18 effect 函式執行兩次的原因及 useEffect 常見情境]
-
-  - EX. 可看到出現兩次 log
-
-    ```js
-    setNumber((n) => {
-      console.log(n)
-      return n + 1
-    })
-    ```
-
-- `transform` 可避免 reflow，會直接 repaint，只用 GPU 計算，讓畫面看起來有改變
-
 - "living styleguide" or "storybook"
 
   - 展示出一個 component 的所有狀態的 view
@@ -715,13 +790,7 @@
   - 透過 `reducer` 來減少「不可能」state (可視作 "組合 state")
   - "讓你的狀態盡可能簡單，但不要過於簡單"
 
-- controlled / uncontrolled component
-
-  - 分別為狀態由 prop / state 控制
-
 - proxy & reflect
-
-- 通常將 reducer 與 context 搭配使用來管理複雜的狀態，可以避免 context 內 state 被任意改動
 
 - Effect
 
@@ -736,3 +805,14 @@
   - 避免用來處理使用者的事件
 
 - 只在需要有識別度的 component 加上 `key={id}`
+
+- Redux
+
+  - REF：[Why React Context is Not a "State Management" Tool (and Why It Doesn't Replace Redux)]
+
+  - React-Redux 僅透過 context 傳遞 Redux store instance，而不是當前 state
+  - Mark 觀點：如果在應用程式中超過了 2-3 個與狀態相關的 context，那麼等於重新發明弱版 React-Redux，則該切換到使用 Redux
+
+  - `Redux Toolkit` 提供了工具來簡化 Redux 的開發流程，減少 boilerplate
+    - EX. 使用 `createSlice` 自動生成 action 和 reducer
+    - 使用 `RTK Query` 甚至可能比使用 context 自己處理，還要少 boilerplate
