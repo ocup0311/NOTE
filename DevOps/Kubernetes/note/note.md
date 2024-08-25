@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[同樣 2vCPU 的 Kubernetes Container 為什麼會比 VM 效能差]: https://www.hwchiu.com/docs/2023/container-vm
 [常見 CNI Plugin 介紹]: https://www.hwchiu.com/docs/2018/cni-compare
 [26 Top Kubernetes Tools for 2024]: https://medium.com/spacelift/26-top-kubernetes-tools-for-2024-6809b2f0d5d4
 [Pod deletion cost 文件]: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#pod-deletion-cost
@@ -676,6 +677,15 @@
   <summary>Gateway API vs Ingress API</summary>
 
   -
+
+  </details>
+
+<!-- 效能：Container vs VM -->
+
+- <details close>
+  <summary>效能：Container vs VM</summary>
+
+  - [同樣 2vCPU 的 Kubernetes Container 為什麼會比 VM 效能差]
 
   </details>
 
