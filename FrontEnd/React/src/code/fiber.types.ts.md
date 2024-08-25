@@ -1,10 +1,6 @@
-// 從這個原始碼簡化：https://github.com/facebook/react/blob/v18.0.0/packages/react-reconciler/src/ReactInternalTypes.js#L64-L193
+#### 從這個[原始碼](https://github.com/facebook/react/blob/v18.0.0/packages/react-reconciler/src/ReactInternalTypes.js#L64-L193)簡化
 
-type WorkTag = {}
-type State = {}
-type StateUpdaters = {}
-type Dependencies = {}
-
+```ts
 export type Fiber = {
   // Tag identifying the type of fiber.
   tag: WorkTag
@@ -14,6 +10,12 @@ export type Fiber = {
 
   // The resolved function/class/ associated with this fiber.
   type: any
+
+  // The Fiber to return to after finishing processing this one.
+  // This is effectively the parent, but there can be multiple parents (two)
+  // so this is only the parent of the thing we're currently processing.
+  // It is conceptually the same as the return address of a stack frame.
+  return: Fiber | null
 
   // Singly Linked List Tree Structure.
   child: Fiber | null
@@ -33,3 +35,4 @@ export type Fiber = {
   // Dependencies (contexts, events) for this fiber, if any
   dependencies: Dependencies | null
 }
+```

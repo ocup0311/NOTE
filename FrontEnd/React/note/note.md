@@ -2,6 +2,10 @@
 
 <!----------- ref start ----------->
 
+[The how and why on React’s usage of linked list in Fiber to walk the component’s tree]: https://angularindepth.com/posts/1007/the-how-and-why-on-reacts-usage-of-linked-list-in-fiber-to-walk-the-components-tree
+[In-depth explanation of state and props update in React]: https://angularindepth.com/posts/1009/in-depth-explanation-of-state-and-props-update-in-react
+[Inside Fiber: in-depth overview of the new reconciliation algorithm in React]: https://angularindepth.com/posts/1008/inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react
+[YT: React.js Deep Dive]: https://youtu.be/7YhdqIR2Yzo?list=PLxRVWC-K96b0ktvhd16l3xA6gncuGP7gJ
 [Why React Context is Not a "State Management" Tool (and Why It Doesn't Replace Redux)]: https://blog.isquaredsoftware.com/2021/01/context-redux-differences/
 [react-reconciler]: https://www.npmjs.com/package/react-reconciler
 [圖解 React]: https://7km.top/main/macro-structure/
@@ -26,7 +30,7 @@
 # React
 
 > DATE: 8 (2024)
-> REF: [Learn React 文件] | [Mark's Dev Blog]
+> REF: [Learn React 文件] | [Mark's Dev Blog] | [YT: React.js Deep Dive]
 
 ## # 簡介
 
@@ -39,10 +43,68 @@
 - <details close>
   <summary>Fiber Tree</summary>
 
-  - REF: [React 開發者一定要知道的底層機制 — React Fiber Reconciler]
-  - [Fiber Object](../src/code/fiber.types.ts)
+  <!-- REF -->
 
-  ![](../src/image/Fiber_Tree.gif)
+  - <details close>
+    <summary>REF</summary>
+
+    - [React 開發者一定要知道的底層機制 — React Fiber Reconciler]
+    - [Inside Fiber: in-depth overview of the new reconciliation algorithm in React]
+    - [The how and why on React’s usage of linked list in Fiber to walk the component’s tree]
+    - [Fiber Object](../src/code/fiber.types.ts.md)
+
+    </details>
+
+  <!-- 名詞解釋 -->
+
+  - <details close>
+    <summary>名詞解釋</summary>
+
+    </details>
+
+  <!-- 行為特性 -->
+
+  - <details close>
+    <summary>行為特性</summary>
+
+    - `Fiber`：An unit of work for React to process
+    - 改為 `Fiber`，使 render work 可切分成 `chunks`，因此可加入 `Scheduler` 按照優先程度調配 work 順序，因此也可重做 work，也可丟棄不需要的 work
+    - 改變：Stack (recursion) -> `Linked List (workLoop)`。因此可隨時中斷再繼續，也可調整插入優先 work
+    - Diff 改用 `heuristic algorithm`，使得 O(n³) -> `O(n)`
+
+    </details>
+
+  <!-- 結構分析 -->
+
+  - <details close>
+    <summary>結構分析</summary>
+
+    - 轉換過程：`JSX` -> `React Elements` (tree) -> `Fiber Nodes` (tree)
+
+    - Linked List 指向：`child` 指向第一個子節點，`sibling` 指向下一個兄弟節點，`return` 指向要返回的父節點
+
+    - DFS：`child` -> `self` -> `sibling` (最後可以直接 return 回父節點)
+
+    </details>
+
+  <!-- 其他補充 -->
+
+  - <details close>
+    <summary>其他補充</summary>
+
+    - 與以前的 VDOM Tree 結構不一樣，因為現在使用 Fiber object 而稱為 Fiber Tree
+      (但其實就是 VDOM 的部分，但有在討論用哪個名詞較為恰當，目前查到的用詞幾乎都是稱呼 VDOM，筆記中我也直接稱為 `VDOM`)
+
+    </details>
+
+  <!-- 圖片說明 -->
+
+  - <details close>
+    <summary>圖片說明</summary>
+
+    ![](../src/image/Fiber_Tree.gif)
+
+    </details>
 
   </details>
 
@@ -56,20 +118,13 @@
   - <details close>
     <summary>REF</summary>
 
-    - [互動式視覺化 React hooks 時間軸]
     - [A (Mostly) Complete Guide to React Rendering Behavior]
+    - [互動式視覺化 React hooks 時間軸]
+    - [In-depth explanation of state and props update in React]
 
     </details>
 
-  <!-- 兩階段 -->
-
-  - <details close>
-    <summary>React 有兩個階段，此部分為 Render Phase</summary>
-
-    - `Render`：製作 VDOM、比較差異
-    - `Commit`：套用到 DOM
-
-    </details>
+  - 一般提到的 Render 是指 Reconciler 的 `render phase`
 
   <!-- 名詞解釋 -->
 
@@ -101,6 +156,65 @@
       <summary>Reconciliation</summary>
 
       - 定義：re-render 後，VDOM 會先與 last VDOM 做比對，再將差異更新到 real DOM 的過程
+
+      </details>
+
+    </details>
+
+  <!-- 渲染流程 -->
+
+  - <details close>
+    <summary>頁面渲染流程</summary>
+
+    - 流程：`Scheduler` -> `Reconciler` -> `Renderer`
+
+    <!-- Scheduler -->
+
+    - <details close>
+      <summary>Scheduler</summary>
+
+      - 按照優先程度調配 Reconciler 執行 work 的順序
+
+      </details>
+
+    <!-- Reconciler -->
+
+    - <details close>
+      <summary>Reconciler</summary>
+
+      - `render phase`
+
+        - (1)製作 VDOM (2)比較新舊 VDOM 差異
+        - 非同步
+        - 主要目的：生成 `Fiber Tree` & `Effect List`
+        - `Fiber Tree` 生成：JSX -> React Elements (tree) -> Fiber Nodes (tree)
+
+        <!-- re-render 細節 -->
+
+        - <details close>
+          <summary>re-render 細節</summary>
+
+          - `workInProgress tree` 生成：每個 node 各自帶有 `side effects` 的 Fiber Tree
+          - `Effect List` 生成：workInProgress tree 與 current tree 比較差異，得出需要執行的 side effects 列表 (因而不用再遍歷 Tree)
+          - `current tree` 更新：最後將 workInProgress tree 更新到 current tree
+
+          </details>
+
+      - `commit phase`
+
+        - 套用到 real DOM
+        - 同步
+        - 執行 side effect：`DOM 操作`、`部分 lifecycle method`
+        - 更新 DOM 需要一氣呵成不中斷，才不會造成視覺上的不連貫
+
+      </details>
+
+    <!-- Renderer -->
+
+    - <details close>
+      <summary>Renderer</summary>
+
+      - 負責將變化的元件渲染到各種介面的畫面上
 
       </details>
 
@@ -322,9 +436,24 @@
     - [Introducing the React Profiler]
     - [Profile a React App for Performance]
 
+  - 參考方向
+
+    - 60 FPS 符合一般人眼需求，此時一幀約為 16 ms，因此若一次 re-render 超過 `16 ms`，則會有體感上的不順暢
+
   - 其他補充
 
     - `transform` 可避免 reflow，會直接 repaint，只用 GPU 計算，讓畫面看起來有改變
+
+    <!-- React 針對每一幀的優化的一種做法 -->
+
+    - <details close>
+      <summary>React 針對每一幀的優化的一種做法</summary>
+      - 一幀：Events -> JS -> rAF -> Layout -> Paint -> rIC
+      - 並非每一幀都會執行 rIC，只有在做完前面流程後，還有剩餘的時間才會執行
+      - 如果執行了 rIC，需等該 rIC 的 callback 執行結束後才進入下一幀
+      - React 將一些高優先級如 animation 放到 rAF，而一些低優先級如 network I/O 放到 rIC
+
+      </details>
 
   - 注意事項
 
