@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[Bundlephobia]: https://bundlephobia.com/
 [簡化模擬 useState 行為]: ../src/code/useStateMock.js
 [The Rules of React]: https://gist.github.com/sebmarkbage/75f0838967cd003cd7f9ab938eb1958f
 [各種格式轉換]: https://transform.tools/html-to-jsx
@@ -367,8 +368,9 @@
     - 實際上，React 將一個 component 所有的 Hook 存為 fiber object 中的一個 linked list
     - 再將整個表層複製到 component 中
 
-  - Hook 是特殊的函數，只在 React 渲染時有效
+  - Hook 是特殊的函數，只在 React 渲染時有效 (Component、Hook)
   - 只在 component 內最頂層的作用域 call Hook
+
     - Hooks 將始終以相同的順序被呼叫
     - 有利於 Linter 捕捉到大多數錯誤
 
@@ -495,12 +497,18 @@
     - [簡化模擬 useState 行為]
     - 如同一張快照，在同一次渲染過程中不變
     - 同一次事件內，批次處理 (`batching`) 所有 setState
-    - setState 若使用函數當參數，此函數稱 `updater function`，執行時會取出新的 state 來處理
+
+    <!-- setState 若使用函數當參數，此函數稱 `updater function`，執行時會取出新的 state 來處理 -->
+
+    - <details close>
+      <summary>setState 若使用函數當參數，此函數稱 <code>updater function</code>，執行時會取出新的 state 來處理</summary>
 
       ```js
       // EX. updater function: (ms) => ms + 1
       setMyState((ms) => ms + 1)
       ```
+
+      </details>
 
     </details>
 
@@ -509,19 +517,34 @@
   - <details close>
     <summary>推薦作法</summary>
 
-    - 將相關的盡可能合併為更少的 state
+    - <details close>
+      <summary>將<code>相關的</code>盡可能合併為更少的 state</summary>
+
+      ```js
+      // X
+      const [x, setX] = useState(0)
+      const [y, setY] = useState(0)
+
+      // O
+      const [position, setPosition] = useState({ x: 0, y: 0 })
+      ```
+
+      ```js
+      // X
+      const [isSending, setIsSending] = useState(false)
+      const [isSent, setIsSent] = useState(false)
+
+      // O
+      const [status, setStatus] = useState('typing') // 'typing', 'sending', 'sent'
+      const isSending = status === 'sending'
+      const isSent = status === 'sent'
+      ```
+
+      </details>
+
     - 盡可能將 state 放在 child
-    - 將 shared state 往上提，往下傳
-
-    - state structure
-
-      - REF: [state structure]
-
-      - 盡量濃縮到使用最少數量的 state，若可以合併的則合併
-      - 最好以扁平化方式建置 state。或是用子元件攤平
-      - 在渲染期間從 props 或 state 中計算出一些訊息，則不應該再放到該元件的其他 state 中
-      - 透過 `reducer` 來減少「不可能」state (可視作 "組合 state")
-      - "讓你的狀態盡可能簡單，但不要過於簡單"
+    - 狀態提升：將 shared state 往上提，往下傳
+    - 透過 `reducer` 來減少「不可能」state (可視作 "組合 state")
 
     </details>
 
@@ -531,7 +554,42 @@
     <summary>避免作法</summary>
 
     - 避免對 state 做任何 mutation
-    -
+
+    <!-- 避免重複的 state -->
+
+    - <details close>
+      <summary>避免重複的 state</summary>
+
+      ```js
+      const [items, setItems] = useState(initialItems)
+      // X 與 items 重複
+      const [selectedItem, setSelectedItem] = useState(items[0])
+      // O 只保留必要的
+      const [selectedId, setSelectedId] = useState(0)
+      ```
+
+      </details>
+
+    <!-- 避免冗餘 -->
+
+    - <details close>
+      <summary>避免冗餘</summary>
+
+      - 在渲染期間從 props 或 state 中計算出一些訊息，則不應該再放到該元件的其他 state 中
+
+      </details>
+
+    <!-- 避免過度巢狀 -->
+
+    - <details close>
+      <summary>避免過度巢狀</summary>
+
+      - 建議將巢狀結構`扁平化`(`規範化`) ([扁平化範例](../src/code/flat_struct.js))
+      - 若情況允許，則用子元件攤平，比較易懂
+
+      </details>
+
+    - 避免在 state 中鏡像 props (除非想防止更新 prop，而此時通常 prop 命名為 initialXX 或 defaultXX)
 
     </details>
 
@@ -539,6 +597,11 @@
 
   - <details close>
     <summary>其他補充</summary>
+
+    - 將 state 視為變動的部分 -> 可變動的越多，bug 也越易出現
+    - "讓你的狀態盡可能簡單，但不要過於簡單"
+    - `Single source of truth`：對於每個獨特的狀態，都應該存在且只存在於一個指定的元件中作為 state。這項原則也被稱為擁有 "可信任單一資料來源"
+    - REF: [state structure]
 
     </details>
 
@@ -735,6 +798,47 @@
   - <details close>
     <summary>使用時機</summary>
 
+    - 脱危機制：主要用來跟外部系統互動，也就是副作用
+
+    - 如果你想用 Effect 只根據其他狀態調整某些狀態，那麼你可能不需要 Effect
+
+    - useEffectEvent
+
+    - 如果 ref 是從父元件傳遞的，則必須在依賴項陣列中指定它
+
+    - 避免用來監聽一個 state 再去更新另一個 state
+
+    - 避免用來處理使用者的事件
+
+    - 不需要呈現在畫面，建議用 useRef 取代 useState
+
+      ```js
+      // 例如讓安鈕可以清除監聽，需要控制他，但不用畫出他
+      function Component() {
+        const id = useRef(null)
+        const handleClear = () => {
+          clearInterval(id)
+          id.current = null
+        }
+        useEffect(() => {
+          id.current = setInterval(() => {}, 1000)
+          return handleClear
+        }, [])
+
+        return <button onClick={handleClear}>Clear</button>
+      }
+      ```
+
+    - props 以 object 傳入的影響，雖然 parent re-render 也會使 child re-render，但如果 object 改變，也會影響到 child 的 useEffect 等依賴 prop 的部分進行不必要的執行，因此應該在依賴項中以解構方式書寫
+
+      ```js
+      function Component({ props }) {
+        useEffect(() => {
+          dosomething(props.id, props.name)
+        }, [props.id, props.name])
+      }
+      ```
+
     </details>
 
   <!-- 行為特性 -->
@@ -818,10 +922,10 @@
 
   </details>
 
-<!-- 範例 -->
+<!-- Custom Hook -->
 
 - <details close>
-  <summary><code>範例</code></summary>
+  <summary><code>Custom Hook</code></summary>
 
   <!-- 使用時機 -->
 
@@ -856,9 +960,81 @@
   - <details close>
     <summary>其他補充</summary>
 
+    - 將 Effect 與 Component 解耦的方式
+    - 自訂 Hook 共享的是狀態邏輯，而不是狀態本身
+    - 兩個不同 component 但用相同狀態更新邏輯時
+    - 內部沒用到其他 Hook 則只要做成 util 即可，而不是做成 Hook
+    - (回傳喜歡以 object 而不是 array？)
+    - 將`事件處理函數`傳入自訂 Hook 時，增加對傳入的事件處理函數的依賴並不理想，因為每次元件重新渲染時就會再次執行。最好使用正在開發的 `useEffectEvent`
+    - 從選擇自訂 Hook 名稱開始。如果你難以選擇一個清晰的名稱，這可能意味著你的 Effect 和元件邏輯剩餘的部分耦合度太高，還沒有做好被提取的準備。
+    - 保持自訂 Hook 專注於具體的高階用例。`避免`創建和使用作為 useEffectAPI 本身的替代品和 wrapper 的自訂「生命週期」 Hook
+
     </details>
 
   </details>
+
+<!-- 其他 -->
+
+- <details close>
+  <summary>其他</summary>
+
+  <!-- useSyncExternalStore -->
+
+  - <details close>
+    <summary><code>useSyncExternalStore</code></summary>
+
+    - 研究
+
+    </details>
+
+  <!-- forwardRef -->
+
+  - <details close>
+    <summary><code>forwardRef</code></summary>
+
+    - 常用的 HOC？
+
+    </details>
+
+  <!-- Suspense -->
+
+  - <details close>
+    <summary><code>Suspense</code></summary>
+
+    - 當 child 還沒好之前，給一個 loading page 用
+
+    </details>
+
+  <!-- use -->
+
+  - <details close>
+    <summary><code>use</code> (future)</summary>
+
+    - 設計用意：讓你之後遷移到最終推薦方式你所需要的修改更少
+
+    </details>
+
+  <!-- useEffectEvent -->
+
+  - <details close>
+    <summary><code>useEffectEvent</code> (future)</summary>
+
+    </details>
+
+  </details>
+
+---
+
+## # Redux
+
+- REF：[Why React Context is Not a "State Management" Tool (and Why It Doesn't Replace Redux)]
+
+- React-Redux 僅透過 context 傳遞 Redux store instance，而不是當前 state
+- Mark 觀點：如果在應用程式中超過了 2-3 個與狀態相關的 context，那麼等於重新發明弱版 React-Redux，則該切換到使用 Redux
+
+- `Redux Toolkit` 提供了工具來簡化 Redux 的開發流程，減少 boilerplate
+  - EX. 使用 `createSlice` 自動生成 action 和 reducer
+  - 使用 `RTK Query` 甚至可能比使用 context 自己處理，還要少 boilerplate
 
 ---
 
@@ -894,6 +1070,10 @@
 
 ---
 
+## # 打包 bundler
+
+---
+
 ## # 問題集中區
 
 - 研究將 object state 扁平化後，是否影響效率，還是只有影響 setState 的便利性
@@ -907,6 +1087,21 @@
 <!-- 注意事項 -->
 
 - 注意事項：
+
+  - component 必須以大寫字母開頭
+  - 透過大小寫來區分 Component & HTML
+  - 萬物皆 component
+  - 將 HTML 和 Render logic 耦合在一起
+    - 因為在 Web2 時代，主要以 互動性元件 組成，更加適合組成一個整體
+    - 反之，應該將無關的 component 之間互相解耦
+    - 反之，應該只將 Render logic 寫在 component，其他 logic 分離出來
+  - 必須包裝成單一個 JSX：因為 JSX 實際上被轉為 JS object，而 function 只能 return 一個 object
+  - 避免過度使用 `{...props}`，此時可能需要用其他拆分法 (EX. `{children}`)
+  - 避免 JSX 中 `&&` 左側為數字 (EX. `{ isShow && <Component /> }`， isShow 不要是數字)
+  - 避免在 render 時才生成 child 的 key (預設就是用 index)
+  - 事件處理函數 (EX. onClick) 是執行 side effect 的最佳位置，`useEffect` 通常當作最後手段
+  - 資料都是由上往下傳
+  - declarative UI：不必直接控制 UI，而是描述在每個情況下提供的 UI (不是 imperative UI)
 
 <!-- 小技巧 -->
 
@@ -925,14 +1120,55 @@
 
     </details>
 
+  <!-- 查詢工具 -->
+
+  - <details close>
+    <summary>查詢工具</summary>
+
+    - [Bundlephobia]
+
+      - 可查詢模組大小，決定是否用 lazy import 優化
+
+    </details>
+
+  <!-- 設計工具 -->
+
+  - <details close>
+    <summary>設計工具</summary>
+
+    - storybook
+
+      - 展示出一個 component 的所有狀態的 view
+      - 稱作 "living styleguide" or "storybook"
+
+    </details>
+
 <!-- 補充學習 -->
 
-- 補充學習：
+- <details close>
+  <summary>補充學習</summary>
 
+  - [The Rules of React]
   - [React as a UI Runtime]
   - [react-reconciler]
   - [圖解 React]
   - [mini-react 翻譯？]
+
+  </details>
+
+<!-- 瀏覽器前端補充 -->
+
+- <details close>
+  <summary>瀏覽器前端補充</summary>
+
+  - `onScroll`：事件中，只有 onScroll 不會冒泡傳遞
+  - `transform`：會直接在 repaint 用 GPU 計算，讓畫面看起來有改變 (建議用以取代直接更改 left、top 等，可避免 reflow)
+  - event
+    - `e.stopPropagation()`：阻止向上冒泡
+    - `e.preventDefault()`：阻止瀏覽器預設的事件行為
+    - 捕獲事件對於路由或資料分析之類的程式碼很有用
+
+  </details>
 
 ---
 
@@ -951,122 +1187,6 @@
 
 ## # 小記
 
-- "living styleguide" or "storybook"
-
-  - 展示出一個 component 的所有狀態的 view
-  - 設計可用 storybook 工具來做
-
 - proxy & reflect
 
-- Effect
-
-  - 脱危機制：主要用來跟外部系統互動，也就是副作用
-
-  - 如果你想用 Effect 只根據其他狀態調整某些狀態，那麼你可能不需要 Effect
-
-  - useEffectEvent
-
-  - 如果 ref 是從父元件傳遞的，則必須在依賴項陣列中指定它
-
-  - 避免用來監聽一個 state 再去更新另一個 state
-
-  - 避免用來處理使用者的事件
-
-  - 不需要呈現在畫面，建議用 useRef 取代 useState
-
-    ```js
-    // 例如讓安鈕可以清除監聽，需要控制他，但不用畫出他
-    function Component() {
-      const id = useRef(null)
-      const handleClear = () => {
-        clearInterval(id)
-        id.current = null
-      }
-      useEffect(() => {
-        id.current = setInterval(() => {}, 1000)
-        return handleClear
-      }, [])
-
-      return <button onClick={handleClear}>Clear</button>
-    }
-    ```
-
-  - props 以 object 傳入的影響，雖然 parent re-render 也會使 child re-render，但如果 object 改變，也會影響到 child 的 useEffect 等依賴 prop 的部分進行不必要的執行，因此應該在依賴項中以解構方式書寫
-
-    ```js
-    function Component({ props }) {
-      useEffect(() => {
-        dosomething(props.id, props.name)
-      }, [props.id, props.name])
-    }
-    ```
-
-- 只在需要有識別度的 component 加上 `key={id}`
-
-- Redux
-
-  - REF：[Why React Context is Not a "State Management" Tool (and Why It Doesn't Replace Redux)]
-
-  - React-Redux 僅透過 context 傳遞 Redux store instance，而不是當前 state
-  - Mark 觀點：如果在應用程式中超過了 2-3 個與狀態相關的 context，那麼等於重新發明弱版 React-Redux，則該切換到使用 Redux
-
-  - `Redux Toolkit` 提供了工具來簡化 Redux 的開發流程，減少 boilerplate
-    - EX. 使用 `createSlice` 自動生成 action 和 reducer
-    - 使用 `RTK Query` 甚至可能比使用 context 自己處理，還要少 boilerplate
-
-- 打包 bundler
-
 - reactive values
-
-- 其他未歸類陷阱小記：
-
-  - component 必須以大寫字母開頭
-  - 透過大小寫來區分 Component & HTML
-  - 萬物皆 component
-  - 將 HTML 和 Render logic 耦合在一起
-    - 因為在 Web2 時代，主要以 互動性元件 組成，更加適合組成一個整體
-    - 反之，應該將無關的 component 之間互相解耦
-    - 反之，應該只將 Render logic 寫在 component，其他 logic 分離出來
-  - 必須包裝成單一個 JSX：因為 JSX 實際上被轉為 JS object，而 function 只能 return 一個 object
-  - 避免過度使用 `{...props}`，此時可能需要用其他拆分法 (EX. `{children}`)
-  - 避免 JSX 中 `&&` 左側為數字 (EX. `{ isShow && <Component /> }`， isShow 不要是數字)
-  - 避免在 render 時才生成 child 的 key (預設就是用 index)
-  - 事件處理函數 (EX. onClick) 是執行 side effect 的最佳位置，`useEffect` 通常當作最後手段
-  - 資料都是由上往下傳
-
-- pure
-
-  -REF: [The Rules of React]
-
-- 瀏覽器前端補充
-
-  - `onScroll`：事件中，只有 onScroll 不會冒泡傳遞
-  - `transform`：會直接在 repaint 用 GPU 計算，讓畫面看起來有改變 (建議用以取代直接更改 left、top 等，可避免 reflow)
-  - event
-    - `e.stopPropagation()`：阻止向上冒泡
-    - `e.preventDefault()`：阻止瀏覽器預設的事件行為
-    - 捕獲事件對於路由或資料分析之類的程式碼很有用
-
-- 自訂 Hook
-
-  - 將 Effect 與 Component 解耦的方式
-  - 自訂 Hook 共享的是狀態邏輯，而不是狀態本身
-  - 兩個不同 component 但用相同狀態更新邏輯時
-  - 內部沒用到其他 Hook 則只要做成 util 即可，而不是做成 Hook
-  - (回傳喜歡以 object 而不是 array？)
-  - 將`事件處理函數`傳入自訂 Hook 時，增加對傳入的事件處理函數的依賴並不理想，因為每次元件重新渲染時就會再次執行。最好使用正在開發的 `useEffectEvent`
-  - 從選擇自訂 Hook 名稱開始。如果你難以選擇一個清晰的名稱，這可能意味著你的 Effect 和元件邏輯剩餘的部分耦合度太高，還沒有做好被提取的準備。
-  - 保持自訂 Hook 專注於具體的高階用例。`避免`創建和使用作為 useEffectAPI 本身的替代品和 wrapper 的自訂「生命週期」 Hook
-
-- `useSyncExternalStore`
-
-- `use`：設計用意：讓你之後遷移到最終推薦方式你所需要的修改更少
-
-forwardRef 常用？
-
-Suspense
-當 child 還沒好之前，給一個 loading page 用
-
-[Bundlephobia]: https://bundlephobia.com/
-
-可用來寫 lazy import
