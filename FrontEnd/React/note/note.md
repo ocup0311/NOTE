@@ -2,6 +2,9 @@
 
 <!----------- ref start ----------->
 
+[webpack]: https://webpack.docschina.org/concepts/
+[Vite]: https://cn.vitejs.dev/guide/
+[React Compiler]: https://react.dev/learn/react-compiler
 [Bundlephobia]: https://bundlephobia.com/
 [簡化模擬 useState 行為]: ../src/code/useStateMock.js
 [The Rules of React]: https://gist.github.com/sebmarkbage/75f0838967cd003cd7f9ab938eb1958f
@@ -756,12 +759,141 @@
   - <details close>
     <summary>使用時機</summary>
 
+    - 當希望元件「記住」訊息，但不觸發渲染
+    - 用於低階 component 內的 DOM
+    - 常用來儲存 `timeout ID`、`DOM 元素`、`其他不影響渲染的物件`
+
+      - 呼叫 React 未暴露的瀏覽器 API
+      - 當一則資訊僅被事件處理器需要，且更改它不需要重新渲染時
+
     </details>
 
   <!-- 行為特性 -->
 
   - <details close>
     <summary>行為特性</summary>
+
+    <!-- 模擬 useRef 行為 -->
+
+    - <details close>
+      <summary>簡化模擬 useRef 行為</summary>
+
+      ```js
+      // React 内部
+      function useRef(initialValue) {
+        const [ref, unused] = useState({ current: initialValue })
+        return ref
+      }
+      ```
+
+      </details>
+
+    - ref 就像是組件的一個不被 React 追蹤的秘密口袋
+    - 更新時不會觸發 re-render
+    - JSX 上的 `ref` 是 React 的屬性，而非原生 HTML 屬性
+
+    </details>
+
+  <!-- 使用方式 -->
+
+  - <details close>
+    <summary>使用方式</summary>
+
+    <!-- 存取 DOM 元素，可以傳遞 `Ref Object` 或 `Callback` -->
+
+    - <details close>
+      <summary>存取 DOM 元素，可以傳遞 <code>Ref Object</code> 或 <code>Callback</code></summary>
+
+      <!-- Ref Object -->
+
+      - <details close>
+        <summary>Ref Object</summary>
+
+        - EX. `<div ref={myRef}>`
+        - React `自動`處理
+        - 會將對應的 DOM 元素放入 myRef.current
+        - 當元素從 DOM 中刪除時，會將 myRef.current 更新為 null
+
+        </details>
+
+      <!-- Callback -->
+
+      - <details close>
+        <summary>Callback</summary>
+
+        - EX. `<div ref={(node)=>{ myRef.current=node }}>`
+        - 需要`手動`處理寫入與移除
+        - 未知數量的情況下，就得使用 callback
+
+          ```js
+          function Component({ items }) {
+            const itemsRef = useRef(null)
+
+            const getMap = () => {
+              if (!itemsRef.current) itemsRef.current = new Map()
+              return itemsRef.current
+            }
+
+            const callbackRef = (node) => {
+              const map = getMap()
+              if (node) map.set(cat, node)
+              else map.delete(cat)
+            }
+
+            // 未來版本提供的使用方式，如同 useEffect 那樣使用 return
+            const callbackRef2 = (node) => {
+              const map = getMap()
+              map.set(cat, node)
+
+              return () => {
+                map.delete(cat)
+              }
+            }
+
+            return (
+              <>
+                items.map((item) => <div key={item.id} ref={callbackRef} />)
+              </>
+            )
+          }
+          ```
+
+        </details>
+
+      </details>
+
+    <!-- `React.forwardRef()`：用以包住 child，才能讓 ref 往 child 傳遞下去 -->
+
+    - <details close>
+      <summary><code>React.forwardRef()</code>：用以包住 child，才能讓 ref 往 child 傳遞下去</summary>
+
+      - React 故意為之，在一般情況阻擋 ref 傳遞。而必須刻意使用 forwardRef
+
+      </details>
+
+    <!-- `useImperativeHandle`：在 child 中，用以指定暴露給外部的 ref 範圍 -->
+
+    - <details close>
+      <summary><code>useImperativeHandle</code>：在 child 中，用以指定暴露給外部的 ref 範圍</summary>
+
+      - parent 的 ref 將只是由 useImperativeHandle 建立的 object，而不是 DOM 元素
+
+      ```js
+      // EX. 如此 parent 只能 ref 到 input 的 focus()
+      const MyInput = forwardRef((props, ref) => {
+        const realInputRef = useRef(null)
+
+        useImperativeHandle(ref, () => ({
+          focus() {
+            realInputRef.current.focus()
+          },
+        }))
+
+        return <input {...props} ref={realInputRef} />
+      })
+      ```
+
+      </details>
 
     </details>
 
@@ -770,12 +902,20 @@
   - <details close>
     <summary>推薦作法</summary>
 
+    - 視為脫圍機制：只用在溝通 React 外系統
+    - 用於非破壞性操作 (EX. 聚焦、滾動、測量)
+    - 用於`低階`而非高階 component 中，以避免對 DOM 結構的意外依賴 (EX. 在 button 而不要在 page)
+
     </details>
 
   <!-- 避免作法 -->
 
   - <details close>
     <summary>避免作法</summary>
+
+    - 避免在渲染過程中讀取或寫入 ref.current
+    - 避免用來更改由 React 管理的 DOM 節點 (EX. ref.current.remove())
+    - 如果很大一部分 應用程式邏輯 和 資料流 都依賴 ref，可能需要重新思考使用方式
 
     </details>
 
@@ -793,51 +933,55 @@
 - <details close>
   <summary><code>useEffect</code></summary>
 
+  - 使用它將元件與 React 以外的系統同步
+  - Effect 只能做兩件事：開始同步某些東西，然後停止同步它
+  -
+
+  - 脱危機制：主要用來跟外部系統互動，也就是副作用
+
+  - 如果你想用 Effect 只根據其他狀態調整某些狀態，那麼你可能不需要 Effect
+
+  - useEffectEvent
+
+  - 如果 ref 是從父元件傳遞的，則必須在依賴項陣列中指定它
+
+  - 避免用來監聽一個 state 再去更新另一個 state
+
+  - 避免用來處理使用者的事件
+
+  - 不需要呈現在畫面，建議用 useRef 取代 useState
+
+    ```js
+    // 例如讓安鈕可以清除監聽，需要控制他，但不用畫出他
+    function Component() {
+      const id = useRef(null)
+      const handleClear = () => {
+        clearInterval(id)
+        id.current = null
+      }
+      useEffect(() => {
+        id.current = setInterval(() => {}, 1000)
+        return handleClear
+      }, [])
+
+      return <button onClick={handleClear}>Clear</button>
+    }
+    ```
+
+  - props 以 object 傳入的影響，雖然 parent re-render 也會使 child re-render，但如果 object 改變，也會影響到 child 的 useEffect 等依賴 prop 的部分進行不必要的執行，因此應該在依賴項中以解構方式書寫
+
+    ```js
+    function Component({ props }) {
+      useEffect(() => {
+        dosomething(props.id, props.name)
+      }, [props.id, props.name])
+    }
+    ```
+
   <!-- 使用時機 -->
 
   - <details close>
     <summary>使用時機</summary>
-
-    - 脱危機制：主要用來跟外部系統互動，也就是副作用
-
-    - 如果你想用 Effect 只根據其他狀態調整某些狀態，那麼你可能不需要 Effect
-
-    - useEffectEvent
-
-    - 如果 ref 是從父元件傳遞的，則必須在依賴項陣列中指定它
-
-    - 避免用來監聽一個 state 再去更新另一個 state
-
-    - 避免用來處理使用者的事件
-
-    - 不需要呈現在畫面，建議用 useRef 取代 useState
-
-      ```js
-      // 例如讓安鈕可以清除監聽，需要控制他，但不用畫出他
-      function Component() {
-        const id = useRef(null)
-        const handleClear = () => {
-          clearInterval(id)
-          id.current = null
-        }
-        useEffect(() => {
-          id.current = setInterval(() => {}, 1000)
-          return handleClear
-        }, [])
-
-        return <button onClick={handleClear}>Clear</button>
-      }
-      ```
-
-    - props 以 object 傳入的影響，雖然 parent re-render 也會使 child re-render，但如果 object 改變，也會影響到 child 的 useEffect 等依賴 prop 的部分進行不必要的執行，因此應該在依賴項中以解構方式書寫
-
-      ```js
-      function Component({ props }) {
-        useEffect(() => {
-          dosomething(props.id, props.name)
-        }, [props.id, props.name])
-      }
-      ```
 
     </details>
 
@@ -987,12 +1131,13 @@
 
     </details>
 
-  <!-- forwardRef -->
+  <!-- flushSync -->
 
   - <details close>
-    <summary><code>forwardRef</code></summary>
+    <summary><code>flushSync</code></summary>
 
-    - 常用的 HOC？
+    - 用於使 setState 立即觸發 re-render 後，再執行接下去的程式碼
+    - EX. 在單次事件中，setState 後使用 ref 讀取 DOM 元素，必須先觸發 re-render 才能得到新的資訊
 
     </details>
 
@@ -1025,20 +1170,7 @@
 
 ---
 
-## # Redux
-
-- REF：[Why React Context is Not a "State Management" Tool (and Why It Doesn't Replace Redux)]
-
-- React-Redux 僅透過 context 傳遞 Redux store instance，而不是當前 state
-- Mark 觀點：如果在應用程式中超過了 2-3 個與狀態相關的 context，那麼等於重新發明弱版 React-Redux，則該切換到使用 Redux
-
-- `Redux Toolkit` 提供了工具來簡化 Redux 的開發流程，減少 boilerplate
-  - EX. 使用 `createSlice` 自動生成 action 和 reducer
-  - 使用 `RTK Query` 甚至可能比使用 context 自己處理，還要少 boilerplate
-
----
-
-## # 套件
+## # 常用套件
 
 <!-- React Hook Form -->
 
@@ -1070,7 +1202,42 @@
 
 ---
 
-## # 打包 bundler
+## # 延伸主題
+
+<!-- TODO:此部分內容長大後可以拆分到新檔案 -->
+
+<!-- Redux -->
+
+- <details close>
+  <summary>Redux</summary>
+
+  - REF：[Why React Context is Not a "State Management" Tool (and Why It Doesn't Replace Redux)]
+
+  - React-Redux 僅透過 context 傳遞 Redux store instance，而不是當前 state
+  - Mark 觀點：如果在應用程式中超過了 2-3 個與狀態相關的 context，那麼等於重新發明弱版 React-Redux，則該切換到使用 Redux
+
+  - `Redux Toolkit` 提供了工具來簡化 Redux 的開發流程，減少 boilerplate
+    - EX. 使用 `createSlice` 自動生成 action 和 reducer
+    - 使用 `RTK Query` 甚至可能比使用 context 自己處理，還要少 boilerplate
+
+  </details>
+
+<!-- Next.js -->
+
+- <details close>
+  <summary>Next.js</summary>
+  </details>
+
+<!-- bundler (打包工具) -->
+
+- <details close>
+  <summary>bundler (打包工具)</summary>
+
+  - [webpack]
+  - [Vite]
+  - [React Compiler]
+
+  </details>
 
 ---
 
@@ -1173,6 +1340,8 @@
 ---
 
 ## # 踩雷實錄
+
+> ~~空白沒踩雷當然最好~~
 
 ---
 
