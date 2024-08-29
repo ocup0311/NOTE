@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[Rspack]: https://rspack.dev/zh/
 [webpack]: https://webpack.docschina.org/concepts/
 [Vite]: https://cn.vitejs.dev/guide/
 [React Compiler]: https://react.dev/learn/react-compiler
@@ -59,13 +60,6 @@
     - [Inside Fiber: in-depth overview of the new reconciliation algorithm in React]
     - [The how and why on React’s usage of linked list in Fiber to walk the component’s tree]
     - [Fiber Object](../src/code/fiber.types.ts.md)
-
-    </details>
-
-  <!-- 名詞解釋 -->
-
-  - <details close>
-    <summary>名詞解釋</summary>
 
     </details>
 
@@ -209,10 +203,13 @@
 
       - `commit phase`
 
-        - 套用到 real DOM
+        - 套用到 real DOM (但不管 browser render 的執行)
         - 同步
         - 執行 side effect：`DOM 操作`、`部分 lifecycle method`
         - 更新 DOM 需要一氣呵成不中斷，才不會造成視覺上的不連貫
+        - 此階段也就是更新圖中 DOM Tree 的部分
+
+          ![](../src/image/Brower_Render.png)
 
       </details>
 
@@ -788,7 +785,7 @@
 
       </details>
 
-    - ref 就像是組件的一個不被 React 追蹤的秘密口袋
+    - ref 就像是元件的一個不被 React 追蹤的秘密口袋
     - 更新時不會觸發 re-render
     - JSX 上的 `ref` 是 React 的屬性，而非原生 HTML 屬性
 
@@ -938,17 +935,14 @@
   -
 
   - 脱危機制：主要用來跟外部系統互動，也就是副作用
-
   - 如果你想用 Effect 只根據其他狀態調整某些狀態，那麼你可能不需要 Effect
 
-  - useEffectEvent
+  - dependency
 
-  - 如果 ref 是從父元件傳遞的，則必須在依賴項陣列中指定它
+    - 如果 ref 是從父元件傳遞的，則必須在依賴項陣列中指定它
 
   - 避免用來監聽一個 state 再去更新另一個 state
-
   - 避免用來處理使用者的事件
-
   - 不需要呈現在畫面，建議用 useRef 取代 useState
 
     ```js
@@ -982,6 +976,12 @@
 
   - <details close>
     <summary>使用時機</summary>
+
+    - 常用情境
+
+      - 元件出現在螢幕上時發送分析日誌
+      - 設定伺服器連線
+      - 根據 state 控制非 React 元件
 
     </details>
 
@@ -1226,6 +1226,7 @@
 
 - <details close>
   <summary>Next.js</summary>
+
   </details>
 
 <!-- bundler (打包工具) -->
@@ -1236,6 +1237,143 @@
   - [webpack]
   - [Vite]
   - [React Compiler]
+  - [Rspack]
+
+    - rspack 比較像是 webpack, rollup, esbuild 這類更底層的工具
+    - rsbuild 比較像是 vite, CRA, vue-cli
+    - rspress（ rspack + react ）
+
+  </details>
+
+<!-- styled-component -->
+
+- <details close>
+  <summary>styled-component</summary>
+
+  <!-- 行為特性 -->
+
+  - <details close>
+    <summary>行為特性</summary>
+
+    - 基於 props 的動態樣式，styled-components 會生成新的 classname 樣式，但舊有的 classname 也會留著，當下次需要時可以省略重新生成相同的樣式
+
+    </details>
+
+  <!-- 推薦作法 -->
+
+  - <details close>
+    <summary>推薦作法</summary>
+
+    <!-- 如果是兩個地方分別用到兩個相近的 styled-component，建議封裝成兩個 styled-component -->
+
+    - <details close>
+      <summary>如果是兩個地方分別用到兩個相近的 styled-component，建議封裝成兩個 styled-component</summary>
+
+      - 減少條件判斷
+      - 更清晰直觀
+
+      </details>
+
+    <!-- 如果是要動態切換，則應該透過 prop 傳入更新，不要在兩個相近的 styled-component 間切換 -->
+
+    - <details close>
+      <summary>如果是要動態切換，則應該透過 prop 傳入更新，不要在兩個相近的 styled-component 間切換</summary>
+
+      - 傳入 prop 只會生成新的 classname 替換
+      - 切換兩個 styled-component，則會一直換新的 DOM
+
+      </details>
+
+    </details>
+
+  <!-- `Styled Component` & `Mixin` -->
+
+  - <details close>
+    <summary><code>Styled Component</code> & <code>Mixin</code></summary>
+
+    - 用於兩種不同情境，通常會在一個複雜的專案中同時使用
+
+    <!-- Styled Component 用來封裝具體的 UI 元素 -->
+
+    - <details close>
+      <summary>Styled Component 用來封裝具體的 UI 元素</summary>
+
+      - 適合樣式和結構相對固定、在應用中經常重用的視覺元素。這樣的基礎元件通常具有一定的結構和行為，可以被擴展和組合
+
+        - 視覺和結構固定
+        - 需要封裝行為或邏輯
+        - 多次重用
+        - 提供擴展接口
+
+      <!-- EX. 封裝基礎元件 -->
+
+      - <details close>
+        <summary>EX. 封裝基礎元件</summary>
+
+        ```js
+        const BaseButton = styled.button`
+          padding: 10px;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor: pointer;
+        `
+
+        const PrimaryButton = styled(BaseButton)`
+          background-color: blue;
+          color: white;
+        `
+        ```
+
+        </details>
+
+      </details>
+
+    <!-- Mixin 用在多個元件間共享通用的樣式邏輯 -->
+
+    - <details close>
+      <summary>Mixin 用在多個元件間共享通用的樣式邏輯</summary>
+
+      - 適合需要靈活應用、且與具體結構、元件不強相關的樣式片段
+
+        - 樣式片段不依賴結構
+        - 通用的樣式邏輯
+        - 跨元件共享樣式
+
+      <!-- EX. 封裝佈局樣式 -->
+
+      - <details close>
+        <summary>EX. 封裝佈局樣式</summary>
+
+        ```js
+        const flexbox = css`
+          display: flex;
+          justify-content: ${(props) => props.justify || 'flex-start'};
+          align-items: ${(props) => props.align || 'stretch'};
+          flex-direction: ${(props) => props.direction || 'row'};
+          flex-wrap: ${(props) => props.wrap || 'nowrap'};
+          gap: ${(props) => props.gap || '0'};
+        `
+
+        const FlexContainer = styled.div`
+          ${flexbox({
+            justify: 'center',
+            align: 'center',
+            direction: 'column',
+          })};
+        `
+        ```
+
+        - 優點
+
+          - 可以先封裝自己的預設
+          - 使用一樣的格式
+          - 強迫將關於佈局的 css 集中
+
+        </details>
+
+      </details>
+
+    </details>
 
   </details>
 
