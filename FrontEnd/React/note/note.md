@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[Object.is]: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/is
 [Rspack]: https://rspack.dev/zh/
 [webpack]: https://webpack.docschina.org/concepts/
 [Vite]: https://cn.vitejs.dev/guide/
@@ -411,6 +412,25 @@
 
   - controlled component：狀態由 parent (prop) 控制
   - uncontrolled component：狀態由 self (state 或 DOM) 控制
+
+  </details>
+
+<!-- Effect & Event -->
+
+- <details close>
+  <summary><code>Effect</code> vs <code>Event</code></summary>
+
+  - Effect：監聽`狀態改變`，自動做的事
+
+    - EX. 特定頁面渲染時，自動執行的事
+
+  - Event：監聽某個`動作觸發`，執行的事
+
+    - EX. onClick 時觸發的事
+
+  - 衍伸
+
+    - useEffectEvent 則是想在 Effect 中，監聽 "執行 Effect" 這個`動作`時，觸發執行的 Event
 
   </details>
 
@@ -930,57 +950,27 @@
 - <details close>
   <summary><code>useEffect</code></summary>
 
-  - 使用它將元件與 React 以外的系統同步
-  - Effect 只能做兩件事：開始同步某些東西，然後停止同步它
-  -
-
-  - 脱危機制：主要用來跟外部系統互動，也就是副作用
-  - 如果你想用 Effect 只根據其他狀態調整某些狀態，那麼你可能不需要 Effect
-
   - dependency
 
-    - 如果 ref 是從父元件傳遞的，則必須在依賴項陣列中指定它
-
-  - 避免用來監聽一個 state 再去更新另一個 state
-  - 避免用來處理使用者的事件
-  - 不需要呈現在畫面，建議用 useRef 取代 useState
-
-    ```js
-    // 例如讓安鈕可以清除監聽，需要控制他，但不用畫出他
-    function Component() {
-      const id = useRef(null)
-      const handleClear = () => {
-        clearInterval(id)
-        id.current = null
-      }
-      useEffect(() => {
-        id.current = setInterval(() => {}, 1000)
-        return handleClear
-      }, [])
-
-      return <button onClick={handleClear}>Clear</button>
-    }
-    ```
-
-  - props 以 object 傳入的影響，雖然 parent re-render 也會使 child re-render，但如果 object 改變，也會影響到 child 的 useEffect 等依賴 prop 的部分進行不必要的執行，因此應該在依賴項中以解構方式書寫
-
-    ```js
-    function Component({ props }) {
-      useEffect(() => {
-        dosomething(props.id, props.name)
-      }, [props.id, props.name])
-    }
-    ```
+    - 只能且只需依賴 reactive values
+    - props、state、memo、callback、parent's ref & setState..etc (包含從這些值計算而來的值)
+    - default：每次渲染都執行
+    - []：僅在元件掛載時執行
+    - 檢查全部不變：跳過本次執行
 
   <!-- 使用時機 -->
 
   - <details close>
     <summary>使用時機</summary>
 
+    - 脱危機制：用來跟外部系統互動，用來將元件與 React 以外的系統同步
+    - 只能做兩件事：開始同步某些東西，然後停止同步它
+    - 用在當只要元件渲染就必需觸發的事件，而不是綁定特定事件的情況
+
     - 常用情境
 
-      - 元件出現在螢幕上時發送分析日誌
-      - 設定伺服器連線
+      - 元件出現在螢幕上時發送的分析日誌
+      - 設定伺服器連線、網路、第三方函式庫
       - 根據 state 控制非 React 元件
 
     </details>
@@ -990,12 +980,101 @@
   - <details close>
     <summary>行為特性</summary>
 
+    - 開始同步外部系統：useEffect 內部所寫的就是同步的動作
+    - 停止同步外部系統：return 所寫的就是 cleanup 的動作
+
+    - dependency 更新，執行順序：`state 更新觸發 re-render` -> `commit to real DOM` -> `useEffect 檢查 dependency` -> `last useEffect cleanup` -> `重新執行 useEffect`
+
+      - 有機會在正式環境再用以下範例做一次實驗驗證
+
+        - 因為在官網文件上的 sandbox 執行時，會等 useEffect 執行完成才更新畫面
+
+        ```js
+        import { useState, useEffect } from 'react'
+        const serverUrl = 'https://localhost:1234'
+
+        function ChatRoom({ roomId }) {
+          console.log('render11...')
+          const now = performance.now()
+          while (performance.now() - now < 5000) {}
+
+          useEffect(() => {
+            const connection = createConnection(serverUrl, roomId)
+            const now = performance.now()
+            while (performance.now() - now < 5000) {}
+            console.log('connect...')
+            connection.connect()
+
+            return () => {
+              const now = performance.now()
+              while (performance.now() - now < 5000) {}
+              console.log('cleanup...')
+              connection.disconnect()
+            }
+          }, [roomId])
+
+          const now = performance.now()
+          while (performance.now() - now < 5000) {}
+          console.log('render22...')
+
+          return <h1>歡迎到 {roomId}！</h1>
+        }
+
+        export default function App() {
+          const [roomId, setRoomId] = useState('general')
+          const [show, setShow] = useState(false)
+          return (
+            <>
+              <label>
+                選擇聊天室：{' '}
+                <select
+                  value={roomId}
+                  onChange={(e) => setRoomId(e.target.value)}
+                >
+                  <option value='general'>一般</option>
+                  <option value='travel'>旅遊</option>
+                  <option value='music'>音樂</option>
+                </select>
+              </label>
+              <button onClick={() => setShow(!show)}>
+                {show ? '關閉' : '打開'}
+              </button>
+              {show && <hr />}
+              {show && <ChatRoom roomId={roomId} />}
+            </>
+          )
+        }
+
+        function createConnection(serverUrl, roomId) {
+          return {
+            connect() {
+              console.log('✅ 連接 "' + roomId + '" 房間：' + serverUrl + '...')
+            },
+            disconnect() {
+              console.log('❌ 斷開 "' + roomId + '" 房間：' + serverUrl)
+            },
+          }
+        }
+        ```
+
+    - component 卸載時，則會做最後一次 cleanup
+
     </details>
 
   <!-- 推薦作法 -->
 
   - <details close>
     <summary>推薦作法</summary>
+
+    - 時常優先思考是否不需要 Effect，而是適合其他方法。Effect 被當作最後手段
+    - 程式碼中的每個 Effect 應該代表一個「獨立的同步過程」，但避免將一個內聚的邏輯拆分成多個獨立的 Effects
+    - 對每個 Effect 單獨思考，而不是以 component 的生命週期的角度思考
+    - 大部分使用上，都會需要指定 cleanup 動作
+    - 盡可能少直接使用`原始 useEffect` (應該包成 custom hook)
+    - 將不必要或不想要觸發 Effect 的邏輯 (非響應式邏輯) 分離出來 (目前可用 useRef，未來使用 useEffectEvent)
+    - Effect 中使用 setState 時，若不需依賴該 state 的情況下，則使用 callback 方式來 setState
+
+      - EX. `setMessages(msgs => [...msgs, receivedMessage])`
 
     </details>
 
@@ -1004,6 +1083,89 @@
   - <details close>
     <summary>避免作法</summary>
 
+    - 避免用來處理「特定的使用者互動」事件 (優先考慮放在 onClick 等地方做處理)
+
+    - 避免自己選擇 dependency，而是將需要的都放進來，把不想要依賴的部分重構
+
+    - 避免將 object 當作 dependency (而是用 obj.property)
+
+      - 雖然 parent re-render 本來就會使 child re-render，所以傳入 object prop 也可以。但需注意 child 的 useEffect 等使用 prop 當 dependency 的寫法
+
+        ```js
+        // X
+        function Component({ props }) {
+          useEffect(() => {
+            dosomething(props.id, props.name)
+          }, [props])
+        }
+
+        // O
+        function Component({ props }) {
+          useEffect(() => {
+            dosomething(props.id, props.name)
+          }, [props.id, props.name])
+        }
+
+        // O
+        function Component({ props }) {
+          const { id, name } = props
+          useEffect(() => {
+            dosomething(id, name)
+          }, [id, name])
+        }
+        ```
+
+    - 避免用來監聽一個 state 再去更新另一個 state (而是直接寫在 render logic)
+
+      - 因為 state 改變就會 re-render，就會重跑一次 rednder logic
+      - 若是想減少昂貴的計算，則是用 `useMemo`
+
+      ```js
+      // X
+      function Component() {
+        const [state1, setState1] = useState()
+        const [state2, setState2] = useState()
+
+        useEffect(() => {
+          setState2(state1 + 1)
+        }, [state1])
+      }
+
+      // O
+      function Component() {
+        const [state1, setState1] = useState()
+        const state2 = state1 + 1
+      }
+      ```
+
+      ```js
+      // X
+      function Component({ items }) {
+        const [selection, setSelection] = useState(null)
+
+        useEffect(() => {
+          setSelection(null)
+        }, [items])
+      }
+
+      // O
+      function Component({ items }) {
+        const [selectedId, setSelectedId] = useState(null)
+        const selection = items.find((item) => item.id === selectedId) ?? null
+      }
+      ```
+
+    - 避免用來處理只需在 APP 啟動時做一次的初始化動作 (而是放在 React 之外處理)
+
+      - 在 APP 的 root 中執行這些內容，而不要在其他 component 頂層執行
+      - 若有需要 React 內的值，則在 APP 的 root 中的 useEffect 中處理一次
+
+    - (TODO:再改一下) 盡量避免「鏈式 Effect」
+
+      - https://zh-hans.react.dev/learn/you-might-not-need-an-effect
+      - 屬於同一個事件，不同判斷邏輯，則是用一個 事件函數 來處理
+      - 如果是連動的選單，則確實適合用 「鏈式 Effect」
+
     </details>
 
   <!-- 其他補充 -->
@@ -1011,9 +1173,87 @@
   - <details close>
     <summary>其他補充</summary>
 
+    - React 中將 `Effect` 名詞用來專指此部分，廣義的副作用稱作 side effect
     - `useLayoutEffect` 是 `useEffect` 的一個變種，可以在 `repaint` 之前觸發，可讓使用者不會看到畫面的變化，而是直接看到最後結果
 
-    </details>
+    - 不能在 server 中執行 Effect
+
+      - 所以最好使用專用框架或套件來處理 fetch
+      - TODO:再研究細節 https://zh-hans.react.dev/learn/synchronizing-with-effects
+
+    - 不需要呈現在畫面，建議用 useRef 取代 useState
+
+      ```js
+      // 例如讓安鈕可以清除監聽，需要控制他，但不用畫出他
+      function Component() {
+        const id = useRef(null)
+        const handleClear = () => {
+          clearInterval(id)
+          id.current = null
+        }
+        useEffect(() => {
+          id.current = setInterval(() => {}, 1000)
+          return handleClear
+        }, [])
+
+        return <button onClick={handleClear}>Clear</button>
+      }
+      ```
+
+    - Race Condition (競態條件)：用 ignore 來避免非同步產生的覆蓋 (TODO:將 fetch 相關集中)
+
+      - https://zh-hans.react.dev/learn/you-might-not-need-an-effect
+      - 但更好的方式是使用專用的套件，有幫忙做 cache
+
+      ```js
+      function SearchResults({ query }) {
+        const [page, setPage] = useState(1)
+        const params = new URLSearchParams({ query, page })
+        const results = useData(`/api/search?${params}`)
+
+        function handleNextPageClick() {
+          setPage(page + 1)
+        }
+        // ...
+      }
+
+      function useData(url) {
+        const [data, setData] = useState(null)
+        useEffect(() => {
+          let ignore = false
+          fetch(url)
+            .then((response) => response.json())
+            .then((json) => {
+              if (!ignore) {
+                setData(json)
+              }
+            })
+          return () => {
+            ignore = true
+          }
+        }, [url])
+        return data
+      }
+      ```
+
+      ```js
+      useEffect(() => {
+        let ignore = false
+
+        async function startFetching() {
+          const json = await fetchTodos(userId)
+          if (!ignore) setTodos(json)
+        }
+
+        startFetching()
+
+        return () => {
+          ignore = true
+        }
+      }, [userId])
+      ```
+
+      </details>
 
   </details>
 
@@ -1127,7 +1367,34 @@
   - <details close>
     <summary><code>useSyncExternalStore</code></summary>
 
-    - 研究
+    - 用來訂閱 React 外部可變的值
+    - TODO:研究 瀏覽器的 navigator.onLine API
+    - https://zh-hans.react.dev/learn/you-might-not-need-an-effect
+
+      ```js
+      function subscribe(callback) {
+        window.addEventListener('online', callback)
+        window.addEventListener('offline', callback)
+        return () => {
+          window.removeEventListener('online', callback)
+          window.removeEventListener('offline', callback)
+        }
+      }
+
+      function useOnlineStatus() {
+        // ✅ 非常好：用内置的 Hook 订阅外部 store
+        return useSyncExternalStore(
+          subscribe, // 只要传递的是同一个函数，React 不会重新订阅
+          () => navigator.onLine, // 如何在客户端获取值
+          () => true // 如何在服务端获取值
+        )
+      }
+
+      function ChatIndicator() {
+        const isOnline = useOnlineStatus()
+        // ...
+      }
+      ```
 
     </details>
 
@@ -1163,6 +1430,80 @@
 
   - <details close>
     <summary><code>useEffectEvent</code> (future)</summary>
+
+    - 定義：在 Effect 中，監聽 `執行 Effect` 這個`動作`時，觸發執行的 Event
+
+    - 使用時機
+
+      - 用來使 Effect 內部可以將不需觸發 Effect 的部分提取出來
+      - 將 Effect 中 不需響應 與 需要響應 的部分分離
+
+    - 最佳實作
+
+      - 只在 Effect 中，呼叫用 useEffectEvent 建立的 function
+      - 永遠不可傳遞給其他 component / hook
+      - 永遠伴隨著使用他的 Effect，兩者視為唯一個組合
+
+    - EX.
+
+      - 問題：使用上並不希望 theme 改變就重連一次
+
+        ```js
+        function ChatRoom({ roomId, theme }) {
+          useEffect(() => {
+            const connection = createConnection(serverUrl, roomId)
+            connection.on('connected', () => {
+              showNotification('Connected!', theme)
+            })
+            connection.connect()
+            return () => connection.disconnect()
+          }, [roomId, theme])
+        }
+        ```
+
+      - 解法：使用 `useEffectEvent`，但還在開發中
+
+        ```js
+        function ChatRoom({ roomId, theme }) {
+          const onConnected = useEffectEvent(() => {
+            showNotification('Connected!', theme)
+          })
+
+          useEffect(() => {
+            const connection = createConnection(serverUrl, roomId)
+            connection.on('connected', () => {
+              onConnected()
+            })
+            connection.connect()
+            return () => connection.disconnect()
+          }, [roomId])
+        }
+        ```
+
+      - 替代方案：使用 `useRef`
+
+        - 我認為差異點在於寫法較不簡潔，且無法透過現有功能自己包裝出一個模擬的 `useEffectEvent`
+
+        ```js
+        function ChatRoom({ roomId, theme }) {
+          const onConnectedRef = useRef()
+
+          useEffect(() => {
+            onConnectedRef.current = () => {
+              showNotification('Connected!', theme)
+            }
+          }, [theme])
+
+          useEffect(() => {
+            const connection = createConnection(serverUrl, roomId)
+            connection.on('connected', () => {
+              onConnectedRef.current()
+            })
+            connection.connect()
+            return () => connection.disconnect()
+          }, [roomId])
+        }
+        ```
 
     </details>
 
@@ -1497,3 +1838,7 @@
 - proxy & reflect
 
 - reactive values
+
+- React 使用 [Object.is] 比較依賴項的值
+
+- 追蹤使用者分析日誌：[Intersection Observer](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API)
