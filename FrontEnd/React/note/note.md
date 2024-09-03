@@ -373,6 +373,22 @@
 
   </details>
 
+<!-- dependency -->
+
+- <details close>
+  <summary>dependency</summary>
+
+  - 行為定義
+
+    - default：每次渲染都執行
+    - empty array：僅在元件掛載時執行
+    - dependencies：檢查全部都不變，則跳過內部邏輯執行
+
+  - 只能 & 只需 & 必需依賴 `reactive values`
+  - reactive values：`props`、`state`、`memo`、`callback`、`parent's ref & setState`..etc (包含從這些值計算而來的值)
+
+  </details>
+
 <!-- `<Child />` vs `{children}` -->
 
 - <details close>
@@ -932,27 +948,12 @@
 
     </details>
 
-  <!-- 其他補充 -->
-
-  - <details close>
-    <summary>其他補充</summary>
-
-    </details>
-
   </details>
 
 <!-- useEffect -->
 
 - <details close>
   <summary><code>useEffect</code></summary>
-
-  - dependency
-
-    - 只能且只需依賴 reactive values
-    - props、state、memo、callback、parent's ref & setState..etc (包含從這些值計算而來的值)
-    - default：每次渲染都執行
-    - []：僅在元件掛載時執行
-    - 檢查全部不變：跳過本次執行
 
   <!-- 使用時機 -->
 
@@ -978,8 +979,12 @@
 
     - 開始同步外部系統：useEffect 內部所寫的就是同步的動作
     - 停止同步外部系統：return 所寫的就是 cleanup 的動作
+    - component 卸載時，也會執行最後一次 cleanup
 
-    - dependency 更新，執行順序：`state 更新觸發 re-render` -> `commit to real DOM` -> `useEffect 檢查 dependency` -> `last useEffect cleanup` -> `重新執行 useEffect`
+    <!-- dependency 更新，執行順序：`state 更新觸發 re-render` -> `commit to real DOM` -> `useEffect 檢查 dependency` -> `last useEffect cleanup` -> `重新執行 useEffect` -->
+
+    - <details close>
+      <summary>dependency 更新，執行順序：<code>state 更新觸發 re-render</code> -> <code>commit to real DOM</code> -> <code>useEffect 檢查 dependency</code> -> <code>last useEffect cleanup</code> -> <code>重新執行 useEffect</code></summary>
 
       - 有機會在正式環境再用以下範例做一次實驗驗證
 
@@ -1053,7 +1058,7 @@
         }
         ```
 
-    - component 卸載時，則會做最後一次 cleanup
+      </details>
 
     </details>
 
@@ -1068,9 +1073,65 @@
     - 大部分使用上，都會需要指定 cleanup 動作
     - 盡可能少直接使用`原始 useEffect` (應該包成 custom hook)
     - 將不必要或不想要觸發 Effect 的邏輯 (非響應式邏輯) 分離出來 (目前可用 useRef，未來使用 useEffectEvent)
-    - Effect 中使用 setState 時，若不需依賴該 state 的情況下，則使用 callback 方式來 setState
+
+    <!-- 將 Effect 中，不需要呈現在畫面的變數，用 useRef 取代 useState -->
+
+    - <details close>
+      <summary>將 Effect 中，不需要呈現在畫面的變數，用 useRef 取代 useState</summary>
+
+      ```js
+      // 例如讓按鈕可以清除監聽，需要控制他，但不用畫出他
+      function Component() {
+        const id = useRef(null)
+
+        const handleClear = () => {
+          clearInterval(id)
+          id.current = null
+        }
+
+        useEffect(() => {
+          id.current = setInterval(() => {}, 1000)
+          return handleClear
+        }, [])
+
+        return <button onClick={handleClear}>Clear</button>
+      }
+      ```
+
+      </details>
+
+    <!-- Race Condition (競態條件)：用 ignore 來避免非同步產生的覆蓋 -->
+
+    - <details close>
+      <summary>Race Condition (競態條件)：用 ignore 來避免非同步產生的覆蓋</summary>
+
+      ```js
+      useEffect(() => {
+        let ignore = false
+
+        async function startFetching() {
+          const json = await fetchTodos(userId)
+          if (!ignore) setTodos(json)
+        }
+
+        startFetching()
+
+        return () => {
+          ignore = true
+        }
+      }, [userId])
+      ```
+
+      </details>
+
+    <!-- Effect 中使用 setState 時，若不需依賴該 state 的情況下，則使用 callback 方式來 setState -->
+
+    - <details close>
+      <summary>Effect 中使用 setState 時，若不需依賴該 state 的情況下，則使用 callback 方式來 setState</summary>
 
       - EX. `setMessages(msgs => [...msgs, receivedMessage])`
+
+      </details>
 
     </details>
 
@@ -1080,38 +1141,45 @@
     <summary>避免作法</summary>
 
     - 避免用來處理「特定的使用者互動」事件 (優先考慮放在 onClick 等地方做處理)
-
     - 避免自己選擇 dependency，而是將需要的都放進來，把不想要依賴的部分重構
 
-    - 避免將 object 當作 dependency (而是用 obj.property)
+    <!-- 避免將 object 當作 dependency (而是用 obj.property) -->
+
+    - <details close>
+      <summary>避免將 object 當作 dependency (而是用 obj.property)</summary>
 
       - 雖然 parent re-render 本來就會使 child re-render，所以傳入 object prop 也可以。但需注意 child 的 useEffect 等使用 prop 當 dependency 的寫法
 
-        ```js
-        // X
-        function Component({ props }) {
-          useEffect(() => {
-            dosomething(props.id, props.name)
-          }, [props])
-        }
+      ```js
+      // X
+      function Component({ props }) {
+        useEffect(() => {
+          dosomething(props.id, props.name)
+        }, [props])
+      }
 
-        // O
-        function Component({ props }) {
-          useEffect(() => {
-            dosomething(props.id, props.name)
-          }, [props.id, props.name])
-        }
+      // O
+      function Component({ props }) {
+        useEffect(() => {
+          dosomething(props.id, props.name)
+        }, [props.id, props.name])
+      }
 
-        // O
-        function Component({ props }) {
-          const { id, name } = props
-          useEffect(() => {
-            dosomething(id, name)
-          }, [id, name])
-        }
-        ```
+      // O
+      function Component({ props }) {
+        const { id, name } = props
+        useEffect(() => {
+          dosomething(id, name)
+        }, [id, name])
+      }
+      ```
 
-    - 避免用來監聽一個 state 再去更新另一個 state (而是直接寫在 render logic)
+      </details>
+
+    <!-- 避免用來監聽一個 state 再去更新另一個 state (而是直接寫在 render logic) -->
+
+    - <details close>
+      <summary>避免用來監聽一個 state 再去更新另一個 state (而是直接寫在 render logic)</summary>
 
       - 因為 state 改變就會 re-render，就會重跑一次 rednder logic
       - 若是想減少昂貴的計算，則是用 `useMemo`
@@ -1151,16 +1219,38 @@
       }
       ```
 
-    - 避免用來處理只需在 APP 啟動時做一次的初始化動作 (而是放在 React 之外處理)
+      </details>
+
+    <!-- 避免用來處理只需在 APP 啟動時做一次的初始化動作 (而是放在 React 之外處理) -->
+
+    - <details close>
+      <summary>避免用來處理只需在 APP 啟動時做一次的初始化動作 (而是放在 React 之外處理)</summary>
 
       - 在 APP 的 root 中執行這些內容，而不要在其他 component 頂層執行
       - 若有需要 React 內的值，則在 APP 的 root 中的 useEffect 中處理一次
 
-    - (TODO:再改一下) 盡量避免「鏈式 Effect」
+      </details>
 
-      - https://zh-hans.react.dev/learn/you-might-not-need-an-effect
-      - 屬於同一個事件，不同判斷邏輯，則是用一個 事件函數 來處理
-      - 如果是連動的選單，則確實適合用 「鏈式 Effect」
+    <!-- 避免在不適合情境使用 `Effect Chain` -->
+
+    - <details close>
+      <summary>避免在不適合情境使用 <code>Effect Chain</code></summary>
+
+      - 面臨問題
+
+        - 造成過多次不必要的 re-render
+        - 隨著程式碼不斷擴展，很容易不符合新的需求，且難以調整
+
+      - 推薦方法
+
+        - 在 render logic 做計算
+        - 在 event functiion 處理判斷邏輯
+
+      - 適用 Effect Chain 的情境
+
+        - 需要`連動的選單`，才確實適合用 `Effect Chain` (EX. 選了國家，才能列出該國家的城市供選擇)
+
+      </details>
 
     </details>
 
@@ -1169,86 +1259,11 @@
   - <details close>
     <summary>其他補充</summary>
 
-    - React 中將 `Effect` 名詞用來專指此部分，廣義的副作用稱作 side effect
+    - React 中將 `Effect` 名詞用來專指 useEffect 所執行內容，廣義的副作用則稱作 side effect
 
-    - `useLayoutEffect` 是 `useEffect` 的一個變種，可以在 `repaint` 之前觸發，可讓使用者不會看到畫面的變化，而是直接看到最後結果
+    - `useLayoutEffect` 是 useEffect 的一個變種，可以在 `repaint` 之前觸發，可讓使用者不會看到畫面的變化，而是直接看到最後結果
 
     - 不能在 server 中執行 Effect
-
-      - 所以最好使用專用框架或套件來處理 fetch
-      - TODO:再研究細節 https://zh-hans.react.dev/learn/synchronizing-with-effects
-
-    - 不需要呈現在畫面，建議用 useRef 取代 useState
-
-      ```js
-      // 例如讓安鈕可以清除監聽，需要控制他，但不用畫出他
-      function Component() {
-        const id = useRef(null)
-        const handleClear = () => {
-          clearInterval(id)
-          id.current = null
-        }
-        useEffect(() => {
-          id.current = setInterval(() => {}, 1000)
-          return handleClear
-        }, [])
-
-        return <button onClick={handleClear}>Clear</button>
-      }
-      ```
-
-    - Race Condition (競態條件)：用 ignore 來避免非同步產生的覆蓋 (TODO:將 fetch 相關集中)
-
-      - https://zh-hans.react.dev/learn/you-might-not-need-an-effect
-      - 但更好的方式是使用專用的套件，有幫忙做 cache
-
-      ```js
-      function SearchResults({ query }) {
-        const [page, setPage] = useState(1)
-        const params = new URLSearchParams({ query, page })
-        const results = useData(`/api/search?${params}`)
-
-        function handleNextPageClick() {
-          setPage(page + 1)
-        }
-        // ...
-      }
-
-      function useData(url) {
-        const [data, setData] = useState(null)
-        useEffect(() => {
-          let ignore = false
-          fetch(url)
-            .then((response) => response.json())
-            .then((json) => {
-              if (!ignore) {
-                setData(json)
-              }
-            })
-          return () => {
-            ignore = true
-          }
-        }, [url])
-        return data
-      }
-      ```
-
-      ```js
-      useEffect(() => {
-        let ignore = false
-
-        async function startFetching() {
-          const json = await fetchTodos(userId)
-          if (!ignore) setTodos(json)
-        }
-
-        startFetching()
-
-        return () => {
-          ignore = true
-        }
-      }, [userId])
-      ```
 
     </details>
 
@@ -1625,10 +1640,75 @@
 
   </details>
 
-<!-- useSWR、useQuery -->
+<!-- useSWR、TanStack Query -->
 
 - <details close>
-  <summary>useSWR、useQuery</summary>
+  <summary>useSWR、TanStack Query(React Query)</summary>
+
+  - 專門用來處理 fetch 的套件
+
+  <!-- 在 Effect 處理 fetch，而不使用套件面臨的問題 -->
+
+  - <details close>
+    <summary>在 Effect 處理 fetch，而不使用套件面臨的問題</summary>
+
+    - 無法 preload & cache
+
+      - render 後才執行 Effect
+
+    - 需處理 Race Condition
+
+      ```js
+      function SearchResults({ query }) {
+        const [page, setPage] = useState(1)
+        const params = new URLSearchParams({ query, page })
+        const results = useData(`/api/search?${params}`)
+
+        function handleNextPageClick() {
+          setPage(page + 1)
+        }
+      }
+
+      function useData(url) {
+        const [data, setData] = useState(null)
+
+        useEffect(() => {
+          let ignore = false
+          fetch(url)
+            .then((response) => response.json())
+            .then((json) => {
+              if (!ignore) {
+                setData(json)
+              }
+            })
+          return () => {
+            ignore = true
+          }
+        }, [url])
+
+        return data
+      }
+      ```
+
+    - 容易造成 network waterfall
+
+      - parent Effect 中 fetch，又再觸發 child re-render，child 中又 fetch 又影響他的 child
+
+    - 無法在 server 執行
+
+      - SSR 則需要等 client render 後才能 fetch
+
+    </details>
+
+  <!-- useSWR vs TanStack Query -->
+
+  - <details close>
+    <summary>useSWR vs TanStack Query</summary>
+
+    - useSWR (Stale While Revalidate)：用在小型專案，適合那些需要基本的自動重新驗證（refetch）的專案
+    - TanStack Query：用在更複雜專案，擁有更加全面的資料管理解決方案，更複雜的 cache、同步、背景更新 等功能
+
+    </details>
 
   </details>
 
