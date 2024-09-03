@@ -38,12 +38,8 @@
 
 # React
 
-> DATE: 8 (2024)
+> DATE: 8, 9 (2024)
 > REF: [Learn React 文件] | [Mark's Dev Blog] | [YT: React.js Deep Dive]
-
-## # 簡介
-
----
 
 ## # 基本概念
 
@@ -1174,6 +1170,7 @@
     <summary>其他補充</summary>
 
     - React 中將 `Effect` 名詞用來專指此部分，廣義的副作用稱作 side effect
+
     - `useLayoutEffect` 是 `useEffect` 的一個變種，可以在 `repaint` 之前觸發，可讓使用者不會看到畫面的變化，而是直接看到最後結果
 
     - 不能在 server 中執行 Effect
@@ -1253,7 +1250,7 @@
       }, [userId])
       ```
 
-      </details>
+    </details>
 
   </details>
 
@@ -1309,12 +1306,16 @@
 <!-- Custom Hook -->
 
 - <details close>
-  <summary><code>Custom Hook</code></summary>
+  <summary>Custom Hook</summary>
 
   <!-- 使用時機 -->
 
   - <details close>
     <summary>使用時機</summary>
+
+    - 用來將 Effect 與 Component 解耦
+    - 用來將關注點分離，使 Component 內部只需關注使用的功能，而不會有雜亂的邏輯
+    - 用來將相同狀態更新邏輯，給不同 Component 使用
 
     </details>
 
@@ -1323,12 +1324,30 @@
   - <details close>
     <summary>行為特性</summary>
 
+    - 共享的是`狀態邏輯`，而不是狀態本身
+
     </details>
 
   <!-- 推薦作法 -->
 
   - <details close>
     <summary>推薦作法</summary>
+
+    - 只用在包裝成具體的高階功能
+
+    <!-- 從建立 Custom Hook `清晰的命名`開始 -->
+
+    - <details close>
+      <summary>從建立 Custom Hook <code>清晰的命名</code>開始</summary>
+
+      - 如果想不到一個清晰的名稱，可能 Effect 和 Component 其他邏輯耦合度太高，還沒做好被分離的準備
+      - 同步外部系統，應使用系統特定術語，且對熟悉該系統的人清晰即可
+
+      </details>
+
+    - 回傳通常以 object 而不是 array (除了包裝 useState 等，固定格式)
+
+    - 命名格式為 use 開頭、駝峰式
 
     </details>
 
@@ -1337,6 +1356,9 @@
   - <details close>
     <summary>避免作法</summary>
 
+    - 避免將沒有計劃在內部引用其他 Hook 的函數做成 Hook (而是做成 util)
+    - 避免包裝成 useEffect 本身的替代品和「生命週期」的 Hook (EX. 避免使用 useMount)
+
     </details>
 
   <!-- 其他補充 -->
@@ -1344,14 +1366,7 @@
   - <details close>
     <summary>其他補充</summary>
 
-    - 將 Effect 與 Component 解耦的方式
-    - 自訂 Hook 共享的是狀態邏輯，而不是狀態本身
-    - 兩個不同 component 但用相同狀態更新邏輯時
-    - 內部沒用到其他 Hook 則只要做成 util 即可，而不是做成 Hook
-    - (回傳喜歡以 object 而不是 array？)
-    - 將`事件處理函數`傳入自訂 Hook 時，增加對傳入的事件處理函數的依賴並不理想，因為每次元件重新渲染時就會再次執行。最好使用正在開發的 `useEffectEvent`
-    - 從選擇自訂 Hook 名稱開始。如果你難以選擇一個清晰的名稱，這可能意味著你的 Effect 和元件邏輯剩餘的部分耦合度太高，還沒有做好被提取的準備。
-    - 保持自訂 Hook 專注於具體的高階用例。`避免`創建和使用作為 useEffectAPI 本身的替代品和 wrapper 的自訂「生命週期」 Hook
+    - 隨著時間的推移，大部分 Effect 都會存在於 Custom Hook 內部
 
     </details>
 
@@ -1367,34 +1382,80 @@
   - <details close>
     <summary><code>useSyncExternalStore</code></summary>
 
-    - 用來訂閱 React 外部可變的值
-    - TODO:研究 瀏覽器的 navigator.onLine API
-    - https://zh-hans.react.dev/learn/you-might-not-need-an-effect
+    - 用來訂閱 React 外部可變的值 (外部 store)
 
-      ```js
-      function subscribe(callback) {
-        window.addEventListener('online', callback)
-        window.addEventListener('offline', callback)
-        return () => {
-          window.removeEventListener('online', callback)
-          window.removeEventListener('offline', callback)
+    <!-- 說明範例 -->
+
+    - <details close>
+      <summary>說明範例</summary>
+
+      <!-- 原本做法：透過 useEffect 手動訂閱 store，並不理想 -->
+
+      - <details close>
+        <summary>原本做法：透過 useEffect 手動訂閱 store，並不理想</summary>
+
+        ```js
+        // X
+        function useOnlineStatus() {
+          const [isOnline, setIsOnline] = useState(true)
+
+          useEffect(() => {
+            function updateState() {
+              setIsOnline(navigator.onLine)
+            }
+
+            updateState()
+
+            window.addEventListener('online', updateState)
+            window.addEventListener('offline', updateState)
+            return () => {
+              window.removeEventListener('online', updateState)
+              window.removeEventListener('offline', updateState)
+            }
+          }, [])
+
+          return isOnline
         }
-      }
 
-      function useOnlineStatus() {
-        // ✅ 非常好：用内置的 Hook 订阅外部 store
-        return useSyncExternalStore(
-          subscribe, // 只要传递的是同一个函数，React 不会重新订阅
-          () => navigator.onLine, // 如何在客户端获取值
-          () => true // 如何在服务端获取值
-        )
-      }
+        function ChatIndicator() {
+          const isOnline = useOnlineStatus()
+        }
+        ```
 
-      function ChatIndicator() {
-        const isOnline = useOnlineStatus()
-        // ...
-      }
-      ```
+        </details>
+
+      <!-- 推薦做法：改用 useSyncExternalStore 訂閱外部 store -->
+
+      - <details close>
+        <summary>推薦做法：改用 useSyncExternalStore 訂閱外部 store</summary>
+
+        ```js
+        // O
+        function subscribe(callback) {
+          window.addEventListener('online', callback)
+          window.addEventListener('offline', callback)
+          return () => {
+            window.removeEventListener('online', callback)
+            window.removeEventListener('offline', callback)
+          }
+        }
+
+        function useOnlineStatus() {
+          return useSyncExternalStore(
+            subscribe, // 函數不變，則不會重新訂閱
+            () => navigator.onLine, // client 取值方式
+            () => true // server 取值方式
+          )
+        }
+
+        function ChatIndicator() {
+          const isOnline = useOnlineStatus()
+        }
+        ```
+
+        </details>
+
+      </details>
 
     </details>
 
@@ -1433,20 +1494,36 @@
 
     - 定義：在 Effect 中，監聽 `執行 Effect` 這個`動作`時，觸發執行的 Event
 
-    - 使用時機
+    <!-- 使用時機 -->
+
+    - <details close>
+      <summary>使用時機</summary>
 
       - 用來使 Effect 內部可以將不需觸發 Effect 的部分提取出來
       - 將 Effect 中 不需響應 與 需要響應 的部分分離
 
-    - 最佳實作
+      </details>
+
+    <!-- 最佳實作 -->
+
+    - <details close>
+      <summary>最佳實作</summary>
 
       - 只在 Effect 中，呼叫用 useEffectEvent 建立的 function
       - 永遠不可傳遞給其他 component / hook
       - 永遠伴隨著使用他的 Effect，兩者視為唯一個組合
 
-    - EX.
+      </details>
 
-      - 問題：使用上並不希望 theme 改變就重連一次
+    <!-- 範例說明 -->
+
+    - <details close>
+      <summary>範例說明</summary>
+
+      <!-- 問題：使用上並不希望 theme 改變就重連一次 -->
+
+      - <details close>
+        <summary>問題：使用上並不希望 theme 改變就重連一次</summary>
 
         ```js
         function ChatRoom({ roomId, theme }) {
@@ -1461,7 +1538,12 @@
         }
         ```
 
-      - 解法：使用 `useEffectEvent`，但還在開發中
+        </details>
+
+      <!-- 解法：使用 `useEffectEvent`，但還在開發中 -->
+
+      - <details close>
+        <summary>解法：使用 <code>useEffectEvent</code>，但還在開發中</summary>
 
         ```js
         function ChatRoom({ roomId, theme }) {
@@ -1480,7 +1562,12 @@
         }
         ```
 
-      - 替代方案：使用 `useRef`
+        </details>
+
+      <!-- 替代方案：使用 `useRef` -->
+
+      - <details close>
+        <summary>替代方案：使用 <code>useRef</code></summary>
 
         - 我認為差異點在於寫法較不簡潔，且無法透過現有功能自己包裝出一個模擬的 `useEffectEvent`
 
@@ -1504,6 +1591,10 @@
           }, [roomId])
         }
         ```
+
+        </details>
+
+      </details>
 
     </details>
 
@@ -1722,7 +1813,7 @@
 
 ## # 問題集中區
 
-- 研究將 object state 扁平化後，是否影響效率，還是只有影響 setState 的便利性
+- TODO:研究將 object state 扁平化後，是否影響效率，還是只有影響 setState 的便利性
 
   - [src](../src/code/state_struct.js)
 
@@ -1813,21 +1904,6 @@
     - `e.stopPropagation()`：阻止向上冒泡
     - `e.preventDefault()`：阻止瀏覽器預設的事件行為
     - 捕獲事件對於路由或資料分析之類的程式碼很有用
-
-  </details>
-
----
-
-## # 踩雷實錄
-
-> ~~空白沒踩雷當然最好~~
-
----
-
-## # 延伸討論
-
-- <details close>
-  <summary></summary>
 
   </details>
 
