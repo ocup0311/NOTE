@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[Intersection Observer]: https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API
 [Object.is]: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/is
 [Rspack]: https://rspack.dev/zh/
 [webpack]: https://webpack.docschina.org/concepts/
@@ -386,6 +387,7 @@
 
   - 只能 & 只需 & 必需依賴 `reactive values`
   - reactive values：`props`、`state`、`memo`、`callback`、`parent's ref & setState`..etc (包含從這些值計算而來的值)
+  - 透過 [Object.is] 進行比較
 
   </details>
 
@@ -1067,7 +1069,7 @@
   - <details close>
     <summary>推薦作法</summary>
 
-    - 時常優先思考是否不需要 Effect，而是適合其他方法。Effect 被當作最後手段
+    - 時常優先思考是否不需要 Effect，而是適合其他方法。Effect 被當作最後手段 (`Event` 是執行 side effect 的最佳位置，如 onClick)
     - 程式碼中的每個 Effect 應該代表一個「獨立的同步過程」，但避免將一個內聚的邏輯拆分成多個獨立的 Effects
     - 對每個 Effect 單獨思考，而不是以 component 的生命週期的角度思考
     - 大部分使用上，都會需要指定 cleanup 動作
@@ -1893,7 +1895,9 @@
 
 ## # 問題集中區
 
-- TODO:研究將 object state 扁平化後，是否影響效率，還是只有影響 setState 的便利性
+<!-- TODO: -->
+
+- 研究將 object state 扁平化後，是否影響效率，還是只有影響 setState 的便利性
 
   - [src](../src/code/state_struct.js)
 
@@ -1905,24 +1909,46 @@
 
 - 注意事項：
 
-  - component 必須以大寫字母開頭
-  - 透過大小寫來區分 Component & HTML
-  - 萬物皆 component
-  - 將 HTML 和 Render logic 耦合在一起
-    - 因為在 Web2 時代，主要以 互動性元件 組成，更加適合組成一個整體
-    - 反之，應該將無關的 component 之間互相解耦
-    - 反之，應該只將 Render logic 寫在 component，其他 logic 分離出來
-  - 必須包裝成單一個 JSX：因為 JSX 實際上被轉為 JS object，而 function 只能 return 一個 object
-  - 避免過度使用 `{...props}`，此時可能需要用其他拆分法 (EX. `{children}`)
-  - 避免 JSX 中 `&&` 左側為數字 (EX. `{ isShow && <Component /> }`， isShow 不要是數字)
-  - 避免在 render 時才生成 child 的 key (預設就是用 index)
-  - 事件處理函數 (EX. onClick) 是執行 side effect 的最佳位置，`useEffect` 通常當作最後手段
-  - 資料都是由上往下傳
-  - declarative UI：不必直接控制 UI，而是描述在每個情況下提供的 UI (不是 imperative UI)
+  <!-- 核心思想 -->
 
-<!-- 小技巧 -->
+  - <details close>
+    <summary>核心思想</summary>
 
-- 小技巧：
+    - 渲染過程應保持 pure
+    - 萬物皆 Component
+    - 資料都是由上往下傳
+    - 將 HTML 和 Render logic 耦合在一起
+      - 因為在 Web2 時代，主要以 互動性元件 組成，更加適合組成一個整體
+      - 反之，應該將無關的 Component 之間互相解耦
+      - 反之，應該只將 Render logic 寫在 Component，其他 logic 分離出來
+    - declarative UI：不必直接控制 UI，而是描述在每個情況下提供的 UI (不是 imperative UI)
+
+    </details>
+
+  <!-- 容易犯錯 -->
+
+  - <details close>
+    <summary>容易犯錯</summary>
+
+    - 避免過度使用 `{...props}`，此時可能需要用其他拆分法 (EX. `{children}`)
+    - 必須包裝成單一個 JSX：因為 JSX 實際上被轉為 JS object，而 function 只能 return 一個 object
+    - 避免在 render 時才生成 child 的 key (預設就是用 index)
+    - 避免 JSX 中 `&&` 左側為數字
+      - EX. `{ isShow && <Component /> }`， isShow 不要是數字
+    - 避免濫用 useEffect、useMemo、useCallback..等
+
+    </details>
+
+  <!-- 慣例 -->
+
+  - <details close>
+    <summary>慣例</summary>
+
+    - Component 必須以大寫字母開頭
+    - 透過大小寫來區分 Component & HTML
+    - Hook 以 use 開頭命名
+
+    </details>
 
 <!-- 小工具 -->
 
@@ -1987,14 +2013,11 @@
 
   </details>
 
----
+<!-- 其他補充 -->
 
-## # 小記
+- <details close>
+  <summary>其他補充</summary>
 
-- proxy & reflect
+  - 追蹤使用者分析日誌：[Intersection Observer]
 
-- reactive values
-
-- React 使用 [Object.is] 比較依賴項的值
-
-- 追蹤使用者分析日誌：[Intersection Observer](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API)
+  </details>
