@@ -2,6 +2,9 @@
 
 <!----------- ref start ----------->
 
+[React 文件：使用 TypeScript]: https://zh-hans.react.dev/learn/typescript
+[《React 思維進化》 筆記系列]: https://medium.com/@linyawun031/react-dom-virtual-dom-與-react-element-af47110e2ec4
+[Advanced React Component Design with TypeScript]: https://medium.com/漸強實驗室-crescendo-lab-engineering-blog/advanced-react-component-design-with-typescript-b679b85ad719
 [Intersection Observer]: https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API
 [Object.is]: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/is
 [Rspack]: https://rspack.dev/zh/
@@ -1891,6 +1894,17 @@
 
   </details>
 
+<!-- React wiht TS -->
+
+- <details close>
+  <summary>React wiht TS</summary>
+
+  - REF:
+    - [Advanced React Component Design with TypeScript]
+    - [React 文件：使用 TypeScript]
+
+  </details>
+
 ---
 
 ## # 問題集中區
@@ -1996,6 +2010,7 @@
   - [react-reconciler]
   - [圖解 React]
   - [mini-react 翻譯？]
+  - [《React 思維進化》 筆記系列]
 
   </details>
 
