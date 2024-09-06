@@ -1,3 +1,5 @@
+###### <!-- 收起 -->
+
 <style> 
 .imgBox{
   display: flex; 
@@ -10,7 +12,7 @@
 
 <!--  style  -->
 
-###### <!-- ref -->
+<!-- ref -->
 
 [mdn]: https://developer.mozilla.org/zh-TW/docs/Web
 [cors 完全手冊]: https://blog.huli.tw/2021/02/19/cors-guide-1/
@@ -25,14 +27,13 @@
 [使用 cors 與 cache 時的注意事項]: https://blog.huli.tw/2021/02/19/cors-guide-4/#使用-cors-與-cache-時的注意事項
 [api gateway cors]: https://docs.aws.amazon.com/zh_tw/apigateway/latest/developerguide/how-to-cors-console.html
 
-<!-- ref -->
-
 # CORS
 
 > DATE: 3 (2022)
+> UPDATE: 9 (2024)
 > REF: [CORS 完全手冊] | [MDN] | [CORS spec] | [API Gateway CORS]
 
-### AJAX & CORS
+### # AJAX & CORS
 
 - **[Simple Request] (簡單請求)**: CORS 只擋 response 而不擋 request
 
@@ -106,7 +107,7 @@
 
 ---
 
-### 為什麼會發生 CORS 問題？
+### # 為什麼會發生 CORS 問題？
 
 <!-- origin：scheme + host + port -->
 
@@ -147,11 +148,13 @@
 
 <!-- CORS 是針對「在 瀏覽器 上寫 JS」(其他的是另一回事) -->
 
-- CORS 是針對「在**瀏覽器**上寫 JS」(其他的是另一回事)
+- CORS 是針對「在`瀏覽器`上寫 JS」(其他的是另一回事)
+
+  - 主要是針對使用瀏覽器的一般使用者，盡可能避免他們人為上的失誤造成的資安問題。同時也讓瀏覽器在保有安全性下，提供更多便利功能
 
 ---
 
-### 解決「簡單請求」 CORS 問題
+### # 解決「簡單請求」 CORS 問題
 
 <!-- 「治標」爛方法： -->
 
@@ -201,7 +204,7 @@
 
 ---
 
-### 解決「非簡單請求」 CORS 問題
+### # 解決「非簡單請求」 CORS 問題
 
 > 重點項目：
 >
@@ -354,32 +357,147 @@
 
 ---
 
-### 總結
+### # 總結
 
-- HTTP response to **CORS request** can include the following header: ([EXAMPLE])
+- HTTP response 處理 CORS request 需要使用的 header: ([EXAMPLE])
 
   - Both
 
-  1. `Access-Control-Allow-Origin`
-  2. `Access-Control-Allow-Credentials`
+    1. `Access-Control-Allow-Origin`
+    2. `Access-Control-Allow-Credentials`
 
   - **NON CORS-Preflight Request only**
 
-  3. `Access-Control-Expose-Headers`
+    3. `Access-Control-Expose-Headers`
 
   - **CORS-Preflight Request only**
 
-  4. `Access-Control-Allow-Methods`
-  5. `Access-Control-Allow-Headers`
-  6. `Access-Control-Max-Age`
+    4. `Access-Control-Allow-Methods`
+    5. `Access-Control-Allow-Headers`
+    6. `Access-Control-Max-Age`
 
-### 其他
+---
 
-<!-- 待釐清 -->
+### # 其他 Cross-Origin 措施
 
-- <details close><summary>待釐清</summary>
+<!-- CORB (Cross-Origin Read Blocking) -->
 
-  - 今天會有 same-origin policy 跟 CORS，是因為我們「在瀏覽器上寫 JS」，所以受到執行環境的限制。如果我們今天寫的是 Node.js，就完全沒有這些問題，想拿什麼就拿什麼，不會有人擋我們?
-  -
+- <details close>
+  <summary>CORB (Cross-Origin Read Blocking)</summary>
+
+  - 起因：為了避免 Spectre 攻擊
+
+  - 行為特性
+
+    - 瀏覽器內建的機制
+    - 判斷 `MIME Type` 與 `HTML tag` 是否相符，不合理則不會載入 render process (EX. `<img> 不能載入 JSON`)
+
+      - 可透過 `Content-Type` 或 `MIME Sniffing` 判斷 `MIME Type`
+      - `MIME Sniffing`：瀏覽器預先載入該檔案的前面小部分 (約 256, 512 byte) 來判斷 `MIME Type`
+
+    - 主要想保護 HTML、XML、JSON，不讓被載入到跨來源的 render process，就不會被 Spectre 攻擊
+
+  - 推薦做法
+
+    - 用以下方式關閉瀏覽器的 `MIME Sniffing`
+    - res header 設置 `X-Content-Type-Options: nosniff`，並將所有 `Content-Type` 都設定正確
+
+  - 其他補充
+
+    - `Spectre`：攻擊某些`預先執行`行為造成的儲存在 cache、memory 等的資料
+
+  </details>
+
+<!-- CORP (Cross-Origin Resource Policy) -->
+
+- <details close>
+  <summary>CORP (Cross-Origin Resource Policy)</summary>
+
+  - 行為特性
+
+    - 行為類似於「資源版的 CORS」
+    - 用來設定哪些 origin 可以下載該資源
+    - 透過 `<img>` 等標籤下載資源，也受 CORP 限制
+
+  - `Cross-Origin-Resource-Policy`
+
+    - `same-origin`
+    - `same-site`
+    - `cross-origin`
+
+  - 其他補充
+
+    - 可搭配判斷是否 client 是透過各 browser 而來
+
+  </details>
+
+<!-- COEP (Cross-Origin-Embedder-Policy) -->
+
+- <details close>
+  <summary>COEP (Cross-Origin-Embedder-Policy)</summary>
+
+  - 行為特性
+
+    - 指定是否一定要設定 CORP
+
+  - `Cross-Origin-Embedder-Policy`
+
+    - `require-corp`：設定後，強迫所有資源都必須設定 CORP
+    - `unsafe-none`
+
+  </details>
+
+<!-- COOP (Cross-Origin-Opener-Policy) -->
+
+- <details close>
+  <summary>COOP (Cross-Origin-Opener-Policy)</summary>
+
+  - 行為特性
+
+    - 用來設定能使用 `window.open`、`iframe` 的 origin 範圍限制
+
+  - `Cross-Origin-Opener-Policy`
+
+    - `unsafe-none`：可以隨便使用，但只限於 `window.location`、`window.close()` 等方法
+    - `same-origin`：開啟與被開啟者都必須有設定一樣的 COOP
+    - `same-origin-allow-popups`：只要求 same-origin，而不要求被開啟者的 COOP 設定
+    - `same-origin-plus-coep`
+
+  </details>
+
+<!-- `Site Isolation` vs `cross-origin isolated state` -->
+
+- <details close>
+  <summary><code>Site Isolation</code> vs <code>cross-origin isolated state</code></summary>
+
+  <!-- Site Isolation -->
+
+  - <details close>
+    <summary>Site Isolation</summary>
+
+    - 在 browser 設定，預設通常是開啟
+
+    - 確保 same site 才能用同一個 process
+
+      - 不同分頁，同 origin 也可能只開一個 process
+
+    </details>
+
+  <!-- cross-origin isolated state -->
+
+  - <details close>
+    <summary>cross-origin isolated state</summary>
+
+    - 由 server 設定
+
+      - `Cross-Origin-Embedder-Policy: require-corp`
+      - `Cross-Origin-Opener-Policy: same-origin`
+
+    - 確保 same-origin 才能用同一個 browsing context group (BCG)
+
+      - BCG 範圍更小，同 BCG 一定同 process
+      - 同 BCG 才能共用 memory
+
+    </details>
 
   </details>
