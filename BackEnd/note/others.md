@@ -1,5 +1,11 @@
 ###### <!-- ref -->
 
+[NGINX Performance Tuning Tips and Optimization Strategies]: https://www.cloudpanel.io/blog/nginx-performance/
+[Performance Tuning – Tips & Tricks]: https://blog.nginx.org/blog/performance-tuning-tips-tricks
+[Nginx 效能最佳化（吐血總結）]: https://github.com/0voice/cpp_backend_awsome_blog/blob/main/%E3%80%90NO.350%E3%80%91Nginx%20%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%88%E5%90%90%E8%A1%80%E6%80%BB%E7%BB%93%EF%BC%89.md
+[深入理解 Nginx 讀書筆記 (第二章)]: https://super9.space/archives/2050
+[Nginx 優化設定]: https://medium.com/@openthedidi2004/nginx-優化設定-3858c3597564
+[深入探討 Nginx 的快取機制與效能調優技巧]: https://www.php.cn/zh-tw/faq/598035.html
 [denji/nginx-tuning.md]: https://gist.github.com/denji/8359866
 [Top Five Tips for NGINX Performance Tuning]: https://www.openlogic.com/blog/nginx-performance-tuning
 [BREACH 攻擊]: https://securityalley.blogspot.com/2014/07/ssltls-breach.html
@@ -278,7 +284,9 @@
 
   - Performance Tuning
 
-    - nice 值是靜態優先權，真正優先順序還內核還會參考執行情況做動態調整。nice 範圍是 -20（最高） ~ +19（最低），不建議設到比內核進程還優先（通常是 -5）
+  - 其他補充
+
+    - `ngx_cache_purge`：設置用來針對特定 URL 進行快取清理 (並注意設定成僅內部使用 EX. internal、allow 127.0.0.1..etc)
 
   ![](../src/image/Nginx_Cache.png)
 
@@ -341,7 +349,12 @@
   <summary>常用配置</summary>
 
   - 一般情況，設置為 `levels=1:2` (EX. 檔案 abcd123 存在 `/a/bc/abcd123`)
-  -
+  - `worker_processes auto;` 通常 auto 或小於 CPU 數
+  - `worker_connections` 通常設置為 1024 ~ 4096
+
+    - 代表一個 Worker Process 可以開啟的最大同時連線數，包括與前後端的連接
+    - 可用 `ulimit -n` 查詢 OS 有多少可用 File Descriptors，而必須 `worker_connections x worker_processes <= File Descriptors`
+    - 若 OS 預設的 File Descriptors 太小，則可以調整 File Descriptors (EX. 以小中大型的 EC2 舉例，大約分別能負荷 `4096 ~ 8192`、`65536`、`100000 up`)
 
   </details>
 
@@ -364,6 +377,8 @@
     - 一般是用來壓縮 HTML、CSS、JS
     - 一般 nodejs 不適合做壓縮，更適合在 Nginx 處理
     - 可以透過 `log_format` 設定，在 log 紀錄每個請求的時間，進行分析如何配置，使請求耗時較短 (壓縮與否、壓縮等級..等)
+    - `gzip_vary on`：會自動添加 `Vary: Accept-Encoding` header，目的是讓 Nginx 與 client 中間層 (EX. CDN)，可以根據是否有壓縮來做不同的 cache
+    - 常用參數：`gzip_types`、`gzip_vary on`、`gzip_min_length 10240`、`gzip_comp_level 5`、`gzip_proxied`
 
     </details>
 
@@ -376,12 +391,20 @@
 
   - REF：
 
+    - [Performance Tuning – Tips & Tricks]
     - [Top Five Tips for NGINX Performance Tuning]
     - [denji/nginx-tuning.md]
-    -
+    - [深入探討 Nginx 的快取機制與效能調優技巧]
+    - [Nginx 優化設定]
+    - [Nginx 效能最佳化（吐血總結）]
+    - [NGINX Performance Tuning Tips and Optimization Strategies]
 
-  - 根據 CPU 核心數量，一核開一個 Worker Processes，減少 context switching
-  - log buffering：當負載較大時，可以暫緩 log 寫入，集滿或時間到再一次性寫入，減少 I/O
+  - 根據 CPU 核心數量，最多一核開一個 `worker_processes`，減少 context switching (可設為 `auto`，自動偵測 CPU 數量來設置)
+  - 避免停用 `lingering_close`
+  - `multi_accept`：高併發 on，反之 off
+  - 記得設置各種 `timeout`
+  - `log buffering`：當負載較大時，可以暫緩 log 寫入，集滿或時間到再一次性寫入，減少 I/O
+  - 拆分多個 `location`，依照不同情況開啟不同 location (EX. 將基本 log 與更進一步的 log 分開，使流量大時只維持基本 log)
 
   </details>
 
@@ -391,6 +414,7 @@
   <summary>REF</summary>
 
   - [Web Server & Nginx — (2)]
+  - [深入理解 Nginx 讀書筆記 (第二章)]
 
   </details>
 
