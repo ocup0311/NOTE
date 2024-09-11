@@ -282,8 +282,6 @@
     - RAM 只用來存放 key，實際資料都是放在 disk
     - 如果想用 RAM 存放完整 cache 則要使用其他工具 (EX. tmpfs)
 
-  - Performance Tuning
-
   - 其他補充
 
     - `ngx_cache_purge`：設置用來針對特定 URL 進行快取清理 (並注意設定成僅內部使用 EX. internal、allow 127.0.0.1..etc)
@@ -415,6 +413,84 @@
 
   - [Web Server & Nginx — (2)]
   - [深入理解 Nginx 讀書筆記 (第二章)]
+
+  </details>
+
+##### # Server-Side Cache
+
+- <details close>
+  <summary>使用時機</summary>
+
+  - 複雜計算 (EX. Count(\*))
+  - 讀多寫少
+
+  </details>
+
+<!-- 設計模式 (maxmemory policy) -->
+
+- <details close>
+  <summary>設計模式 (maxmemory policy)</summary>
+
+  <!-- Cache Aside (Lazy Loading) -->
+
+  - <details close>
+    <summary>Cache Aside (Lazy Loading)</summary>
+
+    - 適用時機：讀多
+    - 寫入時，使 Cache 失效
+
+    ![](../src/image/Maxmem_Policy_Cache_Aside.png)
+
+    </details>
+
+  <!-- Read/Write Through -->
+
+  - <details close>
+    <summary>Read/Write Through</summary>
+
+    - 適用時機：讀多寫少
+    - 透過 Cache 當中間層，當 Cache 沒資料時，也是透過 Cache 與 DB 同步，再由 Cache 回應
+    - 同步更新 Cache & DB
+    - 只要有寫入就會更新 Cache
+
+    ![](../src/image/Maxmem_Policy_Read_Write_Through.png)
+
+    </details>
+
+  <!-- Write behind (Write Back) -->
+
+  - <details close>
+    <summary>Write behind (Write Back)</summary>
+
+    - 適用時機：寫多
+    - 寫入時只先寫入 Cache，之後再根據選擇的演算法去更新 DB
+
+    ![](../src/image/Maxmem_Policy_Write_behind.png)
+
+    </details>
+
+  </details>
+
+<!-- 淘汰策略 (Eviction Policy) -->
+
+- <details close>
+  <summary>淘汰策略 (Eviction Policy)</summary>
+
+  - `NoEviction`、`LRU`(Least Recently Used)、`LFU`(Least Frequently Used)、`Random`、`TTL`(Time-to-Live)
+
+  - `Volatile` & `Allkeys`
+
+    - "只針對設置 TTL 的 key" vs "針對全部的 key"
+
+  </details>
+
+<!-- 其他補充 -->
+
+- <details close>
+  <summary>其他補充</summary>
+
+  - 常用 Redis、Memcached 等工具
+  - 如果使用多個 Cache 節點，可注意將常用查詢複製到多個節點，並且將 TTL 設置不同
 
   </details>
 
