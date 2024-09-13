@@ -1,5 +1,17 @@
 ###### <!-- ref -->
 
+[各大網站 OAuth 2.0 實作差異]: https://blog.yorkxin.org/posts/oauth2-implementation-differences-among-famous-sites/
+[OAuth 2.0 筆記 (7) 安全性問題]: https://blog.yorkxin.org/posts/oauth2-7-security-considerations/
+[OAuth 2.0 筆記 (6) Bearer Token 的使用方法]: https://blog.yorkxin.org/posts/oauth2-6-bearer-token/
+[OAuth 2.0 筆記 (5) 核發與換發 Access Token]: https://blog.yorkxin.org/posts/oauth2-5-issuing-tokens/
+[OAuth 2.0 筆記 (4.4) Client Credentials Grant Flow 細節]: https://blog.yorkxin.org/posts/oauth2-4-4-client-credentials-grant-flow/
+[OAuth 2.0 筆記 (4.3) Resource Owner Password Credentials Grant Flow 細節]: https://blog.yorkxin.org/posts/oauth2-4-3-resource-owner-credentials-grant-flow/
+[OAuth 2.0 筆記 (4.2) Implicit Grant Flow 細節]: https://blog.yorkxin.org/posts/oauth2-4-2-implicit-grant-flow/
+[OAuth 2.0 筆記 (4.1) Authorization Code Grant Flow 細節]: https://blog.yorkxin.org/posts/oauth2-4-1-auth-code-grant-flow/
+[OAuth 2.0 筆記 (3) Endpoints 的規格]: https://blog.yorkxin.org/posts/oauth2-3-endpoints/
+[OAuth 2.0 筆記 (2) Client 的註冊與認證]: https://blog.yorkxin.org/posts/oauth2-2-cilent-registration/
+[OAuth 2.0 筆記 (1) 世界觀]: https://blog.yorkxin.org/posts/oauth2-1-introduction/
+[繼 Redis 發生變更授權爭議之後，Valkey 一躍而為最受歡迎的開源替代選擇]: https://www.businesswire.com/news/home/20240912303242/zh-HK/
 [NGINX Performance Tuning Tips and Optimization Strategies]: https://www.cloudpanel.io/blog/nginx-performance/
 [Performance Tuning – Tips & Tricks]: https://blog.nginx.org/blog/performance-tuning-tips-tricks
 [Nginx 效能最佳化（吐血總結）]: https://github.com/0voice/cpp_backend_awsome_blog/blob/main/%E3%80%90NO.350%E3%80%91Nginx%20%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%88%E5%90%90%E8%A1%80%E6%80%BB%E7%BB%93%EF%BC%89.md
@@ -489,8 +501,85 @@
 - <details close>
   <summary>其他補充</summary>
 
-  - 常用 Redis、Memcached 等工具
+  - 常用 Redis、Memcached、Valkey 等工具
   - 如果使用多個 Cache 節點，可注意將常用查詢複製到多個節點，並且將 TTL 設置不同
+  - [繼 Redis 發生變更授權爭議之後，Valkey 一躍而為最受歡迎的開源替代選擇]
+
+  </details>
+
+##### # JWT
+
+- JSON Web Token
+
+- RFC 7519
+
+- HMAC、RSA、ECDS 等演算法進行加密
+
+- JWT 會透過 HMAC、RSA、ECDS 等演算法進行加密，而 JWT 是以 Header、Payload、Signature 以 Base64 做做編碼，並且以 . 來做分開（例如： xxxxxx.yyyyyy.zzzzz ）
+
+- <details close>
+  <summary></summary>
+
+  </details>
+
+##### # OAuth 2.0
+
+- REF:
+
+  - [OAuth 2.0 筆記 (1) 世界觀]
+  - [OAuth 2.0 筆記 (2) Client 的註冊與認證]
+  - [OAuth 2.0 筆記 (3) Endpoints 的規格]
+  - [OAuth 2.0 筆記 (4.1) Authorization Code Grant Flow 細節]
+  - [OAuth 2.0 筆記 (4.2) Implicit Grant Flow 細節]
+  - [OAuth 2.0 筆記 (4.3) Resource Owner Password Credentials Grant Flow 細節]
+  - [OAuth 2.0 筆記 (4.4) Client Credentials Grant Flow 細節]
+  - [OAuth 2.0 筆記 (5) 核發與換發 Access Token]
+  - [OAuth 2.0 筆記 (6) Bearer Token 的使用方法]
+  - [OAuth 2.0 筆記 (7) 安全性問題]
+  - [各大網站 OAuth 2.0 實作差異]
+
+- 名詞
+
+  - Resource Owner
+
+    - 可授權存取 Protected Resource 的角色
+    - EX. User
+
+  - Resource Server
+
+    - 存放 Protected Resource 的地方 (別人透過有效的 Access Token 來此取得)
+    - 可以透過向 Authorization Server 或獨立的 Introspection Endpoint 確認 Access Token 有效性
+    - 也可以透過公鑰或共享密鑰，直接解碼 Access Token (但會無法執行撤銷，只能等待到期)
+    - EX. Google 存使用者資料的地方
+
+  - Client
+
+    - 透過有效的 Access Token，代替 Resource Owner 去向 Resource Server 取得 Protected Resource 的應用程式
+    - 在此並非指前端，而是指那個第三方應用程式
+
+  - Authorization Server
+
+    - 負責驗證身份，並核發 Access Token 的 server
+    - 可以與 Resource Server 是同一個，也可以是不同個。也可以搭配數個 Resource Server
+    - EX. Google 驗證授權的 server
+
+  - Authorization grant (Authorization Code)
+
+  - Access Token
+
+  - Refresh Token
+
+- 常用模式
+
+  - Authorization Code Grant Flow
+  - Implicit Grant Flow
+  - Resource Owner Password Credentials Grant Flow
+  - Client Credentials Grant Flow
+
+#####
+
+- <details close>
+  <summary></summary>
 
   </details>
 
