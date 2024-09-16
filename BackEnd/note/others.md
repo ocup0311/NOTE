@@ -1,5 +1,6 @@
 ###### <!-- ref -->
 
+[OAuth 2.0]: https://oauth.net/2/
 [各大網站 OAuth 2.0 實作差異]: https://blog.yorkxin.org/posts/oauth2-implementation-differences-among-famous-sites/
 [OAuth 2.0 筆記 (7) 安全性問題]: https://blog.yorkxin.org/posts/oauth2-7-security-considerations/
 [OAuth 2.0 筆記 (6) Bearer Token 的使用方法]: https://blog.yorkxin.org/posts/oauth2-6-bearer-token/
@@ -526,6 +527,7 @@
 
 - REF:
 
+  - [OAuth 2.0]
   - [OAuth 2.0 筆記 (1) 世界觀]
   - [OAuth 2.0 筆記 (2) Client 的註冊與認證]
   - [OAuth 2.0 筆記 (3) Endpoints 的規格]
@@ -567,7 +569,57 @@
 
   - Access Token
 
+    - 安全性：高 <-- `PoP` -- `MAC` -- `Bearer` --> 低
+
+    <!-- Bearer Token -->
+
+    - <details close>
+      <summary><code>Bearer Token</code></summary>
+
+      - 基本上是常用的類型中，最基本簡單的 Access Token
+      - 單純的使用 Access Token，任何取得 Token 的一方，皆可使用，沒有更近一步的驗證
+      - 必須使用 HTTPS、常用 JWT 格式、放在 HTTP Authorization Header、通常包含 Expire time、Scope
+
+      </details>
+
+    <!-- `MAC Token` & `PoP Token` -->
+
+    - <details close>
+      <summary><code>MAC Token</code> & <code>PoP Token</code></summary>
+
+      - 加強驗證，確保只有該 Client 可以使用該 Token (Resource Server 除了透過 Token 判斷，還會使用該密鑰來驗證 Client 的 Signature)
+      - 使用 Token 時，需額外附上一個透過指定密鑰的`Signature` (Hash)
+      - Hash 內容包含：`完整請求內容`、`TimeStamp`、`隨機數(nonce)`
+      - 近期已被使用回應過的 nonce，Resource Server 會拒絕回應 (回 HTTP 400、401)
+      - 單一 Token 上，MAC & PoP 兩種密鑰簽章的目的重複，擇一即可，兩者是在`性能`＆`安全`的取捨
+
+      </details>
+
+    <!-- MAC Token -->
+
+    - <details close>
+      <summary><code>MAC Token</code> (Message Authentication Code)</summary>
+
+      - 由 Authorization Server 產生的`對稱密鑰`
+      - Authorization Server、Resource Server、Client 共享密鑰
+      - 綁定 Access Token 不需透過 MAC 密鑰來加密 Token (因為都是 Authorization Server 生成的)
+
+      </details>
+
+    <!-- PoP Token -->
+
+    - <details close>
+      <summary><code>PoP Token</code> (Proof of Possession)</summary>
+
+      - 由 Client 產生的`非對稱密鑰`
+      - Authorization Server & Resource Server 有公鑰、Client 有私鑰
+      - 綁定 Access Token 會透過 PoP 密鑰來加密 Token
+
+      </details>
+
   - Refresh Token
+
+    -
 
 - 常用模式
 
@@ -575,6 +627,8 @@
   - Implicit Grant Flow
   - Resource Owner Password Credentials Grant Flow
   - Client Credentials Grant Flow
+
+- 其他補充
 
 #####
 
