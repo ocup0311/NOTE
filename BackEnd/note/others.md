@@ -1,5 +1,7 @@
 ###### <!-- ref -->
 
+[每個軟體工程師都應該懂的 HTTPS：深入淺出加密原理、TLS 協議]: https://www.shubo.io/https/
+[使用 OAuth 2.0 存取 Google API]: https://developers.google.com/identity/protocols/oauth2?hl=zh-tw
 [OAuth 2.0]: https://oauth.net/2/
 [各大網站 OAuth 2.0 實作差異]: https://blog.yorkxin.org/posts/oauth2-implementation-differences-among-famous-sites/
 [OAuth 2.0 筆記 (7) 安全性問題]: https://blog.yorkxin.org/posts/oauth2-7-security-considerations/
@@ -531,6 +533,7 @@
   <summary>REF</summary>
 
   - [OAuth 2.0]
+  - [使用 OAuth 2.0 存取 Google API]
   - [OAuth 2.0 筆記 (1) 世界觀]
   - [OAuth 2.0 筆記 (2) Client 的註冊與認證]
   - [OAuth 2.0 筆記 (3) Endpoints 的規格]
@@ -539,7 +542,6 @@
   - [OAuth 2.0 筆記 (5) 核發與換發 Access Token]
   - [OAuth 2.0 筆記 (6) Bearer Token 的使用方法]
   - [OAuth 2.0 筆記 (7) 安全性問題]
-  - [各大網站 OAuth 2.0 實作差異]
 
   </details>
 
@@ -643,210 +645,274 @@
 <!-- 內建授權流程 -->
 
 - <details close>
-  <summary>內建授權流程</summary>
+  <summary>內建授權流程 (Grant Flow)</summary>
 
   - Authorization Code Grant Flow
-  - Implicit Grant Flow
 
-    - OAuth 2.1 廢除
+    - 情境：適合有分前端、後端的應用
+    - 簡介：前端取得 Code，後端透過 Code 取得 Access Token
+    - 注意：
 
-  - Resource Owner Password Credentials Grant Flow
+      - OAuth 2.1 強制要求以 `PKCE` (Proof Key for Code Exchange) 進行
+      - Authorization Code 為一次性使用、建議時效最長 10 min
+      - Access Token Request 所附上的 `Redirection URI` 一定要與 Authorization Code Request 附上的一樣，以用來驗證 (只有在 Authorization Code Request 時，是用來重定向)
+      - Redirection URI 通常是一個`後端 URI`，負責用來處理 Access Token 的部分，在使用者體驗上可以先回覆給使用者一個 loading 畫面
 
-    - OAuth 2.1 廢除
+    ![](../src/image/OAuth_Authorization_Code_Flow.png)
 
   - Client Credentials Grant Flow
 
+    - 情境：主要用於內部 machine-to-machine
+    - 簡介：內部機器不經手用戶，直接請求 Access Token
+    - 注意：
+
+      - 強制要求 Authorization Server 必須認證 Client
+      - 建議不使用 Refresh Token
+
+    ![](../src/image/OAuth_Client_Credentials_Flow.png)
+
+  - Device Authorization Grant Flow
+
+    - 情境：無法直接輸入用戶憑證的設備 (EX. IoT)
+    - 簡介：
+    - 注意：
+
+    ![](../src/image/OAuth_Device_Authorization_Flow.png)
+
+  - Implicit Grant Flow
+
+    - `OAuth 2.1 廢除`
+    - 簡介：直接發 Access Token 給前端 User-Agent，而沒透過 Grant
+    - 改用：Authorization Code Grant + PKCE
+    - 風險：
+
+      - 因為直接給 Access Token，在轉址時可能被注入 script 直接將 Token 偷走
+
+    ![](../src/image/OAuth_Implicit_Grant_Flow.png)
+
+  - Resource Owner Password Credentials Grant Flow
+
+    - `OAuth 2.1 廢除`
+    - 簡介：直接以帳密當 Grant 去請求 Access Token
+    - 改用：Authorization Code Grant + PKCE
+    - 原因：
+
+      - 增加憑證暴露風險
+      - 職責分離不乾淨
+      - 無法集成 MFA
+
+    ![](../src/image/OAuth_Resource_Owner_Password_Credentials_Flow.png)
+
   </details>
 
-<!-- 其他補充 -->
+<!-- Client 技術限制 -->
 
 - <details close>
-  <summary>其他補充</summary>
+  <summary>Client 技術限制</summary>
 
-  <!-- Client 技術限制 -->
+  - 必須全程使用 TLS (HTTPS)
+  - User-Agent 要支援 HTTP Redirection
+
+  </details>
+
+<!-- Access Token Request 的認證方式 (Client Authentication) -->
+
+- <details close>
+  <summary>Access Token Request 的認證方式 (Client Authentication)</summary>
+
+  <!-- 推薦方式 -->
 
   - <details close>
-    <summary>Client 技術限制</summary>
+    <summary>推薦方式</summary>
 
-    - 必須全程使用 TLS (HTTPS)
-    - User-Agent 要支援 HTTP Redirection
-
-    </details>
-
-  <!-- Access Token Request 的認證方式 (Client Authentication) -->
-
-  - <details close>
-    <summary>Access Token Request 的認證方式 (Client Authentication)</summary>
-
-    <!-- 推薦方式 -->
+    <!-- Client Secret Basic -->
 
     - <details close>
-      <summary>推薦方式</summary>
+      <summary>Client Secret Basic</summary>
 
-      <!-- Client Secret Basic -->
+      - Confidential client 的標準方式
+      - 使用 HTTP Authorization Header
 
-      - <details close>
-        <summary>Client Secret Basic</summary>
+        ```
+        // 格式：Basic Base64( client_id:client_secret )
 
-        - Confidential client 的標準方式
-        - 使用 HTTP Authorization Header
-
-          ```
-          // 格式：Basic Base64( client_id:client_secret )
-
-          Authorization: Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3
-          ```
-
-        </details>
-
-      <!-- PKCE (Proof Key for Code Exchange) -->
-
-      - <details close>
-        <summary>PKCE (Proof Key for Code Exchange)</summary>
-
-        - 主要在 public client 使用 (EX. 前端)
-
-        </details>
-
-      <!-- Private Key JWT -->
-
-      - <details close>
-        <summary>Private Key JWT</summary>
-
-        - 最安全方式，使用 client 的非對稱性私鑰生成 JWT
-
-        </details>
+        Authorization: Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3
+        ```
 
       </details>
 
-    <!-- GPT 整理 -->
+    <!-- PKCE (Proof Key for Code Exchange) -->
 
     - <details close>
-      <summary>GPT 整理</summary>
+      <summary>PKCE (Proof Key for Code Exchange)</summary>
 
-      ![](../src/image/GPT_OAuth_Client_Authentication_secure.png)
-      ![](../src/image/GPT_OAuth_Client_Authentication_common.png)
+      - 主要在 public client 使用 (EX. 前端)
+
+      </details>
+
+    <!-- Private Key JWT -->
+
+    - <details close>
+      <summary>Private Key JWT</summary>
+
+      - 最安全方式，使用 client 的非對稱性私鑰生成 JWT
 
       </details>
 
     </details>
 
-  <!-- Access Token Type (`PoP` vs `MAC` vs `Bearer`) -->
+  <!-- GPT 整理 -->
 
   - <details close>
-    <summary>Access Token Type (<code>PoP</code> vs <code>MAC</code> vs <code>Bearer</code>)</summary>
+    <summary>GPT 整理</summary>
 
-    - 安全性：高 <-- `PoP` -- `MAC` -- `Bearer` --> 低
-
-    <!-- Bearer Token -->
-
-    - <details close>
-      <summary><code>Bearer Token</code></summary>
-
-      - 基本上是實踐的類型中，最基本簡單的 Access Token Type
-      - 單純的使用 Access Token，任何取得 Token 的一方，皆可使用，沒有更近一步的驗證
-
-      </details>
-
-    <!-- `MAC Token` & `PoP Token` -->
-
-    - <details close>
-      <summary><code>MAC Token</code> & <code>PoP Token</code></summary>
-
-      - 加強驗證，確保只有該 Client 可以使用該 Token (Resource Server 除了透過 Token 判斷，還會使用該密鑰來驗證 Client 的 Signature)
-      - 使用 Token 時，需額外附上一個透過指定密鑰的`Signature` (Hash)
-      - Hash 內容包含：`完整請求內容`、`TimeStamp`、`隨機數(nonce)`
-      - 近期已被使用回應過的 nonce，Resource Server 會拒絕回應 (回 HTTP 400、401)
-      - 單一 Token 上，MAC & PoP 兩種密鑰簽章的目的重複，擇一即可，兩者是在`性能`＆`安全`的取捨
-
-      </details>
-
-    <!-- MAC Token -->
-
-    - <details close>
-      <summary><code>MAC Token</code> (Message Authentication Code)</summary>
-
-      - 由 Authorization Server 產生的`對稱密鑰`
-      - Authorization Server、Resource Server、Client 共享密鑰
-      - 綁定 Access Token 不需透過 MAC 密鑰來加密 Token (因為都是 Authorization Server 生成的)
-
-      </details>
-
-    <!-- PoP Token -->
-
-    - <details close>
-      <summary><code>PoP Token</code> (Proof of Possession)</summary>
-
-      - 由 Client 產生的`非對稱密鑰`
-      - Authorization Server & Resource Server 有公鑰、Client 有私鑰
-      - 綁定 Access Token 會透過 PoP 密鑰來加密 Token
-
-      </details>
-
-    </details>
-
-  <!-- Refresh Token 的使用 -->
-
-  - <details close>
-    <summary>Refresh Token 的使用</summary>
-
-    <!-- 行為特性 -->
-
-    - <details close>
-      <summary>行為特性</summary>
-
-      - Access Token 在每次請求都會傳輸，而 Refresh Token 只在取得與使用時傳輸一次，較不易被截取
-      - Refresh 後取得的 Access Token 可能比原本的時效與權限還低
-
-      </details>
-
-    <!-- 適用情境 -->
-
-    - <details close>
-      <summary>適用情境</summary>
-
-      - 最常在 Authorization Code Grant Flow 中使用
-      - Implicit Grant Flow & Client Credentials Grant Flow 幾乎不使用
-      - Device Code Flow 有時會使用
-
-      </details>
-
-    <!-- 安全加強 -->
-
-    - <details close>
-      <summary>安全加強</summary>
-
-      - IP 白名單、縮短時效、單次使用、綁定使用者指紋 ＋ MFA
-      - 需注意在使用 MAC、PoP Token 情境下，更換密鑰的方式
-
-        - 避免每次 Refresh 都自動使用新的密鑰，反而可能更不安全
-        - 應只在特定可掌握的特定情境下進行密鑰輪換
-
-      </details>
+    ![](../src/image/GPT_OAuth_Client_Authentication_secure.png)
+    ![](../src/image/GPT_OAuth_Client_Authentication_common.png)
 
     </details>
 
   </details>
 
-- Endpoints 的規格
+<!-- Access Token Type (`PoP` vs `MAC` vs `Bearer`) -->
 
-  - Authorization Endpoint (Auth Server)
+- <details close>
+  <summary>Access Token Type (<code>PoP</code> vs <code>MAC</code> vs <code>Bearer</code>)</summary>
 
-    - 用來與 client 前端溝通，可能發放 `Authorization Grant Code` 或 `Access Token`
-      (只有 Implicit Grant Flow 會讓前端獲得 Token)
+  - 安全性：高 <-- `PoP` -- `MAC` -- `Bearer` --> 低
 
-    - 前端發送請求時所用的 URI (導向 Authorization Endpoint)
+  <!-- Bearer Token -->
+
+  - <details close>
+    <summary><code>Bearer Token</code></summary>
+
+    - 基本上是實踐的類型中，最基本簡單的 Access Token Type
+    - 單純的使用 Access Token，任何取得 Token 的一方，皆可使用，沒有更近一步的驗證
+
+    </details>
+
+  <!-- `MAC Token` & `PoP Token` -->
+
+  - <details close>
+    <summary><code>MAC Token</code> & <code>PoP Token</code></summary>
+
+    - 加強驗證，確保只有該 Client 可以使用該 Token (Resource Server 除了透過 Token 判斷，還會使用該密鑰來驗證 Client 的 Signature)
+    - 使用 Token 時，需額外附上一個透過指定密鑰的`Signature` (Hash)
+    - Hash 內容包含：`完整請求內容`、`TimeStamp`、`隨機數(nonce)`
+    - 近期已被使用回應過的 nonce，Resource Server 會拒絕回應 (回 HTTP 400、401)
+    - 單一 Token 上，MAC & PoP 兩種密鑰簽章的目的重複，擇一即可，兩者是在`性能`＆`安全`的取捨
+
+    </details>
+
+  <!-- MAC Token -->
+
+  - <details close>
+    <summary><code>MAC Token</code> (Message Authentication Code)</summary>
+
+    - 由 Authorization Server 產生的`對稱密鑰`
+    - Authorization Server、Resource Server、Client 共享密鑰
+    - 綁定 Access Token 不需透過 MAC 密鑰來加密 Token (因為都是 Authorization Server 生成的)
+
+    </details>
+
+  <!-- PoP Token -->
+
+  - <details close>
+    <summary><code>PoP Token</code> (Proof of Possession)</summary>
+
+    - 由 Client 產生的`非對稱密鑰`
+    - Authorization Server & Resource Server 有公鑰、Client 有私鑰
+    - 綁定 Access Token 會透過 PoP 密鑰來加密 Token
+
+    </details>
+
+  </details>
+
+<!-- Refresh Token 的使用 -->
+
+- <details close>
+  <summary>Refresh Token 的使用</summary>
+
+  <!-- 行為特性 -->
+
+  - <details close>
+    <summary>行為特性</summary>
+
+    - Access Token 在每次請求都會傳輸，而 Refresh Token 只在取得與使用時傳輸一次，較不易被截取
+    - Refresh 後取得的 Access Token 可能比原本的時效與權限還低
+
+    </details>
+
+  <!-- 適用情境 -->
+
+  - <details close>
+    <summary>適用情境</summary>
+
+    - 最常在 Authorization Code Grant Flow 中使用
+    - Implicit Grant Flow 禁用
+    - Client Credentials Grant Flow 不建議使用
+    - Device Code Flow 有時會使用
+
+    </details>
+
+  <!-- 安全加強 -->
+
+  - <details close>
+    <summary>安全加強</summary>
+
+    - IP 白名單、縮短時效、單次使用、綁定使用者指紋 ＋ MFA
+    - 需注意在使用 MAC、PoP Token 情境下，更換密鑰的方式
+
+      - 避免每次 Refresh 都自動使用新的密鑰，反而可能更不安全
+      - 應只在特定可掌握的特定情境下進行密鑰輪換
+
+    </details>
+
+  </details>
+
+<!-- Endpoints 的規格 -->
+
+- <details close>
+  <summary>Endpoints 的規格</summary>
+
+  <!-- Authorization Endpoint (Auth Server) -->
+
+  - <details close>
+    <summary>Authorization Endpoint (Auth Server)</summary>
+
+    <!-- 用來與 client 前端溝通，可能發放 `Authorization Grant Code` 或 `Access Token` -->
+
+    - <details close>
+      <summary>用來與 client 前端溝通，可能發放 <code>Authorization Grant Code</code> 或 <code>Access Token</code></summary>
+
+      - 只有 Implicit Grant Flow 會讓前端獲得 Token (但已經要棄用)
+
+      </details>
+
+    <!-- 前端發送請求時所用的 URI (導向 Authorization Endpoint) -->
+
+    - <details close>
+      <summary>前端發送請求時所用的 URI (導向 Authorization Endpoint)</summary>
 
       - 可含 `Query Component` (EX. ?xxx=yyy)
       - 不可含 `Fragment Component` (EX. #zzz)
 
-    - 接受 client 前端請求的方法，必須支援 `GET`
+      </details>
+
+    <!-- 接受 client 前端請求的方法，必須支援 `GET` -->
+
+    - <details close>
+      <summary>接受 client 前端請求的方法，必須支援 <code>GET</code></summary>
 
       - 首選是使用 GET，因為這個 Endpoint 主要是與前端溝通，透過 Redirect 的方式來進行，而 GET 最方便實作，且前端不使用 client_secret，因此也無敏感訊息
 
       - 也可額外支援 POST，就必須使用到 form
 
-    - 參數 (通常是指 URL 上的 query parameters)
+      </details>
+
+    <!-- 參數 (通常是指 URL 上的 query parameters) -->
+
+    - <details close>
+      <summary>參數 (通常是指 URL 上的 query parameters)</summary>
 
       - `response_type`(必)、`state`(推)、`scope`(選)
       - Response Type (code、token)
@@ -854,6 +920,7 @@
 
         - EX. 使用者原本點開一個購物商品，之後點登入後，要回到這個商品頁面，此時就是用 state 存
         - state 的內容只有在回到 client 之後才需知道，所以可以在 client 自行另外加解密，再傳送出去
+        - 也可以防範 CSRF，所以推薦加上 state
 
       - 有時允許多種 Redirect URI 可選時，則會在請求時附上 redirect_uri
       - 若有重覆的參數，則要回傳錯誤
@@ -864,17 +931,37 @@
         https://authorization-server.com/auth?response_type=code&client_id=your_client_id&redirect_uri=your_redirect_uri&state=random_state
         ```
 
-    - 必須使用 HTTPS，因為 response 包含 Grant
+      </details>
 
-  - Redirection Endpoint (Client)
+    <!-- 必須使用 HTTPS，因為 response 包含 Grant -->
 
-    - Redirection Endpoint 內容的 <b>最佳實作</b>
+    - <details close>
+      <summary>必須使用 HTTPS，因為 response 包含 Grant</summary>
+
+      </details>
+
+    </details>
+
+  <!-- Redirection Endpoint (Client) -->
+
+  - <details close>
+    <summary>Redirection Endpoint (Client)</summary>
+
+    <!-- Redirection Endpoint 內容的 <b>最佳實作</b> -->
+
+    - <details close>
+      <summary>Redirection Endpoint 內容的 <b>最佳實作</b></summary>
 
       - 從 Authorization Endpoint 不應該直接導向一個頁面，而是將這個 Endpoint 當作`中間層`
       - 一進入這個 Endpoint 就立刻將 Grant 取出後，再立刻導向要給使用者看的頁面
       - 這個 Endpoint 應該避免使用第三方 script，或是至少得讓自家的 script 先跑，而可以立刻處理掉
 
-    - Authorization Endpoint 要回應時，所用的 URI (導向 Redirection Endpoint)
+      </details>
+
+    <!-- Authorization Endpoint 要回應時，所用的 URI (導向 Redirection Endpoint) -->
+
+    - <details close>
+      <summary>Authorization Endpoint 要回應時，所用的 URI (導向 Redirection Endpoint)</summary>
 
       - 必須是 `Absolute URI` (至少包含 scheme、authority、path)
 
@@ -890,37 +977,99 @@
       - 可含 `Query Component` (EX. ?xxx=yyy)
       - 不可含 `Fragment Component` (EX. #zzz)
 
-    - 必須使用 HTTPS 的情況
+      </details>
+
+    <!-- 必須使用 HTTPS 的情況 -->
+
+    - <details close>
+      <summary>必須使用 HTTPS 的情況</summary>
 
       - Response Type 為 code 或 token
       - Redirect URI 包含敏感訊息
 
-  - Token Endpoint (Auth Server)
+      </details>
 
-    - Request & Response 都必須使用 POST
+    <!-- Clients 在使用 Authorization Endpoint 之前，都該先設定 Redirection Endpoint，避免成為 `Open Redirector` -->
 
-    - 後端發送請求時所用的 URI (導向 Token Endpoint)
+    - <details close>
+      <summary>Clients 在使用 Authorization Endpoint 之前，都該先設定 Redirection Endpoint，避免成為 <code>Open Redirector</code></summary>
+
+      - Open Redirector：允許用戶指定不需經過驗證的位址，使自動把 User-Agent 轉向該位址的 Endpoint
+      - EX. 常見 pattern
+
+        ```txt
+        example.com/go.php?url=
+        example.com/search?q=user+search+keywords&url=
+        example.com/coupon.jsp?code=ABCDEF&url=
+        example.com/login?url=
+        ```
+
+      </details>
+
+    </details>
+
+  <!-- Token Endpoint (Auth Server) -->
+
+  - <details close>
+    <summary>Token Endpoint (Auth Server)</summary>
+
+    <!-- Request & Response 都必須使用 POST -->
+
+    - <details close>
+      <summary>Request & Response 都必須使用 POST</summary>
+
+      </details>
+
+    <!-- 後端發送請求時所用的 URI (導向 Token Endpoint) -->
+
+    - <details close>
+      <summary>後端發送請求時所用的 URI (導向 Token Endpoint)</summary>
 
       - 可含 `Query Component` (EX. ?xxx=yyy)
       - 不可含 `Fragment Component` (EX. #zzz)
 
-    - 參數 (指 POST 的 body)
+      </details>
+
+    <!-- 參數 (指 POST 的 body) -->
+
+    - <details close>
+      <summary>參數 (指 POST 的 body)</summary>
 
       - `grant_type`(必)、`state`(推)、`scope`(選)
       - Grant Type (authorization_code、password、client_credentials、refresh_token)，前三者分別會轉到不同 flow
       - 其他同 Authorization Endpoint
 
-    - Request & Response 都包含敏感訊息，必須使用 HTTPS
+      </details>
 
-    - 必須進行 Client Authentication
+    <!-- Request & Response 都包含敏感訊息，必須使用 HTTPS -->
+
+    - <details close>
+      <summary>Request & Response 都包含敏感訊息，必須使用 HTTPS</summary>
+
+      </details>
+
+    <!-- 必須進行 Client Authentication -->
+
+    - <details close>
+      <summary>必須進行 Client Authentication</summary>
 
       - 請求包含 Client Credentials (client_id、client_secret 等)
       - Best Practice 定期更換 credentials (一但更新，即可讓舊的 Token 都作廢)
 
-#####
+      </details>
+
+    </details>
+
+  </details>
+
+-
+
+##### # HTTPS
 
 - <details close>
-  <summary></summary>
+  <summary>REF</summary>
+
+  - [每個軟體工程師都應該懂的 HTTPS：深入淺出加密原理、TLS 協議]
 
   </details>
 
