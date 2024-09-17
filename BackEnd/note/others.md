@@ -535,8 +535,6 @@
   - [OAuth 2.0 筆記 (2) Client 的註冊與認證]
   - [OAuth 2.0 筆記 (3) Endpoints 的規格]
   - [OAuth 2.0 筆記 (4.1) Authorization Code Grant Flow 細節]
-  - [OAuth 2.0 筆記 (4.2) Implicit Grant Flow 細節]
-  - [OAuth 2.0 筆記 (4.3) Resource Owner Password Credentials Grant Flow 細節]
   - [OAuth 2.0 筆記 (4.4) Client Credentials Grant Flow 細節]
   - [OAuth 2.0 筆記 (5) 核發與換發 Access Token]
   - [OAuth 2.0 筆記 (6) Bearer Token 的使用方法]
@@ -649,18 +647,14 @@
 
   - Authorization Code Grant Flow
   - Implicit Grant Flow
+
+    - OAuth 2.1 廢除
+
   - Resource Owner Password Credentials Grant Flow
+
+    - OAuth 2.1 廢除
+
   - Client Credentials Grant Flow
-
-  </details>
-
-<!-- 技術限制 -->
-
-- <details close>
-  <summary>技術限制</summary>
-
-  - 必須全程使用 TLS (HTTPS)
-  - User-Agent 要支援 HTTP Redirection
 
   </details>
 
@@ -668,6 +662,16 @@
 
 - <details close>
   <summary>其他補充</summary>
+
+  <!-- Client 技術限制 -->
+
+  - <details close>
+    <summary>Client 技術限制</summary>
+
+    - 必須全程使用 TLS (HTTPS)
+    - User-Agent 要支援 HTTP Redirection
+
+    </details>
 
   <!-- Access Token Request 的認證方式 (Client Authentication) -->
 
@@ -720,8 +724,8 @@
     - <details close>
       <summary>GPT 整理</summary>
 
-      ![](../src/image/OAuth_Client_Authentication_secure.png)
-      ![](../src/image/OAuth_Client_Authentication_common.png)
+      ![](../src/image/GPT_OAuth_Client_Authentication_secure.png)
+      ![](../src/image/GPT_OAuth_Client_Authentication_common.png)
 
       </details>
 
@@ -823,6 +827,95 @@
     </details>
 
   </details>
+
+- Endpoints 的規格
+
+  - Authorization Endpoint (Auth Server)
+
+    - 用來與 client 前端溝通，可能發放 `Authorization Grant Code` 或 `Access Token`
+      (只有 Implicit Grant Flow 會讓前端獲得 Token)
+
+    - 前端發送請求時所用的 URI (導向 Authorization Endpoint)
+
+      - 可含 `Query Component` (EX. ?xxx=yyy)
+      - 不可含 `Fragment Component` (EX. #zzz)
+
+    - 接受 client 前端請求的方法，必須支援 `GET`
+
+      - 首選是使用 GET，因為這個 Endpoint 主要是與前端溝通，透過 Redirect 的方式來進行，而 GET 最方便實作，且前端不使用 client_secret，因此也無敏感訊息
+
+      - 也可額外支援 POST，就必須使用到 form
+
+    - 參數 (通常是指 URL 上的 query parameters)
+
+      - `response_type`(必)、`state`(推)、`scope`(選)
+      - Response Type (code、token)
+      - state 主要用來儲存當前狀態
+
+        - EX. 使用者原本點開一個購物商品，之後點登入後，要回到這個商品頁面，此時就是用 state 存
+        - state 的內容只有在回到 client 之後才需知道，所以可以在 client 自行另外加解密，再傳送出去
+
+      - 有時允許多種 Redirect URI 可選時，則會在請求時附上 redirect_uri
+      - 若有重覆的參數，則要回傳錯誤
+
+      - EX.
+
+        ```
+        https://authorization-server.com/auth?response_type=code&client_id=your_client_id&redirect_uri=your_redirect_uri&state=random_state
+        ```
+
+    - 必須使用 HTTPS，因為 response 包含 Grant
+
+  - Redirection Endpoint (Client)
+
+    - Redirection Endpoint 內容的 <b>最佳實作</b>
+
+      - 從 Authorization Endpoint 不應該直接導向一個頁面，而是將這個 Endpoint 當作`中間層`
+      - 一進入這個 Endpoint 就立刻將 Grant 取出後，再立刻導向要給使用者看的頁面
+      - 這個 Endpoint 應該避免使用第三方 script，或是至少得讓自家的 script 先跑，而可以立刻處理掉
+
+    - Authorization Endpoint 要回應時，所用的 URI (導向 Redirection Endpoint)
+
+      - 必須是 `Absolute URI` (至少包含 scheme、authority、path)
+
+        ![](../src/image/URI_Syntax.png)
+
+        - EX.
+
+          ```
+          (X) https://www.example.com  // 缺少 path
+          (O) https://www.example.com/oauth/callback
+          ```
+
+      - 可含 `Query Component` (EX. ?xxx=yyy)
+      - 不可含 `Fragment Component` (EX. #zzz)
+
+    - 必須使用 HTTPS 的情況
+
+      - Response Type 為 code 或 token
+      - Redirect URI 包含敏感訊息
+
+  - Token Endpoint (Auth Server)
+
+    - Request & Response 都必須使用 POST
+
+    - 後端發送請求時所用的 URI (導向 Token Endpoint)
+
+      - 可含 `Query Component` (EX. ?xxx=yyy)
+      - 不可含 `Fragment Component` (EX. #zzz)
+
+    - 參數 (指 POST 的 body)
+
+      - `grant_type`(必)、`state`(推)、`scope`(選)
+      - Grant Type (authorization_code、password、client_credentials、refresh_token)，前三者分別會轉到不同 flow
+      - 其他同 Authorization Endpoint
+
+    - Request & Response 都包含敏感訊息，必須使用 HTTPS
+
+    - 必須進行 Client Authentication
+
+      - 請求包含 Client Credentials (client_id、client_secret 等)
+      - Best Practice 定期更換 credentials (一但更新，即可讓舊的 Token 都作廢)
 
 #####
 
