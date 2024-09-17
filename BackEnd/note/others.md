@@ -525,7 +525,10 @@
 
 ##### # OAuth 2.0
 
-- REF:
+<!-- REF -->
+
+- <details close>
+  <summary>REF</summary>
 
   - [OAuth 2.0]
   - [OAuth 2.0 筆記 (1) 世界觀]
@@ -540,34 +543,194 @@
   - [OAuth 2.0 筆記 (7) 安全性問題]
   - [各大網站 OAuth 2.0 實作差異]
 
-- 名詞
+  </details>
 
-  - Resource Owner
+<!-- 名詞介紹 -->
+
+- <details close>
+  <summary>名詞介紹</summary>
+
+  <!-- Resource Owner -->
+
+  - <details close>
+    <summary>Resource Owner</summary>
 
     - 可授權存取 Protected Resource 的角色
     - EX. User
 
-  - Resource Server
+    </details>
+
+  <!-- Resource Server -->
+
+  - <details close>
+    <summary>Resource Server</summary>
 
     - 存放 Protected Resource 的地方 (別人透過有效的 Access Token 來此取得)
     - 可以透過向 Authorization Server 或獨立的 Introspection Endpoint 確認 Access Token 有效性
     - 也可以透過公鑰或共享密鑰，直接解碼 Access Token (但會無法執行撤銷，只能等待到期)
     - EX. Google 存使用者資料的地方
 
-  - Client
+    </details>
+
+  <!-- Client -->
+
+  - <details close>
+    <summary>Client</summary>
 
     - 透過有效的 Access Token，代替 Resource Owner 去向 Resource Server 取得 Protected Resource 的應用程式
     - 在此並非指前端，而是指那個第三方應用程式
 
-  - Authorization Server
+    </details>
+
+  <!-- Authorization Server -->
+
+  - <details close>
+    <summary>Authorization Server</summary>
 
     - 負責驗證身份，並核發 Access Token 的 server
     - 可以與 Resource Server 是同一個，也可以是不同個。也可以搭配數個 Resource Server
     - EX. Google 驗證授權的 server
 
-  - Authorization grant (Authorization Code)
+    </details>
 
-  - Access Token
+  <!-- Authorization grant -->
+
+  - <details close>
+    <summary>Authorization grant</summary>
+
+    - Authorization Code
+
+    </details>
+
+  <!-- Access Token -->
+
+  - <details close>
+    <summary>Access Token</summary>
+
+    - 具體的 string，通常包含： `Expire time` (時效性)、`Scope` (存取範圍)、`Token Type`
+    - 使用 `HTTPS`、常用 `JWT` 格式、放在 HTTP `Authorization` Header
+    - EX.
+
+      ```txt
+      GET /resource/1 HTTP/1.1
+      Host: example.com
+      Authorization: Bearer mF_9.B5f-4.1JqM
+      ```
+
+    </details>
+
+  <!-- Refresh Token -->
+
+  - <details close>
+    <summary>Refresh Token</summary>
+
+    - 代替 Resource Owner 授權 Client 可以重新取得新的 Access Token，而不需要再度請求 Resource Owner 的授權
+    - Client 可以在 Access Token 到期時，自動使用 Refresh Token 去取得新的 Access Token (避免打斷 Owner 的體驗)
+    - EX. 使用 Client Secret Basic 發送 Refresh 請求方式
+
+      ```txt
+      POST /token HTTP/1.1
+      Host: server.example.com
+      Authorization: Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZ1ZkbUl3
+      Content-Type: application/x-www-form-urlencoded
+
+      grant_type=refresh_token
+      &refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
+      ```
+
+    </details>
+
+  </details>
+
+<!-- 內建授權流程 -->
+
+- <details close>
+  <summary>內建授權流程</summary>
+
+  - Authorization Code Grant Flow
+  - Implicit Grant Flow
+  - Resource Owner Password Credentials Grant Flow
+  - Client Credentials Grant Flow
+
+  </details>
+
+<!-- 技術限制 -->
+
+- <details close>
+  <summary>技術限制</summary>
+
+  - 必須全程使用 TLS (HTTPS)
+  - User-Agent 要支援 HTTP Redirection
+
+  </details>
+
+<!-- 其他補充 -->
+
+- <details close>
+  <summary>其他補充</summary>
+
+  <!-- Access Token Request 的認證方式 (Client Authentication) -->
+
+  - <details close>
+    <summary>Access Token Request 的認證方式 (Client Authentication)</summary>
+
+    <!-- 推薦方式 -->
+
+    - <details close>
+      <summary>推薦方式</summary>
+
+      <!-- Client Secret Basic -->
+
+      - <details close>
+        <summary>Client Secret Basic</summary>
+
+        - Confidential client 的標準方式
+        - 使用 HTTP Authorization Header
+
+          ```
+          // 格式：Basic Base64( client_id:client_secret )
+
+          Authorization: Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3
+          ```
+
+        </details>
+
+      <!-- PKCE (Proof Key for Code Exchange) -->
+
+      - <details close>
+        <summary>PKCE (Proof Key for Code Exchange)</summary>
+
+        - 主要在 public client 使用 (EX. 前端)
+
+        </details>
+
+      <!-- Private Key JWT -->
+
+      - <details close>
+        <summary>Private Key JWT</summary>
+
+        - 最安全方式，使用 client 的非對稱性私鑰生成 JWT
+
+        </details>
+
+      </details>
+
+    <!-- GPT 整理 -->
+
+    - <details close>
+      <summary>GPT 整理</summary>
+
+      ![](../src/image/OAuth_Client_Authentication_secure.png)
+      ![](../src/image/OAuth_Client_Authentication_common.png)
+
+      </details>
+
+    </details>
+
+  <!-- Access Token Type (`PoP` vs `MAC` vs `Bearer`) -->
+
+  - <details close>
+    <summary>Access Token Type (<code>PoP</code> vs <code>MAC</code> vs <code>Bearer</code>)</summary>
 
     - 安全性：高 <-- `PoP` -- `MAC` -- `Bearer` --> 低
 
@@ -576,9 +739,8 @@
     - <details close>
       <summary><code>Bearer Token</code></summary>
 
-      - 基本上是常用的類型中，最基本簡單的 Access Token
+      - 基本上是實踐的類型中，最基本簡單的 Access Token Type
       - 單純的使用 Access Token，任何取得 Token 的一方，皆可使用，沒有更近一步的驗證
-      - 必須使用 HTTPS、常用 JWT 格式、放在 HTTP Authorization Header、通常包含 Expire time、Scope
 
       </details>
 
@@ -617,18 +779,50 @@
 
       </details>
 
-  - Refresh Token
+    </details>
 
-    -
+  <!-- Refresh Token 的使用 -->
 
-- 常用模式
+  - <details close>
+    <summary>Refresh Token 的使用</summary>
 
-  - Authorization Code Grant Flow
-  - Implicit Grant Flow
-  - Resource Owner Password Credentials Grant Flow
-  - Client Credentials Grant Flow
+    <!-- 行為特性 -->
 
-- 其他補充
+    - <details close>
+      <summary>行為特性</summary>
+
+      - Access Token 在每次請求都會傳輸，而 Refresh Token 只在取得與使用時傳輸一次，較不易被截取
+      - Refresh 後取得的 Access Token 可能比原本的時效與權限還低
+
+      </details>
+
+    <!-- 適用情境 -->
+
+    - <details close>
+      <summary>適用情境</summary>
+
+      - 最常在 Authorization Code Grant Flow 中使用
+      - Implicit Grant Flow & Client Credentials Grant Flow 幾乎不使用
+      - Device Code Flow 有時會使用
+
+      </details>
+
+    <!-- 安全加強 -->
+
+    - <details close>
+      <summary>安全加強</summary>
+
+      - IP 白名單、縮短時效、單次使用、綁定使用者指紋 ＋ MFA
+      - 需注意在使用 MAC、PoP Token 情境下，更換密鑰的方式
+
+        - 避免每次 Refresh 都自動使用新的密鑰，反而可能更不安全
+        - 應只在特定可掌握的特定情境下進行密鑰輪換
+
+      </details>
+
+    </details>
+
+  </details>
 
 #####
 
