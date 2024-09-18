@@ -18,7 +18,7 @@
 - [TypeScript](./Language/TypeScript/note/base.md) | [JavaScript](./Language/JavaScript/note/base.md) | [NodeJS](./Language/JavaScript/note/Node.md) | [C](./Language/C/note/base.md) | [Golang](./Language/Golang/note/base.md)
 - [CORS](./Web/note/CORS.md) | [HTTP](./Web/note/HTTP.md) | [Web](./Web/note/Web.md) | [Server](./Web/note/Server.md) | [DOM](./FrontEnd/note/DOM.md)
 - [React](./FrontEnd/React/note/note.md) | [FP](./Pattern/FP/note/base.md)
-- [BackEnd](./BackEnd/note/others.md)
+- [BackEnd](./BackEnd/README.md)
 - [資料結構＆演算法](https://github.com/ocup0311/Algorithm)
 - [Git](./Tool/Git/note/note.md)
 - [AI](./AI/Generative%20AI/note/note.md)

@@ -647,7 +647,10 @@
 - <details close>
   <summary>內建授權流程 (Grant Flow)</summary>
 
-  - Authorization Code Grant Flow
+  <!-- Authorization Code Grant Flow -->
+
+  - <details close>
+    <summary>Authorization Code Grant Flow</summary>
 
     - 情境：適合有分前端、後端的應用
     - 簡介：前端取得 Code，後端透過 Code 取得 Access Token
@@ -660,7 +663,12 @@
 
     ![](../src/image/OAuth_Authorization_Code_Flow.png)
 
-  - Client Credentials Grant Flow
+    </details>
+
+  <!-- Client Credentials Grant Flow -->
+
+  - <details close>
+    <summary>Client Credentials Grant Flow</summary>
 
     - 情境：主要用於內部 machine-to-machine
     - 簡介：內部機器不經手用戶，直接請求 Access Token
@@ -671,15 +679,23 @@
 
     ![](../src/image/OAuth_Client_Credentials_Flow.png)
 
-  - Device Authorization Grant Flow
+    </details>
+
+  <!-- Device Authorization Grant Flow -->
+
+  - <details close>
+    <summary>Device Authorization Grant Flow</summary>
 
     - 情境：無法直接輸入用戶憑證的設備 (EX. IoT)
-    - 簡介：
-    - 注意：
 
     ![](../src/image/OAuth_Device_Authorization_Flow.png)
 
-  - Implicit Grant Flow
+    </details>
+
+  <!-- Implicit Grant Flow -->
+
+  - <details close>
+    <summary>Implicit Grant Flow</summary>
 
     - `OAuth 2.1 廢除`
     - 簡介：直接發 Access Token 給前端 User-Agent，而沒透過 Grant
@@ -690,7 +706,12 @@
 
     ![](../src/image/OAuth_Implicit_Grant_Flow.png)
 
-  - Resource Owner Password Credentials Grant Flow
+    </details>
+
+  <!-- Resource Owner Password Credentials Grant Flow -->
+
+  - <details close>
+    <summary>Resource Owner Password Credentials Grant Flow</summary>
 
     - `OAuth 2.1 廢除`
     - 簡介：直接以帳密當 Grant 去請求 Access Token
@@ -702,6 +723,8 @@
       - 無法集成 MFA
 
     ![](../src/image/OAuth_Resource_Owner_Password_Credentials_Flow.png)
+
+    </details>
 
   </details>
 
