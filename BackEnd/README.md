@@ -14,8 +14,4 @@
 
 ### # Others
 
-[CORS](../Web/note/CORS.md)
-[HTTP](../Web/note/HTTP.md)
-[JWT](./note/others.md#-jwt)
-[Nginx](./note/others.md#-nginx)
-[Server-Side Cache](./note/others.md#-server-side-cache)
+[CORS](../Web/note/CORS.md) | [HTTP](../Web/note/HTTP.md) | [JWT](./note/others.md#-jwt) | [Nginx](./note/others.md#-nginx) | [Server-Side Cache](./note/others.md#-server-side-cache)

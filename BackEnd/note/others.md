@@ -695,7 +695,7 @@
   <!-- Implicit Grant Flow -->
 
   - <details close>
-    <summary>Implicit Grant Flow</summary>
+    <summary>Implicit Grant Flow (棄用)</summary>
 
     - `OAuth 2.1 廢除`
     - 簡介：直接發 Access Token 給前端 User-Agent，而沒透過 Grant
@@ -711,7 +711,7 @@
   <!-- Resource Owner Password Credentials Grant Flow -->
 
   - <details close>
-    <summary>Resource Owner Password Credentials Grant Flow</summary>
+    <summary>Resource Owner Password Credentials Grant Flow (棄用)</summary>
 
     - `OAuth 2.1 廢除`
     - 簡介：直接以帳密當 Grant 去請求 Access Token
@@ -769,7 +769,15 @@
     - <details close>
       <summary>PKCE (Proof Key for Code Exchange)</summary>
 
-      - 主要在 public client 使用 (EX. 前端)
+      - 情境：主要設計來給 public client 使用 (EX. 前端)
+
+      - 流程：
+
+        - 前端在應用內部，隨機生成一次性 code verifier
+        - 再以 code verifier 做 hash，生成 code challenge
+        - 請求 Authorization Code 時，一併傳送 `code challenge` (替代傳送 client secret 的作用)
+        - 前端將 `code verifier` 連同 Authorization Code 傳給後端
+        - 請求 Access Token 時，一併傳送 `code verifier` 給 Authorization Server 進行驗證
 
       </details>
 
@@ -907,7 +915,7 @@
     - <details close>
       <summary>用來與 client 前端溝通，可能發放 <code>Authorization Grant Code</code> 或 <code>Access Token</code></summary>
 
-      - 只有 Implicit Grant Flow 會讓前端獲得 Token (但已經要棄用)
+      - 只有 Implicit Grant Flow 會讓前端獲得 Token (OAuth 2.1 棄用)
 
       </details>
 
@@ -935,7 +943,7 @@
     <!-- 參數 (通常是指 URL 上的 query parameters) -->
 
     - <details close>
-      <summary>參數 (通常是指 URL 上的 query parameters)</summary>
+      <summary>參數</summary>
 
       - `response_type`(必)、`state`(推)、`scope`(選)
       - Response Type (code、token)
@@ -1056,11 +1064,28 @@
     <!-- 參數 (指 POST 的 body) -->
 
     - <details close>
-      <summary>參數 (指 POST 的 body)</summary>
+      <summary>參數</summary>
 
       - `grant_type`(必)、`state`(推)、`scope`(選)
-      - Grant Type (authorization_code、password、client_credentials、refresh_token)，前三者分別會轉到不同 flow
+      - Grant Type (authorization_code、password、client_credentials、refresh_token..)
       - 其他同 Authorization Endpoint
+
+      - EX. Response (Token Endpoint -> Client)
+
+        ```
+        HTTP/1.1 200 OK
+        Content-Type: application/json;charset=UTF-8
+        Cache-Control: no-store
+        Pragma: no-cache
+
+        {
+          "access_token":"2YotnFZFEjr1zCsicMWpAA",
+          "token_type":"example",
+          "expires_in":3600,
+          "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA",
+          "example_parameter":"example_value"
+        }
+        ```
 
       </details>
 
@@ -1085,7 +1110,47 @@
 
   </details>
 
--
+<!-- 其他安全措施補充 -->
+
+- <details close>
+  <summary>其他安全措施補充</summary>
+
+  - Authorization Server 應該要考慮 Client 的身份，並且可以核發`少於所求的 scope`的 Access Token
+
+  <!-- CSRF 攻防 -->
+
+  - <details close>
+    <summary>CSRF 攻防</summary>
+
+    <!-- 攻擊 Client -->
+
+    - <details close>
+      <summary>攻擊 Client</summary>
+
+      - 簡介：透過置換回傳的 Redirect URI，將「攻擊者的 Authorization Code」給受害者，後續一切合法，但受害者以為是在自己的帳號操作，可能去填寫一些敏感資料，而將敏感資料寫入攻擊者帳號
+
+      - 前提：攻擊者在 Authorization Server 擁有自己的帳號
+
+      - 防範：在 User-Agent 使用 state 參數來做驗證，確保得到自己對 Authorization Server 請求的回應
+
+      </details>
+
+    <!-- 攻擊 Authorization Server -->
+
+    - <details close>
+      <summary>攻擊 Authorization Server</summary>
+
+      - 簡介：透過受害者自己點擊讓「攻擊者提供的 Client」得到授權，而將自己的敏感資訊授權給攻擊者 (可能透過 模仿 Client、提供 URI、Clickjacking .. 等等)
+
+      - 前提：攻擊者的 Client 必須已經成功註冊在 Authorization Server
+
+      - 防範：根本的防範是，加強 Authorization Server 對 Client 註冊的審核
+
+      </details>
+
+    </details>
+
+  </details>
 
 ##### # HTTPS
 
