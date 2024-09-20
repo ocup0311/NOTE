@@ -1,5 +1,5 @@
 [ocup0311]: https://github.com/ocup0311
-[Default]: mailto:ocup0311@gmail.com
+[ocup0311@gmail.com]: mailto:ocup0311@gmail.com
 [履歷]: https://sites.google.com/view/ocup0311/resume
 
 # Ocup 學習筆記
@@ -44,5 +44,5 @@
 ### # 聯絡方式
 
 - GitHub: [ocup0311]
-- Email: ocup0311\@gmail.com (<a href="https://mail.google.com/mail/?view=cm&fs=1&to=ocup0311@gmail.com">Gmail</a>) ([Default])
+- Email: [ocup0311@gmail.com] | (<a href="https://mail.google.com/mail/?view=cm&fs=1&to=ocup0311@gmail.com">Using Gmail</a>)
 - 求職中: [履歷]
