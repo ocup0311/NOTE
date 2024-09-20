@@ -1,15 +1,3 @@
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!--  style  -->
-
 ###### <!-- ref -->
 
 [EmptyObject Issue]: https://github.com/typescript-eslint/typescript-eslint/issues/2063#issuecomment-675156492
@@ -218,15 +206,11 @@
 
   - 程式碼中，使用錯誤型別，會有 `紅色波浪狀底線` 標明錯誤資訊
 
-  <div class="imgBox" >
-    <img src="../src//image//base/%E5%9E%8B%E5%88%A5%E6%AA%A2%E6%9F%A5%EF%BC%BF%E7%A8%8B%E5%BC%8F%E7%A2%BC.png" alt="型別檢查＿程式碼.png" />
-  </div>
+    ![型別檢查＿程式碼.png](../src/image/base/%E5%9E%8B%E5%88%A5%E6%AA%A2%E6%9F%A5%EF%BC%BF%E7%A8%8B%E5%BC%8F%E7%A2%BC.png)
 
   - 編譯時，也會拋出 error
 
-  <div class="imgBox" >
-    <img src="../src//image/base/%E5%9E%8B%E5%88%A5%E6%AA%A2%E6%9F%A5%EF%BC%BF%E7%B7%A8%E8%AD%AF.png" alt="型別檢查＿編譯.png" />
-  </div>
+    ![型別檢查＿編譯.png](../src/image/base/%E5%9E%8B%E5%88%A5%E6%AA%A2%E6%9F%A5%EF%BC%BF%E7%B7%A8%E8%AD%AF.png)
 
   </details>
 
@@ -239,9 +223,7 @@
 
   - 3 種 Type Annotation 方式：
 
-    <div class="imgBox" >
-      <img src="../src/image/base/Type_Annotation.png" alt="Type_Annotation.png" />
-    </div>
+    ![Type_Annotation.png](../src/image/base/Type_Annotation.png)
 
     <!-- 差異：`第一種`(x4, x7) 方式一定要完全符合 -->
 
@@ -251,9 +233,7 @@
       1. 不能有多餘的，如 z。 (x4)
       2. 一定要有 y。 (x7)
 
-      <div class="imgBox" >
-        <img src="../src/image/base/Type_Annotation_diff.png" alt="Type_Annotation_diff.png" />
-      </div>
+      ![Type_Annotation_diff.png](../src/image/base/Type_Annotation_diff.png)
 
       </details>
 
@@ -262,9 +242,7 @@
     - <details close>
       <summary>不能：三種皆不可只有多餘的（z），卻沒有該有的（y）</summary>
 
-      <div class="imgBox" >
-        <img src="../src/image/base/Type_Annotation_same.png" alt="Type_Annotation_same.png" />
-      </div>
+      ![Type_Annotation_same.png](../src/image/base/Type_Annotation_same.png)
 
       </details>
 
@@ -275,9 +253,7 @@
 
     - 此情況下，`Type Inference` 的結果會不斷改變（X1）
 
-    <div class="imgBox" >
-      <img src="../src/image/base/NoAnnotation_&_NoAssign.png" alt="NoAnnotation_&_NoAssign.png" />
-    </div>
+    ![NoAnnotation_&_NoAssign.png](../src/image/base/NoAnnotation_&_NoAssign.png)
 
     </details>
 
@@ -291,9 +267,7 @@
   - 在未使用 Type Annotation 時，也會自動推論其 type
   - 如下圖，變數並未註記 type，但 hover 時，有自動推論 type 為 `(string | number)[ ]`
 
-    <div class="imgBox" >
-      <img src="../src/image/base/Type_Inference_sample.png" alt="Type_Inference_sample.png" />
-    </div>
+    ![Type_Inference_sample.png](../src/image/base/Type_Inference_sample.png)
 
   <!-- Nullable Types -->
 
@@ -301,20 +275,18 @@
     <summary><code>Nullable Types</code> --> <code>any</code></summary>
 
     - Nullable Types: `null`, `undefined`.. 等等
-      <div class="imgBox" >
-        <img src="../src/image/base/Nullable_Types_O.png" alt="Nullable_Types_O.png" />
-        <img src="../src/image/base/Nullable_Types_X.png" alt="Nullable_Types_X.png" />
-      </div>
+
+      ![Nullable_Types_O.png](../src/image/base/Nullable_Types_O.png)
+
+      ![Nullable_Types_X.png](../src/image/base/Nullable_Types_X.png)
 
     - Delayed Initialization 可視為初始化指派為 `undefined` --> `any`
-      <div class="imgBox" >
-        <img src="../src/image/base/Nullable_Types_Delay.png" alt="Nullable_Types_Delay.png" />
-      </div>
+
+      ![Nullable_Types_Delay.png](../src/image/base/Nullable_Types_Delay.png)
 
       - 若有 `Type Annotation` 則會形成 Temporal Dead Zone
-        <div class="imgBox" >
-          <img src="../src/image/base/Delayed_Initialization.png" alt="Delayed_Initialization.png" />
-        </div>
+
+        ![Delayed_Initialization.png](../src/image/base/Delayed_Initialization.png)
 
     </details>
 
@@ -327,9 +299,7 @@
 
       - 因為 Nullable Types --> any，所以可以再指派為任何型別，而其他的則已固定型別
 
-        <div class="imgBox" >
-          <img src="../src/image/base/Type_Inference_check.png" alt="Type_Inference_check.png" />
-        </div>
+        ![Type_Inference_check.png](../src/image/base/Type_Inference_check.png)
 
     </details>
 
@@ -351,9 +321,7 @@
     - 可以將 `any` assign 給任何 type 的變數，而不會報錯
     - X11：請參考 _Type Annotation / 沒 Annotation ＋ 沒 Assign_
 
-    <div class="imgBox" >
-      <img src="../src/image/base/type_any.png" alt="type_any.png" />
-    </div>
+    ![type_any.png](../src/image/base/type_any.png)
 
     </details>
 
@@ -367,9 +335,7 @@
     - <details close>
       <summary>當 key 值為 Nullable Types，其 Type Inference 會明確定義 type，而不是 any</summary>
 
-        <div class="imgBox" >
-          <img src="../src/image/base/Type_Inference_object.png" alt="Type_Inference_object.png" />
-        </div>
+      ![Type_Inference_object.png](../src/image/base/Type_Inference_object.png)
 
       </details>
 
@@ -381,9 +347,7 @@
       - `&`：必須都有
       - `|`：至少需有其中一個，剩下的 key 也必須包含在其他的 type
 
-        <div class="imgBox" >
-          <img src="../src/image/base/object_type_&_|.png" alt="object_type_&_|.png" />
-        </div>
+        ![object_type_&_|.png](../src/image/base/object_type_&_|.png)
 
       </details>
 
@@ -395,9 +359,7 @@
       - `Type Inference` 較接近 `自定義 object type`
       - `type object`：可覆寫成任何 JS object (包含 [], new Number().. etc)，但不能對該 object 的內部做更動
 
-        <div class="imgBox" >
-          <img src="../src/image/base/object_type.png" alt="object_type.png" />
-        </div>
+        ![object_type.png](../src/image/base/object_type.png)
 
       </details>
 
@@ -406,9 +368,7 @@
     - <details close>
       <summary><code>type {}</code> 等同 <code>type object</code></summary>
 
-        <div class="imgBox" >
-          <img src="../src/image/base/object_type2.png" alt="object_type2.png" />
-        </div>
+      ![object_type2.png](../src/image/base/object_type2.png)
 
       </details>
 
@@ -459,9 +419,7 @@
 
         - Type Inference 小差異（原因待查）
 
-        <div class="imgBox" >
-          <img src="../src/image/base/Never_Type_Inference.png" alt="Never_Type_Inference.png" />
-        </div>
+        ![Never_Type_Inference.png](../src/image/base/Never_Type_Inference.png)
 
         </details>
 
@@ -470,9 +428,7 @@
       - <details close>
         <summary>可以 assign 給任何其他 type</summary>
 
-        <div class="imgBox" >
-          <img src="../src/image/base/type_never1.png" alt="type_never1.png" />
-        </div>
+        ![type_never1.png](../src/image/base/type_never1.png)
 
         </details>
 
@@ -481,9 +437,7 @@
       - <details close>
         <summary>Type Annotation 只能用在 compile 階段即確認是 never 的情況</summary>
 
-        <div class="imgBox" >
-          <img src="../src/image/base/type_never2.png" alt="type_never2.png" />
-        </div>
+        ![type_never2.png](../src/image/base/type_never2.png)
 
         </details>
 
@@ -511,9 +465,7 @@
 
         - Type Inference 小差異（原因待查）
 
-        <div class="imgBox" >
-          <img src="../src/image/base/Never_Type_Inference.png" alt="Never_Type_Inference.png" />
-        </div>
+        ![Never_Type_Inference.png](../src/image/base/Never_Type_Inference.png)
 
         </details>
 
@@ -524,15 +476,11 @@
 
         - 才能 assign 給其他 type 的變數
 
-        <div class="imgBox" >
-          <img src="../src/image/base/unknown_VS_any.png" alt="unknown_VS_any.png" />
-        </div>
+          ![](../src/image/base/unknown_VS_any.png)
 
         - 才能進行個別 type 的操作（ex.`+ - * /`）
 
-        <div class="imgBox" >
-          <img src="../src/image/base/Type_Guard_with_unknown.png" alt="Type_Guard_with_unknown.png" />
-        </div>
+          ![](../src/image/base/Type_Guard_with_unknown.png)
 
         </details>
 
@@ -558,9 +506,7 @@
       - <details close>
         <summary>unknown 使用情境範本</summary>
 
-        <div class="imgBox" >
-          <img src="../src/image/base/unknown_sample_safeJsonParse.png" alt="unknown_sample_safeJsonParse.png" />
-        </div>
+        ![](../src/image/base/unknown_sample_safeJsonParse.png)
 
         </details>
 
@@ -575,15 +521,11 @@
 
         - 右半部以 subtype 的形式，形成一個系統。而 `any` 包含 `never` 之外的所有。
 
-        <div class="imgBox" >
-          <img src="../src/image/base/never_any_unknown2.jpeg" alt="never_any_unknown2.jpeg" />
-        </div>
+          ![](../src/image/base/never_any_unknown2.jpeg)
 
         - 以 (1)(2)(3) 規則按照優先順序遵守，`never` > `any` > `unknown`
 
-        <div class="imgBox" >
-          <img src="../src/image/base/never_any_unknown1.png" alt="never_any_unknown1.png" />
-        </div>
+          ![](../src/image/base/never_any_unknown1.png)
 
       </details>
 
@@ -603,9 +545,7 @@
       - 必須 初始化 或是 從 constructor 賦值 ( line 10：`mobile` 未賦值 )
       - 必須傳值給 constructor 進行 賦值 ( line 27：`age` 未傳值且無預設值 )
 
-      <div class="imgBox" >
-        <img src="../src/image/base/type_class.png" alt="type_class.png" />
-      </div>
+      ![](../src/image/base/type_class.png)
 
       </details>
 
@@ -619,33 +559,23 @@
 
       - 1. 只要由「完全相同的 class member（propery & method）」的 class 所產生的 instance，TS 將認定為相同 `type`
 
-      <div class="imgBox" >
-        <img src="../src/image/base/class_type_compare1.png" alt="class_type_compare1.png" />
-      </div>
+        ![](../src/image/base/class_type_compare1.png)
 
       - 2. 可能 `instanceof` 不同，但 TS 認定相同 `type`
 
-      <div class="imgBox" >
-        <img src="../src/image/base/class_type_compare2.png" alt="class_type_compare2.png" />
-      </div>
+        ![](../src/image/base/class_type_compare2.png)
 
       - 3. 只要擁有「完全相同的 propery & method」的 object，也會被 TS 認定與對應的 `class type` 為一樣的 `type`
 
-      <div class="imgBox" >
-        <img src="../src/image/base/class_type_compare3.png" alt="class_type_compare3.png" />
-      </div>
+        ![](../src/image/base/class_type_compare3.png)
 
       - 4. 如果是各自定義的 `private` | `protected`，則視為不同
 
-      <div class="imgBox" >
-        <img src="../src/image/base/class_type_compare4.png" alt="class_type_compare4.png" />
-      </div>
+        ![](../src/image/base/class_type_compare4.png)
 
       - 5. instance 比 class type 多出 member，也會被 TS 錯誤判定忽略
 
-      <div class="imgBox" >
-        <img src="../src/image/base/class_type_compare5.png" alt="class_type_compare5.png" />
-      </div>
+        ![](../src/image/base/class_type_compare5.png)
 
       </details>
 
@@ -658,29 +588,21 @@
 
       - 實作 method 的 type 必須與定義的 type 相符
 
-      <div class="imgBox" >
-        <img src="../src/image/base/class_implements_diffReturnType.png" alt="class_implements_diffReturnType.png" />
-      </div>
+        ![](../src/image/base/class_implements_diffReturnType.png)
 
       - 實作未如 type 定義回傳 `void`，不會報錯
 
         > REF: ["void return" in interface doesn't trigger error in "implementation"]
 
-      <div class="imgBox" >
-        <img src="../src/image/base/class_implements_void.png" alt="class_implements_void.png" />
-      </div>
+        ![](../src/image/base/class_implements_void.png)
 
       - 必須實作所有已定義的 method type
 
-      <div class="imgBox" >
-        <img src="../src/image/base/class_implements_noMethod.png" alt="class_implements_noMethod.png" />
-      </div>
+        ![](../src/image/base/class_implements_noMethod.png)
 
       - 實作可以多出 type 中未定義的 method
 
-      <div class="imgBox" >
-        <img src="../src/image/base/class_implements_noType.png" alt="class_implements_noType.png" />
-      </div>
+        ![](../src/image/base/class_implements_noType.png)
 
       </details>
 
@@ -705,9 +627,7 @@
       - <details close>
         <summary>若繼承至<code>interface</code>，則只能為 <code>public</code></summary>
 
-        <div class="imgBox" >
-          <img src="../src/image/base/class_public_VS_interface.png" alt="class_public_VS_interface.png" />
-        </div>
+        ![](../src/image/base/class_public_VS_interface.png)
 
         </details>
 
@@ -718,9 +638,7 @@
 
         - 若要阻止被外部存取，得用 js class `#屬性`
 
-        <div class="imgBox" >
-          <img src="../src/image/base/class_private1.png" alt="class_private1.png" />
-        </div>
+          ![](../src/image/base/class_private1.png)
 
         </details>
 
@@ -925,21 +843,15 @@
 
       - 1. 只能 `implements` 只有 `public` 的 `class`
 
-      <div class="imgBox" >
-        <img src="../src/image/base/implements_VS_extends1.png" alt="implements_VS_extends1.png" />
-      </div>
+        ![](../src/image/base/implements_VS_extends1.png)
 
       - 2. `extends` 已擁有 parent 的一切，可以不用再自己實作。而 `implements` 需要實作
 
-      <div class="imgBox" >
-        <img src="../src/image/base/implements_VS_extends2.png" alt="implements_VS_extends2.png" />
-      </div>
+        ![](../src/image/base/implements_VS_extends2.png)
 
       - 3. 一次只能 `extends` 一個 class。而可以 `implements` 多個。
 
-      <div class="imgBox" >
-        <img src="../src/image/base/implements_VS_extends3.png" alt="implements_VS_extends3.png" />
-      </div>
+        ![](../src/image/base/implements_VS_extends3.png)
 
       </details>
 
@@ -1031,12 +943,11 @@
   ```
 
   - `as` 串
+
     - 以最後一次為該變數的 type
     - 只在意相鄰的兩次 as，只需兩者有交集即可（前者包含後者 | 後者包含前者）
 
-  <div class="imgBox" >
-    <img src="../src/image/base/not_only_one_as.png" alt="not_only_one_as.png" />
-  </div>
+    ![](../src/image/base/not_only_one_as.png)
 
   </details>
 
@@ -1069,9 +980,7 @@
     - 討論點反方：
       - `type` 應該為 `靜態格式`，如此的彈性功能應該只在於 `interface`
 
-  <div class="imgBox" >
-    <img src="../src/image/base/Function_input_type.png" alt="Function_input_type.png" />
-  </div>
+    ![](../src/image/base/Function_input_type.png)
 
   </details>
 
@@ -1107,13 +1016,9 @@
       - index 只能是 number, string, symbol 三種
       - Index Signatures(array) VS type Array
 
-        <div class="imgBox" >
-          <img src="../src/image/base/Index_Signatures_VS_type_array.png" alt="Index_Signatures_VS_type_array.png" />
-        </div>
+        ![](../src/image/base/Index_Signatures_VS_type_array.png)
 
-        <div class="imgBox" >
-          <img src="../src/image/base/Index_Signatures_Dictionary.png" alt="Index_Signatures_Dictionary.png" />
-        </div>
+        ![](../src/image/base/Index_Signatures_Dictionary.png)
 
       </details>
 
@@ -1366,9 +1271,7 @@
   - 使用 `?` 記註為 `Optional Property`
   - 直接用 `undefined` ，依然需給他的值初始化為 `undefined` 才可
 
-  <div class="imgBox" >
-    <img src="../src/image/base/Optional_Property_Annotation.png" alt="Optional_Property_Annotation.png" />
-  </div>
+  ![](../src/image/base/Optional_Property_Annotation.png)
 
   </details>
 
@@ -1585,9 +1488,7 @@
   - 必須以 Type Guard 區分出所有設定的 function type
   - `type` & `interface` 皆可，但建議只在 `interface` 使用此方法
 
-  <div class="imgBox" >
-    <img src="../src/image/base/Function_Overload.png" alt="Function_Overload.png" />
-  </div>
+  ![](../src/image/base/Function_Overload.png)
 
   </details>
 

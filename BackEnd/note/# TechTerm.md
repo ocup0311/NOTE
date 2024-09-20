@@ -1,15 +1,3 @@
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!--  style  -->
-
 ###### <!-- ref -->
 
 [http session]: https://networkengineering.stackexchange.com/questions/33481/does-session-in-http-session-mean-the-same-as-in-session-layer-in-osi-model

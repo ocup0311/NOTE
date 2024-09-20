@@ -1,15 +1,3 @@
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!--  style  -->
-
 ###### <!-- ref -->
 
 [DDoS 技術鑑賞]: https://youtu.be/7kB9-nQJR44
@@ -462,9 +450,7 @@
 
 <!-- 大圖 -->
 
-<div class="imgBox" >
-  <img src="../image/Server/simple _dynamic_website.png" alt="simple _dynamic_website.png" />
-</div>
+![](../image/Server/simple_dynamic_website.png)
 
 ---
 

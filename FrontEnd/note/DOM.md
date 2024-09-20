@@ -1,15 +1,3 @@
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!--  style  -->
-
 ###### <!-- ref -->
 
 [ithome1]: https://ithelp.ithome.com.tw/articles/10191666
@@ -31,10 +19,10 @@
 <!-- WIINDOW -->
 
 - <details close>
-     <summary>WIINDOW</summary>
+  <summary>WIINDOW</summary>
 
   - <details close>
-     <summary>Global Object</summary>
+    <summary>Global Object</summary>
 
     ECMAScript 標準裡的「全域物件」- 在「全域作用範圍」宣告的全域變數無法使用 delete 移除
 
@@ -65,18 +53,16 @@
     - 用來控制網頁內容
     - W3C 制定規範
 
-  </details>
-
   <!-- WINDOW 大圖 -->
 
-  <div class="imgBox" >
-    <img src="../src/image/DOM/DOM_BOM.png" alt="DOM_BOM.png" />
-  </div>
+  ![DOM_BOM.png](../src/image/DOM/DOM_BOM.png)
+
+  </details>
 
 <!-- EVENT -->
 
 - <details close>
-     <summary>EVENT</summary>
+  <summary>EVENT</summary>
 
   > DATE: 3 (2022)
   > REF: [W3C]
@@ -127,9 +113,7 @@
 
   <!-- 事件流 大圖 -->
 
-  <div class="imgBox" >
-    <img src="../src/image/DOM/DOM_Event.png" alt="DOM_Event.png" />
-  </div>
+  ![DOM_Event.png](../src/image/DOM/DOM_Event.png)
 
   </details>
 

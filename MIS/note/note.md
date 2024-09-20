@@ -1,15 +1,3 @@
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 10%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!-- --------------------- style --------------------- -->
-
 ##### <!-- ref -->
 
 [ccna 教學]: https://youtu.be/gxbqIMqBgPc
@@ -155,9 +143,7 @@
 
       </details>
 
-  <div class="imgBox" >
-    <img src="../src/image/MAC_ID.png" alt="MAC_ID.png" />
-  </div>
+  ![](../src/image/MAC_ID.png)
 
   </details>
 

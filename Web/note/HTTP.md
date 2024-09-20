@@ -1,15 +1,3 @@
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!--  style  -->
-
 ###### <!-- ref -->
 
 [rfc 2068]: https://www.rfc-editor.org/rfc/rfc2068
@@ -52,7 +40,7 @@
 <!-- 工具 -->
 
 - <details close>
-     <summary>工具：</summary>
+  <summary>工具：</summary>
 
   - 使用 [TELNET] 連線
   - Postman
@@ -69,7 +57,7 @@
 
     </details>
 
-    </details>
+  </details>
 
 <!-- 推薦書籍 -->
 
@@ -85,14 +73,12 @@
 
 ### 版本歷史
 
-<div class="imgBox" >
-  <img src="../image/HTTP/History_of_Protocols.png" alt="Discussion_array.png" />
-</div>
+![](../image/HTTP/History_of_Protocols.png)
 
 <!-- HTTP/0.9 -->
 
 - <details close>
-   <summary>HTTP/0.9</summary>
+  <summary>HTTP/0.9</summary>
 
   - 1991 **(已廢)**
   - 主要內容：
@@ -107,7 +93,7 @@
 <!-- HTTP/1.0 -->
 
 - <details close>
-   <summary>HTTP/1</summary>
+  <summary>HTTP/1</summary>
 
   - 一次發布：
     - 1996.5 (RFC 1945)
@@ -125,14 +111,14 @@
 <!-- HTTP/1.1 -->
 
 - <details open>
-   <summary>HTTP/1.1</summary>
+  <summary>HTTP/1.1</summary>
 
   - <details close>
-      <summary>三次發布：
+    <summary>三次發布：
       
       ([RFC 2068] & [RFC 2616])
       
-      </summary>
+    </summary>
 
     - 1997.1 ([RFC 2068])
       - 解決一些效率問題
@@ -352,7 +338,7 @@
 <!-- HTTP/2 -->
 
 - <details open>
-   <summary>HTTP/2</summary>
+  <summary>HTTP/2</summary>
 
   - 一次發布：
 
@@ -361,7 +347,7 @@
   <!-- 主要內容： -->
 
   - <details close>
-      <summary>主要內容：</summary>
+    <summary>主要內容：</summary>
 
     - 沿用 HTTP/1.1 ，只針對 Message Syntax 強化
       - 傳輸文件內容更有效率
@@ -392,24 +378,20 @@
     - Header Compression (HPACK)
     - Server Push
 
-  <div class="imgBox" >
-    <img src="../image/HTTP/HTTP2_Multiplexing.png" alt="HTTP2_Multiplexing.png" />
-  </div>
+  ![](../image/HTTP/HTTP2_Multiplexing.png)
 
   </details>
 
 <!-- HTTP/3 -->
 
 - <details close>
-   <summary>HTTP/3 (草案)</summary>
+  <summary>HTTP/3 (草案)</summary>
 
   - Transport layer: TCP --> [QUIC]
 
   <!-- Big Map -->
 
-  <div class="imgBox" >
-    <img src="../image/HTTP/HTTP3.png" alt="Discussion_array.png" />
-  </div>
+  ![](../image/HTTP/HTTP3.png)
 
   - [QUIC] ([RFC 9000]) (2021.5)
 
@@ -473,10 +455,7 @@
 
       </details>
 
-  <!-- 注意事項 -->
-  <div class="imgBox" >
-    <img src="../image/HTTP/HTTP3_%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85.png" alt="Discussion_array.png" />
-  </div>
+  ![](../image/HTTP/HTTP3_%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85.png)
 
   </details>
 
@@ -492,13 +471,11 @@
     </details>
 
   - <details close>
-      <summary>HEAD method：獲取該 Request 將得到的 response 的資訊</summary>
+    <summary>HEAD method：獲取該 Request 將得到的 response 的資訊</summary>
 
     - 例如可先用 HEAD 得知回傳檔案大小，再決定是否用 Range Request
 
-      <div class="imgBox" >
-        <img src="../image/HTTP/Response_From_HTTP_HEAD_Method.png" alt="Discussion_array.png" />
-      </div>
+      ![](../image/HTTP/Response_From_HTTP_HEAD_Method.png)
 
     </details>
 

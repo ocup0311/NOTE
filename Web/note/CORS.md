@@ -1,17 +1,5 @@
 ###### <!-- 收起 -->
 
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!--  style  -->
-
 <!-- ref -->
 
 [mdn]: https://developer.mozilla.org/zh-TW/docs/Web
@@ -101,9 +89,7 @@
 
     </details>
 
-  <div class="imgBox" >
-    <img src="../image/CORS/Preflight%20Request.png" alt="Discussion_array.png" />
-  </div>
+  ![](../image/CORS/Preflight%20Request.png)
 
 ---
 

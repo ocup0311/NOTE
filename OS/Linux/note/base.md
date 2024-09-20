@@ -1,17 +1,5 @@
 ###### <!-- 收起來 -->
 
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!--  style  -->
-
  <!-- ref -->
 
 [SELinux 基礎與實務]: https://www.lijyyh.com/2012/11/selinux-security-enhanced-linux-basics.html

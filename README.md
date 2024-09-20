@@ -1,3 +1,7 @@
+[ocup0311]: https://github.com/ocup0311
+[Default]: mailto:ocup0311@gmail.com
+[履歷]: https://sites.google.com/view/ocup0311/resume
+
 # Ocup 學習筆記
 
 歡迎來到我的學習筆記！這裡用於存放我在學習與實作過程中的各種筆記，涵蓋多個主題和課程。
@@ -6,7 +10,7 @@
 
 ### 積極求職中
 
-目前正在尋找新的工作機會，期待與優秀的團隊合作，請參考我的[履歷](https://bit.ly/chiawei-huang-resume)
+目前正在尋找新的工作機會，期待與優秀的團隊合作，請參考我的[履歷]
 
 ---
 
@@ -39,6 +43,6 @@
 
 ### # 聯絡方式
 
-- GitHub: [ocup0311](https://github.com/ocup0311)
-- Email: [ocup0311@gmail.com](mailto:ocup0311@gmail.com)
-- 求職中: [履歷](https://bit.ly/chiawei-huang-resume)
+- GitHub: [ocup0311]
+- Email: ocup0311\@gmail.com (<a href="https://mail.google.com/mail/?view=cm&fs=1&to=ocup0311@gmail.com">Gmail</a>) ([Default])
+- 求職中: [履歷]

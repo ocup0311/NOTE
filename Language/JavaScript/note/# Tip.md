@@ -1,15 +1,3 @@
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!--  style  -->
-
 # [When to use new Array](https://coderwall.com/p/h4xm0w/why-never-use-new-array-in-javascript)
 
 > DATE: 2 (2022)
@@ -23,6 +11,4 @@
 - 建立 [ ] 後再 push 會不斷擴容造成浪費
 - 較為乾淨
 
-<div class="imgBox" >
-    <img src="../src/image/tips/When_to_use_new_Array.png" alt="When_to_use_new_Array.png" />
-</div>
+![When_to_use_new_Array.png](../src/image/tips/When_to_use_new_Array.png)

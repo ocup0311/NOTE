@@ -1,15 +1,3 @@
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!--  style  -->
-
 ###### <!-- ref -->
 
 [mdn]: https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web
@@ -49,7 +37,7 @@
 <!-- 工具 -->
 
 - <details close>
-     <summary>工具：</summary>
+  <summary>工具：</summary>
 
   </details>
 
@@ -60,9 +48,7 @@
 > DATE: 3 (2022)
 > REF: [Reflow & Repaint] | [browsers]
 
-<div class="imgBox" >
-  <img src="../image/Web/Browsers_work.png" alt="Browsers_work.png" />
-</div>
+![](../image/Web/Browsers_work.png)
 
 - 影響網頁效能主因
 
@@ -72,11 +58,9 @@
 <!-- Navigation -->
 
 - <details close>
-     <summary>Navigation</summary>
+  <summary>Navigation</summary>
 
-  <div class="imgBox" >
-      <img src="../image/Web/Navigation(DNS-TCP-TLS).png" alt="Navigation(DNS-TCP-TLS).png" />
-  </div>
+  ![](<../image/Web/Navigation(DNS-TCP-TLS).png>)
 
   - DNS Lookup
 
@@ -105,12 +89,12 @@
 <!-- Response -->
 
 - <details close>
-     <summary>Response</summary>
+  <summary>Response</summary>
 
   <!-- TCP Slow Start -->
 
   - <details close>
-     <summary>TCP Slow Start / 14kb rule (RFC 5681)</summary>
+    <summary>TCP Slow Start / 14kb rule (RFC 5681)</summary>
 
     > REF: [TCP Slow Start]
 
@@ -146,7 +130,7 @@
   <!-- Congestion control -->
 
   - <details close>
-     <summary>Congestion control</summary>
+    <summary>Congestion control</summary>
 
     > REF: [Congestion control]
 
@@ -162,7 +146,7 @@
   <!-- (1) Building the DOM tree -->
 
   - <details close>
-     <summary>(1) Building the DOM tree</summary>
+    <summary>(1) Building the DOM tree</summary>
 
     > REF: [DOM]
 
@@ -173,7 +157,7 @@
   <!-- Preload scanner -->
 
   - <details close>
-     <summary>Preload scanner</summary>
+    <summary>Preload scanner</summary>
 
     - 針對 image, css, [async/defer script] 等，在後台先行下載
       - async: 下載完立刻暫停其他動作執行 script
@@ -183,7 +167,7 @@
   <!-- (2) Building the CSSOM -->
 
   - <details close>
-     <summary>(2) Building the CSSOM</summary>
+    <summary>(2) Building the CSSOM</summary>
 
     - Building the CSSOM is very, very fast
     - The total time to create the CSSOM is generally less than the time it takes for one DNS lookup.
@@ -193,7 +177,7 @@
   <!-- Other Processes -->
 
   - <details close>
-     <summary>Other Processes</summary>
+    <summary>Other Processes</summary>
 
     - JavaScript Compilation
 
@@ -210,12 +194,12 @@
 <!-- Render -->
 
 - <details close>
-     <summary>Render</summary>
+  <summary>Render</summary>
 
   <!-- Style -->
 
   - <details close>
-     <summary>Style</summary>
+    <summary>Style</summary>
 
     - (3) DOM + CSSOM --> Render Tree
 
@@ -224,7 +208,7 @@
   <!-- Layout -->
 
   - <details close>
-     <summary>Layout</summary>
+    <summary>Layout</summary>
 
     - (4) 從 root 開始計算成幾何圖形
     - layout：第一次計算完成的圖形
@@ -235,7 +219,7 @@
   <!-- Paint -->
 
   - <details close>
-     <summary>Paint</summary>
+    <summary>Paint</summary>
 
     - (5) 將每個 Node 繪製到畫面
     - [First Meaningful Paint] (FMP)
@@ -247,7 +231,7 @@
   <!-- Compositing -->
 
   - <details close>
-     <summary>Compositing</summary>
+    <summary>Compositing</summary>
 
     - re-composite：只將需要的部分重繪
 
@@ -256,22 +240,21 @@
   <!-- Interactivity -->
 
   - <details close>
-     <summary>Interactivity</summary>
+    <summary>Interactivity</summary>
 
     - [Time to Interactive] (TTI)
 
     </details>
 
   - step:
+
     1. Building the DOM tree
     2. Building the CSSOM
     3. DOM + CSSOM --> Render Tree
     4. Run Layout on the Render Tree to compute the geometry of each Node
     5. Paint the individual nodes to the screen
 
-  <div class="imgBox" >
-    <img src="../image/Web/Browser_Waterfall_View.png" alt="Browser_Waterfall_View.png" />
-  </div>
+  ![](../image/Web/Browser_Waterfall_View.png)
 
   </details>
 
@@ -290,7 +273,7 @@
   <!-- 定義 -->
 
   - <details close>
-      <summary>定義</summary>
+    <summary>定義</summary>
 
     The **Internet** is an infrastructure, whereas the **Web** is a service built on top of the infrastructure.
 
@@ -302,14 +285,12 @@
     - Modem (數據機)：用來轉換網路編碼＆電話編碼，始可透過電話線傳輸網路
     - ISP (Internet Service Provider)：如中華電信
 
-  <div class="imgBox" >
-    <img src="../image/Web/Internet_map1.png" alt="Internet_map1.png" />
-  </div>
+  ![](../image/Web/Internet_map1.png)
 
   <!-- Domain Name -->
 
   - <details close>
-      <summary>Domain Name</summary>
+    <summary>Domain Name</summary>
 
     > REF: [域名] | [域名 .io] | [Domain Name]
 
@@ -414,9 +395,7 @@
 
   </details>
 
-<div class="imgBox" >
-  <img src="../image/Web/Internet_map2.png" alt="Internet_map2.png" />
-</div>
+![](../image/Web/Internet_map2.png)
 
 ---
 
@@ -425,7 +404,7 @@
 <!-- Web Server -->
 
 - <details close>
-     <summary>Web Server：</summary>
+  <summary>Web Server：</summary>
 
   - [HTTP]
   - 託管必要條件：

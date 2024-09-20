@@ -1,17 +1,3 @@
-##### <!-- 收起 -->
-
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!--  style  -->
-
 ###### <!-- ref -->
 
 [WiredTiger’s Organizational Systems: B-Trees vs. LSM Trees]: https://medium.com/@eliehannouch800/wiredtigers-organizational-systems-b-trees-vs-lsm-trees-fbf262c99a43

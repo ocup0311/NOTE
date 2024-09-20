@@ -1,5 +1,3 @@
-<style>.imgBox{display: flex; flex-direction: column; margin: 10%; justify-content: center;border: 2px solid black;}</style>
-
 ##### <!-- ref -->
 
 > 隨意紀錄一些電子報的閱讀感想

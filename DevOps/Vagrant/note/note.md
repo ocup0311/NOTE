@@ -1,17 +1,5 @@
 ##### <!-- 收起 -->
 
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!------------  style  ------------>
-
 <!----------- ref start ----------->
 
 [Vagrant 入門系列]: https://youtu.be/4nK_S-mU6_o?list=PLfQqWeOCIH4B6YAEXMr6cx4AfnKNBLbZO

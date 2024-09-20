@@ -1,15 +1,3 @@
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!--  style  -->
-
 ###### <!-- ref -->
 
 [primitive wrapper]: https://www.javascripttutorial.net/javascript-primitive-wrapper-types/
@@ -376,17 +364,13 @@
     - `for await ... of`：resolve 後，照順序下一步。
     - [順序執行非同步] (`for( ){ await new Promise}`)
 
-      <div class="imgBox" >
-        <img src="../src/image/base/promise_method.png" alt="promise_method.png" />
-      </div>
+      ![promise_method.png](../src/image/base/promise_method.png)
 
       [CODE](../src/code/base/promise.js)
 
     </details>
 
-  <div class="imgBox" >
-    <img src="../src//image/base/Promise_flow.png" alt="promise_flow.png" />
-  </div>
+  ![promise_flow.png](../src//image/base/Promise_flow.png)
 
   </details>
 
@@ -499,9 +483,7 @@
 
     - 使用 `obj.a` 來確認是否存在，已改方法，不會再 assign 一個值 undifined
 
-    <div class="imgBox" >
-      <img src="../src/image/base/Object_NOT_AUTO_ASSIGN_ANYMORE.png" alt="Object_NOT_AUTO_ASSIGN_ANYMORE.png" />
-    </div>
+    ![Object_NOT_AUTO_ASSIGN_ANYMORE.png](../src/image/base/Object_NOT_AUTO_ASSIGN_ANYMORE.png)
 
     </details>
 

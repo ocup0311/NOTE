@@ -1,17 +1,3 @@
-<!-- rename to Issue.md -->
-
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!--  style  -->
-
 ###### <!-- ref -->
 
 [rxjs with redux?]: https://blog.techbridge.cc/2017/12/08/rxjs/

@@ -1,17 +1,5 @@
 ##### <!-- 收起 -->
 
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!------------  style  ------------>
-
 <!----------- ref start ----------->
 
 [Podman 官網]: https://podman.io/

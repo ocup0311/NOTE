@@ -1,15 +1,3 @@
-<style> 
-.imgBox{
-  display: flex; 
-  flex-direction: column; 
-  margin: 5%; 
-  justify-content: center;
-  border: 2px solid black;
-}
-</style>
-
-<!--  style  -->
-
 ###### <!-- ref -->
 
 [event storming miro 討論]: https://miro.com/app/board/uXjVPLbiyto=/
@@ -24,22 +12,16 @@
 
   - 模型：
 
-  <div class="imgBox" >
-    <img src="../src/image/EventStorming_model.png" alt="EventStorming_model.png" />
-  </div>
+    ![](../src/image/EventStorming_model.png)
 
   - 範例：
 
     - EX1.
-    <div class="imgBox" >
-      <img src="../src/image/EventStorming_sample1.png" alt="EventStorming_sample1.png" />
-    </div>
+      ![](../src/image/EventStorming_sample1.png)
 
     - EX2.
 
-    <div class="imgBox" >
-      <img src="../src/image/EventStorming_sample2.png" alt="EventStorming_sample2.png" />
-    </div>
+      ![](../src/image/EventStorming_sample2.png)
 
   - 節點：
 
