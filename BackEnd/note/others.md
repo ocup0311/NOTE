@@ -1,5 +1,8 @@
 ###### <!-- ref -->
 
+[網頁程式設計三兩事 - 不一樣的驗證思維 JWT]: https://ambersun1234.github.io/website/website-jwt/#jwtjson-web-token
+[什麼是 JWT ？]: https://5xcampus.com/posts/what-is-jwt.html
+[IANA JSON Web Token Claims]: https://www.iana.org/assignments/jwt/jwt.xhtml#claims
 [每個軟體工程師都應該懂的 HTTPS：深入淺出加密原理、TLS 協議]: https://www.shubo.io/https/
 [繼 Redis 發生變更授權爭議之後，Valkey 一躍而為最受歡迎的開源替代選擇]: https://www.businesswire.com/news/home/20240912303242/zh-HK/
 [NGINX Performance Tuning Tips and Optimization Strategies]: https://www.cloudpanel.io/blog/nginx-performance/
@@ -499,13 +502,120 @@
 
 ##### # JWT
 
+- REF: [什麼是 JWT ？] | [網頁程式設計三兩事 - 不一樣的驗證思維 JWT]
+
 - JSON Web Token
 
 - RFC 7519
 
+- JWT 的兩個實作：JWS、JWE
+
+  - 大部分文章在討論的 JWT 是指 JWS
+  - JWS 只有簽章
+  - JWE 有加密
+
 - HMAC、RSA、ECDS 等演算法進行加密
 
-- JWT 會透過 HMAC、RSA、ECDS 等演算法進行加密，而 JWT 是以 Header、Payload、Signature 以 Base64 做做編碼，並且以 . 來做分開（例如： xxxxxx.yyyyyy.zzzzz ）
+- 可透過 HMAC、RSA、ECDS 等演算法進行加密，以 Header、Payload、Signature 進行 Base64 編碼，並且以 . 來做分開（例如： xxxxxx.yyyyyy.zzzzz ）
+
+- 簽章是用來驗證 Token 本身的真實性與完整性 (相比於 MAC Token、PoP Token 的簽章層級是為了驗證 HTTP 請求在傳輸過程中的完整性)
+
+- 規格
+
+  - 格式為 `base64UrlEncode(header)`.`base64UrlEncode(payload)`.`Signature`
+
+  - Header
+
+    - `alg` (Algorithm)：Signature 的加密演算法
+    - `typ` (Type)：Token Type
+    - `cty` (Content Type)：當需要用內嵌的 JWT 時，需設置 `"cty": "JWT"`
+
+    ```json
+    // EX. 表示 Payload 的內容是一個 JWT
+    {
+      "alg": "HS256",
+      "typ": "JWT",
+      "cty": "JWT"
+    }
+
+    // Payload
+    {
+      "inner_jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTIzIiwibmFtZSI6IkpvbiBEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
+    }
+    ```
+
+  - Payload (or Claims) (選填)
+
+    - 查詢 [IANA JSON Web Token Claims] 已註冊的 Claims
+
+    - Registered Claims：標準公認訊息，用於傳達一些常見的資訊
+
+      - `iss` (Issuer)：表示這個 Token 由此發行
+      - `sub` (Subject)：表示這個 Token 關於此 ID 所使用
+      - `aud` (Audience)：表示這個 Token 預期由此接收和驗證
+      - `exp` (Expiration Time)：有效期限
+      - `nbf` (Not Before)：表示這個 Token 不在此之前生效
+      - `iat` (Issued At)：發行時間
+      - `jti` (JWT ID)：唯一識別符
+
+    - Public Claims：自己向 `IANA` (Internet Assigned Numbers Authority) 官方申請註冊
+
+    - Private Claims：自定義、非標準、私有的資訊
+
+      - 不用向 IANA 註冊，所以可能會與其他應用名稱衝突
+      - 建議使用命名空間來避免衝突
+
+    ```json
+    // EX.
+
+    {
+      "iss": "https://example.com",
+      "sub": "user123",
+      "aud": "https://api.example.com",
+      "exp": 1716239022,
+      "nbf": 1716235422,
+      "iat": 1716231822,
+      "jti": "unique-jwt-id-12345",
+
+      // Public Claims 範例 (假設都已向 IANA 註冊)
+      "organization": "Example Corp",
+      "role": "admin",
+
+      // Private Claims 未使用命名空間範例
+      "customClaim": "customValue",
+      "department": "Engineering",
+      "project": "JWT Integration",
+
+      // Private Claims 使用命名空間範例 (網址形式只是模擬命名空間，而非一定要是可用的網域)
+      "https://app1.example.com/role": "admin",
+      "https://app2.example.com/role": "user",
+      "https://app1.example.com/department": "HR",
+      "https://app2.example.com/department": "IT",
+      "org.example.department": "sales",
+      "org.example.role": "manager",
+      "com.otherapp.project": "Alpha",
+      "com.otherapp.access_level": "admin"
+    }
+    ```
+
+  - Signature
+
+    - 簡介：將 `base64UrlEncode(header) + "." + base64UrlEncode(payload)` 透過指定演算法，使用 secret 加密所得的值
+    - base64UrlEncode(header)
+    - base64UrlEncode(payload)
+    - 256_bit_secret
+
+    ```js
+    // EX.
+    // 演算法： HMACSHA256
+    // secret： 256_bit_secret
+
+    HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload), 256_bit_secret)
+    ```
+
+  - 其他補充
+
+    - Payload 和 Header 建議不放敏感資訊
 
 - <details close>
   <summary></summary>
