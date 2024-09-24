@@ -904,3 +904,25 @@
 
   - 可以查詢到 coredns 中有設定 forward，也就是設定成此 DNS 查詢不到配對時，會自動轉發給本機的 DNS (/etc/resolv.conf)
   - 例如想 ping google.com，則會一直往外的 DNS 去轉發
+
+- [Motivation for default memory limits and requests](https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/memory-default-namespace/#motivation-for-default-memory-limits-and-requests)
+
+  - `Memory limits` vs `Memory requests`
+
+    - `Admission Controller` 階段，`limits` (& `requests`) 會被用來計算是否超過對 `namespace` 設定的上限 (ResourceQuota)
+      (註：通常 limits 設比 requests 較高)
+
+    - `Scheduler` 會根據 `requests`，來計算符合 `node 可用上限`，進行分配給某個 node
+
+    - `Kubelet` 在 runtime 會根據 `limits`，在 node 上設定使用上限，該 pod 實際使用超過 limits，則會 OOM (Out Of Memory)
+
+    - GPT
+
+      ![](../src/image/GPT_limits_and_requests.jpg)
+
+  - 設計上可以讓你可以設定成 Overcommitment，以便靈活運用。但是在高度優先的生產環境，要自己避免 Overcommitment 的可能性
+
+  - Resource Reservation 解讀
+
+    - 在 Kubernetes 語境中，通常是指`邏輯`上的資源標記和管理策略，並不意味著實際物理資源的劃分
+    - 只要符合「確保某些資源在需要時可用」這個核心概念，都可以被稱為「Resource Reservation」，但具體操作和實現，在不同領域語境中可能有所不同
