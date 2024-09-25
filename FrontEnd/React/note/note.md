@@ -2,6 +2,8 @@
 
 <!----------- ref start ----------->
 
+[在 useEffect 中使用 Promise + seState 會特別處理嗎 unmounted 的情況嗎？]: https://www.facebook.com/groups/f2e.tw/permalink/8209556222415004/
+[Update to remove the "setState on unmounted component" warning]: https://github.com/reactwg/react-18/discussions/82
 [React 文件：使用 TypeScript]: https://zh-hans.react.dev/learn/typescript
 [《React 思維進化》 筆記系列]: https://medium.com/@linyawun031/react-dom-virtual-dom-與-react-element-af47110e2ec4
 [Advanced React Component Design with TypeScript]: https://medium.com/漸強實驗室-crescendo-lab-engineering-blog/advanced-react-component-design-with-typescript-b679b85ad719
@@ -2034,5 +2036,30 @@
   <summary>其他補充</summary>
 
   - 追蹤使用者分析日誌：[Intersection Observer]
+
+  </details>
+
+<!-- 議題探討 -->
+
+- <details close>
+  <summary>議題探討</summary>
+
+  <!-- 在 useEffect 中使用 Promise + seState 會特別處理嗎 unmounted 的情況嗎？ -->
+
+  - <details close>
+    <summary>在 useEffect 中使用 Promise + seState 會特別處理嗎 unmounted 的情況嗎？</summary>
+
+    ![](../src/image/Issue1.png)
+
+    - Q: [在 useEffect 中使用 Promise + seState 會特別處理嗎 unmounted 的情況嗎？]
+    - REF: [Update to remove the "setState on unmounted component" warning]
+
+    - 我的看法：
+
+      - 不處理 component 的 unmount，只要處理 useEffect 的 unmount
+      - 處理 useEffect 的 unmount，可避免多次觸發造成的 Race Condition
+      - 訂閱通常也只在 useEffect 進行，所以也解決原本沒取消訂閱造成的 Memory leak
+
+    </details>
 
   </details>
