@@ -1,5 +1,7 @@
 ###### <!-- ref -->
 
+[A quick look at QUIC]: https://blog.apnic.net/2019/03/04/a-quick-look-at-quic/
+[全球已有 25.5% 網站採用 HTTP/3]: https://www.ithome.com.tw/news/152044
 [每個軟體工程師都應該懂的 HTTPS：深入淺出加密原理、TLS 協議]: https://www.shubo.io/https/
 [繼 Redis 發生變更授權爭議之後，Valkey 一躍而為最受歡迎的開源替代選擇]: https://www.businesswire.com/news/home/20240912303242/zh-HK/
 [NGINX Performance Tuning Tips and Optimization Strategies]: https://www.cloudpanel.io/blog/nginx-performance/
@@ -505,6 +507,85 @@
   - [每個軟體工程師都應該懂的 HTTPS：深入淺出加密原理、TLS 協議]
 
   </details>
+
+##### # TCP & UDP & QUIC
+
+- <details close>
+  <summary>TCP vs UDP</summary>
+
+  - 連接性
+
+    - TCP 有連線，通過三次握手建立連接
+    - UDP 無連線，資料包獨立傳輸
+
+  - 可靠性
+
+    - TCP 提供可靠傳輸，具有資料重傳、順序控制、流量控制機制
+    - UDP 不保證資料包的傳遞與順序，沒有重傳、沒有確認機制
+
+  - 延遲與效率
+
+    - TCP 因為需要連接建立、重傳機制，延遲較高
+    - UDP 延遲低、效率高
+
+  - 應用場景
+
+    - TCP 適用於需要精確傳遞的應用 (EX. 網頁、郵件傳輸)
+    - UDP 適用於即時性要求高但對資料完整性要求低的應用 (EX. VoIP、影音串流、線上遊戲)
+
+  </details>
+
+<!-- 封包結構 -->
+
+- <details close>
+  <summary>封包結構</summary>
+
+  ![](../src/image/TCP_QUIC_Packet_Struct.png)
+
+  </details>
+
+<!-- UDP + QUIC 為何可以解決 TCP 的 Head-of-Line Blocking 問題 -->
+
+- <details close>
+  <summary><code>UDP + QUIC</code> 為何可以解決 <code>TCP</code> 的 Head-of-Line Blocking 問題</summary>
+
+  - 前情提要：
+
+    - TLS 解密：`TCP` 處理完後傳送給 TLS，`QUIC` 則是包含 TLS
+    - 管理順序：`TCP` 是靠 Sequence Number + Acknowledgment Number，`QUIC` 是靠 streamID + offset
+    - 傳遞單位：`TCP` 以 Sequence Number 為單位，`QUIC` 以 stream 為單位
+    - 資源組裝：`TCP` 在應用層組裝，`QUIC` 在 QUIC 組裝
+
+  - 示意範例：
+
+    ![](../src/image/TCP_QUIC_EX.png)
+
+  - 多個資源：
+
+    - `QUIC` 將不同資源拆成不同 stream，可以同時處理，單獨一個 stream 處理完就可以往下傳
+    - `TCP` 多個資源共用一個 TCP，需照 Sequence Number 順序處理往下傳
+
+  - TLS 解密：
+
+    - `QUIC` 可以在 stream1-offset1 還沒抵達前，就先對 stream1-offset2 做 TLS 解密
+    - `TCP` 則必須按照 Sequence Number 順序往下傳到 TLS 後，才能解密
+
+  - 也可以拆分 TCP 來傳不同資源，但是 TCP 有連接數量限制，且每個連線都要各自握手，成本較高
+
+  </details>
+
+<!-- 其他補充 -->
+
+- <details close>
+  <summary>其他補充</summary>
+
+  - 另一方面，因為硬體性能提升，使得 QUIC 的設計變得可行，TCP 設計在計算資源使用上更加謹慎
+  - 2022 年資料已顯示，全球前一千萬個網站中，25% 使用 HTTP/3 ([全球已有 25.5% 網站採用 HTTP/3])
+  - 更多 QUIC (Quick UDP Internet Connection) 參考 [HTTP/3 筆記](../../Web/note/HTTP.md#版本歷史)
+
+  </details>
+
+- REF: [A quick look at QUIC]
 
 #####
 

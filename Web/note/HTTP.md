@@ -110,7 +110,7 @@
 
 <!-- HTTP/1.1 -->
 
-- <details open>
+- <details close>
   <summary>HTTP/1.1</summary>
 
   - <details close>
@@ -337,7 +337,7 @@
 
 <!-- HTTP/2 -->
 
-- <details open>
+- <details close>
   <summary>HTTP/2</summary>
 
   - 一次發布：
