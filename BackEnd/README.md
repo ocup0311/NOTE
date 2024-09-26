@@ -6,7 +6,7 @@
 
 ### # API
 
-[REST](./note/others.md#-restful-api) | [GraphQL](./note/others.md#-graphql) | [gRPC](../API/gRPC/note/note.md)
+[REST](./note/others.md#-restful-api) | [GraphQL](./note/others.md#-graphql) | [gRPC](../API/gRPC/note/note.md) | [SOAP vs REST vs gRPC vs GraphQL](./note/others.md#-soap-vs-rest-vs-grpc-vs-graphql)
 
 ### # Auth
 
