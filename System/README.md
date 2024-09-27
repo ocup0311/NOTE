@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[深入淺出 Bloom Filter 原理]: https://zhuanlan.zhihu.com/p/140545941
 [Github: SSTable]: https://github.com/WangTingZheng/SSTable
 [Bigtable: A Distributed Storage System for Structured Data]: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/68a74a85e1662fe02ff3967497f31fda7f32225c.pdf
 [筆記：SSTable 結構研討會]: https://juejin.cn/post/7118029530534527006
@@ -320,7 +321,10 @@
             - 改用計數器
             - 但是存 int，所用空間大很多，進而影響到查詢速度
 
-        - REF: [論文解讀：深入討論 Bloom Filter] | [How to caculate k, m, n and p for bloom filter]
+        - REF:
+          - [論文解讀：深入討論 Bloom Filter]
+          - [How to caculate k, m, n and p for bloom filter]
+          - [深入淺出 Bloom Filter 原理]
 
       - Cuckoo filter
 
@@ -408,6 +412,8 @@
         - [筆記：SSTable 結構研討會] ([SSTable 結構研討會] | [Github: SSTable])
         - [Bigtable: A Distributed Storage System for Structured Data]
 
+      ![SSTable_step.png](./src/image/SSTable_step.png)
+
     - REF: [Architecture of Cassandra] 提供建議的 Write/Read path 設計
 
 - 問題：
@@ -446,6 +452,20 @@
   - [區塊鏈前哨戰 2：組織內共識機制首選 — Raft]
   - [Consule 系列:Consul 實現詳解]
 
+---
+
+- 可能的優化方式：
+
+  - 如果把轉址跟分析分開，同時送兩個 request，並使用 301 呢？
+  - 使用 base 61，0 用來補位
+
+- 還需要 id 的好處？如果使用 key value storage (short:long pair) 存呢？
+- 是否會對來源網址，先做惡意網址檢測？
+
+---
+
+-
+
 ## # 書籍
 
 - [架構解密：從分散式到微服務（第 2 版）]
@@ -455,3 +475,16 @@
 - [Moleculer]
 
   - 基於 Node.js 的分散式框架
+
+## # 分享
+
+- zeabur
+
+  - github app
+  - zbpack
+
+- webhook: 用來通知 github 發生哪些事
+
+[雷Ｎ分享：零知識證明](https://www.youtube.com/playlist?list=PLj80z0cJm8QErn3akRcqvxUsyXWC81OGq)
+
+[水球 0811](https://excalidraw.com/#room=4a031337467436804f2a,nJBaEwkyn3K4zqCPZBoWpw)

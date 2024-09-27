@@ -2,6 +2,8 @@
 
 <!----------- ref start ----------->
 
+[自動提示詞工程解放 LLM 潛力，APE 讓 LLM 探索更廣闊的提示詞設計空間]: https://www.techbang.com/posts/118175-auto-prompt-engineering-guide
+[Github: automated-prompt-engineering-from-scratch]: https://github.com/marshmellow77/automated-prompt-engineering-from-scratch
 [2024.01.29 簡介 GitHub Copilot]: https://hackmd.io/@Eudicotz/BJVuG93i6
 [2024.02.16 GitHub Copilot advance usage 其他妙用]: https://hackmd.io/@Eudicotz/SyGvHkAsT
 [2024.02.16 GitHub Copilot Chat]: https://hackmd.io/@Eudicotz/BkfOVkCiT
@@ -553,3 +555,8 @@
 ---
 
 ## # <mark>TODO:待整理筆記</mark>
+
+- APE (Automated Prompt Engineering)
+
+  - [自動提示詞工程解放 LLM 潛力，APE 讓 LLM 探索更廣闊的提示詞設計空間]
+  - [Github: automated-prompt-engineering-from-scratch]

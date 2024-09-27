@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[Git History]: https://marketplace.visualstudio.com/items?itemName=GuodongSun.vscode-git-cruise
 [Anyone can Access Deleted and Private Repository Data on GitHub]: https://trufflesecurity.com/blog/anyone-can-access-deleted-and-private-repo-data-github
 [GitHub Doc: GitHub Flow]: https://docs.github.com/en/get-started/using-github/github-flow
 [GitLab Flow - Jadson José dos Santos, PhD]: https://www.linkedin.com/pulse/gitlab-flow-jadson-santos/
@@ -813,3 +814,11 @@
 ## # TODO:
 
 - 擬定一些 SOP
+
+- 引入 GUI 使用習慣
+
+  - [Git History]
+
+    - 快速在 vscode diff commit 的方法
+
+  -

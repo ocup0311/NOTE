@@ -1,5 +1,6 @@
 ###### <!-- ref -->
 
+[詳解 Canvas 優越效能與實際應用]: https://www.cnblogs.com/powertoolsteam/p/15179350.html
 [ithome1]: https://ithelp.ithome.com.tw/articles/10191666
 [w3c]: https://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107/events.html#Events-phases
 [非侵入式 javascript]: https://zh.wikipedia.org/wiki/%E9%9D%9E%E4%BE%B5%E5%85%A5%E5%BC%8FJavaScript
@@ -119,6 +120,8 @@
 
 ## 2. 其他補充
 
+<!-- 注意事項 -->
+
 - 注意事項：
 
   <!-- HTMLCollection & NodeList -->
@@ -231,6 +234,8 @@
 
   </details>
 
+<!-- 小工具 -->
+
 - 小技巧：
 
   <!-- createDocumentFragment -->
@@ -252,3 +257,12 @@
     - `event.target` 會是選中的子層
 
     </details>
+
+<!-- 補充學習 -->
+
+- <details close>
+  <summary>補充學習</summary>
+
+  - [詳解 Canvas 優越效能與實際應用]
+
+  </details>
