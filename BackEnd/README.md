@@ -6,7 +6,7 @@
 
 ### # API
 
-[REST](./note/others.md#-restful-api) | [GraphQL](./note/others.md#-graphql) | [gRPC](../API/gRPC/note/note.md) | [SOAP vs REST vs gRPC vs GraphQL](./note/others.md#-soap-vs-rest-vs-grpc-vs-graphql)
+[API](../API/README.md) | [REST](../API/REST/note/note.md) | [GraphQL](../API/GraphQL/note/note.md) | [gRPC](../API/gRPC/note/note.md)
 
 ### # Auth
 
@@ -22,5 +22,5 @@
 
 - GitHub: [ocup0311](https://github.com/ocup0311)
 - Email: [ocup0311@gmail.com](mailto:ocup0311@gmail.com)
-- 求職中: [履歷](https://bit.ly/chiawei-huang-resume)
+- 求職中: [履歷](https://sites.google.com/view/ocup0311/resume)
 - 筆記: [Ocup 學習筆記](../README.md)
