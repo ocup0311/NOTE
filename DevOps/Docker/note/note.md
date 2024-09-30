@@ -70,7 +70,7 @@
 
 ## # 簡介
 
-![](https://i.imgur.com/NQOoI0m.png)
+![](../src/image/Docker_Architecture.png)
 
 <!-- OCI -->
 
@@ -102,7 +102,7 @@
 
   - container 可視為執行中的 image，其在 image layer 上加上`read-write`，形成 container layer
 
-    ![](https://i.imgur.com/W85FYbx.png)
+    ![](../src/image/container_&_image.png)
 
   - 執行中的 container 可以再輸出為 image，保留當下的狀態
 
@@ -127,8 +127,6 @@
     - EX.2
 
     ![](../src/image/container_is_process_EX2.png)
-
-  ![](https://i.imgur.com/w4w1YE2.png)
 
   </details>
 
@@ -189,10 +187,7 @@
 
       - 是另外建立可用來使用 container 內部的權限的 user。
       - 跟主機 root 為不同的 user
-      - 但注意 mount 之後，內部 root 才能執行本機 root 權限的檔案
-
-      ![](https://i.imgur.com/tOtQyfr.png)
-      ![](https://i.imgur.com/x9fx0kd.png)
+      - **注意**：在 mount 之後，container root 有權限執行 host root 檔案
 
     </details>
 
@@ -241,7 +236,7 @@
     E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it?
     ```
 
-    ![](https://i.imgur.com/iRHUQmp.jpg)
+    ![](../src/image/GPT_VM_conflict.png)
 
     </details>
 
@@ -307,7 +302,7 @@
   - <details close>
     <summary>建立 image 的各種方法</summary>
 
-    ![](https://i.imgur.com/qDaMoxv.png)
+    ![](../src/image/Docker_Image_Workflow.png)
 
     - Build、Commit --> Save、Push
 
@@ -320,7 +315,7 @@
       - `docker search <搜尋關鍵字>`：預設從 Docker Hub 上搜尋
       - `docker search quay.io/<搜尋關鍵字>`：指定 Registry
 
-      ![](https://i.imgur.com/RkO4NVE.png)
+      ![](../src/image/GPT_DockerHub_Quay.png)
 
       </details>
 
@@ -412,7 +407,7 @@
 
       <br>
 
-      ![](https://i.imgur.com/ynEztD3.png)
+      ![](../src/image/Docker_Build_Architecture.png)
 
       <br>
 
@@ -425,7 +420,7 @@
 
       <br>
 
-      ![](https://i.imgur.com/TMYoF5C.png)
+      ![](../src/image/Docker_Build_Detail.png)
 
       <!-- 與舊版 build 比較 -->
 
@@ -445,6 +440,7 @@
           - 新：只當需要時，buildkit 才向 buildx 請求
 
         - builder
+
           ![](https://i.imgur.com/xwlp8qf.png)
 
         - 是否還需要 `.dockerignore` ？
@@ -625,7 +621,7 @@
 
       </details>
 
-      ![](https://i.imgur.com/DUZqsCY.png)
+    ![](../src/image/Mount_method.png)
 
     </details>
 
@@ -708,7 +704,7 @@
     - 每開一個 container，docker0 就產生一個 `veth` 跟 container 對接
     - 往外部連接時，透過 `Nat` 轉成 host 的 ip
 
-    ![](https://i.imgur.com/SpRh5lQ.png)
+    ![](../src/image/Docker_bridge.png)
 
     - 手動建立的 bridge 有 DNS 功能，內建 (docker0) 的沒有
 
@@ -999,7 +995,7 @@
 
 ## # Swarm
 
-![](https://i.imgur.com/E1HMtwk.png)
+![](../src/image/Swarm_overview.png)
 
 <!-- node -->
 
@@ -1024,10 +1020,14 @@
   - 各種 ID 關係
 
     - `docker service ls` 中，service id
+
     - `docker service ps` 中，task id
-      ![](https://i.imgur.com/twe5WkU.png)
+
+      ![](../src/image/EX_task_id.png)
+
     - `docker container ls`中，container id
-      ![](https://i.imgur.com/p6gGjcO.png)
+
+      ![](../src/image/EX_container_id.png)
 
   </details>
 
@@ -1036,7 +1036,7 @@
 - <details close>
   <summary>network</summary>
 
-  ![](https://i.imgur.com/P8DiltT.jpg)
+  ![](../src/image/Swarm_network.png)
 
   - 當加入新 node 後，會同步在該 node 上建立所有的 overlay network
 
@@ -1054,11 +1054,14 @@
     - 使用 VIP (virtual ip) 進行 service 內部 load balance
 
       - 當有 service 的 container 使用到 overlay 時，會自動建立一個用來 load balance 的空間，在其中建立 VIP
-      - 用來在 service 的 replica 間進行 load balance
-      - 一個 service 對應一個 VIP，每個 VIP 透過 iptables + ipvs 轉發給多個 replica
-      - EX. 圖中 lb-mylay：每個有用到 mylay overlay 的 worker，會自動建立一個 container 名為 lb-mylay
 
-        ![](https://i.imgur.com/aDeJkna.png)
+      - 用來在 service 的 replica 間進行 load balance
+
+      - 一個 service 對應一個 VIP，每個 VIP 透過 iptables + ipvs 轉發給多個 replica
+
+      - EX. 圖中 lb-mylay：每個有用到 mylay overlay 的 worker，會自動建立一個 container 名為 lb-mylay (load balancer)
+
+        ![](../src/image/EX_Swarm_overlay_lb.png)
 
     - 研究方法：
 
@@ -1084,7 +1087,7 @@
   - <details close>
     <summary><code>ingress</code></summary>
 
-    ![](https://i.imgur.com/b9uL3ua.png)
+    ![](../src/image/Swarm_ingress.png)
 
     - 也屬於 overlay，提供給「外部訪問內部」使用
     - 從外部進來的封包會透過 `ingress overlay` 進行轉發
@@ -1615,11 +1618,11 @@
 
         - [鳥哥 iptables]
 
-          ![](https://i.imgur.com/ay4aLYh.png)
+          ![](../src/image/iptables_flow.png)
 
         - [初探 IPTABLES 流動之路 - 以 Docker 為範例]
 
-          ![](https://i.imgur.com/VxV7WRK.png)
+          ![](../src/image/iptables_ebtables_flow.png)
 
         - [再談 Docker 容器單機網路：利用 iptables trace 和 ebtables log] ([補充](https://guanjunjian.github.io/2017/12/05/study-15-docker-single-host-network-analysis/))
 

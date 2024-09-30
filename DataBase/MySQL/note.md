@@ -84,7 +84,7 @@
 
   <br>
 
-  ![](https://i.imgur.com/KydSI1d.png)
+  ![](./src/image/SQL_Role_Definition.png)
 
   </details>
 
@@ -114,10 +114,7 @@ TODO: 再修改整理
   - `-u <user>`：以該 user 身份執行
   - `-p`：輸入密碼
 
-- chatGPT ref
-  ![](https://i.imgur.com/1uue1fp.png)
-  ![](https://i.imgur.com/58eyRt2.png)
-  ![](https://i.imgur.com/vmIzzV0.png) -->
+ -->
 
 ## # 基礎指令
 
