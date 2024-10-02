@@ -2,7 +2,8 @@
 
 <!----------- ref start ----------->
 
-[MySQL InnoDB 儲存引擎大觀]: http://www.linkedkeeper.com/1500.html
+[InnoDB Architecture]: https://dev.mysql.com/doc/refman/9.0/en/innodb-architecture.html
+[MySQL InnoDB 儲存引擎大觀]: https://www.jianshu.com/p/d4cc0ea9d097
 [老生常談：MySQL 的體系結構]: https://generalthink.github.io/2022/04/06/mysql-architecture/
 [從 Indexing 的角度切入 MySQL-Innodb 與 PostgreSQL 的效能比較]: https://tech-blog.cymetrics.io/posts/maxchiu/indexing/
 [淺談 PostgreSQL 與 MySQL 的差異]: https://blog.kennycoder.io/2023/11/18/%E8%AB%87%E8%AB%87-Postgres-%E8%88%87-MySQL-%E7%9A%84%E5%B7%AE%E7%95%B0/
@@ -971,6 +972,228 @@ TODO: 再修改整理
 
   </details>
 
+<!-- InnoDB Architecture -->
+
+- <details close>
+  <summary>InnoDB Architecture</summary>
+
+  <!-- In-Memory Structures -->
+
+  - <details close>
+    <summary>In-Memory Structures</summary>
+
+    <!-- Buffer Pool -->
+
+    - <details close>
+      <summary>Buffer Pool</summary>
+
+      - 簡介：InnoDB 引擎 In-Memory 區塊中，用於快取資料，從而減少 Disk I/O、加速讀寫操作
+
+      - 核心區塊
+
+        <!-- Pages -->
+
+        - <details close>
+          <summary>Pages</summary>
+
+          - Data Pages、Index Pages、Undo Pages、change buffer Pages、AHI Pages、System Pages
+          - 將所有 page 串成一個 `LRU List` 與 `Flush List`
+          - LRU List 中，預設 old sublist 佔 37% (準備被淘汰的部分)
+          - Flush List 中存放尚未被寫入 disk 的 page
+
+          </details>
+
+        <!-- Change Buffer -->
+
+        - <details close>
+          <summary>Change Buffer</summary>
+
+          - 針對`尚未被讀取至 memory 中的 Index page 的 INSERT、UPDATE、DELETE`，會先將更新存在 Change Buffer
+          - 每當 Index page 被讀取至 memory，則會立刻與對應的 Change Buffer 進行合併
+          - 達到 checkpoint 時，也會進行合併，必須先將對應的 Index page 讀取至 memory
+          - 以 `B+ Tree` 結構存在
+
+          </details>
+
+        <!-- AHI (Adaptive Hash Index) -->
+
+        - <details close>
+          <summary>AHI (Adaptive Hash Index)</summary>
+
+          - 用 `Hash Table` 來記錄常用的查詢位址
+
+            ```
+            // EX.
+
+            key1 = 3 對應的 Index page 位址
+            pk = 5 對應的 Data page 位址
+            ```
+
+          - 觸發條件 (符合「常用的查詢位址」的條件)
+
+            - 連續以同樣的等值查詢條件查詢了 100 次
+            - 並且透過此查詢訪問同一個 page 位址 N 次 (N = rows of page / 16)
+
+          </details>
+
+      </details>
+
+    <!-- Log Buffer -->
+
+    - <details close>
+      <summary>Log Buffer</summary>
+
+      <!-- Redo Log Buffer -->
+
+      - <details close>
+        <summary>Redo Log Buffer</summary>
+
+        - 當機時，Buffer Pool 中資料的恢復機制
+        - 當資料寫入 Buffer Pool & redo log 中後，就會回應已完成寫入
+          (redo log 的處理方式因 innodb_flush_log_at_trx_commit 設定而不同，預設立刻寫入 disk，若沒關閉 OS Cache 就還是有機會漏掉)
+        - 此時被視為 dirty pages，放入 Flush List
+        - redo log 中也會紀錄完整的資料，所以當機時可從 redo log 中找回，重寫入一次資料
+        - 雖然 redo log 也寫入 disk，但因為寫入的位址是按照順序，不像寫入 DB 會切換位址，因此相對來說是很快的
+        - 達到 checkpoint 時，會將 dirty pages 寫入 DB，並將 redo log 對應的資料空間釋放
+
+        </details>
+
+      <!-- Undo Log Buffer -->
+
+      - <details close>
+        <summary>Undo Log Buffer</summary>
+
+        - 保存事務的舊版本資料，並支援 MVCC 的處理
+        - 在 disk 中是紀錄在 tablespace
+        - 也會產生對應的 undo page，也會將此操作記錄在 Redo Log
+
+        </details>
+
+      </details>
+
+    <!-- Data Dictionary (Meta Data) -->
+
+    - <details close>
+      <summary>Data Dictionary (Meta Data)</summary>
+
+      - MySQL 8.0 以後，Data Dictionary 已經持久化
+      - INFORMATION_SCHEMA 的部分組成，即是在查詢時，才動態從 Data Dictionary 中讀取的資料 (還包括從其他地方獲取的 Meta Data)
+
+      </details>
+
+    <!-- Lock Information (Lock Table) -->
+
+    - <details close>
+      <summary>Lock Information (Lock Table)</summary>
+
+      - 在處理 Memory-Level Locks，會針對 page-level 來進行 mutex lock (互斥鎖)
+
+      - 操作 LRU List 與 Flush List 時，也會進行 shared read lock
+
+      </details>
+
+    </details>
+
+  <!-- On-Disk Structures -->
+
+  - <details close>
+    <summary>On-Disk Structures</summary>
+
+    - Redo Log
+
+    <!-- Doublewrite Buffer -->
+
+    - <details close>
+      <summary>Doublewrite Buffer</summary>
+
+      - MySQL 8.0 後改為獨立的 File (.dblwr)，更之前是寫在 The System Tablespace 中
+
+      </details>
+
+    <!-- TableSpace -->
+
+    - <details close>
+      <summary>TableSpace</summary>
+
+      - TableSpace 是⼀個抽象的概念，可能對應一個 file，也可能對應數個 file 組成一個 TableSpace
+
+      - 讀寫時，如同其他 data pages 那樣，一起在 buffer pool 中管理
+
+      - The System Tablespace、File-Per-Table Tablespaces、General Tablespaces、Undo Tablespaces、Temporary Tablespaces
+
+      - File-Per-Table Tablespaces
+
+        - MySQL 5.5 之前，InnoDB 只有一個共享的 tablespace
+        - 設定了 innodb_file_per_table ，則每個 table 都會產生一個獨立的 File-Per-Table Tablespace (tablename.ibd)
+        - 推薦 innodb_file_per_table 開啟
+
+        <!-- - TODO: 研究有儲存哪些內容：注意：單獨的 .ibd 僅儲存該表的 data、index 和插入緩衝等信息，其餘信息還是存放在默認的系統表空間中的 -->
+
+      </details>
+
+    </details>
+
+  <!-- 其他補充 -->
+
+  - <details close>
+    <summary>其他補充</summary>
+
+    - memory 上的 data page 會對應到 disk 上的 data page，一次最少讀寫一個 page
+
+    - `OS Cache` 通常不會開啟，因為跟 Buffer Pool 重複快取功能，而 Buffer Pool 更靈活
+
+    <!-- innodb_buffer_pool_instances -->
+
+    - <details close>
+      <summary><code>innodb_buffer_pool_instances</code></summary>
+
+      - 增加 instance 數量用來解決，多 threads 高併發效能
+      - 官方建議在 Buffer Pool 大於 1GB 時，才開始考慮劃分實例
+      - 建議一顆 CPU 只配一個 Buffer Pool
+      - 指標
+
+        - innodb_buffer_pool_size 1 ~ 8GB --> 1 ~ 4 instances
+        - innodb_buffer_pool_size 8 ~ 32GB --> 4 ~ 8 instances
+        - innodb_buffer_pool_size 32GB up --> 8 ~ 16 instances
+
+      </details>
+
+    <!-- `INFORMATION_SCHEMA` & `PERFORMANCE_SCHEMA` -->
+
+    - <details close>
+      <summary><code>INFORMATION_SCHEMA</code> & <code>PERFORMANCE_SCHEMA</code></summary>
+
+      - 都是虛擬資料庫，其中的 table 沒有存在 disk，而是動態生成在記憶體中
+      - INFORMATION_SCHEMA 是基於 Mata Data 動態查詢
+      - PERFORMANCE_SCHEMA 則是動態即時收集的性能監控數據
+      - 在一些操作中，例如規劃查詢計畫時，會參考到這些資訊 (一些統計數據)
+
+      </details>
+
+    </details>
+
+  <!-- 圖解： -->
+
+  - <details close>
+    <summary>圖解：</summary>
+
+    ![](./src/image/Innodb_Architecture.png)
+
+    </details>
+
+  <!-- REF： -->
+
+  - <details close>
+    <summary>REF：</summary>
+
+    - [InnoDB Architecture]
+    - [老生常談：MySQL 的體系結構]
+    - [MySQL InnoDB 儲存引擎大觀]
+
+    </details>
+
+  </details>
+
 <!-- B+ Tree -->
 
 - <details close>
@@ -1675,6 +1898,6 @@ TODO: 再修改整理
 
 ---
 
-## # <mark>待整理筆記區</mark>
+## # 待整理筆記區
 
 - `IFNULL()`、`CONVERT()`

@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS employees(
   PRIMARY KEY (id)
 );
 
-INSERT INTO employees (first_name, last_name, title, salary, hire_date) VALUES 
+INSERT INTO employees(first_name, last_name, title, salary, hire_date) VALUES 
     ('Robin', 'Jackman', 'Software Engineer', 5500, '2001-10-12'),
     ('Taylor', 'Edward', 'Software Architect', 7200, '2002-09-21'),
     ('Vivian', 'Dickens', 'Database Administrator', 6000, '2012-08-29'),
