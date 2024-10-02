@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[Multipart Namespace Components: Addressing RSC and Dot Notation Issues]: https://ivicabatinic.from.hr/posts/multipart-namespace-components-addressing-rsc-and-dot-notation-issues
 [在 useEffect 中使用 Promise + seState 會特別處理嗎 unmounted 的情況嗎？]: https://www.facebook.com/groups/f2e.tw/permalink/8209556222415004/
 [Update to remove the "setState on unmounted component" warning]: https://github.com/reactwg/react-18/discussions/82
 [React 文件：使用 TypeScript]: https://zh-hans.react.dev/learn/typescript
@@ -2059,6 +2060,18 @@
       - 不處理 component 的 unmount，只要處理 useEffect 的 unmount
       - 處理 useEffect 的 unmount，可避免多次觸發造成的 Race Condition
       - 訂閱通常也只在 useEffect 進行，所以也解決原本沒取消訂閱造成的 Memory leak
+
+    </details>
+
+  - <details close>
+    <summary><code>&lt;Card.Body&gt;</code>(X) vs <code>&lt;CardBody&gt;</code>(O)</summary>
+
+    - REF: [Multipart Namespace Components: Addressing RSC and Dot Notation Issues]
+    - 結論：推薦使用 `<CardBody />`
+    - 原因：`<CardBody />` 才能支援 `Tree Shaking` & `RSC`
+
+      - `Tree Shaking`：打包優化，會將不必要的部分從最終的 bundle 中移除 (`<Card.Body />` 中，Body 會被誤判為未使用)
+      - `RSC`(React Server Components)：處理 SSR 的部分 (`<Card.Body />` 會無法被 RSC 解析)
 
     </details>
 
