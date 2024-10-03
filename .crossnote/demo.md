@@ -18,14 +18,14 @@ $ git push
 `sql`
 
 ```sql
-# EX. 原本用 ; 結尾
+-- EX. 原本用 ; 結尾
 > SELECT * FROM users;
 
-# 改成用 # 結尾
+-- 改成用 # 結尾
 > DELIMITER #
 > SELECT * FROM users#
 
-# exit 後恢復 ;
+-- exit 後恢復 ;
 > exit
 $ mysql -r root -p
 > SELECT * FROM users;

@@ -61,7 +61,7 @@
 # MySQL
 
 > DATE: 6, 7 (2023)
-> UPDATE: 7 (2024)
+> UPDATE: 7, 10 (2024)
 > REF: [MySQL 系列文] | [MySQL 超新手入門系列文] | [MySQL 索引背後的資料結構與演算法原理] | [一起學習 Mysql 索引二（索引的高效能策略）]
 
 ## # 版本備註
@@ -161,14 +161,14 @@ TODO: 再修改整理
     - 當前環境生效，若 exit 再回來則回覆成 `;`
 
     ```sql
-    # EX. 原本用 ; 結尾
+    -- EX. 原本用 ; 結尾
     > SELECT * FROM users;
 
-    # 改成用 # 結尾
+    -- 改成用 # 結尾
     > DELIMITER #
     > SELECT * FROM users#
 
-    # exit 後恢復 ;
+    -- exit 後恢復 ;
     > exit
     $ mysql -r root -p
     > SELECT * FROM users;
@@ -372,7 +372,7 @@ TODO: 再修改整理
       - 同時插入多筆資料，會回傳第一筆的 id
 
       ```sql
-      ## EX. 一次 INSERT a,b,c，但 LAST_INSERT_ID() 會回傳 a 的 id
+      -- EX. 一次 INSERT a,b,c，但 LAST_INSERT_ID() 會回傳 a 的 id
 
       mysql> SELECT * FROM table1;
       +----+------+
@@ -478,7 +478,7 @@ TODO: 再修改整理
         - EX. `CREATE TABLE table_name(col_name VARCHAR(5) BINARY);`
 
       ```sql
-      ## 預設為 utf8mb4 時，以下兩兩同義：
+      -- 預設為 utf8mb4 時，以下兩兩同義：
       CHAR(10) BINARY
       CHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin
 
@@ -496,7 +496,7 @@ TODO: 再修改整理
   - `CASE`
 
     ```sql
-    ## EX. 依照分數分類為 1 ~ 5 顆星，並在查詢結果增加一個 col 為 stars
+    -- EX. 依照分數分類為 1 ~ 5 顆星，並在查詢結果增加一個 col 為 stars
 
     SELECT *,
       CASE
@@ -897,7 +897,7 @@ TODO: 再修改整理
       - 也可以在 insert 時，使用 index 編號
 
         ```sql
-        ## EX. S, M, L = 1, 2, 3
+        -- EX. S, M, L = 1, 2, 3
 
         mysql> CREATE TABLE table1(title VARCHAR(5), size ENUM('S', 'M', 'L'));
         mysql> INSERT INTO table1(title, size) VALUE('hat', 1);
@@ -921,10 +921,10 @@ TODO: 再修改整理
       - 注意每個 member 之間，不能有空格
 
         ```sql
-        ## EX. X
+        -- EX. X
         mysql> INSERT INTO set1 VALUE("enum1, enum2");
 
-        ## EX. O
+        -- EX. O
         mysql> INSERT INTO set1 VALUE("enum1,enum2");
         ```
 
@@ -989,19 +989,26 @@ TODO: 再修改整理
 
       - 簡介：InnoDB 引擎 In-Memory 區塊中，用於快取資料，從而減少 Disk I/O、加速讀寫操作
 
-      - 核心區塊
+      <!-- 行為特性 -->
+
+      - <details close>
+        <summary>行為特性</summary>
+
+        - 所有區塊都是以 page 為單位 (預設 16KB)
+        - 不區分種類，將所有 page 串成 `LRU List`＆`Flush List` 兩個 List
+        - `LRU List` 中，預設 old sublist 佔 37% (準備被淘汰的部分)
+        - `Flush List` 中存放尚未被寫入 disk 的 page (dirty page)
+
+        </details>
+
+      <!-- 種類介紹 -->
+
+      - <details close>
+        <summary>種類介紹</summary>
 
         <!-- Pages -->
 
-        - <details close>
-          <summary>Pages</summary>
-
-          - Data Pages、Index Pages、Undo Pages、change buffer Pages、AHI Pages、System Pages
-          - 將所有 page 串成一個 `LRU List` 與 `Flush List`
-          - LRU List 中，預設 old sublist 佔 37% (準備被淘汰的部分)
-          - Flush List 中存放尚未被寫入 disk 的 page
-
-          </details>
+        - Pages：Data Pages、Index Pages、Undo Pages、change buffer Pages、AHI Pages、System Pages
 
         <!-- Change Buffer -->
 
@@ -1036,38 +1043,35 @@ TODO: 再修改整理
 
           </details>
 
+        </details>
+
       </details>
 
-    <!-- Log Buffer -->
+    <!-- Redo Log Buffer -->
 
     - <details close>
-      <summary>Log Buffer</summary>
+      <summary>Redo Log Buffer (預設 16 MB)</summary>
 
-      <!-- Redo Log Buffer -->
+      - 參數：`innodb_log_buffer_size`
+      - 當機時，Buffer Pool 中資料的恢復機制
+      - 當資料寫入 Buffer Pool & redo log 中後，就會回應已完成寫入
+        (redo log 的處理方式因 `innodb_flush_log_at_trx_commit` 設定而不同，預設立刻寫入 disk，若沒關閉 OS Cache 就還是有機會漏掉)
+      - 此時被視為 dirty pages，放入 Flush List
+      - redo log 中也會紀錄完整的資料，所以當機時可從 redo log 中找回，重寫入一次資料
+      - 雖然 redo log 也寫入 disk，但因為寫入的位址是按照順序，不像寫入 DB 會切換位址，因此相對來說是很快的
+      - 達到 checkpoint 時，會將 dirty pages 寫入 DB，並將 redo log 對應的資料空間釋放
 
-      - <details close>
-        <summary>Redo Log Buffer</summary>
+      </details>
 
-        - 當機時，Buffer Pool 中資料的恢復機制
-        - 當資料寫入 Buffer Pool & redo log 中後，就會回應已完成寫入
-          (redo log 的處理方式因 innodb_flush_log_at_trx_commit 設定而不同，預設立刻寫入 disk，若沒關閉 OS Cache 就還是有機會漏掉)
-        - 此時被視為 dirty pages，放入 Flush List
-        - redo log 中也會紀錄完整的資料，所以當機時可從 redo log 中找回，重寫入一次資料
-        - 雖然 redo log 也寫入 disk，但因為寫入的位址是按照順序，不像寫入 DB 會切換位址，因此相對來說是很快的
-        - 達到 checkpoint 時，會將 dirty pages 寫入 DB，並將 redo log 對應的資料空間釋放
+    <!-- Undo Log Buffer -->
 
-        </details>
+    - <details close>
+      <summary>Undo Log Buffer</summary>
 
-      <!-- Undo Log Buffer -->
-
-      - <details close>
-        <summary>Undo Log Buffer</summary>
-
-        - 保存事務的舊版本資料，並支援 MVCC 的處理
-        - 在 disk 中是紀錄在 tablespace
-        - 也會產生對應的 undo page，也會將此操作記錄在 Redo Log
-
-        </details>
+      - 保存 Transaction 的舊版本資料，並支援 MVCC 的處理
+      - 在 disk 中是紀錄在 Undo Tablespace
+      - 也會產生對應的 undo page，也會將此操作記錄在 Redo Log
+      - 只有在出現有需要 MVCC 處理的 Transaction 時，才會寫入 undo page，進而被安排寫入 Undo Tablespace
 
       </details>
 
@@ -1076,7 +1080,7 @@ TODO: 再修改整理
     - <details close>
       <summary>Data Dictionary (Meta Data)</summary>
 
-      - MySQL 8.0 以後，Data Dictionary 已經持久化
+      - MySQL 8.0 以後，Data Dictionary 已經持久化，並且完全捨棄各自 table 的 `.frm` (統一在 `ibdata`)
       - INFORMATION_SCHEMA 的部分組成，即是在查詢時，才動態從 Data Dictionary 中讀取的資料 (還包括從其他地方獲取的 Meta Data)
 
       </details>
@@ -1099,13 +1103,28 @@ TODO: 再修改整理
   - <details close>
     <summary>On-Disk Structures</summary>
 
-    - Redo Log
+    <!-- Redo Log -->
+
+    - <details close>
+      <summary>Redo Log (預設 48 MB x 2)</summary>
+
+      - 參數：`innodb_log_file_size`、`innodb_log_files_in_group`
+      - 環狀結構：memory 中有指針記錄目前寫入位置，依序寫滿一個 file 繼續寫下一個 file，直到最後一個再循環回第一個 file
+      - 設定考量：
+
+        - 系統崩潰後的恢復：會進行完整 Redo Log 上的操作
+        - Checkpoint 觸發：使用了 `innodb_log_file_size`x`innodb_log_files_in_group` 的 75% ~ 80%
+        - 結論：設定太大，系統崩潰後的恢復時間太長。設定太小，會太常觸發 Checkpoint
+
+      </details>
 
     <!-- Doublewrite Buffer -->
 
     - <details close>
-      <summary>Doublewrite Buffer</summary>
+      <summary>Doublewrite Buffer (預設 2 MB)</summary>
 
+      - 資料真正寫入 Disk 前，會先將 page 寫入 Doublewrite Buffer
+      - 因為預設下，Disk 一次性寫入 512 Byte，無法完全確保 page (16KB) 的原子性寫入
       - MySQL 8.0 後改為獨立的 File (.dblwr)，更之前是寫在 The System Tablespace 中
 
       </details>
@@ -1115,19 +1134,144 @@ TODO: 再修改整理
     - <details close>
       <summary>TableSpace</summary>
 
-      - TableSpace 是⼀個抽象的概念，可能對應一個 file，也可能對應數個 file 組成一個 TableSpace
+      <!-- 行為特性 -->
 
-      - 讀寫時，如同其他 data pages 那樣，一起在 buffer pool 中管理
+      - <details close>
+        <summary>行為特性</summary>
 
-      - The System Tablespace、File-Per-Table Tablespaces、General Tablespaces、Undo Tablespaces、Temporary Tablespaces
+        - 依照不同類型，可能對應一個 file，也可能對應數個 file 組成一個 TableSpace
 
-      - File-Per-Table Tablespaces
+        - TableSpace 實際上就是 File 層級的空間劃分 (.ibd)
 
-        - MySQL 5.5 之前，InnoDB 只有一個共享的 tablespace
-        - 設定了 innodb_file_per_table ，則每個 table 都會產生一個獨立的 File-Per-Table Tablespace (tablename.ibd)
-        - 推薦 innodb_file_per_table 開啟
+          - EX. (A)兩個表各自使用 File-Per-Table Tablespace vs (B)將兩個表組成一個 General Tablespace
+          - 在查詢介面時，都會看到兩個 table
+          - 在 Disk 中，A 分兩個 IBD file，B 集中在一個 IBD file
 
-        <!-- - TODO: 研究有儲存哪些內容：注意：單獨的 .ibd 僅儲存該表的 data、index 和插入緩衝等信息，其餘信息還是存放在默認的系統表空間中的 -->
+        - 讀寫時，如同其他 data pages 那樣，一起在 buffer pool 中管理
+
+        </details>
+
+      <!-- 邏輯結構 -->
+
+      - <details close>
+        <summary>邏輯結構</summary>
+
+        <!-- 以 `Segment` 為單位 -->
+
+        - <details close>
+          <summary>以 <code>Segment</code> 為單位</summary>
+
+          - 可能有 Index Segment、Data Segment、Rollback Segment
+          - 目前 Rollback Segment 統一在一個 Tablespace，可選擇 Undo Tablespace 或 System Tablespace
+          - 如果有大型 BLOB/TEXT 等資料型態，會將太大的移到 Row 之外，組成另一個 Segment (動態拆分成更多 Segment 存放)
+
+          </details>
+
+        - 一個 `TableSpace` 可以有數個 `Segments`
+        - 一個 `Segment` 包含 N x `Extents`(1 MB)
+        - 一個 `Extent` 包含 64 x `Pages`(16 KB)
+        - 一個 `Page` 包含 `Header`(38 B)、N x `Rows`、`Trailer`(8 B)
+
+        ![](./src/image/InnoDB_Tablespaces.png)
+
+        </details>
+
+      <!-- 物理結構 -->
+
+      - <details close>
+        <summary>物理結構</summary>
+
+        <!-- 每個 IBD file，開頭會有 `FSP_HDR`、`IBUF_BITMAP`、`INODE` 等 MetaData 相關的 page -->
+
+        - <details close>
+          <summary>每個 IBD file，開頭會有 <code>FSP_HDR</code>、<code>IBUF_BITMAP</code>、<code>INODE</code> 等 MetaData 相關的 page</summary>
+
+          - 簡述：INODE 描述 Segment，FSP_HDR 描述 Extent
+
+          - `FSP_HDR`：只儲存前面 256 個 `XDES` (extent descriptors)，只管理最初的 256 個 Extents (超過的 XDES 會再生成新的 `XDES Pages` 來管理)
+
+          - `IBUF_BITMAP`：標記 page 與 `Change Buffer` 關聯的資訊
+
+          - `INODE`：包含 85 x `INODE entry`(192 B)，每個 INODE entry 描述一個 `FSEG` (File Segment)。同理一開始只有一個 INODE Page，超過才在後續擴充
+
+          </details>
+
+        - 緊接在後，主要會以 Extent 為單位，來分配空間
+
+        <!-- 查詢方式 -->
+
+        - <details close>
+          <summary>查詢方式</summary>
+
+          ```sql
+          -- 得到 ID = num1
+          select * from information_schema.innodb_sys_tables where name='test/t';
+
+          -- 以 ID 查詢得到該 tablespace 的前四個 page
+          select * from information_schema.innodb_buffer_page where SPACE=num1;
+          ```
+
+          </details>
+
+        ![](./src/image/IBD_File.png)
+
+        </details>
+
+      <!-- 範例圖解 -->
+
+      - <details close>
+        <summary>範例圖解</summary>
+
+        ![](./src/image/FSEG_Structure.png)
+        ![](./src/image/Page_Detail_Structure.png)
+        ![](./src/image/Index_Structure.png)
+        ![](./src/image/Page_Directory_Structure.png)
+
+        </details>
+
+      <!-- 種類介紹 -->
+
+      - <details close>
+        <summary>種類介紹</summary>
+
+        - The System Tablespace、File-Per-Table Tablespaces、General Tablespaces、Undo Tablespaces、Temporary Tablespaces
+
+        <!-- File-Per-Table Tablespaces -->
+
+        - <details close>
+          <summary><code>File-Per-Table Tablespaces</code></summary>
+
+          - MySQL 5.5 之前，InnoDB 只有一個共享的 tablespace
+          - 設定了 innodb_file_per_table ，則每個 table 都會產生一個獨立的 File-Per-Table Tablespace (tablename.ibd)
+          - 推薦 innodb_file_per_table 開啟
+
+          </details>
+
+        <!-- General Tablespaces -->
+
+        - <details close>
+          <summary><code>General Tablespaces</code></summary>
+
+          - 一張表的存在是 General 與 File-Per-Table 二選一
+          - 可將關聯性高的數張小表，集中在一個 IBD file 管理，減少隨機 I/O
+          - 集中後，要注意從單個表，改成以整個 Tablespace 來思考檔案大小
+
+          </details>
+
+        <!-- Temporary Tablespaces -->
+
+        - <details close>
+          <summary><code>Temporary Tablespaces</code></summary>
+
+          - 在創建完成後，就跟來源 Tablespace 分開管理，想要有連動的更新都是另外再加上去
+          - 分為 `Global` & `Session`
+          - 可選擇 Memory、InnoDB、MyISAM 等引擎
+          - Global 每次重啟都會自動重新創建，Session 只在當次存在
+          - 創建時，預設使用 `REPEATABLE READ` 隔離級別
+
+          </details>
+
+        </details>
 
       </details>
 
@@ -1175,7 +1319,7 @@ TODO: 再修改整理
   <!-- 圖解： -->
 
   - <details close>
-    <summary>圖解：</summary>
+    <summary>圖解</summary>
 
     ![](./src/image/Innodb_Architecture.png)
 
@@ -1184,7 +1328,7 @@ TODO: 再修改整理
   <!-- REF： -->
 
   - <details close>
-    <summary>REF：</summary>
+    <summary>REF</summary>
 
     - [InnoDB Architecture]
     - [老生常談：MySQL 的體系結構]
