@@ -1583,6 +1583,64 @@ TODO: 再修改整理
 
   </details>
 
+<!-- Isolation Levels -->
+
+- <details close>
+  <summary>Isolation Levels</summary>
+
+  <!-- `Read UnCommitted`：讀取當下最新的版本 -->
+
+  - <details close>
+    <summary><code>Read UnCommitted</code>：讀取當下最新的版本</summary>
+
+    - 包含最後沒成功的資料也有機會被讀取 (Dirty Read)
+
+    </details>
+
+  <!-- `Read Committed`：讀取當下「已確定更新」的最新版本 -->
+
+  - <details close>
+    <summary><code>Read Committed</code>：讀取當下「已確定更新」的最新版本</summary>
+
+    - 指確定其他 Transaction 已經 commit 的內容
+    - Transaction 進行期間，有可能每次讀取不同，因為被其他人更新
+
+    </details>
+
+  <!-- `Repeatable Read` (Default)：鎖定 Transaction 開始當下的版本 -->
+
+  - <details close>
+    <summary><code>Repeatable Read</code>(Default)：鎖定 Transaction 開始當下的版本</summary>
+
+    - Phantom Read (幻讀)：查詢得到的內容是一致的，但會多出新增的資料
+    - Next-Key Locking 用以解決幻讀 (但還是有非常特例時還會出現)
+
+    </details>
+
+  <!-- `Serializable`：模擬出像是「交易逐步執行、不併發」 -->
+
+  - <details close>
+    <summary><code>Serializable</code>：模擬出像是「交易逐步執行、不併發」</summary>
+
+    - 最嚴格、效能最低
+
+    </details>
+
+  <!-- 一些名詞註記 -->
+
+  - <details close>
+    <summary>一些名詞暫時註記</summary>
+
+    - Read View
+
+    - Table Lock、READ LOCK（共享鎖）、WRITE LOCK（排他鎖）、Row Lock、Record Lock、Gap Lock、Next-Key Lock、Intention Lock、共享鎖（Shared Lock / S Lock）、排他鎖（Exclusive Lock / X Lock）、自增鎖（Auto-Increment Lock）、Metadata Lock
+
+    - 通常是設定 Isolation Levels，而不同 Isolation Levels 在不同地方使用不同的 lock 策略？
+
+    </details>
+
+  </details>
+
 <!-- MVCC -->
 
 - <details close>
