@@ -1181,10 +1181,12 @@ TODO: 再修改整理
       - <details close>
         <summary>物理結構</summary>
 
+        - 主要會以 Extent 為單位，來分配空間
+
         <!-- 每個 IBD file，開頭會有 `FSP_HDR`、`IBUF_BITMAP`、`INODE` 等 MetaData 相關的 page -->
 
         - <details close>
-          <summary>每個 IBD file，開頭會有 <code>FSP_HDR</code>、<code>IBUF_BITMAP</code>、<code>INODE</code> 等 MetaData 相關的 page</summary>
+          <summary>每個 IBD file，開頭為 Extent0，包含前三個 page 為 <code>FSP_HDR</code>、<code>IBUF_BITMAP</code>、<code>INODE</code> 等 MetaData 相關的 page</summary>
 
           - 簡述：INODE 描述 Segment，FSP_HDR 描述 Extent
 
@@ -1196,7 +1198,17 @@ TODO: 再修改整理
 
           </details>
 
-        - 緊接在後，主要會以 Extent 為單位，來分配空間
+        <!-- Extent0 剩餘零散的 page 也會被利用 -->
+
+        - <details close>
+          <summary>Extent0 剩餘零散的 page 也會被緊接著利用</summary>
+
+          - 但 segment 主要還是以 Extent 來擴展
+          - 每個 segment 最多只能使用 32 個零散的 page (Frag Array Single Pages)
+          - 超過 32 或是一開始就大量批量寫入，則會創建新的 Extent 來使用
+          - 可手動使用 `OPTIMIZE TABLE` 重整頁面 (或用其他更加優化的工具)
+
+          </details>
 
         <!-- 查詢方式 -->
 
@@ -1214,15 +1226,65 @@ TODO: 再修改整理
           </details>
 
         ![](./src/image/IBD_File.png)
+        ![](./src/image/FSEG_Structure.png)
 
         </details>
 
-      <!-- 範例圖解 -->
+      <!-- Page 結構 -->
 
       - <details close>
-        <summary>範例圖解</summary>
+        <summary>Page 結構</summary>
 
-        ![](./src/image/FSEG_Structure.png)
+        <!-- Record -->
+
+        - <details close>
+          <summary><code>Record</code></summary>
+
+          - Record 可以是 row、index node..etc
+          - 每個 Record 的大小是不用固定的
+          - 資料量小，B+ Tree 可能還只有一個 level，整顆都在同一個 page 中
+
+          </details>
+
+        <!-- Next Record Offset -->
+
+        - <details close>
+          <summary><code>Next Record Offset</code></summary>
+
+          - 每個 Record 會紀錄 `Next Record Offset`，代表與下一個 Record 的偏移值
+          - 通常只記錄 Next，而沒有 Prev
+          - EX. -50 就是從當前位置偏移 -50 byte 就會抵達下一個 Record
+
+          </details>
+
+        <!-- Garbage -->
+
+        - <details close>
+          <summary><code>Garbage</code></summary>
+
+          - 刪除的 Record 只會標記為 Garbage，新增 Record 會優先透過 `Garbage Offset` 直接到該位置，覆蓋掉刪除的 Record
+
+          - Garbage Offset 只會紀錄第一個，在 Garbage Record 中會紀錄 Next Offset
+
+          - 因爲 Record 大小不定，所以須先比對大小是否合適，再進行後續
+
+          </details>
+
+        <!-- Directory & N_owned -->
+
+        - <details close>
+          <summary><code>Directory</code> & <code>N_owned</code></summary>
+
+          - Directory Slots 中，用來標記數個 Page Directory 的 offset，使得 Record 數量變多時，可以在單一 page 中進行二分法查詢
+
+          - 每個 Page Directory 必須要控制 N_owned 在最少 4、最多 8
+
+          - N_owned 超過就會再新增一個 Page Directory
+
+          - N_owned 主要用來維持每組的數量在合理範圍內 (4 ~ 8)，從而優化頁面的插入和刪除操作
+
+          </details>
+
         ![](./src/image/Page_Detail_Structure.png)
         ![](./src/image/Index_Structure.png)
         ![](./src/image/Page_Directory_Structure.png)
