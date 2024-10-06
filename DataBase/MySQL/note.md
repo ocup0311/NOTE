@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[MySQL Partition and InnoDB]: https://medium.com/corneltek/mysql-partition-and-innodb-c2b5982e3c04
 [DOC: InnoDB Architecture]: https://dev.mysql.com/doc/refman/9.0/en/innodb-architecture.html
 [MySQL InnoDB 儲存引擎大觀]: https://www.jianshu.com/p/d4cc0ea9d097
 [老生常談：MySQL 的體系結構]: https://generalthink.github.io/2022/04/06/mysql-architecture/
@@ -2176,11 +2177,37 @@ TODO: 再修改整理
 
   </details>
 
+<!-- Partition -->
+
+- <details close>
+  <summary>Partition</summary>
+
+  - REF: [MySQL Partition and InnoDB]
+
+  - 物理上分為多個 IBD File
+
+  - 用來分區的 key 必須包含在 pk
+
+    - EX. `pk(id, time)`，也可以用 time 來分區
+
+  - 更改 pk 過程必須
+
+    - 移除強制 pk 條件 (移除 `AUTO_INCREMENT`)
+    - 移除 old pk
+    - 新增 new pk
+
+  - 若用時間分區，建議 timestamp
+
+  - 無法使用 Foreign Key
+
+  - 好的 partition 規劃，很少、甚至是沒有使用 index
+
+  </details>
+
 ---
 
 ## # 待整理筆記區
 
 - `IFNULL()`、`CONVERT()`
 
-- \_rowid
-- information_schema.COLUMNS
+- datetime vs timestamp
