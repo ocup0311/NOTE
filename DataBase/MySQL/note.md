@@ -2,7 +2,7 @@
 
 <!----------- ref start ----------->
 
-[InnoDB Architecture]: https://dev.mysql.com/doc/refman/9.0/en/innodb-architecture.html
+[DOC: InnoDB Architecture]: https://dev.mysql.com/doc/refman/9.0/en/innodb-architecture.html
 [MySQL InnoDB 儲存引擎大觀]: https://www.jianshu.com/p/d4cc0ea9d097
 [老生常談：MySQL 的體系結構]: https://generalthink.github.io/2022/04/06/mysql-architecture/
 [從 Indexing 的角度切入 MySQL-Innodb 與 PostgreSQL 的效能比較]: https://tech-blog.cymetrics.io/posts/maxchiu/indexing/
@@ -62,7 +62,7 @@
 
 > DATE: 6, 7 (2023)
 > UPDATE: 7, 10 (2024)
-> REF: [MySQL 系列文] | [MySQL 超新手入門系列文] | [MySQL 索引背後的資料結構與演算法原理] | [一起學習 Mysql 索引二（索引的高效能策略）]
+> REF: [MySQL 系列文] | [MySQL InnoDB 儲存引擎大觀] | [MySQL 超新手入門系列文] | [MySQL 索引背後的資料結構與演算法原理] | [一起學習 Mysql 索引二（索引的高效能策略）]
 
 ## # 版本備註
 
@@ -965,8 +965,6 @@ TODO: 再修改整理
 
   - REF:
 
-    - [老生常談：MySQL 的體系結構]
-    - [MySQL InnoDB 儲存引擎大觀]
     - [MySQL 儲存引擎與資料型態]
     - [MySQL 資料庫引擎 InnoDB 與 MyISAM 有何差異?]
 
@@ -1392,7 +1390,7 @@ TODO: 再修改整理
   - <details close>
     <summary>REF</summary>
 
-    - [InnoDB Architecture]
+    - [DOC: InnoDB Architecture]
     - [老生常談：MySQL 的體系結構]
     - [MySQL InnoDB 儲存引擎大觀]
 
@@ -1668,12 +1666,30 @@ TODO: 再修改整理
   - <details close>
     <summary>Extra</summary>
 
-    - `Using where`：在 全表 中，使用 where
-    - `Using index`：只在 index 中獲取資料，不用回表
-    - `Using where; Using index`：在該 index 中，使用 where，且不用回表
-    - `Using index condition`：使用到 ICP，在 index 中篩選好 WHERE 條件，只攜帶符合條件的 row 回表
-    - `Using filesort`
-    - `Using temporary`
+    - `Using where`：在 MySQL server，針對從引擎返回的資料，進行 where 查詢
+
+    - `Using index`：直接將 index 返回給 MySQL server
+
+      - 因為在 index 中即可獲取所需資料，不用回表
+      - 只有出現 `Using index`，才會確定不用回表
+
+    - `Using index condition`：使用到 ICP。InnoDB 在 index 中篩選好，只將符合條件的部分回表，只需將這些 row 返回給 MySQL server
+
+      - 若不需回表，則會選擇直接 `Using where; Using index`，而不使用 ICP
+
+    - `Using filesort`：在 MySQL server 進行排序
+
+    - `Using temporary`：在 MySQL server 建立 temporary storage
+
+      - 如果多到需要存在 disk 時，也是會再透過引擎
+      - 通常這部分的臨時表會透過 MyISAM，因為更加符合需求，成本低、查詢快
+      - EX. JOIN、ORDER BY..etc 使用
+
+    - 注意
+
+      - MySQL server 向 InnoDB 發起的單一請求，都是針對單個 table
+      - 從 InnoDB 返回的都包含上述所指單一請求所需完整資料，不是中間結果
+      - MySQL server 會解析 sql 語句，決定是否拆解成多次向 InnoDB 發起請求
 
     </details>
 
@@ -2165,3 +2181,6 @@ TODO: 再修改整理
 ## # 待整理筆記區
 
 - `IFNULL()`、`CONVERT()`
+
+- \_rowid
+- information_schema.COLUMNS
