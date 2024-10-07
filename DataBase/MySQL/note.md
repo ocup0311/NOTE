@@ -1325,10 +1325,21 @@ TODO: 再修改整理
           <summary><code>Temporary Tablespaces</code></summary>
 
           - 在創建完成後，就跟來源 Tablespace 分開管理，想要有連動的更新都是另外再加上去
-          - 分為 `Global` & `Session`
-          - 可選擇 Memory、InnoDB、MyISAM 等引擎
-          - Global 每次重啟都會自動重新創建，Session 只在當次存在
-          - 創建時，預設使用 `REPEATABLE READ` 隔離級別
+
+          - 創建過程中，預設使用 `REPEATABLE READ` 隔離級別
+
+          - 分為 `Global` & `Session`，Global 每次重啟都會自動重新創建，Session 只在當次存在
+
+          <!-- 可選擇 Memory、InnoDB、MyISAM 等引擎來建立 -->
+
+          - <details close>
+            <summary>可選擇 Memory、InnoDB、MyISAM 等引擎來建立</summary>
+
+            - 選擇 Memory 形式，是在 MySQL server 的記憶體上建立臨時表，而不是 InnoDB Buffer Pool
+
+            - InnoDB Buffer Pool 主要是用來處理 InnoDB Disk 的 I/O
+
+            </details>
 
           </details>
 
@@ -1680,7 +1691,7 @@ TODO: 再修改整理
 
     - `Using filesort`：在 MySQL server 進行排序
 
-    - `Using temporary`：在 MySQL server 建立 temporary storage
+    - `Using temporary`：在 MySQL server 建立 Temporary tablespace in Memory
 
       - 如果多到需要存在 disk 時，也是會再透過引擎
       - 通常這部分的臨時表會透過 MyISAM，因為更加符合需求，成本低、查詢快
