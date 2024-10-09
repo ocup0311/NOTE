@@ -15,7 +15,7 @@
 
   - 而欲使用該 lib，則只需 #include "lib.h" 即可使用
 
-  ![](https://i.imgur.com/1wd2J4f.jpg)
+  ![](../../../src/image/img17.png)
 
   - <mark>TODO:</mark> 研究 lib.o 是什麼
 
@@ -76,8 +76,8 @@
 
 - scanlines 的 padding 需要兩次`% 4`，是因為第一次的結果會有`0`的情況。
 
-![](https://i.imgur.com/8xfSpzB.png)
-![](https://i.imgur.com/5QlajZx.png)
+![](../../../src/image/img18.png)
+![](../../../src/image/img19.png)
 
 ### Q4: fseek()
 
@@ -113,7 +113,7 @@
 - `__attribute__`可用來設定一些參數 ( EX.`__packed__` )。是 GCC 編譯器的一個擴展，可以用於指定結構體、聲明或函數的特殊屬性。它可以用於設置結構體的佈局、設置函數的傳參方式、設置函數的不可覆蓋性、設置函數的優化級別等。
 - `__packed__`：指定結構體中的成員按照在程式碼中出現的順序進行實際佈局，而不進行字體對齊。
 
-  ![](https://i.imgur.com/2qgOYVO.png)
+  ![](../../../src/image/img20.png)
 
 ### Q6: 為什麼可以 fread 到 BITMAPFILEHEADER 中?
 
@@ -139,4 +139,4 @@
     - `?`：表示所得 opt 並未符合指定選項
     - opt：若符合指定選項，則回傳該 opt
 
-    ![](https://i.imgur.com/0hkVauD.png)
+    ![](../../../src/image/img21.png)

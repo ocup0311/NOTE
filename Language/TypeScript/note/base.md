@@ -1319,18 +1319,18 @@
   - 在同 namespace 中，等於沒有用 namespace 隔離開 export 的內容
   - 舊時代產物，被 import/export 取代
 
-    ![](https://i.imgur.com/WfEZgXl.png)
+    ![](../src/image/base/img1.png)
 
   - 同一個 namespace，可以通用
 
     - 順序無差
     - 需要 export
 
-    ![](https://i.imgur.com/2hXdpHt.png)
+    ![](../src/image/base/img2.png)
 
   - 同一個 namespace，必須在 export / local 二選一
 
-    ![](https://i.imgur.com/Miey6R2.png)
+    ![](../src/image/base/img3.png)
 
   - Triple Slash Directive 引用：`/// <reference path="" />`
 
@@ -1372,13 +1372,13 @@
 
           - 範例：
 
-            ![](https://i.imgur.com/RSMtPQa.png)
+            ![](../src/image/base/img4.png)
 
         - (1) 直接發 PR 回第三方套件跟程式碼放在一起 (2) 提交到 @types
 
   - <mark>TODO:</mark> typeroot
 
-  ![](https://i.imgur.com/WMlJbNr.png)
+  ![](../src/image/base/img5.png)
 
   </details>
 
@@ -1752,6 +1752,6 @@
 
   - GPT (<mark>TODO:Q</mark> 舉例部分，合理性？)
 
-    ![](https://i.imgur.com/76K8qnL.png)
+    ![](../src/image/base/img6.png)
 
   </details>

@@ -336,7 +336,7 @@
 
         - Ｑ：在 image build 時，會使用 cache，那麼其是以哪些內容來進行 hash？
 
-          ![](https://i.imgur.com/Iedr5qv.png)
+          ![](../src/image/GPT1.png)
 
         - Ｑ：若環境一樣，dockerfile & 使用到的任何 file 都一樣，是否最後 build 出來的 image ID 也會一樣？
 
@@ -344,7 +344,7 @@
 
           - 研究過程：
 
-            ![](https://i.imgur.com/XE5fVgl.png)
+            ![](../src/image/GPT2.png)
 
             - 但我會疑惑的點是，因為我用 `docker container ls -a` 並沒查到 intermediate container ，所以我才以為他已經關掉了（當我 apt-get 失敗時，我是可以查到那個 intermediate container 的）
 
@@ -432,7 +432,7 @@
           - 舊：當下完全沒有在使用的話，會即刻刪除
           - 新：Least Recently Used（LRU），一段時間未使用才刪除
 
-          ![](https://i.imgur.com/Jwg8EFU.png)
+          ![](../src/image/GPT3.png)
 
         - build context
 
@@ -441,7 +441,7 @@
 
         - builder
 
-          ![](https://i.imgur.com/xwlp8qf.png)
+          ![](../src/image/GPT4.png)
 
         - 是否還需要 `.dockerignore` ？
 
@@ -656,7 +656,7 @@
     - <details close>
       <summary>mac 存在 Docker Desktop VM</summary>
 
-      ![](https://i.imgur.com/3hxwRmf.png)
+      ![](../src/image/GPT5.png)
 
       </details>
 
@@ -1132,7 +1132,7 @@
 
       - ipvs
 
-        ![](https://i.imgur.com/PJmPUy4.png)
+        ![](../src/image/GPT6.png)
 
         - 用來實現 load blance (stateless 分配)
         - `ipvsadm`
@@ -1838,7 +1838,7 @@
   - <details close>
     <summary><code>docker.sock</code> & <code>Docker daemon</code></summary>
 
-    ![](https://i.imgur.com/aaOKVwD.png)
+    ![](../src/image/GPT7.png)
 
     </details>
 
@@ -1847,7 +1847,7 @@
   - <details close>
     <summary><code>docker.socket</code> & <code>docker.service</code></summary>
 
-    ![](https://i.imgur.com/aaOKVwD.png)
+    ![](../src/image/GPT8.png)
 
     </details>
 

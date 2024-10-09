@@ -20,8 +20,8 @@
 - <details close>
   <summary>管理 VM 的工具</summary>
 
-  ![](https://i.imgur.com/cynfQpa.png)
-  ![](https://i.imgur.com/5HFlrYo.png)
+  ![](../src/image/img1.png)
+  ![](../src/image/img2.png)
 
   </details>
 
@@ -34,11 +34,11 @@
 
   <br>
 
-  ![](https://i.imgur.com/GpugaSn.png)
+  ![](../src/image/img3.png)
 
   <br>
 
-  ![](https://i.imgur.com/KnwFUf9.jpg)
+  ![](../src/image/img4.png)
 
   </details>
 

@@ -75,19 +75,20 @@
 
   - CPU 與外界溝通都需要通過「北橋」
 
-    ![](https://i.imgur.com/CvQYWKk.jpg)
+    ![](./src/img1.png)
 
   - CPU 直接與記憶體溝通
-    ![](https://i.imgur.com/aLeuswP.jpg)
+
+    ![](./src/img2.png)
 
   - 將北橋主要功能合併進 CPU，CPU 內部傳輸速度比外部主機板快
 
-    ![](https://i.imgur.com/K6wyaML.jpg)
+    ![](./src/img3.png)
 
   - 將主要功能變成單一芯片
 
-    ![](https://i.imgur.com/IZSYlAj.jpg)
-    ![](https://i.imgur.com/Lr9Pik0.jpg)
+    ![](./src/img4.png)
+    ![](./src/img5.png)
 
 ## # 專案管理
 

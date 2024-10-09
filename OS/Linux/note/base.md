@@ -101,8 +101,8 @@
 
   <br>
 
-  ![](https://i.imgur.com/tRjYWPW.png)
-  ![](https://i.imgur.com/M7BEDnQ.png)
+  ![](../src/image/img1.png)
+  ![](../src/image/img2.png)
 
   </details>
 
@@ -144,7 +144,7 @@
 
   - 參考大方向，不同發行版，都可能會有不同資料夾結構的使用方式
 
-  ![](https://i.imgur.com/kFT4xj7.png)
+  ![](../src/image/img3.png)
 
   </details>
 
@@ -219,10 +219,10 @@
 
   - Command Mode
 
-    ![](https://i.imgur.com/1EGKwZY.png)
-    ![](https://i.imgur.com/sapOcEN.png)
-    ![](https://i.imgur.com/LLclnbn.png)
-    ![](https://i.imgur.com/Nf6y8Dl.png)
+    ![](../src/image/img4.png)
+    ![](../src/image/img5.png)
+    ![](../src/image/img6.png)
+    ![](../src/image/img7.png)
 
   - Insert Mode
   - Visual Mode
@@ -245,8 +245,8 @@
       - 系統內部自動建立
       - <mark>TODO:Q</mark> 不能用於登入？
 
-        ![](https://i.imgur.com/ksdbKaU.png)
-        ![](https://i.imgur.com/V2DzeLP.png)
+        ![](../src/image/img8.png)
+        ![](../src/image/img9.png)
 
     - regular users
 
@@ -254,9 +254,9 @@
 
         - ChatGPT 開示：
 
-          ![](https://i.imgur.com/se0tfl7.png)
-          ![](https://i.imgur.com/xpxsj19.png)
-          ![](https://i.imgur.com/dXBAHpD.png)
+          ![](../src/image/img10.png)
+          ![](../src/image/img11.png)
+          ![](../src/image/img12.png)
 
         - 總結：
 
@@ -271,15 +271,15 @@
 
     - 可以查看系統中所有 user
 
-    ![](https://i.imgur.com/LVJXYrD.png)
-    ![](https://i.imgur.com/Rf1T6D8.png)
-    ![](https://i.imgur.com/NI5HpAP.png)
+    ![](../src/image/img13.png)
+    ![](../src/image/img14.png)
+    ![](../src/image/img15.png)
 
   - /etc/group
 
     - 紀錄所有 group 的資訊，包含其所涵括的 user
 
-    ![](https://i.imgur.com/v2jbiAD.png)
+    ![](../src/image/img16.png)
 
   </details>
 
@@ -364,10 +364,10 @@
     - 在`/etc/sudoers`中新增權限 (`sudo visudo`)
     - 也可以將該 user 加入 sudo group (`usermod -G sudo <username>`)
 
-    ![](https://i.imgur.com/67lnAF8.png)
-    ![](https://i.imgur.com/oG2yK6I.png)
-    ![](https://i.imgur.com/4NiWj9v.png)
-    ![](https://i.imgur.com/ovTX2Km.png)
+    ![](../src/image/img17.png)
+    ![](../src/image/img18.png)
+    ![](../src/image/img19.png)
+    ![](../src/image/img20.png)
 
     </details>
 
@@ -383,9 +383,9 @@
   - `rwx`：讀取 -- 寫入 -- 執行
   - `rw-r--r--`：檔案擁有者 -- 群組(group) -- 其他使用者
 
-    ![](https://i.imgur.com/VNVXKky.png)
+    ![](../src/image/img21.png)
 
-  ![](https://i.imgur.com/K656CyL.png)
+  ![](../src/image/img22.png)
 
   </details>
 
@@ -445,7 +445,7 @@
 
     - 欲讓 VM (EX. Ubuntua) 透過 Host-only Network 與主機連接，需先在 VirtualBox 的 tool 中建立一個 Host-only Network，讓 VM 可以跟他連接
 
-      ![](https://i.imgur.com/AlopueU.png)
+      ![](../src/image/img23.png)
 
     - Host-only Network VS Host-only Adapter
 
@@ -453,9 +453,9 @@
       - Host-only Adapter：模擬一個網卡給 VM 用
       - Host-only Network：模擬一個網路當成主機，給 VM 連
 
-      ![](https://i.imgur.com/nNYwZxX.png)
+      ![](../src/image/img24.png)
 
-  ![](https://i.imgur.com/LKJ0dDB.png)
+  ![](../src/image/img25.png)
 
   </details>
 
@@ -468,7 +468,7 @@
   - `link/ether 08:00:27:75:29:67`是`enp0s8`的 Mac Address
   - `inet 192.168.56.2`是`enp0s8`的 ip
 
-  ![](https://i.imgur.com/LYn5l7K.png)
+  ![](../src/image/img26.png)
 
   </details>
 
@@ -490,9 +490,9 @@
 
   - VM 需要安裝並啟動 ssh-server
 
-    ![](https://i.imgur.com/MeyLTmP.png)
-    ![](https://i.imgur.com/ZVFSwit.png)
-    ![](https://i.imgur.com/274P6af.png)
+    ![](../src/image/img27.png)
+    ![](../src/image/img28.png)
+    ![](../src/image/img29.png)
 
   - VM 需要在啟動狀態，才能連結
 
@@ -507,7 +507,7 @@
   - 主機生成 ssh key (rsa, ed25519..)，將公鑰傳給 VM
   - 若有使用 SSH 代理，則需要`ssh-add`將私鑰加進去
 
-  ![](https://i.imgur.com/HquSaPC.png)
+  ![](../src/image/img30.png)
 
   - ssh key 名稱可以輕易改，記得把 `~/.ssh/config` 設定檔也改即可
 
@@ -753,13 +753,16 @@
   - REF: [TTY 到底是什麼？]
 
   - <mark>TODO: 《再研究》</mark> 不同 tty 是不同 process 層級
-    ![](https://i.imgur.com/Ak3I3kg.png)
+
+    ![](../src/image/img31.png)
 
   - <mark>TODO: 《再研究》</mark> 桌面 terminal 與 tty 差異？
-    ![](https://i.imgur.com/uykC2JL.png)
+
+    ![](../src/image/img32.png)
 
   - <mark>TODO: 《再研究》</mark> 是否可將桌面 terminal 分頁，模擬成不同 tty？
-    ![](https://i.imgur.com/m48FrIq.png)
+
+    ![](../src/image/img33.png)
 
   </details>
 
