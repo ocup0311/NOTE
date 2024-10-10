@@ -3,4 +3,6 @@ docker container run --name mysql1 --rm \
   --mount type=bind,source=/vagrant/src,target=/src/ \
   -d mysql
 
+docker exec -it mysql1 sh
+
 mysql -u root -p

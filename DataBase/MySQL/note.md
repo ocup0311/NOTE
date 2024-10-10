@@ -2,6 +2,8 @@
 
 <!----------- ref start ----------->
 
+[圖解 MySQL 8.0 優化器查詢轉換篇]: https://help.aliyun.com/zh/polardb/polardb-for-mysql/optimizer-based-query-conversion-in-mysql-8
+[MySQL 子查詢-優化器原始碼分析]: http://mysql.taobao.org/monthly/2020/10/01/
 [MySQL Partition and InnoDB]: https://medium.com/corneltek/mysql-partition-and-innodb-c2b5982e3c04
 [DOC: InnoDB Architecture]: https://dev.mysql.com/doc/refman/9.0/en/innodb-architecture.html
 [MySQL InnoDB 儲存引擎大觀]: https://www.jianshu.com/p/d4cc0ea9d097
@@ -48,13 +50,13 @@
 [圖解｜索引覆蓋、索引下推以及如何避免索引失效]: https://zhuanlan.zhihu.com/p/481750465
 [資料庫索引深入淺出(二)]: https://isdaniel.github.io/dbindex-2/
 [MySQL 覆蓋索引詳解]: https://juejin.cn/post/6844903967365791752
-[MySQL 面試：談談你對聚簇索引的理解]: https://blog.csdn.net/zhizhengguan/article/details/120834883?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168785250216800182784361%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=168785250216800182784361&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-2-120834883-null-null.142^v88^koosearch_v1,239^v2^insert_chatgpt&utm_term=%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95&spm=1018.2226.3001.4187
-[詳解聚簇索引]: https://blog.csdn.net/crazzy_lp/article/details/84650621?ops_request_misc=&request_id=&biz_id=102&utm_term=%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-1-84650621.142^v88^koosearch_v1,239^v2^insert_chatgpt&spm=1018.2226.3001.4187
-[MySQL 底層為什麼要選用 B+樹作為索引的數據結構呢？]: https://blog.csdn.net/cckevincyh/article/details/119003282?spm=1001.2014.3001.5501
+[MySQL 面試：談談你對聚簇索引的理解]: https://blog.csdn.net/zhizhengguan/article/details/120834883
+[詳解聚簇索引]: https://blog.csdn.net/crazzy_lp/article/details/84650621
+[MySQL 底層為什麼要選用 B+樹作為索引的數據結構呢？]: https://blog.csdn.net/cckevincyh/article/details/119003282
 [平衡二叉樹、B 樹、B+樹、B*樹理解其中一種你就都明白了]: https://zhuanlan.zhihu.com/p/27700617
 [資料庫層的核心 - 索引結構演化論 B+樹]: https://mark-lin.com/posts/20190911/
-[聚簇索引]: https://blog.csdn.net/taoqilin/article/details/121230649?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168785250216800182784361%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=168785250216800182784361&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-121230649-null-null.142^v88^koosearch_v1,239^v2^insert_chatgpt&utm_term=%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95&spm=1018.2226.3001.4187
-[MySQL 開發規範參考]: https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247484130&idx=1&sn=4bae9fdac414a5ee3157b2f9d94f5592&scene=21#wechat_redirect
+[聚簇索引]: https://blog.csdn.net/taoqilin/article/details/121230649
+[MySQL 開發規範參考]: https://mp.weixin.qq.com/s?__biz=MzUzNzAzMTc3MA==&mid=2247484130&idx=1&sn=4bae9fdac414a5ee3157b2f9d94f5592
 [Should You Run Your Database in Docker?]: https://vsupalov.com/database-in-docker/
 
 <!------------ ref end ------------>
@@ -559,12 +561,35 @@ TODO: 再修改整理
   - <details close>
     <summary>JOIN 的過程</summary>
 
+    - 將資料取回 MySQL server 後，才進行 JOIN
+    - 每一次 JOIN，將兩個表組成大表
+
     </details>
 
   <!-- `ON` vs `WHERE` -->
 
   - <details close>
     <summary><code>ON</code> vs <code>WHERE</code></summary>
+
+    - `ON` 是在 JOIN 過程中的條件
+    - `WHERE` 是在 JOIN 結束後才進行篩選
+
+    - 註：OUTER JOIN 就可能產生不同的結果
+
+    - EX.
+
+      ```sql
+      -- JOIN 中，使用 ON
+      SELECT u.id, u.name, o.id AS order_id
+      FROM users u
+      JOIN orders o ON u.id = o.user_id;
+
+      -- JOIN 後，使用 WHERE
+      SELECT u.id, u.name, o.id AS order_id
+      FROM users u
+      JOIN orders o
+      WHERE u.id = o.user_id;
+      ```
 
     </details>
 
@@ -1905,7 +1930,7 @@ TODO: 再修改整理
 <!-- 中途更改某 col 的 Data type 有哪些問題？有哪些限制？DB 會做哪些動作？ -->
 
 - <details close>
-  <summary><mark>TODO:Q</mark> 中途更改某 col 的 Data type 有哪些問題？有哪些限制？DB 會做哪些動作？</summary>
+  <summary>中途更改某 col 的 Data type 有哪些問題？有哪些限制？DB 會做哪些動作？</summary>
 
   - 更改方式：`ALTER TABLE table_name CHANGE old_col_name new_col_name new_type;`
 
@@ -1914,14 +1939,14 @@ TODO: 再修改整理
 <!-- COLLATE 是在哪個步驟上起作用？ -->
 
 - <details close>
-  <summary><mark>TODO:Q</mark> COLLATE 是在哪個步驟上起作用？</summary>
+  <summary>COLLATE 是在哪個步驟上起作用？</summary>
 
   </details>
 
 <!-- Nonbinary strings 跟 binary strings 在儲存上，本質上有什麼差異？ -->
 
 - <details close>
-  <summary><mark>TODO:Q</mark> Nonbinary strings 跟 binary strings 在儲存上，本質上有什麼差異？</summary>
+  <summary>Nonbinary strings 跟 binary strings 在儲存上，本質上有什麼差異？</summary>
 
   - binary strings 是否只能輸入 ASCII 的內容？如果輸入中文，是否會自動轉成數個 byte？
 
@@ -1930,7 +1955,7 @@ TODO: 再修改整理
 <!-- CHARACTER SET & COLLATE 一般會習慣設定整個 Database, Table, 還是針對個別 column 做設定？ -->
 
 - <details close>
-  <summary><mark>TODO:Q</mark>CHARACTER SET & COLLATE 一般會習慣設定整個 Database, Table, 還是針對個別 column 做設定？</summary>
+  <summary>CHARACTER SET & COLLATE 一般會習慣設定整個 Database, Table, 還是針對個別 column 做設定？</summary>
 
   </details>
 
@@ -2212,6 +2237,30 @@ TODO: 再修改整理
   - 無法使用 Foreign Key
 
   - 好的 partition 規劃，很少、甚至是沒有使用 index
+
+  </details>
+
+<!-- JOIN vs Subquery vs CTE -->
+
+- <details close>
+  <summary>JOIN vs Subquery vs CTE</summary>
+
+  - [src](./src/code/sample02/testjoin/test.sql)
+
+  - JOIN 可能會取太多資料，而 Subquery 可能會查詢太多次
+  - 需要靈活拆分邏輯、增加可讀性，或是很難以 JOIN 實現時，才選擇使用 Subquery
+  - 資料量很小時，可能 Subquery 比 JOIN 更快
+  - 資料量小時，可能效能差異不大，可選擇較好讀的 Subquery
+  - 如果可以快速過濾大部分資料 (EX. 只需回傳 1~5% row)，那可能 Subquery 會更快
+  - 某部分 Subquery 會被優化器轉換為 Semi-JOIN / Anti-JOIN (反之，優化器也可能把 JOIN 轉為 Subquery)
+
+    - [MySQL 子查詢-優化器原始碼分析]
+    - [圖解 MySQL 8.0 優化器查詢轉換篇]
+
+  - Common Table Expressions (CTE) (使用 `WITH`)
+
+    - 主要可以用於`遞迴查詢`
+    - 有些實作中，不允許查詢優化器將主查詢的條件推入 CTE 中進行優化，效能較差
 
   </details>
 
