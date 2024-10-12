@@ -2,6 +2,8 @@
 
 <!----------- ref start ----------->
 
+[聯結與子查詢比較：哪個更快？]: https://www.navicat.com/cht/company/aboutus/blog/1729-joins
+[Stackoverflow Answer: JOIN vs Subquery]: https://stackoverflow.com/a/49738666/13108209
 [圖解 MySQL 8.0 優化器查詢轉換篇]: https://help.aliyun.com/zh/polardb/polardb-for-mysql/optimizer-based-query-conversion-in-mysql-8
 [MySQL 子查詢-優化器原始碼分析]: http://mysql.taobao.org/monthly/2020/10/01/
 [MySQL Partition and InnoDB]: https://medium.com/corneltek/mysql-partition-and-innodb-c2b5982e3c04
@@ -2262,6 +2264,11 @@ TODO: 再修改整理
     - 主要可以用於`遞迴查詢`
     - 有些實作中，不允許查詢優化器將主查詢的條件推入 CTE 中進行優化，效能較差
 
+  - REF
+
+    - [Stackoverflow Answer: JOIN vs Subquery]
+    - [聯結與子查詢比較：哪個更快？]
+
   </details>
 
 ---
@@ -2271,3 +2278,5 @@ TODO: 再修改整理
 - `IFNULL()`、`CONVERT()`
 
 - datetime vs timestamp
+
+- `ANALYZE TABLE Customer;`
