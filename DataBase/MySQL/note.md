@@ -2247,7 +2247,7 @@ TODO: 再修改整理
 - <details close>
   <summary>JOIN vs Subquery vs CTE</summary>
 
-  - [src](./src/code/sample02/testjoin/test.sql)
+  - [src](./src/code/sample02/join_subquery/test.sql)
 
   - JOIN 可能會取太多資料，而 Subquery 可能會查詢太多次
   - 需要靈活拆分邏輯、增加可讀性，或是很難以 JOIN 實現時，才選擇使用 Subquery
@@ -2275,8 +2275,10 @@ TODO: 再修改整理
 
 ## # 待整理筆記區
 
-- `IFNULL()`、`CONVERT()`
-
 - datetime vs timestamp
 
 - `ANALYZE TABLE Customer;`
+
+- Window Function
+
+- 優化器
