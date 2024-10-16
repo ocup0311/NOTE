@@ -2282,3 +2282,7 @@ TODO: 再修改整理
 - Window Function
 
 - 優化器
+
+  - [深入淺出 SQL 優化器原理](https://www.cnblogs.com/papering/p/17115342.html)
+  - [優化 Doc](https://mysql.net.cn/doc/refman/8.0/en/optimization.html)
+  - [98% 的人不知道的 MySQL 優化器原理](https://ost.51cto.com/posts/11797)

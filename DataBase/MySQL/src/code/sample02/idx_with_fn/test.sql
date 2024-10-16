@@ -25,6 +25,10 @@ EXPLAIN SELECT k2
 FROM table1
 WHERE COALESCE(k3, -1) <> 3;
 
+EXPLAIN SELECT k2
+FROM table1
+WHERE NOT k3 <=> 3;
+
 
 -- 當 row 佔比例很大
 -- 有 idx_k4_k2
@@ -53,6 +57,10 @@ EXPLAIN SELECT k2
 FROM table1
 WHERE COALESCE(k4, -1) <> 4;
 
+EXPLAIN SELECT k2
+FROM table1
+WHERE NOT k4 <=> 4;
+
 
 -- 當 row 佔比例很小
 -- 只有 idx_k7
@@ -80,3 +88,7 @@ SELECT k2 FROM table1 WHERE k7 IS NULL;
 EXPLAIN SELECT k2
 FROM table1
 WHERE COALESCE(k7, -1) <> 7;
+
+EXPLAIN SELECT k2
+FROM table1
+WHERE NOT k7 <=> 7;
