@@ -1,4 +1,4 @@
-INSERT INTO customer (name, create_date) VALUES
+INSERT INTO Customer (name, create_date) VALUES
 ('Alice Johnson_10001', '2023-12-16'),
 ('Bob Smith_10001', '2023-05-21'),
 ('Charlie Davis_10001', '2025-02-07'),
@@ -20000,7 +20000,7 @@ INSERT INTO customer (name, create_date) VALUES
 ('Charlie Davis_15000', '2025-12-24'),
 ('Diana Prince_15000', '2025-08-21');
 
-INSERT INTO rental (customer_id, rental_date, movie_id, status) VALUES
+INSERT INTO Rental (customer_id, rental_date, movie_id, status) VALUES
 (16001, '2025-11-16', 40101, 'completed'),
 (16001, '2025-12-19', 40102, 'completed'),
 (16002, '2025-04-30', 40103, 'pending'),

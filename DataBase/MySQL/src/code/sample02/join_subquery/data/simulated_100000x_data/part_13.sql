@@ -1,4 +1,4 @@
-INSERT INTO rental (customer_id, rental_date, movie_id, status) VALUES
+INSERT INTO Rental (customer_id, rental_date, movie_id, status) VALUES
 (128001, '2022-04-01', 320101, 'completed'),
 (128001, '2022-05-04', 320102, 'completed'),
 (128002, '2021-09-13', 320103, 'pending'),

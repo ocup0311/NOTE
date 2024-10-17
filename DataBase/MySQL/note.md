@@ -2286,3 +2286,33 @@ TODO: 再修改整理
   - [深入淺出 SQL 優化器原理](https://www.cnblogs.com/papering/p/17115342.html)
   - [優化 Doc](https://mysql.net.cn/doc/refman/8.0/en/optimization.html)
   - [98% 的人不知道的 MySQL 優化器原理](https://ost.51cto.com/posts/11797)
+
+- [簡單說說 MySQL Prepared Statement](https://c0d3p1ut0s.github.io/%E7%AE%80%E5%8D%95%E8%AF%B4%E8%AF%B4MySQL-Prepared-Statement/)
+
+  - 簡單整理一下我的理解：
+
+    - 開啟 Prepared Statement 情況：可以確保將參數與查詢語句分開傳送到 MySQL server，可以保證是在 MySQL server 才處理進行組裝
+    - 關閉 Prepared Statement 情況：參數與查詢語句會在 APP server 進行組裝，一起傳送到 MySQL server，此時就得看 APP server 上的 資料庫驅動 是否有做到位，若 資料庫驅動 直接幫你簡單地將參數放進去查詢語句，就有可能發生 SQL injection
+
+- `EXPLAIN ANALYZE`
+
+  - 樹狀結構，上層數據包含所有下層數據
+
+    ```txt
+    // EX. 簡化輸出結果來看
+    // 93.4 是包含 23.7+24.1
+    // “而不是” Union materialize 在花費 23.7+24.1 之後，還要額外花費 93.4
+
+    -> Union materialize with deduplication  (cost=93.4..93.4)
+        -> Covering index lookup on Table1 using idx_k4_k3_k2 (k4=43)  (cost=23.7)
+        -> Covering index lookup on Table1 using idx_k3_k4 (k3=343)  (cost=24.1)
+    ```
+
+  - `cost` 估算花費
+
+  - `actual time` 實際執行時間
+
+  - `xxx..yyy`
+
+    - xxx : 從開始這個動作 ～ 得到 first row 所花費
+    - yyy : 從開始這個動作 ～ 得到 all rows 所花費

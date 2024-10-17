@@ -1,4 +1,4 @@
-INSERT INTO table1 (k2, k3, k4, k5, k6, k7) VALUES
+INSERT INTO Table1 (k2, k3, k4, k5, k6, k7) VALUES
     ('12', 3, null, 2345, 56, 7),
     ('26', 3, 4, 135, 56786, 957),
     ('932', null, 4, 12345, 6856, 7),

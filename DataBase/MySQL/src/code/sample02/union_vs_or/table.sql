@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS Table1( 
+	id INT NOT NULL AUTO_INCREMENT,
+	k2 VARCHAR(20), 
+	k3 INT, 
+	k4 INT, 
+	k5 INT, 
+	k6 INT, 
+	k7 INT, 
+  PRIMARY KEY (id)
+); 
+
+CREATE INDEX idx_k3 ON Table1(k3);
+CREATE INDEX idx_k4 ON Table1(k4);
+CREATE INDEX idx_k3_k4 ON Table1(k3, k4);
+CREATE INDEX idx_k4_k3 ON Table1(k4, k3);
+

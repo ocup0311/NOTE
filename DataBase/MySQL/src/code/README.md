@@ -20,19 +20,19 @@ Enter password: 123
 
 ```sql
 CREATE DATABASE db1;
-USE db1
+USE db1;
 
-source /src/idx_with_fn/table.sql
+source /src/idx_with_fn/Table.sql
 source /src/idx_with_fn/data.sql
 ```
 
 ```sql
-CREATE INDEX idx_k7 ON table1(k7);
+CREATE INDEX idx_k7 ON Table1(k7);
 ```
 
 - 清理
 
 ```sql
-DROP TABLE table1;
-DROP INDEX idx_k7 ON table1;
+DROP TABLE Table1;
+DROP INDEX idx_k7 ON Table1;
 ```
