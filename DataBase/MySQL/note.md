@@ -2,6 +2,9 @@
 
 <!----------- ref start ----------->
 
+[DOC: Index Merge Optimization]: https://dev.mysql.com/doc/refman/8.4/en/index-merge-optimization.html#index-merge-sort-union
+[MySQL 查詢最佳化：Index Merge]: http://www.ywnds.com/?p=14468
+[MySQL Blog: EXPLAIN ANALYZE]: https://dev.mysql.com/blog-archive/mysql-explain-analyze/
 [聯結與子查詢比較：哪個更快？]: https://www.navicat.com/cht/company/aboutus/blog/1729-joins
 [Stackoverflow Answer: JOIN vs Subquery]: https://stackoverflow.com/a/49738666/13108209
 [圖解 MySQL 8.0 優化器查詢轉換篇]: https://help.aliyun.com/zh/polardb/polardb-for-mysql/optimizer-based-query-conversion-in-mysql-8
@@ -1693,10 +1696,10 @@ TODO: 再修改整理
 
 ## # 效能研究
 
-<!-- 名詞解釋 -->
+<!-- EXPLAIN -->
 
 - <details close>
-  <summary>名詞解釋</summary>
+  <summary>EXPLAIN</summary>
 
   - REF: [MySQL EXPLAIN Extra 解析]
 
@@ -1730,6 +1733,8 @@ TODO: 再修改整理
       - 從 InnoDB 返回的都包含上述所指單一請求所需完整資料，不是中間結果
       - MySQL server 會解析 sql 語句，決定是否拆解成多次向 InnoDB 發起請求
 
+        - 例如 `WHERE k1 = 1 OR k2 =3` 之中，MySQL server 可能會使用 index_merge，先請求兩個篩選過的 index，返回 MySQL server 進行合併後，再請求回表查詢
+
     </details>
 
   <!-- type -->
@@ -1743,6 +1748,36 @@ TODO: 再修改整理
     - `ref`：直達
 
     </details>
+
+  </details>
+
+<!-- EXPLAIN ANALYZE -->
+
+- <details close>
+  <summary>EXPLAIN ANALYZE</summary>
+
+  - 樹狀結構，上層數據包含所有下層數據
+
+    ```txt
+    // EX. 簡化輸出結果來看
+    // 93.4 是包含 23.7+24.1
+    // “而不是” Union materialize 在花費 23.7+24.1 之後，還要額外花費 93.4
+
+    -> Union materialize with deduplication  (cost=93.4..93.4)
+        -> Covering index lookup on Table1 using idx_k4_k3_k2 (k4=43)  (cost=23.7)
+        -> Covering index lookup on Table1 using idx_k3_k4 (k3=343)  (cost=24.1)
+    ```
+
+  - `cost` 估算花費
+
+  - `actual time` 實際執行時間
+
+  - `xxx..yyy`
+
+    - xxx : 從開始這個動作 ～ 得到 first row 所花費
+    - yyy : 從開始這個動作 ～ 得到 all rows 所花費
+
+  - REF: [MySQL Blog: EXPLAIN ANALYZE]
 
   </details>
 
@@ -2294,25 +2329,18 @@ TODO: 再修改整理
     - 開啟 Prepared Statement 情況：可以確保將參數與查詢語句分開傳送到 MySQL server，可以保證是在 MySQL server 才處理進行組裝
     - 關閉 Prepared Statement 情況：參數與查詢語句會在 APP server 進行組裝，一起傳送到 MySQL server，此時就得看 APP server 上的 資料庫驅動 是否有做到位，若 資料庫驅動 直接幫你簡單地將參數放進去查詢語句，就有可能發生 SQL injection
 
-- `EXPLAIN ANALYZE`
+- Index Merge
 
-  - 樹狀結構，上層數據包含所有下層數據
+  - REF:
 
-    ```txt
-    // EX. 簡化輸出結果來看
-    // 93.4 是包含 23.7+24.1
-    // “而不是” Union materialize 在花費 23.7+24.1 之後，還要額外花費 93.4
+    - [MySQL 查詢最佳化：Index Merge]
+    - [DOC: Index Merge Optimization]
 
-    -> Union materialize with deduplication  (cost=93.4..93.4)
-        -> Covering index lookup on Table1 using idx_k4_k3_k2 (k4=43)  (cost=23.7)
-        -> Covering index lookup on Table1 using idx_k3_k4 (k3=343)  (cost=24.1)
-    ```
+  - 簡介：在 MySQL server 將 index 合併後，再利用合併的 index 進行查詢
 
-  - `cost` 估算花費
+  - 種類：`intersect`、`union`、`sort_union`
 
-  - `actual time` 實際執行時間
+  - 排序差異
 
-  - `xxx..yyy`
-
-    - xxx : 從開始這個動作 ～ 得到 first row 所花費
-    - yyy : 從開始這個動作 ～ 得到 all rows 所花費
+    - `intersect`、`union` 是先合併，再進行 row ID 排序
+    - `sort_union` 會先進行 row ID 排序後再合併，資料量大的時候，這樣會更有效的處理「去除重複」的操作
