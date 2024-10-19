@@ -30,6 +30,12 @@ source /src/idx_with_fn/data.sql
 CREATE INDEX idx_k7 ON Table1(k7);
 ```
 
+- 查看
+
+```sql
+SHOW INDEXES FROM Table1;
+```
+
 - 清理
 
 ```sql

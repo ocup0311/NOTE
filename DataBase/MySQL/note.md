@@ -2,7 +2,7 @@
 
 <!----------- ref start ----------->
 
-[DOC: Index Merge Optimization]: https://dev.mysql.com/doc/refman/8.4/en/index-merge-optimization.html#index-merge-sort-union
+[DOC: Index Merge Optimization]: https://dev.mysql.com/doc/refman/9.1/en/index-merge-optimization.html
 [MySQL 查詢最佳化：Index Merge]: http://www.ywnds.com/?p=14468
 [MySQL Blog: EXPLAIN ANALYZE]: https://dev.mysql.com/blog-archive/mysql-explain-analyze/
 [聯結與子查詢比較：哪個更快？]: https://www.navicat.com/cht/company/aboutus/blog/1729-joins
@@ -1471,6 +1471,7 @@ TODO: 再修改整理
   - <details close>
     <summary>Clustered Index</summary>
 
+    - 包含 data 的那個 index (InnoDB 中就是主表)
     - 一個 table 只能有一個 Clustered Index，所以應該慎選要給哪個 key 用，以發揮最大效能利益
     - key 選擇要點：不會改、常查詢、容量小、插入順序為遞增、重複率低
 
@@ -1691,6 +1692,68 @@ TODO: 再修改整理
   - GPT
 
     ![](./src/image/GPT_MVCC.png)
+
+  </details>
+
+<!-- Index Merge -->
+
+- <details close>
+  <summary>Index Merge</summary>
+
+  - 簡介：在 MySQL server 將 index 合併後，再利用合併的 index 進行查詢
+
+  <!-- 算法：`intersect`、`union`、`sort_union` -->
+
+  - <details close>
+    <summary>算法：<code>intersect</code>、<code>union</code>、<code>sort_union</code></summary>
+
+    - `intersect`、`union` 只能用在 ROR (Rowid Ordered Retrieval)，也就是原本的資料就已經是依照 row ID 排序
+
+      - 因為 index 中，同值的結果會依照 pk 排序
+
+    - `sort_union` 會先進行 row ID 排序後再合併，這樣才能有效的處理「去除重複」的操作
+
+      - 當進行 range of index，或是使用 Composite index 時，則無法得到 ROR，因此就必須使用 sort_union
+
+    </details>
+
+  <!-- 限制： -->
+
+  - <details close>
+    <summary>限制：</summary>
+
+    - 只適用在 single table
+    - 不適用在 full-text indexes
+    - 巢狀 OR/AND 可能導致優化器失效，可嘗試拆解成其他數學等式
+
+    <!-- 可以是 `unions`、`intersections`、`unions-of-intersections`，但不會先 union 之後，才將結果做 intersection -->
+
+    - <details close>
+      <summary>可以是 unions、intersections、unions-of-intersections，但不會先 union 之後，才將結果做 intersection</summary>
+
+      - 關於 `unions-of-intersections`，若這裡的 AND 都是針對相同的 key，那麼優化器就不會選擇使用 index merge (即便這方式可能更快)
+
+        ```sql
+        -- 分別針對 k1 & k2 以及 k1 & k3，此時可以使用 unions-of-intersections
+        EXPLAIN SELECT id, k3, k4 FROM Table1 WHERE (k1 = 11 AND k2 = 22) OR (k1 = 33 AND k3 = 44);
+
+        -- 都是針對 k1 & k2，此時會直接使用單一 index (EX. idx_k1) 來進行，而不會用 index merge
+        EXPLAIN SELECT id, k3, k4 FROM Table1 WHERE (k1 = 11 AND k2 = 22) OR (k1 = 33 AND k2 = 44);
+        ```
+
+      </details>
+
+    </details>
+
+  <!-- REF： -->
+
+  - <details close>
+    <summary>REF：</summary>
+
+    - [MySQL 查詢最佳化：Index Merge]
+    - [DOC: Index Merge Optimization]
+
+    </details>
 
   </details>
 
@@ -2328,19 +2391,3 @@ TODO: 再修改整理
 
     - 開啟 Prepared Statement 情況：可以確保將參數與查詢語句分開傳送到 MySQL server，可以保證是在 MySQL server 才處理進行組裝
     - 關閉 Prepared Statement 情況：參數與查詢語句會在 APP server 進行組裝，一起傳送到 MySQL server，此時就得看 APP server 上的 資料庫驅動 是否有做到位，若 資料庫驅動 直接幫你簡單地將參數放進去查詢語句，就有可能發生 SQL injection
-
-- Index Merge
-
-  - REF:
-
-    - [MySQL 查詢最佳化：Index Merge]
-    - [DOC: Index Merge Optimization]
-
-  - 簡介：在 MySQL server 將 index 合併後，再利用合併的 index 進行查詢
-
-  - 種類：`intersect`、`union`、`sort_union`
-
-  - 排序差異
-
-    - `intersect`、`union` 是先合併，再進行 row ID 排序
-    - `sort_union` 會先進行 row ID 排序後再合併，資料量大的時候，這樣會更有效的處理「去除重複」的操作
