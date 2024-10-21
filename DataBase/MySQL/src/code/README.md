@@ -36,6 +36,11 @@ CREATE INDEX idx_k7 ON Table1(k7);
 SHOW INDEXES FROM Table1;
 ```
 
+```sql
+SHOW STATUS LIKE 'Created_tmp_tables';
+SHOW STATUS LIKE 'Created_tmp_disk_tables';
+```
+
 - 清理
 
 ```sql

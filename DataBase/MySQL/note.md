@@ -1762,7 +1762,7 @@ TODO: 再修改整理
 <!-- EXPLAIN -->
 
 - <details close>
-  <summary>EXPLAIN</summary>
+  <summary><code>EXPLAIN</code></summary>
 
   - REF: [MySQL EXPLAIN Extra 解析]
 
@@ -1783,6 +1783,9 @@ TODO: 再修改整理
       - 若不需回表，則會選擇直接 `Using where; Using index`，而不使用 ICP
 
     - `Using filesort`：在 MySQL server 進行排序
+
+      - 此為沿用歷史命名，早期版本，通常會涉及使用 file 來排序
+      - 現在會優先在 memory 中進行 (參考 sort_buffer_size)
 
     - `Using temporary`：在 MySQL server 建立 Temporary tablespace in Memory
 
@@ -1817,30 +1820,48 @@ TODO: 再修改整理
 <!-- EXPLAIN ANALYZE -->
 
 - <details close>
-  <summary>EXPLAIN ANALYZE</summary>
+  <summary><code>EXPLAIN ANALYZE</code></summary>
 
-  - 樹狀結構，上層數據包含所有下層數據
+  - 行為：會實際執行一次，提供分析數據
 
-    ```txt
-    // EX. 簡化輸出結果來看
-    // 93.4 是包含 23.7+24.1
-    // “而不是” Union materialize 在花費 23.7+24.1 之後，還要額外花費 93.4
+  <!-- 解讀： -->
 
-    -> Union materialize with deduplication  (cost=93.4..93.4)
-        -> Covering index lookup on Table1 using idx_k4_k3_k2 (k4=43)  (cost=23.7)
-        -> Covering index lookup on Table1 using idx_k3_k4 (k3=343)  (cost=24.1)
-    ```
+  - <details close>
+    <summary>解讀</summary>
 
-  - `cost` 估算花費
+    - 樹狀結構，上層數據包含所有下層數據
 
-  - `actual time` 實際執行時間
+      ```txt
+      // EX. 簡化輸出結果來看
+      // 93.4 是包含 23.7+24.1
+      // “而不是” Union materialize 在花費 23.7+24.1 之後，還要額外花費 93.4
 
-  - `xxx..yyy`
+      -> Union materialize with deduplication  (cost=93.4..93.4)
+          -> Covering index lookup on Table1 using idx_k4_k3_k2 (k4=43)  (cost=23.7)
+          -> Covering index lookup on Table1 using idx_k3_k4 (k3=343)  (cost=24.1)
+      ```
 
-    - xxx : 從開始這個動作 ～ 得到 first row 所花費
-    - yyy : 從開始這個動作 ～ 得到 all rows 所花費
+    - `cost` 估算花費
+
+    - `actual time` 實際執行時間
+
+    - `xxx..yyy`
+
+      - xxx : 從開始這個動作 ～ 得到 first row 所花費
+      - yyy : 從開始這個動作 ～ 得到 all rows 所花費
+
+    </details>
 
   - REF: [MySQL Blog: EXPLAIN ANALYZE]
+
+  </details>
+
+<!-- EXPLAIN FORMAT=JSON -->
+
+- <details close>
+  <summary><code>EXPLAIN FORMAT=JSON</code></summary>
+
+  - 某些部分有更多細節顯示 (EX. 查看臨時表去重操作，是使用 sort 還是 hash。只會註明是否使用 sort)
 
   </details>
 
@@ -2227,6 +2248,29 @@ TODO: 再修改整理
 ---
 
 ## # 踩雷實錄
+
+<!-- 當 AS 跟已存在的 col 命名重複，會有意外 -->
+
+- <details close>
+  <summary>當 <code>AS</code> 跟已存在的 col 命名重複，會有意外</summary>
+
+  ```sql
+  -- EX. 當已經有 id，在查詢時又將 k1 AS id
+  -- 查詢語句中的 GROUP BY id，可能會變成依照 id 而不是 k1 進行分組
+  -- 可能有資料庫或版本，不支援直接用別名 (EX. 必須用 GROUP BY k1)
+
+  CREATE TABLE Table1(
+    id INT PRIMARY KEY,
+    k1 INT
+  );
+
+  SELECT k1 AS id
+  FROM Table1
+  GROUP BY id
+  ORDER BY id;
+  ```
+
+  </details>
 
 ---
 
