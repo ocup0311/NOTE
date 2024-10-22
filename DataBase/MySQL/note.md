@@ -2435,3 +2435,5 @@ TODO: 再修改整理
 
     - 開啟 Prepared Statement 情況：可以確保將參數與查詢語句分開傳送到 MySQL server，可以保證是在 MySQL server 才處理進行組裝
     - 關閉 Prepared Statement 情況：參數與查詢語句會在 APP server 進行組裝，一起傳送到 MySQL server，此時就得看 APP server 上的 資料庫驅動 是否有做到位，若 資料庫驅動 直接幫你簡單地將參數放進去查詢語句，就有可能發生 SQL injection
+
+Using index for group-by
