@@ -2,6 +2,7 @@
 
 <!----------- ref start ----------->
 
+[MySQL Bug #80789 "Select" query gives empty result depending on index or spacing in query]: https://bugs.mysql.com/bug.php?id=80789
 [DOC: Index Merge Optimization]: https://dev.mysql.com/doc/refman/9.1/en/index-merge-optimization.html
 [MySQL 查詢最佳化：Index Merge]: http://www.ywnds.com/?p=14468
 [MySQL Blog: EXPLAIN ANALYZE]: https://dev.mysql.com/blog-archive/mysql-explain-analyze/
@@ -2272,6 +2273,58 @@ TODO: 再修改整理
 
   </details>
 
+<!-- MySQL 在使用不同的 index 情況下，可能出現不同的「結果」，因此在轉換 index 時，必須分析注意 -->
+
+- <details close>
+  <summary>MySQL 在使用不同的 index 情況下，可能出現不同的「結果」，因此在轉換 index 時，必須分析注意</summary>
+
+  - [MySQL Bug #80789 "Select" query gives empty result depending on index or spacing in query]
+
+    - 此案例可以透過 `ANALYZE TABLE table_name;` 來使 index 變得正常
+    - 但在我踩到的雷中，不管怎麼處理，在加上 index 前後，「查詢結果」都會不同
+
+  - 踩雷範例：
+
+    ```sql
+    -- EX. 在此查詢中，使用以下 index 前後，得到的結果不同
+    -- 使用 index 的情況下，在 COUNT(*) >= 1 的步驟，會淘汰掉所有 row
+
+    SELECT DISTINCT(k2) AS x
+    FROM Table1
+    WHERE k2 = k3
+    GROUP BY k2, k3
+    HAVING COUNT(*) >= 1
+    ORDER BY k2;
+
+    -- Table
+    CREATE TABLE Table1(
+      k1 VARCHAR(20),
+      k2 INT,
+      k3 INT,
+      k4 INT,
+      k5 INT,
+      k6 INT
+    );
+
+    -- index
+    CREATE INDEX idx_k2_k3 ON Table1(k2, k3);
+    ```
+
+    - 使用 index 與否，出現不同結果
+
+      ![](./src/image/bug_index1.png)
+
+    - 此情況下，COUNT() 結果變成 0
+
+      ![](./src/image/bug_index2.png)
+
+    - 透過 "Covering index skip scan for deduplication" 時，`COUNT()` 可能會無法有效使用
+
+      ![](./src/image/bug_index3.png)
+      ![](./src/image/bug_index4.png)
+
+  </details>
+
 ---
 
 ## # 延伸討論
@@ -2437,3 +2490,7 @@ TODO: 再修改整理
     - 關閉 Prepared Statement 情況：參數與查詢語句會在 APP server 進行組裝，一起傳送到 MySQL server，此時就得看 APP server 上的 資料庫驅動 是否有做到位，若 資料庫驅動 直接幫你簡單地將參數放進去查詢語句，就有可能發生 SQL injection
 
 Using index for group-by
+
+```
+
+```
